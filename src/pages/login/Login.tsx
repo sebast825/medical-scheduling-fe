@@ -1,12 +1,11 @@
 
-//import LoginForm from "../../Components/Login/Login";
-import FillExample from "../../Components/Nav Bar/NavBar";
+import LoginForm from "../../Components/Login/Login";
 
 function Login(){
    return (
       <div>
-      {/* <FillExample /> */}
-asd
+    <LoginForm /> 
+
          </div>
    );
 }

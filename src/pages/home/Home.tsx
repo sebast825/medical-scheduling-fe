@@ -1,13 +1,12 @@
 import { Button } from "react-bootstrap";
-// import FillExample from "../../Components/Nav Bar/NavBar";
+ import FillExample from "../../Components/Nav Bar/NavBar";
 import Opening from "../../Components/Opening/Opening";
-import LoginForm from "../../Components/Login/Login";
 
 function Home() {
   return (
     <div>
 
-      {/* <FillExample /> */}
+       <FillExample /> 
       <Opening />
       <div className="container mt-4">
         <div className="row d-flex justify-content-center">
