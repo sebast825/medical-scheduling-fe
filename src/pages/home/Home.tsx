@@ -1,8 +1,10 @@
 import { Button } from "react-bootstrap";
  import FillExample from "../../Components/Nav Bar/NavBar";
 import Opening from "../../Components/Opening/Opening";
+import { fetchPacientes } from "../../services/apiService";
 
 function Home() {
+  console.log(fetchPacientes())
   return (
     <div>
 
@@ -18,6 +20,7 @@ function Home() {
               Nuestros Médicos
             </Button>
           </div>
+          
         </div>
       </div>
     </div>
