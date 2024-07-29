@@ -5,9 +5,12 @@ import { Suspense } from 'react';
 import { Spinner } from './Components/statics/Spinner';
 import AppRouter from './Router';
 import './App.scss';
+import { UserProvider } from './context/authContext';
 
 function App() {
   return (
+    <UserProvider>
+
     <div className="App">
        <Router>
       {/* suspense es para usar el lazy loading
@@ -16,7 +19,10 @@ function App() {
         <AppRouter/>
       </Suspense>
     </Router>
+
     </div>
+    </UserProvider>
+
   );
 }
 
