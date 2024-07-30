@@ -16,12 +16,13 @@ export function UserProvider(props) {
     const [user, setUser] = useState(null);
 
     const cambiaLogin = (jwt) => {
+        
         if (user) {
             setUser(null);
         } else {
             setUser({
                 jwt: jwt,
-                usuario: usuario
+                
             });
         }
     }

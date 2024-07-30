@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { fetchLogin } from '../../services/apiService';
 import { useUserToggleContext } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
+import GetJwtContent from '../../utils/jwtUtils';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -21,9 +22,13 @@ const LoginForm = () => {
     let Password = 'a';
     const loginData = { UserName, Password };
     try {
-      const response = await fetchLogin('loginData');
-      console.log('response');
-      cambiaLogin(response);
+      const token : string = await fetchLogin(loginData);
+  // Función auxiliar para realizar el casting de jwt_decode
+      var funcasd = GetJwtContent(token);
+      console.log(funcasd);
+
+      //console.log('response');
+      cambiaLogin('response');
       navigate('/'); // Redirigir después de un inicio de sesión exitoso
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
