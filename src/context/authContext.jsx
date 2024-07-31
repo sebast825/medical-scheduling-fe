@@ -18,7 +18,7 @@ export function usePersonaInfoContext() {
 export function UserProvider(props) {
 
     const [user, setUser] = useState(null);
-    const [personaInfo, SetPersonaInfo] = useState(null);
+    const [personaInfo, SetPersonaInfo] = useState("");
     const cambiaLogin = (jwt) => {
         
         if (user) {
@@ -31,8 +31,11 @@ export function UserProvider(props) {
     return (
         <userContext.Provider value={user}>
             <userToggleContext.Provider value={cambiaLogin}>
-         
+                <personaContext .Provider value = {{personaInfo,SetPersonaInfo}}>
                 {props.children}
+
+                    
+                </personaContext.Provider>
           
               
             </userToggleContext.Provider>

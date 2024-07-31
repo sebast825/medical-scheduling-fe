@@ -25,7 +25,7 @@ export  const fetchPacientes = async () => {
 };
 
 
-export const fetchInformacionPaciente = async (jwt,id) => {
+export const fetchPacienteInfo = async (jwt,id) => {
   //const decoded = jwt_decode(token);
 
   try {
