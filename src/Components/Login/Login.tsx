@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { fetchLogin } from '../../services/apiService';
-import { useUserToggleContext } from '../../context/authContext';
+import { fetchLogin,fetchInformacionPaciente } from '../../services/apiService';
+import { useUserToggleContext, useUserContext } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
 import GetJwtContent from '../../utils/jwtUtils';
 
 const LoginForm = () => {
+
+ 
   const navigate = useNavigate();
   const cambiaLogin = useUserToggleContext();
+  const user = useUserContext();
 
   const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  
+  useEffect(()=>{
+    if(typeof(user) == 'string'){
+      console.log(GetJwtContent(user))
+      apiFunc()
+      navigate('/'); 
+    }
 
+  },[user]);
+
+const apiFunc = async () => {
+  var params : any = GetJwtContent(user);
+       console.log(params.UserId,user)
+        var asd = fetchInformacionPaciente(user,params.PersonaId);
+        console.log(asd)
+}
   const handleSubmit = async (event:any) => {
     event.preventDefault();
     // Lógica para manejar el login
@@ -25,11 +43,11 @@ const LoginForm = () => {
       const token : string = await fetchLogin(loginData);
   // Función auxiliar para realizar el casting de jwt_decode
       var funcasd = GetJwtContent(token);
-      console.log(funcasd);
+      console.log(user);
 
       //console.log('response');
-      cambiaLogin('response');
-      navigate('/'); // Redirigir después de un inicio de sesión exitoso
+      cambiaLogin(token);
+      //console.log(user)
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       setError('Error al iniciar sesión, por favor intente nuevamente.');

@@ -14,7 +14,7 @@ function Home() {
 
        <FillExample /> 
       <Opening />
-      {user && <p>Hola {user.name}</p>}
+      {user && <p>Hola {user}</p>}
       <div className="container mt-4">
         <div className="row d-flex justify-content-center">
           <div className="col-12 col-md-6 gap-2 d-grid">
