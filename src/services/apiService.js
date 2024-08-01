@@ -2,39 +2,32 @@ import {createApiInstance} from './api';
 import { useUserContext } from '../context/authContext';
 // Ejemplo de una solicitud GET
 export  const fetchPacientes = async () => {
-   try {
-      const api = createApiInstance();
-     const response = await api.get('/api/paciente');
-     return response.data;
-   } catch (error) {
-     console.error('Error fetching pacientes:', error);
-     throw error;
-   }
+  const api = createApiInstance();
+  const response = await api.get('/api/paciente');
+  return response.data;
+ 
  };
 
  export const fetchLogin = async (loginData) => {
-  try {
-      const api = createApiInstance("");
-    const response = await api.post('api/Login', loginData);
-    return response.data;
-  } catch (error) {
-    
-    console.error('Error during login:', error);
-    throw error;
-  }
+  const api = createApiInstance("");
+  const response = await api.post('api/Login', loginData);
+  return response.data;
+  
 };
 
 
 export const fetchPacienteInfo = async (jwt,id) => {
-  //const decoded = jwt_decode(token);
+  const api = createApiInstance(jwt);
 
-  try {
-      const api = createApiInstance(jwt);
+  const response = await api.get(`api/paciente/${id}`);
+  return response.data;
 
-    const response = await api.get(`api/paciente/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error during login:', error);
-    throw error;
-  }
+};
+
+export const fetchMedicos = async (id) => {
+
+  const api = createApiInstance();
+  const response = await api.get(`api/medico`);
+  return response.data;
+ 
 };
