@@ -8,6 +8,7 @@ import {
 } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import GetJwtContent from "../../utils/jwtUtils";
+import { ILogin } from "../../types/Login.types";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const LoginForm = () => {
     console.log("Password:", password);
     let UserName = "Paciente";
     let Password = "a";
-    const loginData = { UserName, Password };
+    const loginData : ILogin = { UserName, Password };
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);

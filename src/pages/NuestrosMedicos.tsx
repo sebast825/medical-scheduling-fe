@@ -2,18 +2,17 @@ import MedicosList from "../Components/MedicosList/MedicosList";
 import { useEffect,useState } from "react";
 import { fetchMedicos } from "../services/apiService";
 
-// interface MedicoResponse {
-//    NumeroLicencia: string;
-//    Especialidad: string;
-//    Nombre: string;
-//    Apellido: string;
-//    FechaNacimiento: Date;
-//    Telefono: string;
-//    NumeroDocumento: string;
-//    Sexo: string;
-//    EstadoUsuario: string;
-//  }
- 
+interface MedicoResponse {
+   NumeroLicencia: string;
+   Especialidad: string;
+   Nombre: string;
+   Apellido: string;
+   FechaNacimiento: Date;
+   Telefono: string;
+   NumeroDocumento: string;
+   Sexo: string;
+   EstadoUsuario: string;
+ }
 
 function NuestrosMedicos(){
    const [listaMedicos, setListaMedicos] = useState(null); 
@@ -24,7 +23,8 @@ function NuestrosMedicos(){
          try {
            const response = await fetchMedicos();
            setListaMedicos(response);
-         } catch (err) {
+         } catch (err : any)
+         {
            setError(err.message || 'Error desconocido');
          } finally {
          }
