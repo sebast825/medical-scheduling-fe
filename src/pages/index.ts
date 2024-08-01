@@ -1,6 +1,6 @@
 import React from 'react';
-import Home from './home/Home';
+import Home from './Home';
 
 export {Home}
 
-export const Login = React.lazy(() => import('./login/Login'));
+export const Login = React.lazy(() => import('./Login'));
