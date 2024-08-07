@@ -1,4 +1,4 @@
-import { Home, Login, NuestrosMedicos} from "./pages/index"
+import { Home, Login, NuestrosMedicos} from "../pages/index"
 
 export const routes = [
    {

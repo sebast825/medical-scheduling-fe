@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import {BrowserRouter as Router } from "react-router-dom"
 import { Suspense } from 'react';
 import { Spinner } from './Components/statics/Spinner';
-import AppRouter from './Router';
+import AppRouter from './routes/Router';
 import './App.scss';
 import { UserProvider } from './context/authContext';
 import FillExample from './Components/Nav Bar/NavBar';
