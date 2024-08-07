@@ -15,7 +15,7 @@ function App() {
        <Router>
       {/* suspense es para usar el lazy loading
       y el fallback se le pasa un componente que muestra mientras se carga la app */}
-      <Suspense >
+      <Suspense fallback={<Spinner/>}>
       <FillExample /> 
 
         <AppRouter/>
