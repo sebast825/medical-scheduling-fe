@@ -3,7 +3,7 @@ import './Opening.scss'; // Importa el archivo CSS para los estilos
 
 type IOpening = {
   title : string,
-  subTitle: string
+  subTitle?: string
 }
 
 function Opening({ title, subTitle } :IOpening) : React.ReactElement {

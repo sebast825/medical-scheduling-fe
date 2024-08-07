@@ -14,7 +14,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const cambiaLogin = useUserToggleContext();
   const user = useUserContext();
-  const { personaInfo, SetPersonaInfo } = usePersonaInfoContext();
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,7 +25,7 @@ const LoginForm = () => {
     }
   }, [user]);
 
-
+  const {SetPersonaInfo } = usePersonaInfoContext();
 
    //busca la info de la persona, hay que reorganizarla
    const getPersonaInfo = async () => {
@@ -36,6 +35,7 @@ const LoginForm = () => {
     await SetPersonaInfo(pacienteInfo[0]);
     //console.log(pacienteInfo);
   };
+ 
 
 
   const handleSubmit = async (event: any) => {
