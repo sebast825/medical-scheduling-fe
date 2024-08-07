@@ -21,33 +21,31 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (typeof user == "string") {
-      console.log(GetJwtContent(user));
-      getPersonaInfo();
+       getPersonaInfo();
        navigate('/');
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log(personaInfo);
-  }, [personaInfo]);
 
-  //busca la info de la persona, hay que reorganizarla
-  const getPersonaInfo = async () => {
+
+   //busca la info de la persona, hay que reorganizarla
+   const getPersonaInfo = async () => {
     var params: any = GetJwtContent(user);
   
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
     await SetPersonaInfo(pacienteInfo[0]);
-    console.log(pacienteInfo);
+    //console.log(pacienteInfo);
   };
+
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    console.log("nombre:", nombre);
-    console.log("Password:", password);
+ 
     let UserName = "Paciente";
     let Password = "a";
     const loginData : ILogin = { UserName, Password };
+
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);

@@ -8,10 +8,12 @@ function Home() {
 
   const {personaInfo} = usePersonaInfoContext()
   const cambiaLogin = useUserToggleContext()
+
+ 
   return (
     <div>
 
-       <FillExample /> 
+       {/* <FillExample />  */}
       <Opening />
       {personaInfo && <p>Hola {personaInfo.nombre}</p>}
       <div className="container mt-4">

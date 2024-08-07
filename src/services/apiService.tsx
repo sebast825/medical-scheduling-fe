@@ -22,7 +22,7 @@ export  const fetchPacientes = async () => {
 export const fetchPacienteInfo = async (jwt : string,id : string) => {
   const api = createApiInstance(jwt);
 
-  const response = await api.get(`api/paciente/${id}`);
+  const response = await api.get(`api/pacientes/${id}`);
   return response.data;
 
 };
@@ -30,7 +30,7 @@ export const fetchPacienteInfo = async (jwt : string,id : string) => {
 export const fetchMedicos = async () => {
 
   const api = createApiInstance();
-  const response = await api.get(`api/medico`);
+  const response = await api.get(`api/medicos`);
   return response.data;
  
 };

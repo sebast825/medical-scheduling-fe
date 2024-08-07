@@ -1,27 +1,18 @@
 import MedicosList from "../Components/MedicosList/MedicosList";
 import { useEffect,useState } from "react";
 import { fetchMedicos } from "../services/apiService";
-
-interface MedicoResponse {
-   NumeroLicencia: string;
-   Especialidad: string;
-   Nombre: string;
-   Apellido: string;
-   FechaNacimiento: Date;
-   Telefono: string;
-   NumeroDocumento: string;
-   Sexo: string;
-   EstadoUsuario: string;
- }
+import { IMedicoResponse } from "../types/MedicoResponse.type";
+import { Table } from 'react-bootstrap';
+import DataTable from "../Components/MedicosList/MedicosList";
 
 function NuestrosMedicos(){
-   const [listaMedicos, setListaMedicos] = useState(null); 
+   const [listaMedicos, setListaMedicos] = useState<IMedicoResponse[]>([]); 
    const [error, setError] = useState(null);
 
    useEffect(()=>{
       const fetchData = async () => {
          try {
-           const response = await fetchMedicos();
+           const response : IMedicoResponse[] = await fetchMedicos();
            setListaMedicos(response);
          } catch (err : any)
          {
@@ -33,11 +24,33 @@ function NuestrosMedicos(){
        fetchData();
 
 },[])
-console.log(listaMedicos)
+//filtra los medicos para tener la info encesaria
+var listaMedicosFiltered = listaMedicos.map(elem =>{
+   var obj = {nombre: elem.nombre + " " +elem.apellido,
+      especialidad: elem.especialidad
+   }
+   return obj;
+})
+//listaMedicosFiltered.forEach(elm => console.log(elm))
 
-   return(
-      <MedicosList/>
-   )
-}
+ return (
+   <Table striped bordered hover>
+   <thead>
+     <tr>
+       <th>Nombre</th>
+       <th>Especialidad</th>
+     </tr>
+   </thead>
+   <tbody>
+     {listaMedicos.map((item, index) => (
+       <tr key={index}>
+         <td>{item.apellido + " "+ item.nombre}</td>
+         <td>{item.especialidad}</td>
+       </tr>
+     ))}
+   </tbody>
+ </Table>
+ );
+};
 
 export default NuestrosMedicos;

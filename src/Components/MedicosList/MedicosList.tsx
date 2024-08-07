@@ -1,6 +1,11 @@
+import React, {FC} from "react";
+import { IMedicoResponse } from "../../types/MedicoResponse.type";
 
-const MedicosList = () =>{
-
+interface MedicosListProps {
+   listaMedicos: IMedicoResponse[];
+ }
+const MedicosList : FC <MedicosListProps> = ({listaMedicos}) =>{
+   console.log(listaMedicos);
 
    return(
       <>desdeMedicos</>

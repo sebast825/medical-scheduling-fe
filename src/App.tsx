@@ -6,7 +6,7 @@ import { Spinner } from './Components/statics/Spinner';
 import AppRouter from './Router';
 import './App.scss';
 import { UserProvider } from './context/authContext';
-
+import FillExample from './Components/Nav Bar/NavBar';
 function App() {
   return (
     <UserProvider>
@@ -16,6 +16,8 @@ function App() {
       {/* suspense es para usar el lazy loading
       y el fallback se le pasa un componente que muestra mientras se carga la app */}
       <Suspense >
+      <FillExample /> 
+
         <AppRouter/>
       </Suspense>
     </Router>
