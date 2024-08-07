@@ -22,7 +22,7 @@ const LoginForm = () => {
   useEffect(() => {
     if (typeof user == "string") {
        getPersonaInfo();
-       navigate('/');
+       navigate('/pacientes');
     }
   }, [user]);
 

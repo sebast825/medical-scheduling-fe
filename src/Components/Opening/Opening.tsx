@@ -2,11 +2,11 @@ import React from 'react';
 import './Opening.scss'; // Importa el archivo CSS para los estilos
 
 type IOpening = {
-  title: string,
+  title : string,
   subTitle: string
 }
 
-function Opening({ title = "asd", subTitle } :IOpening) : React.ReactElement {
+function Opening({ title, subTitle } :IOpening) : React.ReactElement {
   return (
     <div className="opening-container"style={{ backgroundImage: `url(/images/hospital.jpg)` }}>
       <div className="overlay">

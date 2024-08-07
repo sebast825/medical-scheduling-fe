@@ -34,3 +34,11 @@ export const fetchMedicos = async () => {
   return response.data;
  
 };
+
+export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
+
+  const api = createApiInstance(jwt);
+  const response = await api.get(`api/pacientes/${idPaciente}/turnos`);
+  return response.data;
+ 
+};
