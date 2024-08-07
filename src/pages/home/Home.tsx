@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap";
- import FillExample from "../Components/Nav Bar/NavBar";
-import Opening from "../Components/Opening/Opening";
-import { fetchPacientes } from "../services/apiService";
-import { useUserContext,useUserToggleContext,usePersonaInfoContext } from "../context/authContext";
+ import FillExample from "../../Components/Nav Bar/NavBar";
+import Opening from "../../Components/Opening/Opening";
+import { fetchPacientes } from "../../services/apiService";
+import { useUserContext,useUserToggleContext,usePersonaInfoContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
-import { useRedirectToLogin, useRedirectToNuestrosMedicos } from "../routes/navigation";
+import { useRedirectToLogin, useRedirectToNuestrosMedicos } from "../../routes/navigation";
 function Home() {
 
   const {personaInfo} = usePersonaInfoContext()
@@ -18,7 +18,7 @@ function Home() {
     <div>
 
        {/* <FillExample />  */}
-      <Opening />
+      <Opening title="Clinica Horizonte" subTitle=""/>
       {personaInfo && <p>Hola {personaInfo.nombre}</p>}
       <div className="container mt-4">
         <div className="row d-flex justify-content-center">
