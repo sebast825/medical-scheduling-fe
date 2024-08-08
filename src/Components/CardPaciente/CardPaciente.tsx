@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
-// import { useMediaQuery } from 'react-responsive';
 import ConfirmModal from "../modals/ConfirmModal";
 import { useUserContext } from "../../context/authContext";
 import GetJwtContent from "../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../services/apiService";
+import useWindowSize from "../../hooks/ScreenSize";
 
 type ICardPaciente = {
   id: number;
@@ -22,8 +22,9 @@ function CardPaciente({
   btnEvent,
 }: ICardPaciente) {
   const user = useUserContext();
-
   //ConfirmModal
+  const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bodyConfirmModal, setBodyConfirmModal] = useState("");
 
@@ -37,6 +38,7 @@ function CardPaciente({
 
     handleCloseModal();
   };
+
   async function cancelarTurno(e: number): Promise<void> {
     var params: any = GetJwtContent(user);
     var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId);
@@ -44,6 +46,14 @@ function CardPaciente({
       console.log("turno cancelado");
     }
   }
+  function getColClasses(isMobile: boolean) {
+    return isMobile ? "d-flex d-md-none" : "d-none d-md-flex";
+  }
+
+  function IsMobile(): boolean {
+    return screenSize < 600;
+  }
+
   return (
     <>
       <ConfirmModal
@@ -52,47 +62,30 @@ function CardPaciente({
         handleConfirm={handleConfirmAction}
         body="¿Estás seguro de que deseas realizar esta acción?"
       />
-
-      <Card className="mb-3" key={id}>
+      <Card className="d-flex" key={id}>
         <Card.Body>
-          <Row className="d-flex d-md-none">
-            <Col xs={9}>
+          <Row className="d-flex flex-row">
+            {IsMobile() ? (
+              <Col xs={8}  className="col-8 flex-column">
               <h2>{nombre}</h2>
               <h6>{especialidad}</h6>
               <h6>{fecha}</h6>
             </Col>
-
-            {btnEvent != undefined ? (
-              <Col
-                xs={3}
-                className="d-flex align-items-center justify-content-end"
-              >
-                <Button variant="primary" onClick={handleOpenModal}>
-                  Button
-                </Button>
+            ) : (
+              <Col md={10} className="row justify-content-center align-items-center">
+                <Col xs={4} md={6}>
+                  <h2>{nombre}</h2>
+                  <h6>{especialidad}</h6>
+                </Col>
+                <Col xs={4} md={6}>
+                  <h6>{fecha}</h6>
+                </Col>
               </Col>
-            ) : null}
-          </Row>
-
-          {/* desktop */}
-          <Row className="d-none d-md-flex">
-            <Col md={4}>
-              <h3>{nombre}</h3>
-              <h6>{especialidad}</h6>
-            </Col>
-            <Col
-              md={4}
-              className="d-flex align-items-center justify-content-center"
-            >
-              <h5>{fecha}</h5>
-            </Col>
+            )}
 
             {btnEvent != undefined ? (
-              <Col
-                md={4}
-                className="d-flex align-items-center justify-content-end"
-              >
-                <Button variant="primary" onClick={() => handleOpenModal()}>
+              <Col xs={4} md={2}  className="d-flex align-items-center justify-content-center">
+                <Button variant="primary" onClick={handleOpenModal}>
                   Button
                 </Button>
               </Col>
