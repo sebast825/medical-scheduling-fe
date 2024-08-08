@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Opening from "../../Components/Opening/Opening";
-import { fetchTurnosPaciente } from "../../services/apiService";
+import { fetchTurnosPaciente, fetchCancelarTurno } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { useUserContext } from "../../context/authContext";
 import GetJwtContent from "../../utils/jwtUtils";
@@ -39,6 +39,18 @@ function PacienteHome() {
     }
   };
 
+  
+ async function cancelarTurno  (e: number): Promise<void> {
+
+    var params: any = GetJwtContent(user);    
+    var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId)
+    if(cancelarTurno.estado == 'Cancelada'){
+      console.log("turno cancelado")
+    }
+   
+  }
+
+  
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
@@ -46,10 +58,12 @@ function PacienteHome() {
       <h2>Mis Turnos</h2>
       <div>
         {turnos.map((turno: TurnoResponse) => (
-          <CardPaciente
+          <CardPaciente key={turno.id}
+          id = {turno.id}
             nombre={turno.medico}
             especialidad={turno.especialidad}
             fecha={turno.fecha.toString()}
+            btnEvent={cancelarTurno}
           />
         ))}
       </div>

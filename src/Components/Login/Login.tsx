@@ -30,7 +30,7 @@ const LoginForm = () => {
    //busca la info de la persona, hay que reorganizarla
    const getPersonaInfo = async () => {
     var params: any = GetJwtContent(user);
-  
+    console.log(user,params)
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
     await SetPersonaInfo(pacienteInfo[0]);
     //console.log(pacienteInfo);
