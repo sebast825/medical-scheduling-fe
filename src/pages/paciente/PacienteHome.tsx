@@ -8,14 +8,16 @@ import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import CardPaciente from "../../Components/CardPaciente/CardPaciente";
 import { useRedirectToLogin } from "../../routes/navigation";
 import { usePersonaInfoContext } from "../../context/authContext";
+import ConfirmModal from "../../Components/modals/ConfirmModal";
 
 function PacienteHome() {
   const user = useUserContext();
   const [error, setError] = useState<ErrorTypeAny>(null);
   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
   const { personaInfo } = usePersonaInfoContext();
-
   const redirectToLogin = useRedirectToLogin();
+
+
 
   useEffect(() => {
     user == null ? redirectToLogin() : getPacinteTurnos();
@@ -40,30 +42,31 @@ function PacienteHome() {
   };
 
   
- async function cancelarTurno  (e: number): Promise<void> {
+
+  async function cancelarTurno  (e: number): Promise<void> {
 
     var params: any = GetJwtContent(user);    
     var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId)
     if(cancelarTurno.estado == 'Cancelada'){
       console.log("turno cancelado")
-    }
-   
+    }   
   }
 
   
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
-
+    
       <h2>Mis Turnos</h2>
       <div>
         {turnos.map((turno: TurnoResponse) => (
+          
           <CardPaciente key={turno.id}
           id = {turno.id}
             nombre={turno.medico}
             especialidad={turno.especialidad}
             fecha={turno.fecha.toString()}
-            btnEvent={cancelarTurno}
+            btnEvent={()=>cancelarTurno(turno.id)}
           />
         ))}
       </div>

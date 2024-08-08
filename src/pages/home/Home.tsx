@@ -6,6 +6,8 @@ import { useUserContext,useUserToggleContext,usePersonaInfoContext } from "../..
 import { useNavigate } from "react-router-dom";
 import { useRedirectToLogin, useRedirectToNuestrosMedicos } from "../../routes/navigation";
 import ResponsiveCard from "../../Components/CardPaciente/CardPaciente";
+import ConfirmModal from "../../Components/modals/ConfirmModal";
+import { useState } from "react";
 function Home() {
 
   const {personaInfo} = usePersonaInfoContext()
@@ -15,6 +17,8 @@ function Home() {
   const redirectToNuestrosMedicos = useRedirectToNuestrosMedicos();
   const recirectToLogin = useRedirectToLogin();
 
+ 
+
   return (
     <div>
 
@@ -22,7 +26,7 @@ function Home() {
       <Opening title="Clinica Horizonte" subTitle=""/>
       {personaInfo && <p>Hola {personaInfo.nombre}</p>}
 
-      
+    
       <div className="container mt-4">
         <div className="row d-flex justify-content-center">
           <div className="col-12 col-md-6 gap-2 d-grid">
