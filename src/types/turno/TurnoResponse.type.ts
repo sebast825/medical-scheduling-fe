@@ -4,7 +4,7 @@ export type TurnoResponse = {
    paciente: string;
    especialidad: string;
    pacienteDni: string;
-   fecha: Date;
+   fecha: string;
    estado: string;
    fechaCreacion: Date;
 };

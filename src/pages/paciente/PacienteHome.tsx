@@ -9,6 +9,7 @@ import CardPaciente from "../../Components/CardPaciente/CardPaciente";
 import { useRedirectToLogin } from "../../routes/navigation";
 import { usePersonaInfoContext } from "../../context/authContext";
 import ConfirmModal from "../../Components/modals/ConfirmModal";
+import formatDate from "../../utils/formatDate";
 
 function PacienteHome() {
   const user = useUserContext();
@@ -52,20 +53,19 @@ function PacienteHome() {
     }   
   }
 
-  
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
     
       <h2>Mis Turnos</h2>
-      <div>
+      <div style={{ maxWidth: "1200px", margin: "auto" }}>
         {turnos.map((turno: TurnoResponse) => (
           
           <CardPaciente key={turno.id}
           id = {turno.id}
             nombre={turno.medico}
             especialidad={turno.especialidad}
-            fecha={turno.fecha.toString()}
+            fecha={formatDate(turno.fecha)}
             btnEvent={()=>cancelarTurno(turno.id)}
           />
         ))}

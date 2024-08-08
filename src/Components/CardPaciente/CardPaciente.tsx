@@ -28,7 +28,11 @@ function CardPaciente({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bodyConfirmModal, setBodyConfirmModal] = useState("");
 
-  const handleOpenModal = () => setShowModal(true);
+  const handleOpenModal = () => {
+    const fechaDividida = fecha.split(" ");
+    var body:string = `¿Estás seguro de que deseas cancelar el turno con el medico ${nombre}, para la fecha ${fechaDividida[0]} a las ${fechaDividida[1]}?`; 
+    setBodyConfirmModal(body);
+    setShowModal(true);}
   const handleCloseModal = () => setShowModal(false);
 
   const handleConfirmAction = (): void => {
@@ -46,9 +50,7 @@ function CardPaciente({
       console.log("turno cancelado");
     }
   }
-  function getColClasses(isMobile: boolean) {
-    return isMobile ? "d-flex d-md-none" : "d-none d-md-flex";
-  }
+
 
   function IsMobile(): boolean {
     return screenSize < 600;
@@ -60,7 +62,7 @@ function CardPaciente({
         show={showModal}
         handleClose={handleCloseModal}
         handleConfirm={handleConfirmAction}
-        body="¿Estás seguro de que deseas realizar esta acción?"
+        body={bodyConfirmModal}
       />
       <Card className="d-flex" key={id}>
         <Card.Body>
@@ -85,8 +87,8 @@ function CardPaciente({
 
             {btnEvent != undefined ? (
               <Col xs={4} md={2}  className="d-flex align-items-center justify-content-center">
-                <Button variant="primary" onClick={handleOpenModal}>
-                  Button
+                <Button variant="danger" onClick={handleOpenModal}>
+                  Cancelar
                 </Button>
               </Col>
             ) : null}
