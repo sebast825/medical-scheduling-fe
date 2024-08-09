@@ -1,6 +1,6 @@
 
 
-export default function formatDate (fecha: string):string{
+export  function formatDate (fecha: string):string{
    const date = new Date(fecha);
 
     // Obtener componentes de la fecha
@@ -14,4 +14,21 @@ export default function formatDate (fecha: string):string{
    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
   
     return formattedDate;
+}
+
+function splitDateAndHour(fecha :string){
+
+    var splitDate = formatDate(fecha).split(" ");
+    return splitDate;
+
+}
+
+export function getDate(fecha:string) :string {
+    var date = splitDateAndHour(fecha)[0];
+    return date;
+}
+
+export function getHour(fecha:string) : string{
+    var hour = splitDateAndHour(fecha)[1];
+    return hour;
 }

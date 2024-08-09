@@ -5,56 +5,24 @@ import { useUserContext } from "../../context/authContext";
 import GetJwtContent from "../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../services/apiService";
 import useWindowSize from "../../hooks/ScreenSize";
+import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 
 type ICardPaciente = {
-  id: number;
-  nombre: string;
-  especialidad: string;
-  fecha: string;
-  btnEvent?: (e: number) => Promise<void>;
+ turno: TurnoResponse
+  btnEvent?: (turno : TurnoResponse) => void;
 };
 
 function CardPaciente({
-  id,
-  nombre,
-  especialidad,
-  fecha,
-  btnEvent,
+ turno,
+  btnEvent
 }: ICardPaciente) {
-  const user = useUserContext();
-  //ConfirmModal
+
   const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [bodyConfirmModal, setBodyConfirmModal] = useState("");
-
-  const handleOpenModal = () => {
-    const fechaDividida = fecha.split(" ");
-    var body:string = `¿Estás seguro de que deseas cancelar el turno con el medico ${nombre}, para la fecha ${fechaDividida[0]} a las ${fechaDividida[1]}?`; 
-    setBodyConfirmModal(body);
-    setShowModal(true);}
-  const handleCloseModal = () => setShowModal(false);
-
-  const handleConfirmAction = (): void => {
-    // Acción que deseas confirmar
-    cancelarTurno(id);
-    console.log("Acción confirmada");
-
-    handleCloseModal();
-    if(btnEvent){
-      btnEvent(id)
-
-    }
-  };
-
-  async function cancelarTurno(e: number): Promise<void> {
-    var params: any = GetJwtContent(user);
-    var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId);
-    if (cancelarTurno.estado == "Cancelada") {
-      console.log("turno cancelado");
-    }
-  }
-
+  var id = turno.id
+  var nombre = turno.medico;
+  var especialidad = turno.especialidad;
+  var fecha = turno.fecha;
 
   function IsMobile(): boolean {
     return screenSize < 600;
@@ -62,12 +30,7 @@ function CardPaciente({
 
   return (
     <>
-      <ConfirmModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        handleConfirm={handleConfirmAction}
-        body={bodyConfirmModal}
-      />
+   
       <Card className="d-flex" key={id}>
         <Card.Body>
           <Row className="d-flex flex-row">
@@ -91,7 +54,7 @@ function CardPaciente({
 
             {btnEvent != undefined ? (
               <Col xs={4} md={2}  className="d-flex align-items-center justify-content-center">
-                <Button variant="danger" onClick={handleOpenModal}>
+                <Button variant="warning" onClick={()=>btnEvent(turno)}>
                   Cancelar
                 </Button>
               </Col>
