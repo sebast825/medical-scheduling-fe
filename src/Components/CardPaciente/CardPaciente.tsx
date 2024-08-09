@@ -41,6 +41,10 @@ function CardPaciente({
     console.log("Acción confirmada");
 
     handleCloseModal();
+    if(btnEvent){
+      btnEvent(id)
+
+    }
   };
 
   async function cancelarTurno(e: number): Promise<void> {

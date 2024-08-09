@@ -43,14 +43,11 @@ function PacienteHome() {
   };
 
   
-
-  async function cancelarTurno  (e: number): Promise<void> {
-
-    var params: any = GetJwtContent(user);    
-    var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId)
-    if(cancelarTurno.estado == 'Cancelada'){
-      console.log("turno cancelado")
-    }   
+//una vez que se elimina el turno desde la card, lo remueve del FE
+  async function removerTurnoCancelado  (e: number): Promise<void> {
+   
+   var removeTurnoCancelado = turnos.filter((turno)=> turno.id != e);
+   setTurnos(removeTurnoCancelado);
   }
 
   return (
@@ -66,7 +63,7 @@ function PacienteHome() {
             nombre={turno.medico}
             especialidad={turno.especialidad}
             fecha={formatDate(turno.fecha)}
-            btnEvent={()=>cancelarTurno(turno.id)}
+            btnEvent={(e)=>removerTurnoCancelado(e)}
           />
         ))}
       </div>
