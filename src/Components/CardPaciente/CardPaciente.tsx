@@ -6,6 +6,7 @@ import GetJwtContent from "../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../services/apiService";
 import useWindowSize from "../../hooks/ScreenSize";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
+import { getDate, getHour } from "../../utils/formatDate";
 
 type ICardPaciente = {
  turno: TurnoResponse
@@ -22,7 +23,7 @@ function CardPaciente({
   var id = turno.id
   var nombre = turno.medico;
   var especialidad = turno.especialidad;
-  var fecha = turno.fecha;
+  var fecha = getDate(turno.fecha) + " " + getHour(turno.fecha);
   
   function IsMobile(): boolean {
     return screenSize < 600;
@@ -31,7 +32,7 @@ function CardPaciente({
   return (
     <>
    
-      <Card className="d-flex" key={id}>
+      <Card className="d-flex m-2" key={id}>
         <Card.Body>
           <Row className="d-flex flex-row">
             {IsMobile() ? (

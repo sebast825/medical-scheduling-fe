@@ -1,0 +1,9 @@
+@import "/src/styles/mixin.scss";
+
+
+.layout{
+ @include respond(mobile){
+   flex-wrap: wrap;
+ }
+}
+

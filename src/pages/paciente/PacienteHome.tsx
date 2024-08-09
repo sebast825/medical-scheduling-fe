@@ -50,8 +50,12 @@ function PacienteHome() {
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
+      
+      <div className="container p-4">
       <h2>Mis Turnos</h2>
       <TurnosListWithModal turnosList={turnos}/>
+      </div>
+  
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
   );
