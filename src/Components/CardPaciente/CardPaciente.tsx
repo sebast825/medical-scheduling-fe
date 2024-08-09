@@ -23,7 +23,7 @@ function CardPaciente({
   var nombre = turno.medico;
   var especialidad = turno.especialidad;
   var fecha = turno.fecha;
-
+  
   function IsMobile(): boolean {
     return screenSize < 600;
   }
@@ -42,11 +42,11 @@ function CardPaciente({
             </Col>
             ) : (
               <Col md={10} className="row justify-content-center align-items-center">
-                <Col xs={4} md={6}>
+                <Col md={6}>
                   <h2>{nombre}</h2>
                   <h6>{especialidad}</h6>
                 </Col>
-                <Col xs={4} md={6}>
+                <Col md={6}>
                   <h6>{fecha}</h6>
                 </Col>
               </Col>
