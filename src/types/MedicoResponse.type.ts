@@ -8,4 +8,5 @@ export interface IMedicoResponse {
    numeroDocumento: string;
    sexo: string;
    estadoUsuario: string;
+   id:number;
  }

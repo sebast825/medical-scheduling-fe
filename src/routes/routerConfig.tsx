@@ -1,5 +1,4 @@
-import { Home, Login, NuestrosMedicos} from "../pages/index"
-import PacienteHome from "../pages/paciente/PacienteHome"
+import { Home, Login, NuestrosMedicos, PacienteHome,BuscarPorMedico} from "../pages/index"
 
 export const routes = [
    {
@@ -17,5 +16,9 @@ export const routes = [
    {
       path: '/pacientes',
       element: <PacienteHome/>
-   }
+   },
+    {
+       path: '/buscarMedico',
+      element: <BuscarPorMedico/>
+    }
 ]

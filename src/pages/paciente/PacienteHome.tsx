@@ -15,6 +15,9 @@ import ConfirmModal from "../../Components/modals/ConfirmModal";
 import { formatDate, getDate, getHour } from "../../utils/formatDate";
 import TurnosListWithModal from "../../Components/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/TwoButtonComponent/TwoButtonComponent";
+import List from "../../Components/List/List";
+import { useNavigate } from "react-router-dom";
+import { BuscarPorMedico } from "..";
 
 function PacienteHome() {
   const user = useUserContext();
@@ -23,6 +26,8 @@ function PacienteHome() {
   const { personaInfo } = usePersonaInfoContext();
   const redirectToLogin = useRedirectToLogin();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
+
+  const navigate = useNavigate()
   useEffect(() => {
     user == null ? redirectToLogin() : getPacinteTurnos();
   }, []);
@@ -51,7 +56,9 @@ function PacienteHome() {
   function ShowNuevoTurno() {
     setBtnToggle(false);
   }
-
+function RedirectBuscarPorMedico(){
+  navigate("/buscarMedico")
+} 
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
@@ -72,11 +79,11 @@ function PacienteHome() {
           <div className="container p-4">
           
           <h2>Nuevo Turno</h2>
-       
+          
            <TwoButtonComponent 
         textButton1="Buscar por Medico"
         textButton2="Buscar por Especialidad"
-        onClickButton1={ShowTurnos}
+        onClickButton1={RedirectBuscarPorMedico}
         onClickButton2={ShowNuevoTurno}
         layout="mobileWrap gap-3"
         
