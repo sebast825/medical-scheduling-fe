@@ -50,3 +50,11 @@ export const fetchCancelarTurno = async (jwt: string, idTurno : number, idPacien
   return response.data;
  
 };
+
+export const fetchTurnosDisponiblesByMedico = async (jwt: string, idMedico : string ) => {
+  
+  const api = createApiInstance(jwt);
+  const response = await api.get(`api/medicos/${idMedico}/turnosdisponible`);
+  return response.data;
+ 
+};
