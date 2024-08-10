@@ -20,7 +20,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
   onClickButton2,
   layout
 }) => {
-   console.log(variantButton1)
+   
   return (
     <div className={`d-flex gap-1  gap-sm-2 m-1  m-sm-4 ${layout} contaiener`}>
       <Button
