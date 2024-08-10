@@ -8,6 +8,7 @@ interface ITwoButtonComponent {
   variantButton2?: string;
   onClickButton1: () => void;
   onClickButton2: () => void;
+  layout?: string;
 }
 
 const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
@@ -17,10 +18,11 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
   variantButton2,
   onClickButton1,
   onClickButton2,
+  layout
 }) => {
    console.log(variantButton1)
   return (
-    <div className="d-flex gap-2 m-4 layout contaiener">
+    <div className={`d-flex gap-1  gap-sm-2 m-1  m-sm-4 ${layout} contaiener`}>
       <Button
         variant={variantButton1 != undefined ? variantButton1 : "primary"}
         onClick={onClickButton1}

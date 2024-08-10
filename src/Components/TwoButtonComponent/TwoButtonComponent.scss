@@ -1,9 +1,14 @@
 @import "/src/styles/mixin.scss";
 
 
-.layout{
+.mobileWrap{
+   
  @include respond(mobile){
    flex-wrap: wrap;
+ }
+ flex-wrap: wrap;
+ button{
+   padding: 30px;
  }
 }
 

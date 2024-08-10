@@ -12,8 +12,9 @@ import CardPaciente from "../../Components/CardPaciente/CardPaciente";
 import { useRedirectToLogin } from "../../routes/navigation";
 import { usePersonaInfoContext } from "../../context/authContext";
 import ConfirmModal from "../../Components/modals/ConfirmModal";
-import {formatDate,getDate,getHour} from "../../utils/formatDate";
+import { formatDate, getDate, getHour } from "../../utils/formatDate";
 import TurnosListWithModal from "../../Components/TurnosListWithModal/TurnosListWithModal";
+import TwoButtonComponent from "../../Components/TwoButtonComponent/TwoButtonComponent";
 
 function PacienteHome() {
   const user = useUserContext();
@@ -21,7 +22,7 @@ function PacienteHome() {
   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
   const { personaInfo } = usePersonaInfoContext();
   const redirectToLogin = useRedirectToLogin();
-
+  const [btnToggle, setBtnToggle] = useState<boolean>(true);
   useEffect(() => {
     user == null ? redirectToLogin() : getPacinteTurnos();
   }, []);
@@ -44,18 +45,46 @@ function PacienteHome() {
     }
   };
 
-   
-
+  function ShowTurnos() {
+    setBtnToggle(true);
+  }
+  function ShowNuevoTurno() {
+    setBtnToggle(false);
+  }
 
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
-      
-      <div className="container p-4">
-      <h2>Mis Turnos</h2>
-      <TurnosListWithModal turnosList={turnos}/>
-      </div>
-  
+
+      <TwoButtonComponent
+        textButton1="Mis Turnos"
+        textButton2="Nuevo Turno"
+        onClickButton1={ShowTurnos}
+        onClickButton2={ShowNuevoTurno}
+      />
+      {btnToggle ? (
+        <div className="container p-4">
+          <h2>Mis Turnos</h2>
+          <TurnosListWithModal turnosList={turnos} />
+        </div>
+      ) : (
+        <h2>
+          <div className="container p-4">
+          
+          <h2>Nuevo Turno</h2>
+       
+           <TwoButtonComponent 
+        textButton1="Buscar por Medico"
+        textButton2="Buscar por Especialidad"
+        onClickButton1={ShowTurnos}
+        onClickButton2={ShowNuevoTurno}
+        layout="mobileWrap gap-3"
+        
+      />
+       </div>
+        </h2>
+      )}
+
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
   );
