@@ -11,11 +11,7 @@ function TurnosList(props :ITurnosList){
 
    const {turnos, handleOpenModal} = props;
 
-  useEffect(()=>{
-  console.log('Turnos:', turnos);
-}, []);
-
-
+ 
 
    return(
       <div style={{ maxWidth: "1200px", margin: "auto" }}>

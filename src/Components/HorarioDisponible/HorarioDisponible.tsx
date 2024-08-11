@@ -1,30 +1,36 @@
 import { useEffect, useState } from "react";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { Button, Card } from "react-bootstrap";
+import { getDate } from "../../utils/formatDate";
 
 interface IHorarioDisponiblePorDia {
   TurnoHorarioResponse?: TurnoHorarioDisponibleResponseDTO;
+  handleSelect: (horario : string) => void;
 }
-
 function HorarioDisponiblePorDia({
   TurnoHorarioResponse,
+  handleSelect
 }: IHorarioDisponiblePorDia) {
 
   const [horarios, setHorarios] = useState<TurnoHorarioDisponibleResponseDTO>();
+  const date : string= TurnoHorarioResponse ? getDate(TurnoHorarioResponse?.fecha.toString()): "";
 
   useEffect(() => {
+
     setHorarios(TurnoHorarioResponse);
   }, []);
 
   return (
     <>
-      <h2>Horarios Disponibles </h2>
+   
       <Card style={{ width: "18rem", margin: "1rem" }}>
         <Card.Body className="" style={{ gap: "1rem" }}>
-          <Card.Title>Hora Disponibles</Card.Title>
-
+          <Card.Title>Fecha {date}</Card.Title>
+         
           {horarios?.horario.map((elem) => {
-            return <Button key={elem} variant="primary">{elem} </Button>;
+             const timeString = elem;
+             const formattedTime = timeString.substring(0, 5);
+            return <Button key={formattedTime} variant="primary" onClick={()=>handleSelect(formattedTime)}>{formattedTime} </Button>;
           })}
         </Card.Body>
       </Card>

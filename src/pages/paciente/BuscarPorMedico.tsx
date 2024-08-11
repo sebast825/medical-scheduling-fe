@@ -21,8 +21,9 @@ function BuscarPorMedico() {
     useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [showTurnosDisponibles, setShowTurnosDisponibles] =
     useState<TurnoHorarioDisponibleResponseDTO>();
-
+  const [nombreMedicoSelect, setNombreMedicoSelect] = useState<string>();
   const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
+
 
   const getMedicos = async () => {
     try {
@@ -35,6 +36,7 @@ function BuscarPorMedico() {
     }
   };
 
+  //al cargar el componente llama al listado de medicos
   useEffect(() => {
     getMedicos();
   }, []);
@@ -44,6 +46,7 @@ function BuscarPorMedico() {
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByMedico(user, id);
       setTurnosDisponibles(response);
+
       console.log(response);
       return response;
     } catch (err: any) {
@@ -55,6 +58,7 @@ function BuscarPorMedico() {
       }
     }
   };
+
   useEffect(() => {
     filtrarTurnos();
   }, [turnosDisponibles]);
@@ -64,15 +68,16 @@ function BuscarPorMedico() {
     if (filterTurnosDisponibles) {
       setDateTurnosDisponibles(filterTurnosDisponibles);
     }
-
   }
   function showDiasDisponibles(e: number) {
     console.log("aca");
     getTurnosDisponiblesByMedico(e.toString());
+    var nombreMedico = medicos?.find((elem) => elem.id === e);
+    setNombreMedicoSelect(nombreMedico?.nombre + " " + nombreMedico?.apellido);
     setComponenteActivo("2");
   }
-  function handleSelect(e: string) {
 
+  function fechaSeleccionadaCalendario(e: string) {
     if (typeof e == "string") {
       var selectHorarios = turnosDisponibles?.find(
         (elem) => getDate(elem.fecha.toString()) == getDate(e)
@@ -80,16 +85,25 @@ function BuscarPorMedico() {
       setShowTurnosDisponibles(selectHorarios);
     }
   }
+
+//al seleccionar una fecha en el calendario llama aca
   useEffect(() => {
     if (showTurnosDisponibles) {
       setComponenteActivo("3");
-    }  }, [showTurnosDisponibles]);
+    }
+  }, [showTurnosDisponibles]);
 
-  
+  function handleHorarioSelect(horario: string) {
+    console.log(horario + " " + nombreMedicoSelect);
+    setComponenteActivo("1");
+  }
+
+  //objete medicos filtrado, solo con los datos necesarios
   const filterMedicos =
     medicos?.map((medico) => {
       return { nombre: medico.nombre + " " + medico.apellido, id: medico.id };
     }) || [];
+
   return (
     <div>
       <h2>Buscar Medico</h2>
@@ -99,11 +113,17 @@ function BuscarPorMedico() {
       {componenteActivo == "2" && (
         <Calendario
           dateList={dateTurnosDisponibles}
-          handleSelect={handleSelect}
+          handleSelect={fechaSeleccionadaCalendario}
         />
       )}
       {componenteActivo == "3" && (
-        <HorarioDisponiblePorDia TurnoHorarioResponse={showTurnosDisponibles} />
+        <>
+          <h2>Horarios Disponibles con {nombreMedicoSelect}</h2>
+          <HorarioDisponiblePorDia
+            TurnoHorarioResponse={showTurnosDisponibles}
+            handleSelect={handleHorarioSelect}
+          />
+        </>
       )}
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
