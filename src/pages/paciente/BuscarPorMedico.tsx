@@ -11,6 +11,9 @@ import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorari
 import Calendario from "../../Components/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
 import HorarioDisponiblePorDia from "../../Components/HorarioDisponible/HorarioDisponible";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import BackLink from "../../Components/BackLink/BackLink";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -23,7 +26,7 @@ function BuscarPorMedico() {
     useState<TurnoHorarioDisponibleResponseDTO>();
   const [nombreMedicoSelect, setNombreMedicoSelect] = useState<string>();
   const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
-
+  const navigate = useNavigate();
 
   const getMedicos = async () => {
     try {
@@ -86,7 +89,7 @@ function BuscarPorMedico() {
     }
   }
 
-//al seleccionar una fecha en el calendario llama aca
+  //al seleccionar una fecha en el calendario llama aca
   useEffect(() => {
     if (showTurnosDisponibles) {
       setComponenteActivo("3");
@@ -95,6 +98,8 @@ function BuscarPorMedico() {
 
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
+
+    
     setComponenteActivo("1");
   }
 
@@ -105,24 +110,36 @@ function BuscarPorMedico() {
     }) || [];
 
   return (
-    <div>
+    <div className="container d-flex flex-column justify-content-center align-items-center
+    p-4 gap-2">
       <h2>Buscar Medico</h2>
       {componenteActivo == "1" && (
-        <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
+        <>
+          {" "}
+          <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
+          <BackLink />
+        </>
       )}
       {componenteActivo == "2" && (
-        <Calendario
-          dateList={dateTurnosDisponibles}
-          handleSelect={fechaSeleccionadaCalendario}
-        />
+        <>
+          <h6>Seleccionar una fecha disponible</h6>
+
+          <Calendario
+            dateList={dateTurnosDisponibles}
+            handleSelect={fechaSeleccionadaCalendario}
+          />
+          <BackLink />
+        </>
       )}
       {componenteActivo == "3" && (
         <>
-          <h2>Horarios Disponibles con {nombreMedicoSelect}</h2>
+          <h6>Seleccionar Horario</h6>
           <HorarioDisponiblePorDia
             TurnoHorarioResponse={showTurnosDisponibles}
             handleSelect={handleHorarioSelect}
+            nombreMedico={nombreMedicoSelect}
           />
+          <BackLink />
         </>
       )}
       <div>{error && <p className="text-danger">{error}</p>}</div>

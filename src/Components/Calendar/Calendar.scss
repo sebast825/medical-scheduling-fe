@@ -1,19 +1,40 @@
-.react-calendar__tile--now {
-   background-color: lightblue; /* Cambia esto al color que desees */
-   color: black; /* Cambia el color del texto si es necesario */
- }
-
-.highlighted-date {
-   background-color: green; /* Color de fondo para fechas resaltadas */
-   //border-radius: 50%;
-   color: white; /* Color del texto para fechas resaltadas */
-   &:hover{
-      color: #000;
-   }
- }
- 
+//COMPORTAMIENTO DEFAULT
 //saca las felchas para pasar año
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button{
    display: none;
 }
+
+/* Desactivar hover en las celdas del calendario */
+.react-calendar__tile:hover {
+   background-color: transparent!important; /* Cambia el fondo al color deseado */
+   cursor: default!important; /* Cambia el cursor a un valor predeterminado si es necesario */
+ }
+ 
+ /* Opcional: Desactivar el estilo activo si también deseas desactivarlo */
+ .react-calendar__tile:focus {
+   background-color: transparent!important;
+   color: #000;
+ }
+
+//COMPORTAMIENTO CUSTOM
+ .highlighted-date {
+   background-color: green; /* Color de fondo para fechas resaltadas */
+   //border-radius: 50%;
+   color: white; /* Color del texto para fechas resaltadas */
+   &:hover{
+      color: #000;
+      background-color: greenyellow!important;
+      cursor: pointer!important;
+
+   }
+ }
+
+ .react-calendar__tile--now {
+   background-color: lightblue; /* Cambia esto al color que desees */
+   color: black; /* Cambia el color del texto si es necesario */
+   &:hover{
+      background-color: lightblue!important; /* Cambia esto al color que desees */
+
+   }
+ }

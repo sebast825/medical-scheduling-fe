@@ -45,7 +45,7 @@ function List({ listItems, handleSelect }: IList) {
           key= {item.id}
             action
             className="text-center"
-            style={{ maxWidth: "500px" }}
+            style={{ maxWidth: "500px",minWidth:"300px" }}
             onClick={() => handleSelect(item.id)}
           >
             {item.nombre}

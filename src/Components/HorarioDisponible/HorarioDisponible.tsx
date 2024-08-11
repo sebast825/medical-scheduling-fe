@@ -6,10 +6,12 @@ import { getDate } from "../../utils/formatDate";
 interface IHorarioDisponiblePorDia {
   TurnoHorarioResponse?: TurnoHorarioDisponibleResponseDTO;
   handleSelect: (horario : string) => void;
+  nombreMedico? : string;
 }
 function HorarioDisponiblePorDia({
   TurnoHorarioResponse,
-  handleSelect
+  handleSelect,
+  nombreMedico
 }: IHorarioDisponiblePorDia) {
 
   const [horarios, setHorarios] = useState<TurnoHorarioDisponibleResponseDTO>();
@@ -24,9 +26,13 @@ function HorarioDisponiblePorDia({
     <>
    
       <Card style={{ width: "18rem", margin: "1rem" }}>
-        <Card.Body className="" style={{ gap: "1rem" }}>
-          <Card.Title>Fecha {date}</Card.Title>
-         
+
+        <Card.Body className="d-flex flex-wrap justify-content-center" style={{ gap: "1rem" }}>
+
+          <div style={{width:'100vw'}} className="">
+        <Card.Title>Médico: {nombreMedico}</Card.Title>
+        <Card.Subtitle >Fecha Turno: {date}</Card.Subtitle>
+        </div>
           {horarios?.horario.map((elem) => {
              const timeString = elem;
              const formattedTime = timeString.substring(0, 5);

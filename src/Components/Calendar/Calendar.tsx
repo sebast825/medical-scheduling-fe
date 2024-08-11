@@ -49,14 +49,14 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
   }
 
   return (
-    <div>
+ 
       <Calendar
         value={value}
         onChange={setValue} // Usa la función manejadora
         tileClassName={tileClassName} // Asigna las clases a las celdas
         onClickDay={clicked}
       />
-    </div>
+ 
   );
 }
 

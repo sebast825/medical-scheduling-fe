@@ -1,0 +1,9 @@
+@import "/src/styles/mixin.scss";
+
+.btn-back{
+   width: 30%;
+   @include respond (mobile){
+      width: 100%;
+   }
+}
+
