@@ -13,9 +13,7 @@ function List({ listItems, handleSelect }: IList) {
   const [buscarItem, setbuscarItem] = useState<string>("");
   const [mostrarItems, setMostrarItems] = useState<any[]>(listItems);
   
-  listItems.forEach((element) => {
-    console.log(element);
-  });
+
 
   function updateRegEx(e: any) {
     setbuscarItem(e.target.value);
@@ -43,7 +41,8 @@ function List({ listItems, handleSelect }: IList) {
       <br></br>
       <ListGroup className="gap-2 d-flex justify-content-center align-items-center">
         {mostrarItems.map((item) => (
-          <ListGroup.Item
+          <ListGroup.Item 
+          key= {item.id}
             action
             className="text-center"
             style={{ maxWidth: "500px" }}

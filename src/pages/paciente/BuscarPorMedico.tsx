@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/authContext";
-import { fetchMedicos, fetchTurnosDisponiblesByMedico } from "../../services/apiService";
+import {
+  fetchMedicos,
+  fetchTurnosDisponiblesByMedico,
+} from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import List from "../../Components/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
+import Calendar from "react-calendar";
+import Calendario from "../../Components/Calendar/Calendar";
 
 function BuscarPorMedico() {
   const user = useUserContext();
   const [medicos, setMedicos] = useState<IMedicoResponse[]>();
   const [error, setError] = useState<ErrorTypeAny>(null);
+  const [componenteActivo, setComponenteActivo] = useState<string>("1"); // 'componente1', 'componente2', 'componente3'
+  const [turnosDisponibles, setTurnosDisponibles] =
+    useState<TurnoHorarioDisponibleResponseDTO[]>();
+  const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
 
   const getMedicos = async () => {
     try {
@@ -22,16 +31,20 @@ function BuscarPorMedico() {
       setError("Error desconocido");
     }
   };
+
+
+  
   useEffect(() => {
     getMedicos();
   }, []);
 
-
-  const getTurnosDisponiblesByMedico = async (id:string) => {
+  const getTurnosDisponiblesByMedico = async (id: string) => {
     try {
-      const response: TurnoHorarioDisponibleResponseDTO[]= await fetchTurnosDisponiblesByMedico(user, id)
-     console.log(response)
-     return response;
+      const response: TurnoHorarioDisponibleResponseDTO[] =
+        await fetchTurnosDisponiblesByMedico(user, id);
+      setTurnosDisponibles(response);
+      console.log(response);
+      return response;
     } catch (err: any) {
       console.log(err);
       if (err.response && err.response.status === 401) {
@@ -41,10 +54,30 @@ function BuscarPorMedico() {
       }
     }
   };
+  useEffect(() => {
+    filtrarTurnos();
+    console.log("asasd")
+  }, [turnosDisponibles]);
 
+  function filtrarTurnos() {
+    var filterTurnosDisponibles = turnosDisponibles?.map((elem) => elem.fecha);
+    if (filterTurnosDisponibles) {
+      setDateTurnosDisponibles(filterTurnosDisponibles);
+      
+    }
+    // filterTurnosDisponibles?.forEach(elem =>{
+    //   console.log(typeof(elem))
+    // })
+  }
   function showDiasDisponibles(e: number) {
-    
-    getTurnosDisponiblesByMedico(e.toString());
+    console.log("aca")
+    getTurnosDisponiblesByMedico(e.toString())
+    setComponenteActivo("2");
+
+  
+  }
+  function handleSelect(e: string | undefined){
+    console.log(e)
   }
   const filterMedicos =
     medicos?.map((medico) => {
@@ -53,7 +86,12 @@ function BuscarPorMedico() {
   return (
     <div>
       <h2>Buscar Medico</h2>
-      <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
+      {componenteActivo == "1" && (
+        <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
+      )}
+      {componenteActivo == "2" && (
+        <Calendario dateList={dateTurnosDisponibles} handleSelect={handleSelect} />
+      )}
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
   );

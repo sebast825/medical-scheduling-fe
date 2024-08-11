@@ -26,6 +26,7 @@ function TurnosList(props :ITurnosList){
           btnEvent={handleOpenModal ? () => handleOpenModal(turno) : undefined}
         />
       ))}
+    
       </div>
    )
 }

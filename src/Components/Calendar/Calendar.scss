@@ -1,0 +1,19 @@
+.react-calendar__tile--now {
+   background-color: lightblue; /* Cambia esto al color que desees */
+   color: black; /* Cambia el color del texto si es necesario */
+ }
+
+.highlighted-date {
+   background-color: green; /* Color de fondo para fechas resaltadas */
+   //border-radius: 50%;
+   color: white; /* Color del texto para fechas resaltadas */
+   &:hover{
+      color: #000;
+   }
+ }
+ 
+//saca las felchas para pasar año
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button{
+   display: none;
+}
