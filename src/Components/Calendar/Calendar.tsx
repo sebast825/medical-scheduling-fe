@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Calendar.scss";
@@ -7,8 +7,8 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface ICalendario {
-  dateList: Date[] | undefined;
-  handleSelect: (e: string | undefined) => void;
+  dateList?: Date[];
+  handleSelect: (e: string) => void;
 }
 
 function Calendario({ dateList, handleSelect }: ICalendario) {
@@ -36,14 +36,16 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
       : "";
   };
   function clicked(date: Value, event: any) {
- 
     const target = event.target;
-    //en el boton esta la clase que colorea los dias disponibles, si posee la clase devuelve al elemento padre para que muestre los horarios disponibles para esa fecha 
-    if (target.classList.contains("highlighted-date") || target.closest('button').classList.contains("highlighted-date")) {
-      handleSelect(date?.toString());
-
-    } 
-
+    //en el boton esta la clase que colorea los dias disponibles, si posee la clase devuelve al elemento padre para que muestre los horarios disponibles para esa fecha
+    if (
+      target.classList.contains("highlighted-date") ||
+      target.closest("button").classList.contains("highlighted-date")
+    ) {
+      if (date != null) {
+        handleSelect(date.toString());
+      }
+    }
   }
 
   return (

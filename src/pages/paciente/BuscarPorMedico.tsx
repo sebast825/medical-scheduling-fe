@@ -8,9 +8,7 @@ import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import List from "../../Components/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
-import Calendar from "react-calendar";
 import Calendario from "../../Components/Calendar/Calendar";
-import HorarioDisponible from "../../Components/HorarioDisponible/HorarioDisponible";
 import { getDate } from "../../utils/formatDate";
 import HorarioDisponiblePorDia from "../../Components/HorarioDisponible/HorarioDisponible";
 
@@ -33,7 +31,6 @@ function BuscarPorMedico() {
       setMedicos(response);
     } catch (err: any) {
       console.log(err);
-
       setError("Error desconocido");
     }
   };
@@ -60,7 +57,6 @@ function BuscarPorMedico() {
   };
   useEffect(() => {
     filtrarTurnos();
-    console.log("asasd");
   }, [turnosDisponibles]);
 
   function filtrarTurnos() {
@@ -68,17 +64,14 @@ function BuscarPorMedico() {
     if (filterTurnosDisponibles) {
       setDateTurnosDisponibles(filterTurnosDisponibles);
     }
-    // filterTurnosDisponibles?.forEach(elem =>{
-    //   console.log(typeof(elem))
-    // })
+
   }
   function showDiasDisponibles(e: number) {
     console.log("aca");
     getTurnosDisponiblesByMedico(e.toString());
     setComponenteActivo("2");
   }
-  function handleSelect(e: string | undefined) {
-    console.log(typeof e);
+  function handleSelect(e: string) {
 
     if (typeof e == "string") {
       var selectHorarios = turnosDisponibles?.find(
@@ -89,7 +82,6 @@ function BuscarPorMedico() {
   }
   useEffect(() => {
     if (showTurnosDisponibles) {
-      console.log(showTurnosDisponibles)
       setComponenteActivo("3");
     }  }, [showTurnosDisponibles]);
 

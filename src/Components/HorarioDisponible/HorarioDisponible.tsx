@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { Button, Card } from "react-bootstrap";
-import { getDate } from "../../utils/formatDate";
 
 interface IHorarioDisponiblePorDia {
-  TurnoHorarioResponse: TurnoHorarioDisponibleResponseDTO | undefined;
+  TurnoHorarioResponse?: TurnoHorarioDisponibleResponseDTO;
 }
 
 function HorarioDisponiblePorDia({
   TurnoHorarioResponse,
 }: IHorarioDisponiblePorDia) {
-  const [horarios, setHorarios] = useState<TurnoHorarioDisponibleResponseDTO>();
-  useEffect(() => {
-    console.log(TurnoHorarioResponse);
 
+  const [horarios, setHorarios] = useState<TurnoHorarioDisponibleResponseDTO>();
+
+  useEffect(() => {
     setHorarios(TurnoHorarioResponse);
   }, []);
+
   return (
     <>
       <h2>Horarios Disponibles </h2>
@@ -24,7 +24,7 @@ function HorarioDisponiblePorDia({
           <Card.Title>Hora Disponibles</Card.Title>
 
           {horarios?.horario.map((elem) => {
-            return <Button variant="primary">{elem} </Button>;
+            return <Button key={elem} variant="primary">{elem} </Button>;
           })}
         </Card.Body>
       </Card>
