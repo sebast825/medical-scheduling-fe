@@ -7,9 +7,8 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface ICalendario {
-  dateList: Date[] | undefined,
+  dateList: Date[] | undefined;
   handleSelect: (e: string | undefined) => void;
-
 }
 
 function Calendario({ dateList, handleSelect }: ICalendario) {
@@ -19,7 +18,7 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
   // Función para determinar la clase de cada celda del calendario
   const tileClassName = ({ date }: { date: Date }) => {
     // Aquí defines las fechas específicas que deseas resaltar
-    const specialDates :Date[]= [];
+    const specialDates: Date[] = [];
     dateList?.forEach((asd) => {
       //console.log(elem)
       var elem = new Date(asd);
@@ -36,11 +35,17 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
       ? "highlighted-date"
       : "";
   };
-  function clicked(e:Value){
-    handleSelect(e?.toString());
+  function clicked(date: Value, event: any) {
+ 
+    const target = event.target;
+    //en el boton esta la clase que colorea los dias disponibles, si posee la clase devuelve al elemento padre para que muestre los horarios disponibles para esa fecha 
+    if (target.classList.contains("highlighted-date") || target.closest('button').classList.contains("highlighted-date")) {
+      handleSelect(date?.toString());
+
+    } 
 
   }
- 
+
   return (
     <div>
       <Calendar
@@ -49,7 +54,6 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
         tileClassName={tileClassName} // Asigna las clases a las celdas
         onClickDay={clicked}
       />
-
     </div>
   );
 }
