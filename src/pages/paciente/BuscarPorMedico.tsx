@@ -112,9 +112,10 @@ function BuscarPorMedico() {
   return (
     <div className="container d-flex flex-column justify-content-center align-items-center
     p-4 gap-2">
-      <h2>Buscar Medico</h2>
       {componenteActivo == "1" && (
         <>
+              <h2>Seleccionar Medico</h2>
+
           <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
     
         </>
@@ -134,10 +135,11 @@ function BuscarPorMedico() {
         <>
         
           <h6>Seleccionar Horario</h6>
+          <p>{getDate(showTurnosDisponibles ? showTurnosDisponibles?.fecha.toString(): "")}</p>
           <HorarioDisponiblePorDia
             TurnoHorarioResponse={showTurnosDisponibles}
             handleSelect={handleHorarioSelect}
-            nombreMedico={nombreMedicoSelect}
+           
           />
           <BackLink />
         </>
