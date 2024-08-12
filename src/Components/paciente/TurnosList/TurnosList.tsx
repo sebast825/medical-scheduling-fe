@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
+import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import CardPaciente from "../CardPaciente/CardPaciente";
 
 interface ITurnosList{
@@ -14,6 +14,8 @@ function TurnosList(props :ITurnosList){
  
 
    return(
+      <>
+  
       <div style={{ maxWidth: "1200px", margin: "auto" }}>
       {turnos.map((turno: TurnoResponse) => (
         <CardPaciente
@@ -24,6 +26,8 @@ function TurnosList(props :ITurnosList){
       ))}
     
       </div>
+
+      </>
    )
 }
 

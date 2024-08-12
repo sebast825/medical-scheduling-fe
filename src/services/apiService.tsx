@@ -58,3 +58,12 @@ export const fetchTurnosDisponiblesByMedico = async (jwt: string, idMedico : str
   return response.data;
  
 };
+
+
+export const fetchTurnosCrear = async (jwt: string,  ) => {
+  
+  const api = createApiInstance(jwt);
+  const response = await api.post(`api/turnos/${"dto"}`);
+  return response.data;
+ 
+};

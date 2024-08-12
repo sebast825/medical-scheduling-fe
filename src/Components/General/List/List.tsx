@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ListGroup } from "react-bootstrap";
+import BackLink from "../../buttons/BackLink/BackLink";
 
 interface IList {
   listItems: {
@@ -52,6 +53,7 @@ function List({ listItems, handleSelect }: IList) {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <BackLink/>
     </>
   );
 }

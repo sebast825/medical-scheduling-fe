@@ -2,6 +2,7 @@ import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Calendar.scss";
+import BackLink from "../../buttons/BackLink/BackLink";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -49,14 +50,16 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
   }
 
   return (
- 
+ <>
+
       <Calendar
         value={value}
         onChange={setValue} // Usa la función manejadora
         tileClassName={tileClassName} // Asigna las clases a las celdas
         onClickDay={clicked}
       />
- 
+  <BackLink/>
+ </>
   );
 }
 

@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
-import FillExample from "../../Components/Nav Bar/NavBar";
-import Opening from "../../Components/Opening/Opening";
+import FillExample from "../../Components/General/Nav Bar/NavBar";
+import Opening from "../../Components/General/Opening/Opening";
 import { fetchPacientes } from "../../services/apiService";
 import {
   useUserContext,
@@ -12,10 +12,10 @@ import {
   useRedirectToLogin,
   useRedirectToNuestrosMedicos,
 } from "../../routes/navigation";
-import ResponsiveCard from "../../Components/CardPaciente/CardPaciente";
+import ResponsiveCard from "../../Components/paciente/CardPaciente/CardPaciente";
 import ConfirmModal from "../../Components/modals/ConfirmModal";
 import { useState } from "react";
-import TwoButtonComponent from "../../Components/TwoButtonComponent/TwoButtonComponent";
+import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 function Home() {
   const { personaInfo } = usePersonaInfoContext();
   const cambiaLogin = useUserToggleContext();

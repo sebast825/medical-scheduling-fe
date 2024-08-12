@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
+import { TurnoHorarioDisponibleResponseDTO } from "../../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { Button, Card } from "react-bootstrap";
-import { getDate } from "../../utils/formatDate";
+import { getDate } from "../../../utils/formatDate";
 
 interface IHorarioDisponiblePorDia {
   TurnoHorarioResponse?: TurnoHorarioDisponibleResponseDTO;

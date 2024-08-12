@@ -6,14 +6,14 @@ import {
 } from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
-import List from "../../Components/List/List";
+import List from "../../Components/General/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
-import Calendario from "../../Components/Calendar/Calendar";
+import Calendario from "../../Components/General/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
-import HorarioDisponiblePorDia from "../../Components/HorarioDisponible/HorarioDisponible";
+import HorarioDisponiblePorDia from "../../Components/General/HorarioDisponible/HorarioDisponible";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import BackLink from "../../Components/BackLink/BackLink";
+import BackLink from "../../Components/buttons/BackLink/BackLink";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -99,7 +99,7 @@ function BuscarPorMedico() {
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
 
-    
+
     setComponenteActivo("1");
   }
 
@@ -115,9 +115,8 @@ function BuscarPorMedico() {
       <h2>Buscar Medico</h2>
       {componenteActivo == "1" && (
         <>
-          {" "}
           <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
-          <BackLink />
+    
         </>
       )}
       {componenteActivo == "2" && (
@@ -128,11 +127,12 @@ function BuscarPorMedico() {
             dateList={dateTurnosDisponibles}
             handleSelect={fechaSeleccionadaCalendario}
           />
-          <BackLink />
+    
         </>
       )}
       {componenteActivo == "3" && (
         <>
+        
           <h6>Seleccionar Horario</h6>
           <HorarioDisponiblePorDia
             TurnoHorarioResponse={showTurnosDisponibles}

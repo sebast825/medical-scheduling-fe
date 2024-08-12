@@ -6,7 +6,7 @@ import { Spinner } from './Components/statics/Spinner';
 import AppRouter from './routes/Router';
 import './App.scss';
 import { UserProvider } from './context/authContext';
-import FillExample from './Components/Nav Bar/NavBar';
+import FillExample from './Components/General/Nav Bar/NavBar';
 function App() {
   return (
     <UserProvider>

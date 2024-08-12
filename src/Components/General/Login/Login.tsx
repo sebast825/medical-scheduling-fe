@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { fetchLogin, fetchPacienteInfo } from "../../services/apiService";
+import { fetchLogin, fetchPacienteInfo } from "../../../services/apiService";
 import {
   useUserToggleContext,
   useUserContext,
   usePersonaInfoContext,
-} from "../../context/authContext";
+} from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
-import GetJwtContent from "../../utils/jwtUtils";
-import { ILogin } from "../../types/Login.types";
+import GetJwtContent from "../../../utils/jwtUtils";
+import { ILogin } from "../../../types/Login.types";
 
 const LoginForm = () => {
   const navigate = useNavigate();

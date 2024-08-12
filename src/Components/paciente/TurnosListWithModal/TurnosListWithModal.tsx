@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import { getDate, getHour } from "../../utils/formatDate";
-import GetJwtContent from "../../utils/jwtUtils";
-import { fetchCancelarTurno } from "../../services/apiService";
-import { useUserContext } from "../../context/authContext";
-import ConfirmModal from "../modals/ConfirmModal";
+import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
+import { getDate, getHour } from "../../../utils/formatDate";
+import GetJwtContent from "../../../utils/jwtUtils";
+import { fetchCancelarTurno } from "../../../services/apiService";
+import { useUserContext } from "../../../context/authContext";
+import ConfirmModal from "../../modals/ConfirmModal";
 import CardPaciente from "../CardPaciente/CardPaciente";
 import TurnosList from "../TurnosList/TurnosList";
+
 
 interface ITurnosListWithModal {
   turnosList: TurnoResponse[];

@@ -1,12 +1,12 @@
 import {  useState } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
-import ConfirmModal from "../modals/ConfirmModal";
-import { useUserContext } from "../../context/authContext";
-import GetJwtContent from "../../utils/jwtUtils";
-import { fetchCancelarTurno } from "../../services/apiService";
-import useWindowSize from "../../hooks/ScreenSize";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import { getDate, getHour } from "../../utils/formatDate";
+import ConfirmModal from "../../modals/ConfirmModal";
+import { useUserContext } from "../../../context/authContext";
+import GetJwtContent from "../../../utils/jwtUtils";
+import { fetchCancelarTurno } from "../../../services/apiService";
+import useWindowSize from "../../../hooks/ScreenSize";
+import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
+import { getDate, getHour } from "../../../utils/formatDate";
 
 type ICardPaciente = {
  turno: TurnoResponse
