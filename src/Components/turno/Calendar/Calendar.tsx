@@ -51,7 +51,7 @@ function Calendario({ dateList, handleSelect }: ICalendario) {
 
   return (
  <>
-
+  <h2>Seleccionar Fecha Disponible</h2>
       <Calendar
         value={value}
         onChange={setValue} // Usa la función manejadora

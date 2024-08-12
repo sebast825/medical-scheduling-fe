@@ -10,10 +10,11 @@ import List from "../../Components/General/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import Calendario from "../../Components/turno/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
-import HorarioDisponiblePorDia from "../../Components/turno/HorarioDisponible/HorarioDisponible";
+import HorarioDisponiblePorDia from "../../Components/turno/HorarioDisponiblePorDiaMedico/HorarioDisponiblePorDiaMedico";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
+import SeleccionarHorario from "../../Components/turno/SeleccionarHorario/SeleccionarHorario";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -99,7 +100,6 @@ function BuscarPorMedico() {
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
 
-
     setComponenteActivo("1");
   }
 
@@ -110,38 +110,35 @@ function BuscarPorMedico() {
     }) || [];
 
   return (
-    <div className="container d-flex flex-column justify-content-center align-items-center
-    p-4 gap-2">
+    <div
+      className="container d-flex flex-column justify-content-center align-items-center
+    p-4 gap-2"
+    >
       {componenteActivo == "1" && (
         <>
-              <h2>Seleccionar Medico</h2>
+          <h2>Seleccionar Medico</h2>
 
           <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
-    
         </>
       )}
       {componenteActivo == "2" && (
         <>
-          <h6>Seleccionar una fecha disponible</h6>
 
           <Calendario
             dateList={dateTurnosDisponibles}
             handleSelect={fechaSeleccionadaCalendario}
           />
-    
         </>
       )}
       {componenteActivo == "3" && (
         <>
-        
-          <h6>Seleccionar Horario</h6>
-          <p>{getDate(showTurnosDisponibles ? showTurnosDisponibles?.fecha.toString(): "")}</p>
-          <HorarioDisponiblePorDia
-            TurnoHorarioResponse={showTurnosDisponibles}
-            handleSelect={handleHorarioSelect}
-           
-          />
-          <BackLink />
+          {showTurnosDisponibles && (
+            <SeleccionarHorario
+              showTurnosDisponibles={showTurnosDisponibles}
+              handleHorarioSelect={handleHorarioSelect}
+              nombreMedico={nombreMedicoSelect}
+            />
+          )}
         </>
       )}
       <div>{error && <p className="text-danger">{error}</p>}</div>
