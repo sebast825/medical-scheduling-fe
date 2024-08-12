@@ -39,7 +39,23 @@ export function crearFecha(horaDia: string, date : string) :string{
     const [year, month, day] = date.split('-').map(Number);
 
     const [horas, minutos, segundos] = horaDia.split(':').map(Number);
-    const fecha = new Date(year, month - 1, day, horas, minutos, 0);
     
-    return fecha.toString();
+    const fecha = new Date(year, month - 1, day, horas, minutos, 0);
+    return ajustarFechaPorZonaHoraria(fecha.toString());
   }
+
+
+//al convertir la hora a isso depende donde este le saca horas, esto permite que se coordine
+  function ajustarFechaPorZonaHoraria(horario: string): string {
+    // Crear un objeto Date a partir de la fecha y hora proporcionadas
+    let fecha = new Date(horario);
+    
+    // Obtener el desfase en minutos (positivo si está detrás de UTC, negativo si está adelante)
+    let desfaseMinutos = fecha.getTimezoneOffset();
+
+    // Convertir los minutos a milisegundos y restarlos de la fecha original
+    fecha.setMinutes(fecha.getMinutes() - desfaseMinutos);
+
+    // Convertir la fecha ajustada a un string en formato ISO
+    return fecha.toISOString();
+}

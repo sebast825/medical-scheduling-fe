@@ -113,12 +113,10 @@ function BuscarPorMedico() {
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
     var params: any = GetJwtContent(user);
-    console.log(user);
     var pacienteId : number = Number(params.PersonaId);
-    var formatDate : string = new Date(horario).toISOString();
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
-      Fecha: formatDate,
+      Fecha: horario,
       PacienteId: pacienteId,
     }));
 
@@ -129,6 +127,13 @@ function BuscarPorMedico() {
       console.log(createTurnoRequest);
    
      handleSubmit()
+     //evita que la funcion sea llamada veces extra
+     setCreateTurnoRequest((prevState) => ({
+      ...prevState,
+      MedicoId: 0,
+      PacienteId: 0,
+    }));
+   
     }
   }, [createTurnoRequest]);
 
