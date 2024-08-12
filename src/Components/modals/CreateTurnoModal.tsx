@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { TurnoCreateRequestDTO } from '../../types/turno/TurnoCreateRequest.DTO.type';
+import { ITurnoCreateRequestDTO } from '../../types/turno/TurnoCreateRequest.DTO.type';
 
 interface IConfirmModal {
    show: boolean,
    handleClose: ()=>void,
-   handleConfirm: (e:TurnoCreateRequestDTO)=>void,
+   handleConfirm: (e:ITurnoCreateRequestDTO)=>void,
    title?: string,
-   createRequest : TurnoCreateRequestDTO,
+   createRequest : ITurnoCreateRequestDTO,
    paciente: string,
    medico: string,
    fecha: string

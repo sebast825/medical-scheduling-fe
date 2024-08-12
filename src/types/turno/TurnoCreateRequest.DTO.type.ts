@@ -1,6 +1,6 @@
-export interface TurnoCreateRequestDTO
+export interface ITurnoCreateRequestDTO
 {
      MedicoId : number
      PacienteId : number
-     Fecha : Date
+     Fecha : string
 }

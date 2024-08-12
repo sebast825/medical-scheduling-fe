@@ -1,6 +1,7 @@
 import {createApiInstance} from './api';
 import { useUserContext } from '../context/authContext';
 import { ILogin } from '../types/Login.types';
+import { ITurnoCreateRequestDTO } from '../types/turno/TurnoCreateRequest.DTO.type';
 
 
 // Ejemplo de una solicitud GET
@@ -60,10 +61,10 @@ export const fetchTurnosDisponiblesByMedico = async (jwt: string, idMedico : str
 };
 
 
-export const fetchTurnosCrear = async (jwt: string,  ) => {
-  
+export const fetchCrearTurnos = async (jwt: string,  dto  : ITurnoCreateRequestDTO) => {
+  console.log(dto, jwt)
   const api = createApiInstance(jwt);
-  const response = await api.post(`api/turnos/${"dto"}`);
+  const response = await api.post(`api/turnos/`,dto);
   return response.data;
  
 };

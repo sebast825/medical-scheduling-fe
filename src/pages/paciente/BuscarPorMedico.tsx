@@ -3,6 +3,7 @@ import { useUserContext } from "../../context/authContext";
 import {
   fetchMedicos,
   fetchTurnosDisponiblesByMedico,
+  fetchCrearTurnos
 } from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
@@ -10,11 +11,10 @@ import List from "../../Components/General/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import Calendario from "../../Components/turno/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
-import HorarioDisponiblePorDia from "../../Components/turno/HorarioDisponiblePorDiaMedico/HorarioDisponiblePorDiaMedico";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import BackLink from "../../Components/buttons/BackLink/BackLink";
 import SeleccionarHorario from "../../Components/turno/SeleccionarHorario/SeleccionarHorario";
+import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
+import GetJwtContent from "../../utils/jwtUtils";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -27,9 +27,16 @@ function BuscarPorMedico() {
     useState<TurnoHorarioDisponibleResponseDTO>();
   const [nombreMedicoSelect, setNombreMedicoSelect] = useState<string>();
   const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
+  const [createTurnoRequest, setCreateTurnoRequest] =
+    useState<ITurnoCreateRequestDTO>({
+      MedicoId: 0,
+      PacienteId: 0,
+      Fecha: "",
+    });
   const navigate = useNavigate();
 
   const getMedicos = async () => {
+    console.log("aca");
     try {
       const response: IMedicoResponse[] = await fetchMedicos();
 
@@ -42,7 +49,11 @@ function BuscarPorMedico() {
 
   //al cargar el componente llama al listado de medicos
   useEffect(() => {
-    getMedicos();
+    if (!user) {
+      navigate("/login");
+    } else {
+      getMedicos();
+    }
   }, []);
 
   const getTurnosDisponiblesByMedico = async (id: string) => {
@@ -74,10 +85,11 @@ function BuscarPorMedico() {
     }
   }
   function showDiasDisponibles(e: number) {
-    console.log("aca");
     getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
     setNombreMedicoSelect(nombreMedico?.nombre + " " + nombreMedico?.apellido);
+
+    setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
     setComponenteActivo("2");
   }
 
@@ -86,6 +98,7 @@ function BuscarPorMedico() {
       var selectHorarios = turnosDisponibles?.find(
         (elem) => getDate(elem.fecha.toString()) == getDate(e)
       );
+
       setShowTurnosDisponibles(selectHorarios);
     }
   }
@@ -99,9 +112,41 @@ function BuscarPorMedico() {
 
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
+    var params: any = GetJwtContent(user);
+    console.log(user);
+    var pacienteId : number = Number(params.PersonaId);
+    var formatDate : string = new Date(horario).toISOString();
+    setCreateTurnoRequest((prevState) => ({
+      ...prevState,
+      Fecha: formatDate,
+      PacienteId: pacienteId,
+    }));
 
     setComponenteActivo("1");
   }
+  useEffect(() => {
+    if(createTurnoRequest.MedicoId != 0 && createTurnoRequest.PacienteId != 0){
+      console.log(createTurnoRequest);
+   
+     handleSubmit()
+    }
+  }, [createTurnoRequest]);
+
+  const handleSubmit = async () => {
+   
+    //consigue la info del usuario
+    try {
+
+      //const dtoString = JSON.stringify(createTurnoRequest);
+      const response: any = await       fetchCrearTurnos(user,createTurnoRequest);
+            console.log(response);
+
+    } catch (error : any) {
+      
+      console.error("Error al iniciar sesión:", error);
+      setError(error.message);
+    }
+  };
 
   //objete medicos filtrado, solo con los datos necesarios
   const filterMedicos =
@@ -123,7 +168,6 @@ function BuscarPorMedico() {
       )}
       {componenteActivo == "2" && (
         <>
-
           <Calendario
             dateList={dateTurnosDisponibles}
             handleSelect={fechaSeleccionadaCalendario}

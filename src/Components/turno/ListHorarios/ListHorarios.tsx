@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { crearFecha } from "../../../utils/formatDate";
 
 interface IListHorarios {
   listHorarios: string[];
   handleSelect: (horario: string) => void;
+  date:string;
 }
 
-function ListHorarios({ listHorarios, handleSelect }: IListHorarios) {
+function ListHorarios({ listHorarios, handleSelect,date }: IListHorarios) {
   const [horarios, setHorarios] = useState<string[]>();
 
   useEffect(() => {
-    var listHorariosFormated = listHorarios.map((elem) => {
-      const timeString = elem;
-      const formattedTime = timeString.substring(0, 5);
-      return formattedTime;
-    });
-    setHorarios(listHorariosFormated);
+    setHorarios(listHorarios);
+    
   }, []);
+ 
   return (
     <>
       {horarios?.map((elem) => {
+           const timeString = elem;
+           const formattedTime = timeString.substring(0, 5);
+
         return (
-          <Button key={elem} variant="primary" onClick={() => handleSelect(elem)}>
-            {elem}
+          <Button key={elem} variant="primary" onClick={() => handleSelect(crearFecha(elem,date))}>
+            {formattedTime}
           </Button>
         );
       })}

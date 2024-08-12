@@ -38,7 +38,7 @@ function HorarioDisponiblePorDiaMedico({
             ): null
           }
           
-          {horarios && <ListHorarios listHorarios={ horarios.horario} handleSelect={handleSelect}/> }
+          {horarios && <ListHorarios listHorarios={ horarios.horario} handleSelect={handleSelect} date={date}/> }
         
   
         </Card.Body>

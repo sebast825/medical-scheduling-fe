@@ -32,3 +32,14 @@ export function getHour(fecha:string) : string{
     var hour = splitDateAndHour(fecha)[1];
     return hour;
 }
+
+
+//date es un date en string
+export function crearFecha(horaDia: string, date : string) :string{
+    const [year, month, day] = date.split('-').map(Number);
+
+    const [horas, minutos, segundos] = horaDia.split(':').map(Number);
+    const fecha = new Date(year, month - 1, day, horas, minutos, 0);
+    
+    return fecha.toString();
+  }
