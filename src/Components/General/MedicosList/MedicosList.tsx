@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/MedicoResponse.type";
 
 interface MedicosListProps {
    listaMedicos: IMedicoResponse[];

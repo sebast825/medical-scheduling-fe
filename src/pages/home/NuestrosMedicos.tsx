@@ -1,9 +1,9 @@
-import MedicosList from "../../Components/MedicosList/MedicosList";
+import MedicosList from "../../Components/General/MedicosList/MedicosList";
 import { useEffect,useState } from "react";
 import { fetchMedicos } from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { Table } from 'react-bootstrap';
-import DataTable from "../../Components/MedicosList/MedicosList";
+import DataTable from "../../Components/General/MedicosList/MedicosList";
 
 function NuestrosMedicos(){
    const [listaMedicos, setListaMedicos] = useState<IMedicoResponse[]>([]); 
