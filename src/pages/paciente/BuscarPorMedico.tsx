@@ -3,7 +3,7 @@ import { useUserContext } from "../../context/authContext";
 import {
   fetchMedicos,
   fetchTurnosDisponiblesByMedico,
-  fetchCrearTurnos
+  fetchCrearTurnos,
 } from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
@@ -15,14 +15,14 @@ import { useNavigate } from "react-router-dom";
 import SeleccionarHorario from "../../Components/turno/SeleccionarHorario/SeleccionarHorario";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import GetJwtContent from "../../utils/jwtUtils";
+import useMedicos from "../../hooks/UseMedicos";
+import useTurnos from "../../hooks/UseTurnos";
 
 function BuscarPorMedico() {
   const user = useUserContext();
-  const [medicos, setMedicos] = useState<IMedicoResponse[]>();
   const [error, setError] = useState<ErrorTypeAny>(null);
   const [componenteActivo, setComponenteActivo] = useState<string>("1"); // 'componente1', 'componente2', 'componente3'
-  const [turnosDisponibles, setTurnosDisponibles] =
-    useState<TurnoHorarioDisponibleResponseDTO[]>();
+
   const [showTurnosDisponibles, setShowTurnosDisponibles] =
     useState<TurnoHorarioDisponibleResponseDTO>();
   const [nombreMedicoSelect, setNombreMedicoSelect] = useState<string>();
@@ -33,21 +33,38 @@ function BuscarPorMedico() {
       PacienteId: 0,
       Fecha: "",
     });
+
   const navigate = useNavigate();
 
-  const getMedicos = async () => {
-    console.log("aca");
-    try {
-      const response: IMedicoResponse[] = await fetchMedicos();
+  /*
+    0- getMedicos trae un listado con todos los medicos
+    2- al seleccionar el medico hace un pedido a getTurnosDisponiblesByMedico y trae sus turnos disponibles  
+    2-  se activa useffect[turnosDisponibles] y llama a filtrarTurnos (se puede psar a componente filtrarTurnos)
+    3- filtrarTurnos indica los dias disponibles que el medico puede tomar turnos
+    4- handleDiaSelect busca  los horarios disponibles para la fecha seleccionada // checkiar si hace falta convertirlo
+    5 - se activa useffect[showTurnosDisponibles], muestra el listado de horarios
+    6 - handleHorarioSelect -> llama al hook para crear un turno
+  */
 
-      setMedicos(response);
-    } catch (err: any) {
-      console.log(err);
-      setError("Error desconocido");
+  const { medicos, getMedicos, medicosError } = useMedicos();
+  const {
+    getTurnosDisponiblesByMedico,
+    crearTurno,
+    errorTurno,
+    turnosDisponibles,
+  } = useTurnos();
+
+  // Manejador centralizado de errores
+  useEffect(() => {
+    if (medicosError) {
+      setError(medicosError);
+    } else if (errorTurno) {
+      setError(errorTurno);
+    } else {
+      setError(null);
     }
-  };
+  }, [medicosError, errorTurno]);
 
-  //al cargar el componente llama al listado de medicos
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -55,24 +72,6 @@ function BuscarPorMedico() {
       getMedicos();
     }
   }, []);
-
-  const getTurnosDisponiblesByMedico = async (id: string) => {
-    try {
-      const response: TurnoHorarioDisponibleResponseDTO[] =
-        await fetchTurnosDisponiblesByMedico(user, id);
-      setTurnosDisponibles(response);
-
-      console.log(response);
-      return response;
-    } catch (err: any) {
-      console.log(err);
-      if (err.response && err.response.status === 401) {
-        setError(err.response.data.message || "Error desconocido");
-      } else {
-        setError("Error desconocido");
-      }
-    }
-  };
 
   useEffect(() => {
     filtrarTurnos();
@@ -84,21 +83,22 @@ function BuscarPorMedico() {
       setDateTurnosDisponibles(filterTurnosDisponibles);
     }
   }
+
   function showDiasDisponibles(e: number) {
+
     getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
     setNombreMedicoSelect(nombreMedico?.nombre + " " + nombreMedico?.apellido);
-
     setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
     setComponenteActivo("2");
   }
 
-  function fechaSeleccionadaCalendario(e: string) {
+  function handleDiaSelect(e: string) {
+
     if (typeof e == "string") {
       var selectHorarios = turnosDisponibles?.find(
         (elem) => getDate(elem.fecha.toString()) == getDate(e)
       );
-
       setShowTurnosDisponibles(selectHorarios);
     }
   }
@@ -113,7 +113,7 @@ function BuscarPorMedico() {
   function handleHorarioSelect(horario: string) {
     console.log(horario + " " + nombreMedicoSelect);
     var params: any = GetJwtContent(user);
-    var pacienteId : number = Number(params.PersonaId);
+    var pacienteId: number = Number(params.PersonaId);
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       Fecha: horario,
@@ -123,35 +123,21 @@ function BuscarPorMedico() {
     setComponenteActivo("1");
   }
   useEffect(() => {
-    if(createTurnoRequest.MedicoId != 0 && createTurnoRequest.PacienteId != 0){
+    if (
+      createTurnoRequest.MedicoId != 0 &&
+      createTurnoRequest.PacienteId != 0
+    ) {
       console.log(createTurnoRequest);
-   
-     handleSubmit()
-     //evita que la funcion sea llamada veces extra
-     setCreateTurnoRequest((prevState) => ({
-      ...prevState,
-      MedicoId: 0,
-      PacienteId: 0,
-    }));
-   
+      crearTurno(createTurnoRequest);
+
+      //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
+      setCreateTurnoRequest((prevState) => ({
+        ...prevState,
+        MedicoId: 0,
+        PacienteId: 0,
+      }));
     }
   }, [createTurnoRequest]);
-
-  const handleSubmit = async () => {
-   
-    //consigue la info del usuario
-    try {
-
-      //const dtoString = JSON.stringify(createTurnoRequest);
-      const response: any = await       fetchCrearTurnos(user,createTurnoRequest);
-            console.log(response);
-
-    } catch (error : any) {
-      
-      console.error("Error al iniciar sesión:", error);
-      setError(error.message);
-    }
-  };
 
   //objete medicos filtrado, solo con los datos necesarios
   const filterMedicos =
@@ -175,7 +161,7 @@ function BuscarPorMedico() {
         <>
           <Calendario
             dateList={dateTurnosDisponibles}
-            handleSelect={fechaSeleccionadaCalendario}
+            handleSelect={handleDiaSelect}
           />
         </>
       )}
