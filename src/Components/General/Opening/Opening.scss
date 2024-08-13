@@ -48,3 +48,12 @@
     font-size: $size-medium-mobile;
   }
 }
+
+
+.miniOpening{
+  height: 25vh;
+
+  .overlay {
+    background-color: green;
+  }
+}

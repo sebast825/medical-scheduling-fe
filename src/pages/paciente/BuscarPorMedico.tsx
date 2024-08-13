@@ -7,7 +7,7 @@ import {
 } from "../../services/apiService";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
-import List from "../../Components/General/List/List";
+import List from "../../Components/Lists/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import Calendario from "../../Components/turno/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
@@ -17,11 +17,14 @@ import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO
 import GetJwtContent from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
 import useTurnos from "../../hooks/UseTurnos";
+import ListOpening from "../../Components/Lists/ListOpening/ListOpening";
+import ListMedicos from "../../Components/Lists/listMedicos/ListMedicos";
 
 function BuscarPorMedico() {
   const user = useUserContext();
   const [error, setError] = useState<ErrorTypeAny>(null);
   const [componenteActivo, setComponenteActivo] = useState<string>("1"); // 'componente1', 'componente2', 'componente3'
+  const [especialidad, setEspecialidad] = useState<string[]>([]);
 
   const [showTurnosDisponibles, setShowTurnosDisponibles] =
     useState<TurnoHorarioDisponibleResponseDTO>();
@@ -83,7 +86,7 @@ function BuscarPorMedico() {
       setDateTurnosDisponibles(filterTurnosDisponibles);
     }
   }
-
+  
   function showDiasDisponibles(e: number) {
 
     getTurnosDisponiblesByMedico(e.toString());
@@ -147,15 +150,13 @@ function BuscarPorMedico() {
 
   return (
     <div
-      className="container d-flex flex-column justify-content-center align-items-center
-    p-4 gap-2"
+     
     >
-      {componenteActivo == "1" && (
-        <>
-          <h2>Seleccionar Medico</h2>
-
-          <List listItems={filterMedicos} handleSelect={showDiasDisponibles} />
-        </>
+      {componenteActivo == "1" && medicos && (
+  
+          <ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
+        //<ListOpening title="Seleccionar Medico" listItems={filterMedicos} handleSelect={showDiasDisponibles}/>
+        
       )}
       {componenteActivo == "2" && (
         <>

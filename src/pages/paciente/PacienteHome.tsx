@@ -15,7 +15,7 @@ import ConfirmModal from "../../Components/modals/ConfirmModal";
 import { formatDate, getDate, getHour } from "../../utils/formatDate";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import List from "../../Components/General/List/List";
+import List from "../../Components/Lists/List/List";
 import { useNavigate } from "react-router-dom";
 import { BuscarPorMedico } from "..";
 
