@@ -4,7 +4,7 @@ import ListHorarios from "../../turno/ListHorarios/ListHorarios";
 
 interface IListEspecialidades {
   listMedicos: IMedicoResponse[];
-  getMedicosByEspecialidadSelected: (listaMedicos : IMedicoResponse[]) => void;
+  getMedicosByEspecialidadSelected: (listaMedicos : IMedicoResponse[],especialdiadSelect :string) => void;
 }
 
 function ListEspecialidades({
@@ -32,7 +32,8 @@ function ListEspecialidades({
   function filterMedicosByEspecialidad(e:number){
    const especialdiadSeleccionada = especialidadUnica.find(elem => elem.id == e);
    const medicosEspecialidadSeleccionada = listMedicos.filter(medico => medico.especialidad == especialdiadSeleccionada?.especialidad );
-   getMedicosByEspecialidadSelected(medicosEspecialidadSeleccionada);
+   if(especialdiadSeleccionada)
+   getMedicosByEspecialidadSelected(medicosEspecialidadSeleccionada,especialdiadSeleccionada?.especialidad);
   }
 
   return (

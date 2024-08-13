@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useUserContext } from "../context/authContext";
 import {
   fetchCrearTurnos,
+  fetchTurnosDisponiblesByEspecialdiad,
   fetchTurnosDisponiblesByMedico,
 } from "../services/apiService";
 import { TurnoHorarioDisponibleResponseDTO } from "../types/turno/TurnoHorarioDisponibleResponseDTO.type";
@@ -32,6 +33,23 @@ const useTurnos = () => {
     }
   }, []);
 
+  const getTurnosDisponiblesByEspecialidad = useCallback(async (id: string) => {
+    try {
+      const response: TurnoHorarioDisponibleResponseDTO[] =
+        await fetchTurnosDisponiblesByEspecialdiad(user, id);
+      setTurnosDisponibles(response);
+
+      console.log(response);
+      return response;
+    } catch (err: any) {
+      console.log(err);
+      if (err.response && err.response.status === 401) {
+        SetErrorTurno(err.response.data.message || "Error desconocido");
+      } else {
+        SetErrorTurno("Error desconocido");
+      }
+    }
+  }, []);
   const crearTurno = useCallback(
     
     async (turnoRequest: ITurnoCreateRequestDTO) => {
@@ -54,6 +72,7 @@ const useTurnos = () => {
     crearTurno,
     errorTurno,
     turnosDisponibles,
+    getTurnosDisponiblesByEspecialidad
   };
 };
 

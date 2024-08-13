@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/authContext";
-import {
-  fetchMedicos,
-  fetchTurnosDisponiblesByMedico,
-  fetchCrearTurnos,
-} from "../../services/apiService";
+
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import List from "../../Components/Lists/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
-import Calendario from "../../Components/turno/Calendar/Calendar";
 import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
 import SeleccionarHorario from "../../Components/turno/SeleccionarHorario/SeleccionarHorario";
@@ -17,10 +12,10 @@ import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO
 import GetJwtContent from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
 import useTurnos from "../../hooks/UseTurnos";
-import ListOpening from "../../Components/Lists/ListOpening/ListOpening";
 import ListMedicos from "../../Components/turnos/listMedicos/ListMedicos";
 import CalendarioTurnoDisponible from "../../Components/turnos/calendarioTurnoDisponible/CalendarioTurnoDisponible";
 import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEspecialidad";
+import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -29,7 +24,7 @@ function BuscarPorMedico() {
   const [especialidad, setEspecialidad] = useState<string[]>([]);
 
   const [showTurnosDisponibles, setShowTurnosDisponibles] =
-    useState<TurnoHorarioDisponibleResponseDTO>();
+    useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [nombreMedicoSelect, setNombreMedicoSelect] = useState<string>();
   const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
   const [createTurnoRequest, setCreateTurnoRequest] =
@@ -57,6 +52,7 @@ function BuscarPorMedico() {
     crearTurno,
     errorTurno,
     turnosDisponibles,
+    getTurnosDisponiblesByEspecialidad,
   } = useTurnos();
 
   // Manejador centralizado de errores
@@ -88,9 +84,8 @@ function BuscarPorMedico() {
       setDateTurnosDisponibles(filterTurnosDisponibles);
     }
   }
-  
-  function showDiasDisponibles(e: number) {
 
+  function showDiasDisponibles(e: number) {
     getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
     setNombreMedicoSelect(nombreMedico?.nombre + " " + nombreMedico?.apellido);
@@ -99,9 +94,9 @@ function BuscarPorMedico() {
   }
 
   function handleDiaSelect(e: string) {
-
+    console.log(e);
     if (typeof e == "string") {
-      var selectHorarios = turnosDisponibles?.find(
+      var selectHorarios = turnosDisponibles?.filter(
         (elem) => getDate(elem.fecha.toString()) == getDate(e)
       );
       setShowTurnosDisponibles(selectHorarios);
@@ -144,36 +139,52 @@ function BuscarPorMedico() {
     }
   }, [createTurnoRequest]);
 
-  
-  function showDiasDisponiblesEspecialidad(listaMedicos : IMedicoResponse[]):void{
-    console.log("especialdiad")
-    listaMedicos.forEach(medico => console.log(medico.nombre," ",medico.especialidad))
+  function showDiasDisponiblesEspecialidad(
+    listaMedicos: IMedicoResponse[],
+    especiliadSelect: string
+  ): void {
+    console.log(especiliadSelect);
+    
+    getTurnosDisponiblesByEspecialidad(especiliadSelect);
+    setNombreMedicoSelect("asdasd");
+    //setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
+    setComponenteActivo("2");
   }
   return (
-    <div
-     
-    >
+    <div>
       {componenteActivo == "1" && medicos && (
-  
-          //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-        <ListEspecialidades listMedicos={medicos} getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}/>
+       //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
+       <ListEspecialidades
+       listMedicos={medicos}
+       getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
+     />
       )}
       {componenteActivo == "2" && turnosDisponibles && (
-
-        <CalendarioTurnoDisponible   diasDisponible={turnosDisponibles} handleSelect={handleDiaSelect}/>
-    
+        <CalendarioTurnoDisponible
+          diasDisponible={turnosDisponibles}
+          handleSelect={handleDiaSelect}
+        />
       )}
       {componenteActivo == "3" && (
         <>
-          {showTurnosDisponibles && (
-            <SeleccionarHorario
-              showTurnosDisponibles={showTurnosDisponibles}
-              handleHorarioSelect={handleHorarioSelect}
-              nombreMedico={nombreMedicoSelect}
-            />
-          )}
+
+          {showTurnosDisponibles && medicos &&
+
+<ListHorariosPorMedico horariosPorMedico={showTurnosDisponibles} handleSelect={handleHorarioSelect} medicos={medicos}/>
+
+   /*          showTurnosDisponibles.map((element) => {
+             return  <SeleccionarHorario
+                 showTurnosDisponibles={element}
+                 handleHorarioSelect={handleHorarioSelect}
+                 nombreMedico={nombreMedicoSelect}
+               />
+             })
+            */
+            }
+           
         </>
       )}
+      
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
   );
