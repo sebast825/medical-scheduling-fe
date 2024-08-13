@@ -20,6 +20,7 @@ import useTurnos from "../../hooks/UseTurnos";
 import ListOpening from "../../Components/Lists/ListOpening/ListOpening";
 import ListMedicos from "../../Components/turnos/listMedicos/ListMedicos";
 import CalendarioTurnoDisponible from "../../Components/turnos/calendarioTurnoDisponible/CalendarioTurnoDisponible";
+import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEspecialidad";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -143,15 +144,19 @@ function BuscarPorMedico() {
     }
   }, [createTurnoRequest]);
 
-
+  
+  function showDiasDisponiblesEspecialidad(listaMedicos : IMedicoResponse[]):void{
+    console.log("especialdiad")
+    listaMedicos.forEach(medico => console.log(medico.nombre," ",medico.especialidad))
+  }
   return (
     <div
      
     >
       {componenteActivo == "1" && medicos && (
   
-          <ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-        
+          //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
+        <ListEspecialidades listMedicos={medicos} getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}/>
       )}
       {componenteActivo == "2" && turnosDisponibles && (
 
