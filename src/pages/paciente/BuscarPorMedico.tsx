@@ -74,17 +74,6 @@ function BuscarPorMedico() {
     }
   }, []);
 
-  useEffect(() => {
-    filtrarTurnos();
-  }, [turnosDisponibles]);
-
-  function filtrarTurnos() {
-    var filterTurnosDisponibles = turnosDisponibles?.map((elem) => elem.fecha);
-    if (filterTurnosDisponibles) {
-      setDateTurnosDisponibles(filterTurnosDisponibles);
-    }
-  }
-
   function showDiasDisponibles(e: number) {
     getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
@@ -103,22 +92,21 @@ function BuscarPorMedico() {
     }
   }
 
-  //al seleccionar una fecha en el calendario llama aca
+  //al seleccionar una fecha en el calendario llama aca - viene de handleDiaSelect
   useEffect(() => {
     if (showTurnosDisponibles) {
       setComponenteActivo("3");
     }
   }, [showTurnosDisponibles]);
 
-  function handleHorarioSelect(horario: string) {
-    console.log(horario + " " + nombreMedicoSelect);
+  function handleHorarioSelect(horario: string, medicoId: number) {
     var params: any = GetJwtContent(user);
     var pacienteId: number = Number(params.PersonaId);
-    setCreateTurnoRequest((prevState) => ({
-      ...prevState,
+    setCreateTurnoRequest({
+      MedicoId: medicoId,
       Fecha: horario,
       PacienteId: pacienteId,
-    }));
+    });
 
     setComponenteActivo("1");
   }
@@ -144,20 +132,20 @@ function BuscarPorMedico() {
     especiliadSelect: string
   ): void {
     console.log(especiliadSelect);
-    
+
     getTurnosDisponiblesByEspecialidad(especiliadSelect);
-    setNombreMedicoSelect("asdasd");
+
     //setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
     setComponenteActivo("2");
   }
   return (
     <div>
       {componenteActivo == "1" && medicos && (
-       //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-       <ListEspecialidades
-       listMedicos={medicos}
-       getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
-     />
+        //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
+        <ListEspecialidades
+          listMedicos={medicos}
+          getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
+        />
       )}
       {componenteActivo == "2" && turnosDisponibles && (
         <CalendarioTurnoDisponible
@@ -167,12 +155,16 @@ function BuscarPorMedico() {
       )}
       {componenteActivo == "3" && (
         <>
+          {
+            showTurnosDisponibles && medicos && (
+              <ListHorariosPorMedico
+                horariosPorMedico={showTurnosDisponibles}
+                handleSelect={handleHorarioSelect}
+                medicos={medicos}
+              />
+            )
 
-          {showTurnosDisponibles && medicos &&
-
-<ListHorariosPorMedico horariosPorMedico={showTurnosDisponibles} handleSelect={handleHorarioSelect} medicos={medicos}/>
-
-   /*          showTurnosDisponibles.map((element) => {
+            /*          showTurnosDisponibles.map((element) => {
              return  <SeleccionarHorario
                  showTurnosDisponibles={element}
                  handleHorarioSelect={handleHorarioSelect}
@@ -180,11 +172,10 @@ function BuscarPorMedico() {
                />
              })
             */
-            }
-           
+          }
         </>
       )}
-      
+
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
   );

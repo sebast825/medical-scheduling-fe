@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TurnoHorarioDisponibleResponseDTO } from "../../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../../utils/formatDate";
 import BackLink from "../../buttons/BackLink/BackLink";
-import HorarioDisponiblePorDiaMedico from "../HorarioDisponiblePorDiaMedico/HorarioDisponiblePorDiaMedico";
+import HorarioDisponiblePorDiaMedico from "../cardMedicoHorarios/CardMedicoHorarios";
 
 interface ISeleccionarHorario {
   showTurnosDisponibles: TurnoHorarioDisponibleResponseDTO;

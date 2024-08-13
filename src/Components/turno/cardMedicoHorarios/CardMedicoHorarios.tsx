@@ -4,16 +4,16 @@ import { Button, Card } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
 import ListHorarios from "../ListHorarios/ListHorarios";
 
-interface IHorarioDisponiblePorDiaMedico {
+interface ICardMedicoHorarios {
   TurnoHorarioResponse?: TurnoHorarioDisponibleResponseDTO;
-  handleSelect: (horario: string) => void;
+  handleSelect: (horario: string, medicoId:number) => void;
   nombreMedico?: string;
 }
-function HorarioDisponiblePorDiaMedico({
+function CardMedicoHorarios({
   TurnoHorarioResponse,
   handleSelect,
   nombreMedico,
-}: IHorarioDisponiblePorDiaMedico) {
+}: ICardMedicoHorarios) {
   const [horarios, setHorarios] = useState<TurnoHorarioDisponibleResponseDTO>();
   const date: string = TurnoHorarioResponse
     ? getDate(TurnoHorarioResponse?.fecha.toString())
@@ -38,7 +38,7 @@ function HorarioDisponiblePorDiaMedico({
             ): null
           }
           
-          {horarios && <ListHorarios listHorarios={ horarios.horario} handleSelect={handleSelect} date={date}/> }
+          {horarios && <ListHorarios listHorarios={ horarios} handleSelect={handleSelect} date={date}/> }
         
   
         </Card.Body>
@@ -47,4 +47,4 @@ function HorarioDisponiblePorDiaMedico({
   );
 }
 
-export default HorarioDisponiblePorDiaMedico;
+export default CardMedicoHorarios;
