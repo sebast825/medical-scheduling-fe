@@ -18,7 +18,8 @@ import GetJwtContent from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
 import useTurnos from "../../hooks/UseTurnos";
 import ListOpening from "../../Components/Lists/ListOpening/ListOpening";
-import ListMedicos from "../../Components/Lists/listMedicos/ListMedicos";
+import ListMedicos from "../../Components/turnos/listMedicos/ListMedicos";
+import CalendarioTurnoDisponible from "../../Components/turnos/calendarioTurnoDisponible/CalendarioTurnoDisponible";
 
 function BuscarPorMedico() {
   const user = useUserContext();
@@ -142,11 +143,6 @@ function BuscarPorMedico() {
     }
   }, [createTurnoRequest]);
 
-  //objete medicos filtrado, solo con los datos necesarios
-  const filterMedicos =
-    medicos?.map((medico) => {
-      return { nombre: medico.nombre + " " + medico.apellido, id: medico.id };
-    }) || [];
 
   return (
     <div
@@ -155,16 +151,12 @@ function BuscarPorMedico() {
       {componenteActivo == "1" && medicos && (
   
           <ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-        //<ListOpening title="Seleccionar Medico" listItems={filterMedicos} handleSelect={showDiasDisponibles}/>
         
       )}
-      {componenteActivo == "2" && (
-        <>
-          <Calendario
-            dateList={dateTurnosDisponibles}
-            handleSelect={handleDiaSelect}
-          />
-        </>
+      {componenteActivo == "2" && turnosDisponibles && (
+
+        <CalendarioTurnoDisponible   diasDisponible={turnosDisponibles} handleSelect={handleDiaSelect}/>
+    
       )}
       {componenteActivo == "3" && (
         <>

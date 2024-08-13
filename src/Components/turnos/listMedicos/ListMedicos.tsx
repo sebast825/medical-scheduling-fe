@@ -1,5 +1,5 @@
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
-import ListOpening from "../ListOpening/ListOpening";
+import ListOpening from "../../Lists/ListOpening/ListOpening";
 
 
 interface IListMedicos{
@@ -8,7 +8,8 @@ interface IListMedicos{
 }
 
 function ListMedicos ({listMedicos, handleSelect}:IListMedicos){
-
+   
+  //objete medicos filtrado, solo con los datos necesarios
    const filterMedicos =
    listMedicos?.map((medico) => {
      return { nombre: medico.nombre + " " + medico.apellido, id: medico.id };
