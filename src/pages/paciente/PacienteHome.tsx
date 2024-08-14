@@ -13,6 +13,7 @@ import { usePersonaInfoContext } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import { useNavigate } from "react-router-dom";
+import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 
 
 function PacienteHome() {
@@ -35,7 +36,9 @@ function PacienteHome() {
         user,
         params.PersonaId
       );
-      setTurnos(response);
+      //muestra los turnos con status programado
+      const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
+      setTurnos(turnosProgramados);
     } catch (err: any) {
       console.log(err);
       if (err.response && err.response.status === 401) {

@@ -7,6 +7,7 @@ import { useUserContext } from "../../../context/authContext";
 import ConfirmModal from "../../modals/ConfirmModal";
 import CardPaciente from "../CardPaciente/CardPaciente";
 import TurnosList from "../TurnosList/TurnosList";
+import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 
 
 interface ITurnosListWithModal {
@@ -59,7 +60,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   async function cancelarTurno(e: number): Promise<void> {
     var params: any = GetJwtContent(user);
     var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId);
-    if (cancelarTurno.estado == "Cancelada") {
+    if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
       console.log("turno cancelado");
       if (turnoACancelar) {
         removerTurnoCancelado(turnoACancelar.id);
