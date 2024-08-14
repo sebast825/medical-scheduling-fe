@@ -20,8 +20,18 @@ const useMedicos = () => {
     }
   }, []);
 
+  function findMedicoById(id:number) :IMedicoResponse | undefined{
+    var medicoSelected = medicos?.find(elem => elem.id == id);
+    return medicoSelected ? medicoSelected : undefined;
+  }
 
-  return { medicos, medicosError, getMedicos };
+  function medicoNombre(id : number){
+    var medico = findMedicoById(id);
+    var medicoNombre =  medico?.nombre + " " + medico?.apellido;
+    return medicoNombre;
+  }
+
+  return { medicos, medicosError, getMedicos,findMedicoById,medicoNombre };
 };
 
 export default useMedicos;
