@@ -3,11 +3,9 @@ import { useUserContext } from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
-import List from "../../Components/Lists/List/List";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
-import SeleccionarHorario from "../../Components/turno/SeleccionarHorario/SeleccionarHorario";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import GetJwtContent from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
@@ -16,21 +14,19 @@ import ListMedicos from "../../Components/turnos/listMedicos/ListMedicos";
 import CalendarioTurnoDisponible from "../../Components/turnos/calendarioTurnoDisponible/CalendarioTurnoDisponible";
 import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEspecialidad";
 import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
-import ConfirmModal from "../../Components/modals/ConfirmModal";
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
-import { createUnparsedSourceFile } from "typescript";
 import useCreateTurnoModal from "../../hooks/useCreateTurnoModal";
+interface BuscarPorMedicoProps {
+  filterBy?: string; // Hacer que filterBy sea opcional
+}
 
-function BuscarPorMedico() {
+function BuscarPorMedico({filterBy = "1"}:BuscarPorMedicoProps) {
   const user = useUserContext();
   const [error, setError] = useState<ErrorTypeAny>(null);
-  const [componenteActivo, setComponenteActivo] = useState<string>("1"); // 'componente1', 'componente2', 'componente3'
-  const [especialidad, setEspecialidad] = useState<string[]>([]);
-
+  const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [medicoSelect, setMedicoSelect] = useState<IMedicoResponse>();
-  const [dateTurnosDisponibles, setDateTurnosDisponibles] = useState<Date[]>();
   const [createTurnoRequest, setCreateTurnoRequest] =
     useState<ITurnoCreateRequestDTO>({
       MedicoId: 0,
@@ -50,7 +46,8 @@ function BuscarPorMedico() {
     6 - handleHorarioSelect -> llama al hook para crear un turno
   */
 
-  const { medicos, getMedicos, medicosError,findMedicoById,medicoNombre } = useMedicos();
+  const { medicos, getMedicos, medicosError, findMedicoById, medicoNombre } =
+    useMedicos();
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,
@@ -58,7 +55,8 @@ function BuscarPorMedico() {
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useTurnos();
-  const {showCreatTurnoModal,closeCreatTurnoModal,toggleCreateModal} = useCreateTurnoModal();
+  const { showCreatTurnoModal, closeCreatTurnoModal, toggleCreateModal } =
+    useCreateTurnoModal();
 
   // Manejador centralizado de errores
   useEffect(() => {
@@ -88,7 +86,6 @@ function BuscarPorMedico() {
   }
 
   function handleDiaSelect(e: string) {
-
     if (typeof e == "string") {
       var selectHorarios = turnosDisponibles?.filter(
         (elem) => getDate(elem.fecha.toString()) == getDate(e)
@@ -112,50 +109,53 @@ function BuscarPorMedico() {
       Fecha: horario,
       PacienteId: pacienteId,
     });
-    setMedicoSelect(findMedicoById(medicoId))
+    setMedicoSelect(findMedicoById(medicoId));
     showCreatTurnoModal();
-    
   }
 
-
-
-  function handleConfirmCreateTurnoModal(){
-    crearTurno(createTurnoRequest);    
+  function handleConfirmCreateTurnoModal() {
+    crearTurno(createTurnoRequest);
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       MedicoId: 0,
       PacienteId: 0,
     }));
-    setComponenteActivo("1");
+    navigate("/pacientes")
+    closeCreatTurnoModal()
   }
 
-  
   function showDiasDisponiblesEspecialidad(
     listaMedicos: IMedicoResponse[],
     especiliadSelect: string
   ): void {
-    console.log(especiliadSelect);
 
     getTurnosDisponiblesByEspecialidad(especiliadSelect);
 
-    //setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
     setComponenteActivo("2");
   }
 
   return (
     <div>
-      {
-        medicoSelect &&       <CreatTurnoModal show = {toggleCreateModal} handleClose={closeCreatTurnoModal} handleConfirm={handleConfirmCreateTurnoModal} medico={medicoSelect} fecha={createTurnoRequest.Fecha} />
-
-      }
-      {componenteActivo == "1" && medicos && (
-        //<ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-        <ListEspecialidades
-          listMedicos={medicos}
-          getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
+      {medicoSelect && (
+        <CreatTurnoModal
+          show={toggleCreateModal}
+          handleClose={closeCreatTurnoModal}
+          handleConfirm={handleConfirmCreateTurnoModal}
+          medico={medicoSelect}
+          fecha={createTurnoRequest.Fecha}
         />
       )}
+      {componenteActivo == "0" && medicos && (
+        <ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
+       
+      )}
+      {
+          componenteActivo == "1" && medicos && <ListEspecialidades
+           listMedicos={medicos}
+           getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
+         />
+      }
       {componenteActivo == "2" && turnosDisponibles && (
         <CalendarioTurnoDisponible
           diasDisponible={turnosDisponibles}
@@ -173,14 +173,7 @@ function BuscarPorMedico() {
               />
             )
 
-            /*          showTurnosDisponibles.map((element) => {
-             return  <SeleccionarHorario
-                 showTurnosDisponibles={element}
-                 handleHorarioSelect={handleHorarioSelect}
-                 nombreMedico={nombreMedicoSelect}
-               />
-             })
-            */
+        
           }
         </>
       )}

@@ -18,7 +18,11 @@ export const routes = [
       element: <PacienteHome/>
    },
     {
-       path: '/buscarMedico',
-      element: <BuscarPorMedico/>
-    }
+       path: '/buscarMedico/listMedicos',
+      element: <BuscarPorMedico filterBy="0"/>
+    },
+    {
+      path: '/buscarMedico/listEspecialidades',
+     element: <BuscarPorMedico filterBy="1"/>
+   }
 ]

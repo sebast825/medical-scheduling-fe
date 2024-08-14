@@ -57,8 +57,10 @@ function PacienteHome() {
     setBtnToggle(false);
   }
 function RedirectBuscarPorMedico(){
-  navigate("/buscarMedico")
+  navigate("/buscarMedico/listMedicos")
 } 
+function RedirectBuscarPorEspecialidad(){
+  navigate("/buscarMedico/listEspecialidades")} 
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
@@ -84,7 +86,7 @@ function RedirectBuscarPorMedico(){
         textButton1="Buscar por Medico"
         textButton2="Buscar por Especialidad"
         onClickButton1={RedirectBuscarPorMedico}
-        onClickButton2={ShowNuevoTurno}
+        onClickButton2={RedirectBuscarPorEspecialidad}
         layout="mobileWrap gap-3"
         
       />

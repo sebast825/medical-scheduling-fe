@@ -4,7 +4,6 @@ import { getDate } from "../../../utils/formatDate";
 import BackLink from "../../buttons/BackLink/BackLink";
 import Opening from "../../General/Opening/Opening";
 import CardMedicoHorarios from "../../turno/cardMedicoHorarios/CardMedicoHorarios";
-import SeleccionarHorario from "../../turno/SeleccionarHorario/SeleccionarHorario";
 
 interface IListHorariosPorMedico {
   horariosPorMedico: TurnoHorarioDisponibleResponseDTO[];
