@@ -1,4 +1,4 @@
-import { Home, Login, NuestrosMedicos, PacienteHome,BuscarPorMedico} from "../pages/index"
+import { Home, Login, NuestrosMedicos, PacienteHome,CrearTurno} from "../pages/index"
 
 export const routes = [
    {
@@ -18,11 +18,11 @@ export const routes = [
       element: <PacienteHome/>
    },
     {
-       path: '/buscarMedico/listMedicos',
-      element: <BuscarPorMedico filterBy="0"/>
+       path: '/crearTurno/listMedicos',
+      element: <CrearTurno filterBy="0"/>
     },
     {
-      path: '/buscarMedico/listEspecialidades',
-     element: <BuscarPorMedico filterBy="1"/>
+      path: '/crearTurno/listEspecialidades',
+     element: <CrearTurno filterBy="1"/>
    }
 ]

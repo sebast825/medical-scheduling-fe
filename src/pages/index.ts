@@ -7,4 +7,4 @@ export const Login = React.lazy(() => import('./home/Login'));
 export const NuestrosMedicos = React.lazy(() => import('./home/NuestrosMedicos'));
 
 export const PacienteHome = React.lazy(()=>import('./paciente/PacienteHome'))
-export const BuscarPorMedico = React.lazy(()=> import ('./paciente/BuscarPorMedico'))
+export const CrearTurno = React.lazy(()=> import ('./paciente/CrearTurno'))

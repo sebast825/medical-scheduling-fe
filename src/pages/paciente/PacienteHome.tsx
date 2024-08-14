@@ -8,16 +8,12 @@ import { ErrorTypeAny } from "../../types/Error.type";
 import { useUserContext } from "../../context/authContext";
 import GetJwtContent from "../../utils/jwtUtils";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import CardPaciente from "../../Components/paciente/CardPaciente/CardPaciente";
 import { useRedirectToLogin } from "../../routes/navigation";
 import { usePersonaInfoContext } from "../../context/authContext";
-import ConfirmModal from "../../Components/modals/ConfirmModal";
-import { formatDate, getDate, getHour } from "../../utils/formatDate";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import List from "../../Components/Lists/List/List";
 import { useNavigate } from "react-router-dom";
-import { BuscarPorMedico } from "..";
+
 
 function PacienteHome() {
   const user = useUserContext();
@@ -57,10 +53,10 @@ function PacienteHome() {
     setBtnToggle(false);
   }
 function RedirectBuscarPorMedico(){
-  navigate("/buscarMedico/listMedicos")
+  navigate("/crearTurno/listMedicos")
 } 
 function RedirectBuscarPorEspecialidad(){
-  navigate("/buscarMedico/listEspecialidades")} 
+  navigate("/crearTurno/listEspecialidades")} 
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />

@@ -16,11 +16,11 @@ import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEsp
 import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useCreateTurnoModal";
-interface BuscarPorMedicoProps {
+interface ICrearTurno {
   filterBy?: string; // Hacer que filterBy sea opcional
 }
 
-function BuscarPorMedico({filterBy = "1"}:BuscarPorMedicoProps) {
+function CrearTurno({filterBy = "1"}:ICrearTurno) {
   const user = useUserContext();
   const [error, setError] = useState<ErrorTypeAny>(null);
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
@@ -183,4 +183,4 @@ function BuscarPorMedico({filterBy = "1"}:BuscarPorMedicoProps) {
   );
 }
 
-export default BuscarPorMedico;
+export default CrearTurno;
