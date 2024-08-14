@@ -1,4 +1,5 @@
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import List from "../../Lists/List/List";
 import ListOpening from "../../Lists/ListOpening/ListOpening";
 
 
@@ -19,7 +20,7 @@ function ListMedicos ({listMedicos, handleSelect}:IListMedicos){
 
    return(
 
-      <ListOpening title="Seleccionar Medico" listItems={filterMedicos} handleSelect={handleSelect} />
+      <List listItems={filterMedicos} handleSelect={handleSelect} />
    )
 }
 

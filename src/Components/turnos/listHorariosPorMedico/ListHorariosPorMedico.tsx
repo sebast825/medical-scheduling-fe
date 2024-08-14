@@ -35,10 +35,8 @@ console.log(horario,medicoId)
   return (
     <>
 
-    <Opening title="Seleccionar Horario" subTitle= {getDate(
-          horariosPorMedico ? horariosPorMedico[0]?.fecha.toString() : ""
-        )} customOpen="miniOpening"/>
-     <div className="d-flex flex-wrap justify-content-center">
+ 
+     <div className="d-flex flex-wrap justify-content-center gap-3">
 
      {objMedicos &&
         objMedicos.map(

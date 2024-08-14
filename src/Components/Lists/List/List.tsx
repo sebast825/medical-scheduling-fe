@@ -31,7 +31,7 @@ function List({ listItems, handleSelect }: IList) {
   }, [buscarItem]);
 
   return (
-    <>
+    < div className="m-2">
       <input
         className="form-control"
         placeholder="Buscar"
@@ -54,7 +54,7 @@ function List({ listItems, handleSelect }: IList) {
         ))}
       </ListGroup>
       <BackLink/>
-    </>
+    </div>
   );
 }
 

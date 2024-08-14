@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserContext } from "../../context/authContext";
+import { usePersonaInfoContext, useUserContext } from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
@@ -16,6 +16,12 @@ import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEsp
 import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useCreateTurnoModal";
+import { stringify } from "querystring";
+import Opening from "../../Components/General/Opening/Opening";
+import { title } from "process";
+
+
+
 interface ICrearTurno {
   filterBy?: string; // Hacer que filterBy sea opcional
 }
@@ -33,6 +39,34 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
       PacienteId: 0,
       Fecha: "",
     });
+    const [titleOening,setTitleOening] = useState <string>("");
+    const [subtitleOening,setSubtitleOening] = useState <string>("")
+
+    // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
+
+     useEffect(()=>{
+      setSubtitleOening("");
+      switch (componenteActivo){
+        case "0":
+            setTitleOening("Seleccionar Medico");
+            break;
+        case "1":
+          setTitleOening("Seleccionar Especialidad");
+          break;
+        
+          case "2":
+            setTitleOening("Seleccionar Fecha");
+    
+            break;
+            case "3":
+              setTitleOening("Seleccionar Horario");
+              var str = getDate(
+                showTurnosDisponibles ? showTurnosDisponibles[0]?.fecha.toString() : ""
+              );
+              setSubtitleOening("Fecha: " + str);
+              break;
+      }
+    },[componenteActivo])
 
   const navigate = useNavigate();
 
@@ -136,7 +170,10 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
   }
 
   return (
-    <div>
+    <>
+         <Opening title={titleOening} subTitle= {subtitleOening} customOpen="miniOpening"/>
+         <div className="d-flex flex-column flex-wrap justify-content-center pt-4 pt-sm-5 ">
+
       {medicoSelect && (
         <CreatTurnoModal
           show={toggleCreateModal}
@@ -180,6 +217,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
 
       <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
+    </>
   );
 }
 

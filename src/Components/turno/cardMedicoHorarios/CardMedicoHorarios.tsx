@@ -25,7 +25,7 @@ function CardMedicoHorarios({
 
   return (
     <>
-      <Card style={{ width: "18rem", margin: "1rem" }}>
+      <Card style={{ width: "18rem"}}>
         <Card.Body
           className="d-flex flex-wrap justify-content-center"
           style={{ gap: "1rem" }}

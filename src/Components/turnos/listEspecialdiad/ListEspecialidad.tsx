@@ -1,4 +1,5 @@
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import List from "../../Lists/List/List";
 import ListOpening from "../../Lists/ListOpening/ListOpening";
 import ListHorarios from "../../turno/ListHorarios/ListHorarios";
 
@@ -38,8 +39,8 @@ function ListEspecialidades({
 
   return (
     <>
-      <ListOpening
-        title="Seleccionar Especialidad"
+      <List
+      
         listItems={especialidadUnicaObjeto}
         handleSelect={filterMedicosByEspecialidad}
       />

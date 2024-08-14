@@ -10,7 +10,7 @@ function BackLink({variant}:IBackLink) {
   const navigate = useNavigate();
 
   return (
-   <div className="container justify-content-center d-flex p-md-4 p-2 ">
+   <div className="container justify-content-center d-flex p-md-4 p-2 backLink">
       <Button
          variant={variant != undefined ? variant : "secondary"}
          onClick={() => navigate(-1)}
