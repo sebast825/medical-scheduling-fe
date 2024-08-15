@@ -147,15 +147,17 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     showCreatTurnoModal();
   }
 
-  function handleConfirmCreateTurnoModal() {
-    crearTurno(createTurnoRequest);
+  async function handleConfirmCreateTurnoModal() {
+     await crearTurno(createTurnoRequest);
+     console.log("turnocreado")
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       MedicoId: 0,
       PacienteId: 0,
     }));
-    navigate("/pacientes")
+    //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
+    navigate("/pacientes", { state: { refreshTurnos: true } });
     closeCreatTurnoModal()
   }
 

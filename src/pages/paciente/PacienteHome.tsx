@@ -12,7 +12,7 @@ import { useRedirectToLogin } from "../../routes/navigation";
 import { usePersonaInfoContext } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import useTurnos from "../../hooks/turnos/UseTurnos";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
@@ -26,15 +26,22 @@ function PacienteHome() {
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
   const {getPacinteTurnos,errorTurno,turnos} = useGetTurnos();
+  const location = useLocation();
 
 
   const navigate = useNavigate()
 
   useEffect(() => {
     user == null ? redirectToLogin() : getPacinteTurnos();
+    
   }, []);
 
-
+  useEffect(() => {
+    console.log("acaa")
+    if (location.state?.refreshTurnos) {
+      getPacinteTurnos();
+    }
+  }, [location.state]);
 
   function ShowTurnos() {
     setBtnToggle(true);
