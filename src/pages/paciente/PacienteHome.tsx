@@ -37,7 +37,6 @@ function PacienteHome() {
   }, []);
 
   useEffect(() => {
-    console.log("acaa")
     if (location.state?.refreshTurnos) {
       getPacinteTurnos();
     }

@@ -25,7 +25,7 @@ function CreatTurnoModal({
   fecha,
 }: IConfirmModal) {
 
-  
+
   const medicoNombre = medico.nombre + " " + medico.apellido;
   return (
     <Modal show={show} onHide={handleClose}>

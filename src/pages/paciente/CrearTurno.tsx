@@ -19,6 +19,7 @@ import useCreateTurnoModal from "../../hooks/useModal";
 import { stringify } from "querystring";
 import Opening from "../../Components/General/Opening/Opening";
 import { title } from "process";
+import { createUnparsedSourceFile } from "typescript";
 
 
 
@@ -144,12 +145,12 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
       PacienteId: pacienteId,
     });
     setMedicoSelect(findMedicoById(medicoId));
+    console.log(createTurnoRequest)
     showCreatTurnoModal();
   }
 
   async function handleConfirmCreateTurnoModal() {
      await crearTurno(createTurnoRequest);
-     console.log("turnocreado")
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
