@@ -22,7 +22,7 @@ const useGetTurnos = () =>{
      );
      //muestra los turnos con status programado
      const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
-     setTurnos(turnosProgramados);
+     setTurnos(orderTurnos(turnosProgramados));
    } catch (err: any) {
      console.log(err);
      if (err.response && err.response.status === 401) {
@@ -32,6 +32,20 @@ const useGetTurnos = () =>{
      }
    }
  },[]);
+
+ function orderTurnos( array : TurnoResponse[]) : TurnoResponse[]{
+  var sortTurnos = array.sort((a, b) => {
+    var fecha1 = new Date(a.fecha);
+    var fecha2 = new Date(b.fecha) 
+    
+    if ( fecha1 < fecha2 ) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+  return sortTurnos
+}
  return{
    getPacinteTurnos,
    turnos,

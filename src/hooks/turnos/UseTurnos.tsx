@@ -10,7 +10,6 @@ import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorari
 import { ErrorTypeAny } from "../../types/Error.type";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 
-
 const useTurnos = () => {
   const user = useUserContext();
   const [turnosDisponibles, setTurnosDisponibles] =
@@ -21,8 +20,8 @@ const useTurnos = () => {
     try {
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByMedico(user, id);
-      setTurnosDisponibles(response);
 
+      setTurnosDisponibles(response);
       console.log(response);
       return response;
     } catch (err: any) {
@@ -34,6 +33,7 @@ const useTurnos = () => {
       }
     }
   }, []);
+
 
   const getTurnosDisponiblesByEspecialidad = useCallback(async (id: string) => {
     try {
@@ -53,9 +53,7 @@ const useTurnos = () => {
     }
   }, []);
   const crearTurno = useCallback(
-    
     async (turnoRequest: ITurnoCreateRequestDTO) => {
-     
       //consigue la info del usuario
       try {
         //const dtoString = JSON.stringify(createTurnoRequest);
@@ -75,7 +73,6 @@ const useTurnos = () => {
     errorTurno,
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
-   
   };
 };
 

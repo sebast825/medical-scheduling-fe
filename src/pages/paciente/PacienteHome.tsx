@@ -35,7 +35,7 @@ function PacienteHome() {
     user == null ? redirectToLogin() : getPacinteTurnos();
     
   }, []);
-
+  
   useEffect(() => {
     if (location.state?.refreshTurnos) {
       getPacinteTurnos();
