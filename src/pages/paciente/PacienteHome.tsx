@@ -14,40 +14,27 @@ import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/T
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import { useNavigate } from "react-router-dom";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
+import useTurnos from "../../hooks/turnos/UseTurnos";
+import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 
 
 function PacienteHome() {
   const user = useUserContext();
-  const [error, setError] = useState<ErrorTypeAny>(null);
-  const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
+  //const [error, setError] = useState<ErrorTypeAny>(null);
   const { personaInfo } = usePersonaInfoContext();
   const redirectToLogin = useRedirectToLogin();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
+  const {getPacinteTurnos,errorTurno,turnos} = useGetTurnos();
+
+
   const navigate = useNavigate()
+
   useEffect(() => {
     user == null ? redirectToLogin() : getPacinteTurnos();
   }, []);
 
-  const getPacinteTurnos = async () => {
-    try {
-      var params: any = GetJwtContent(user);
-      const response: TurnoResponse[] = await fetchTurnosPaciente(
-        user,
-        params.PersonaId
-      );
-      //muestra los turnos con status programado
-      const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
-      setTurnos(turnosProgramados);
-    } catch (err: any) {
-      console.log(err);
-      if (err.response && err.response.status === 401) {
-        setError(err.response.data.message || "Error desconocido");
-      } else {
-        setError("Error desconocido");
-      }
-    }
-  };
+
 
   function ShowTurnos() {
     setBtnToggle(true);
@@ -60,6 +47,7 @@ function RedirectBuscarPorMedico(){
 } 
 function RedirectBuscarPorEspecialidad(){
   navigate("/crearTurno/listEspecialidades")} 
+
   return (
     <div>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
@@ -93,7 +81,7 @@ function RedirectBuscarPorEspecialidad(){
         </h2>
       )}
 
-      <div>{error && <p className="text-danger">{error}</p>}</div>
+      <div>{errorTurno && <p className="text-danger">{errorTurno}</p>}</div>
     </div>
   );
 }

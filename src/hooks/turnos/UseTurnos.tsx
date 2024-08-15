@@ -1,13 +1,15 @@
 import { useCallback, useState } from "react";
-import { useUserContext } from "../context/authContext";
+import { useUserContext } from "../../context/authContext";
 import {
   fetchCrearTurnos,
   fetchTurnosDisponiblesByEspecialdiad,
   fetchTurnosDisponiblesByMedico,
-} from "../services/apiService";
-import { TurnoHorarioDisponibleResponseDTO } from "../types/turno/TurnoHorarioDisponibleResponseDTO.type";
-import { ErrorTypeAny } from "../types/Error.type";
-import { ITurnoCreateRequestDTO } from "../types/turno/TurnoCreateRequest.DTO.type";
+  fetchTurnosPaciente,
+} from "../../services/apiService";
+import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
+import { ErrorTypeAny } from "../../types/Error.type";
+import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
+
 
 const useTurnos = () => {
   const user = useUserContext();
@@ -72,7 +74,8 @@ const useTurnos = () => {
     crearTurno,
     errorTurno,
     turnosDisponibles,
-    getTurnosDisponiblesByEspecialidad
+    getTurnosDisponiblesByEspecialidad,
+   
   };
 };
 

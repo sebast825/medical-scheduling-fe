@@ -36,7 +36,7 @@ export function UserProvider(props) {
     return (
         <userContext.Provider value={user}>
             <userToggleContext.Provider value={cambiaLogin}>
-                <personaContext .Provider value = {{personaInfo,SetPersonaInfo}}>
+                <personaContext.Provider value = {{personaInfo,SetPersonaInfo}}>
                     <medicosContext.Provider value = {{medicosList,SetMedicosList}}>
                         {props.children}
                     </medicosContext.Provider>                    
