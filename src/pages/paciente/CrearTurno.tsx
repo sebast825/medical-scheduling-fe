@@ -29,7 +29,6 @@ interface ICrearTurno {
 
 function CrearTurno({filterBy = "1"}:ICrearTurno) {
   const user = useUserContext();
-  const [error, setError] = useState<ErrorTypeAny>(null);
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
@@ -86,23 +85,12 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,
-    errorTurno,
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useTurnos();
   const { showCreatTurnoModal, closeCreatTurnoModal, toggleCreateModal } =
     useCreateTurnoModal();
 
-  // Manejador centralizado de errores
-  useEffect(() => {
-    if (medicosError) {
-      setError(medicosError);
-    } else if (errorTurno) {
-      setError(errorTurno);
-    } else {
-      setError(null);
-    }
-  }, [medicosError, errorTurno]);
 
   useEffect(() => {
     if (!user) {
@@ -217,8 +205,6 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
           }
         </>
       )}
-
-      <div>{error && <p className="text-danger">{error}</p>}</div>
     </div>
     </>
   );

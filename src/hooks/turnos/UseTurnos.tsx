@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useUserContext } from "../../context/authContext";
 import {
   fetchCrearTurnos,
@@ -9,6 +9,7 @@ import {
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
+import useToastit from "../useToastit";
 
 const useTurnos = () => {
   const user = useUserContext();
@@ -66,11 +67,15 @@ const useTurnos = () => {
     },
     []
   );
-
+  const {error} =useToastit();
+  useEffect(()=>{
+   if(errorTurno == null) return
+     error(errorTurno);
+  },[errorTurno])
+  
   return {
     getTurnosDisponiblesByMedico,
     crearTurno,
-    errorTurno,
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   };

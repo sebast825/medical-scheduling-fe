@@ -51,8 +51,7 @@ const useGetTurnos = () =>{
 }
  return{
    getPacinteTurnos,
-   turnos,
- errorTurno
+   turnos
  }
 }
 

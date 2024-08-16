@@ -25,7 +25,7 @@ function PacienteHome() {
   const redirectToLogin = useRedirectToLogin();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
-  const {getPacinteTurnos,errorTurno,turnos} = useGetTurnos();
+  const {getPacinteTurnos,turnos} = useGetTurnos();
   const location = useLocation();
 
 
@@ -87,7 +87,6 @@ function RedirectBuscarPorEspecialidad(){
         </h2>
       )}
 
-      <div>{errorTurno && <p className="text-danger">{errorTurno}</p>}</div>
     </div>
   );
 }
