@@ -1,10 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { fetchTurnosPaciente } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import GetJwtContent from "../../utils/jwtUtils";
 import { useUserContext } from "../../context/authContext";
+import useToastit from "../useToastit";
 
 
 const useGetTurnos = () =>{
@@ -22,17 +23,19 @@ const useGetTurnos = () =>{
      );
      //muestra los turnos con status programado
      const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
-     setTurnos(orderTurnos(turnosProgramados));
+     setTurnos(orderTurnos(turnosProgramados))
    } catch (err: any) {
-     console.log(err);
-     if (err.response && err.response.status === 401) {
-       SetErrorTurno(err.response.data.message || "Error desconocido");
-     } else {
-       SetErrorTurno("Error desconocido");
-     }
+   
+     SetErrorTurno(err.response.data || "Error desconocido");
+
    }
  },[]);
-
+ const {error} =useToastit();
+ useEffect(()=>{
+  if(errorTurno == null) return
+    error(errorTurno);
+ },[errorTurno])
+ 
  function orderTurnos( array : TurnoResponse[]) : TurnoResponse[]{
   var sortTurnos = array.sort((a, b) => {
     var fecha1 = new Date(a.fecha);
