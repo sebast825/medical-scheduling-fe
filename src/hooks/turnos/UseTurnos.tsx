@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { useUserContext } from "../../context/authContext";
+import { useUserInfo } from "../../context/authContext";
 import {
   fetchCrearTurnos,
   fetchTurnosDisponiblesByEspecialdiad,
-  fetchTurnosDisponiblesByMedico,
-  fetchTurnosPaciente,
+  fetchTurnosDisponiblesByMedico
+
 } from "../../services/apiService";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { ErrorTypeAny } from "../../types/Error.type";
@@ -12,13 +12,14 @@ import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO
 import useToastit from "../useToastit";
 
 const useTurnos = () => {
-  const user = useUserContext();
+  const user = useUserInfo();
   const [turnosDisponibles, setTurnosDisponibles] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
 
   const getTurnosDisponiblesByMedico = useCallback(async (id: string) => {
     try {
+      if(user == null)return;
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByMedico(user, id);
 
@@ -38,6 +39,8 @@ const useTurnos = () => {
 
   const getTurnosDisponiblesByEspecialidad = useCallback(async (id: string) => {
     try {
+      if(user == null)return;
+
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByEspecialdiad(user, id);
       setTurnosDisponibles(response);
@@ -57,6 +60,8 @@ const useTurnos = () => {
     async (turnoRequest: ITurnoCreateRequestDTO) => {
       //consigue la info del usuario
       try {
+        if(user == null)return;
+
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
         console.log(response);

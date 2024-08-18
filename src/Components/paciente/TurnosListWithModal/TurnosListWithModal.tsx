@@ -3,9 +3,8 @@ import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import { getDate, getHour } from "../../../utils/formatDate";
 import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
-import { useUserContext } from "../../../context/authContext";
+import { useUserInfo } from "../../../context/authContext";
 import ConfirmModal from "../../modals/ConfirmModal";
-import CardPaciente from "../CardTurno/CardTurno";
 import TurnosList from "../TurnosList/TurnosList";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 
@@ -17,7 +16,7 @@ interface ITurnosListWithModal {
 function TurnosListWithModal(props: ITurnosListWithModal) {
   const { turnosList } = props;
 
-  const user = useUserContext();
+  const user = useUserInfo();
 
   const [turnos, setTurnos] = useState<TurnoResponse[]>(turnosList);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -58,6 +57,8 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   };
 
   async function cancelarTurno(e: number): Promise<void> {
+    if(user == null)return;
+
     var params: any = GetJwtContent(user);
     var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {

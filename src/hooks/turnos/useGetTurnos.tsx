@@ -4,18 +4,20 @@ import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import GetJwtContent from "../../utils/jwtUtils";
-import { useUserContext } from "../../context/authContext";
+import { useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
 
 
 const useGetTurnos = () =>{
-   const user = useUserContext();
+   const user = useUserInfo();
 
    const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
    const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
    
   const getPacinteTurnos = useCallback(async (pacienteId ?: string) => {
    try {
+    if(user == null)return;
+
      var params: any = GetJwtContent(user);
      const response: TurnoResponse[] = await fetchTurnosPaciente(
        user,

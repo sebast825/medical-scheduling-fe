@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { usePersonaInfoContext, useUserContext } from "../../context/authContext";
+import {  useUserInfo } from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
-import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +15,7 @@ import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEsp
 import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useModal";
-import { stringify } from "querystring";
 import Opening from "../../Components/General/Opening/Opening";
-import { title } from "process";
-import { createUnparsedSourceFile } from "typescript";
 
 
 
@@ -28,7 +24,7 @@ interface ICrearTurno {
 }
 
 function CrearTurno({filterBy = "1"}:ICrearTurno) {
-  const user = useUserContext();
+  const user = useUserInfo();
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
@@ -128,6 +124,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
   }, [showTurnosDisponibles]);
 
   function handleHorarioSelect(horario: string, medicoId: number) {
+    if(user == null)return;
     var params: any = GetJwtContent(user);
     var pacienteId: number = Number(params.PersonaId);
     setCreateTurnoRequest({

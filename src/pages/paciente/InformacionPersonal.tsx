@@ -8,7 +8,7 @@ import { usePersonaInfoContext } from "../../context/authContext";
 
 function InformaciónPersonal (){
 
-   const {SetPersonaInfo} = usePersonaInfoContext();
+   // const {SetPersonaInfo} = usePersonaInfoContext();
    const id = 1;
    const nombre = "Lucía";
    const apellido = "Martínez";

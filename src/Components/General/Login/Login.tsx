@@ -3,8 +3,8 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { fetchLogin, fetchPacienteInfo } from "../../../services/apiService";
 import {
   useUserToggleContext,
-  useUserContext,
   usePersonaInfoContext,
+  useUserInfo,
 } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import GetJwtContent from "../../../utils/jwtUtils";
@@ -13,44 +13,44 @@ import { ILogin } from "../../../types/Login.types";
 const LoginForm = () => {
   const navigate = useNavigate();
   const cambiaLogin = useUserToggleContext();
-  const user = useUserContext();
+  const user = useUserInfo();
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (typeof user == "string") {
-       getPersonaInfo();
-       navigate('/pacientes');
+      getPersonaInfo();
+      navigate("/pacientes");
     }
   }, [user]);
 
-  const {SetPersonaInfo } = usePersonaInfoContext();
+  const { setPersonaInfo } = usePersonaInfoContext();
 
-   //busca la info de la persona, hay que reorganizarla
-   const getPersonaInfo = async () => {
+  //busca la info de la persona, hay que reorganizarla
+  const getPersonaInfo = async () => {
+    if (user == null) return;
+
     var params: any = GetJwtContent(user);
-    console.log(user,params)
+    console.log(user, params);
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-    await SetPersonaInfo(pacienteInfo[0]);
+    await setPersonaInfo(pacienteInfo[0]);
+
     //console.log(pacienteInfo);
   };
- 
-
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
- 
+
     let UserName = "Paciente";
     let Password = "a";
-    const loginData : ILogin = { UserName, Password };
+    const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
-        cambiaLogin(token);
-
+      cambiaLogin(token);
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       setError("Error al iniciar sesión, por favor intente nuevamente.");
