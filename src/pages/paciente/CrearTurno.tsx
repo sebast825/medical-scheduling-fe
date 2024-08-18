@@ -16,6 +16,7 @@ import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useModal";
 import Opening from "../../Components/General/Opening/Opening";
+import useModal from "../../hooks/useModal";
 
 
 
@@ -87,8 +88,8 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useTurnos();
-  const { showCreatTurnoModal, closeCreatTurnoModal, toggleCreateModal } =
-    useCreateTurnoModal();
+  const { showModal, toggleModal, closeModal} =
+    useModal();
 
 
   useEffect(() => {
@@ -134,9 +135,8 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     });
     setMedicoSelect(findMedicoById(medicoId));
     console.log(createTurnoRequest)
-    showCreatTurnoModal();
+    showModal();
   }
-
   async function handleConfirmCreateTurnoModal() {
      await crearTurno(createTurnoRequest);
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
@@ -147,7 +147,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     }));
     //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
     navigate("/pacientes", { state: { refreshTurnos: true } });
-    closeCreatTurnoModal()
+    closeModal()
   }
 
   function showDiasDisponiblesEspecialidad(
@@ -167,8 +167,8 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
 
       {medicoSelect && (
         <CreatTurnoModal
-          show={toggleCreateModal}
-          handleClose={closeCreatTurnoModal}
+          show={toggleModal}
+          handleClose={closeModal}
           handleConfirm={handleConfirmCreateTurnoModal}
           medico={medicoSelect}
           fecha={createTurnoRequest.Fecha}

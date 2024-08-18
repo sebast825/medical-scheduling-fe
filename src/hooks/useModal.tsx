@@ -2,19 +2,19 @@ import { useState } from "react";
 
 
 
-const useCreateTurnoModal = () => {
-   const [toggleCreateModal, setShowModal] = useState<boolean>(false);
+const useModal = () => {
+   const [toggleModal, setToggleModal] = useState<boolean>(false);
 
-   function closeCreatTurnoModal (){
-      setShowModal(false)
+   function closeModal (){
+      setToggleModal(false)
   }
-  function showCreatTurnoModal(){
-   setShowModal(true)
+  function showModal(){
+   setToggleModal(true)
    
  }
    return{
-      closeCreatTurnoModal,showCreatTurnoModal,toggleCreateModal
+      closeModal,showModal,toggleModal
    }
 }
 
-export default useCreateTurnoModal;
+export default useModal;
