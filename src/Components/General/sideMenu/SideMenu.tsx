@@ -15,6 +15,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
     useRedirectToPacienteHome,
     useRedirectToNuevoTurnoFilterMedico,
     useRedirectToNuevoTurnoFilterEspecialidad,
+    useRedirectToInformacionPersonal
   } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
@@ -56,7 +57,11 @@ function SideMenu({ show, handleClose }: ISideMenu) {
               Buscar Especialidad
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link>Mi Perfil</Nav.Link>
+          <Nav.Link  onClick={() => {
+                closeModalAndCallFunction(
+                  useRedirectToInformacionPersonal
+                );
+              }}>Mi Perfil</Nav.Link>
           <Nav.Link
             href="/"
             onClick={() => {

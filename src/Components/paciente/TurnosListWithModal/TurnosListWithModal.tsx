@@ -5,7 +5,7 @@ import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import { useUserContext } from "../../../context/authContext";
 import ConfirmModal from "../../modals/ConfirmModal";
-import CardPaciente from "../CardPaciente/CardPaciente";
+import CardPaciente from "../CardTurno/CardTurno";
 import TurnosList from "../TurnosList/TurnosList";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 

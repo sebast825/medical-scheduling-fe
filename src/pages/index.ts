@@ -8,3 +8,4 @@ export const NuestrosMedicos = React.lazy(() => import('./home/NuestrosMedicos')
 
 export const PacienteHome = React.lazy(()=>import('./paciente/PacienteHome'))
 export const CrearTurno = React.lazy(()=> import ('./paciente/CrearTurno'))
+export const InformacionPersonal = React.lazy(()=> import ('./paciente/InformacionPersonal'))

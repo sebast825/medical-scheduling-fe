@@ -19,13 +19,16 @@ const useRedirects = () => {
   const useRedirectToNuevoTurnoFilterEspecialidad = (): void => {
     navigate("/crearTurno/listEspecialidades");
   };
-
+  const useRedirectToInformacionPersonal = (): void => {
+    navigate("/pacientes/informacion");
+  };
   return {
     useRedirectToNuestrosMedicos,
     useRedirectToLogin,
     useRedirectToPacienteHome,
     useRedirectToNuevoTurnoFilterMedico,
     useRedirectToNuevoTurnoFilterEspecialidad,
+    useRedirectToInformacionPersonal
   };
 };
 

@@ -12,9 +12,7 @@ import {
   useRedirectToLogin,
   useRedirectToNuestrosMedicos,
 } from "../../routes/navigation";
-import ResponsiveCard from "../../Components/paciente/CardPaciente/CardPaciente";
-import ConfirmModal from "../../Components/modals/ConfirmModal";
-import { useState } from "react";
+
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 function Home() {
   const { personaInfo } = usePersonaInfoContext();
