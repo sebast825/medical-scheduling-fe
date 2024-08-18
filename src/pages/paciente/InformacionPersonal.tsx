@@ -4,31 +4,37 @@ import CardInfo from "../../Components/General/Cards/PersonaInfoCard/PersonaInfo
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import { usePersonaInfoContext } from "../../context/authContext";
 
+function InformaciónPersonal() {
+  const { personaInfo } = usePersonaInfoContext();
+  const id = 1;
+  const nombre = "Lucía";
+  const apellido = "Martínez";
+  const fechaNacimiento = "1985-04-22T00:00:00";
+  const telefono = "987654321";
+  const numeroDocumento = "87654321";
+  const sexo = "Mujer";
+  const estadoUsuario = "Activo";
+  const telefonoEmergencia = "1122334455";
+  const nombreEmergencia = "Juan Pérez";
 
-
-function InformaciónPersonal (){
-
-   // const {SetPersonaInfo} = usePersonaInfoContext();
-   const id = 1;
-   const nombre = "Lucía";
-   const apellido = "Martínez";
-   const fechaNacimiento = "1985-04-22T00:00:00";
-   const telefono = "987654321";
-   const numeroDocumento = "87654321";
-   const sexo = "Mujer";
-   const estadoUsuario = "Activo";
-   const telefonoEmergencia = "1122334455";
-   const nombreEmergencia = "Juan Pérez";
-
-   function saludar(){
-      console.log("hola")
-   }
-   return <>
+  function saludar() {
+    console.log("hola");
+  }
+  return (
+    <>
       <Opening title="Mi Información"></Opening>
-      {/* <PersonaInfoCard title="Información Personal" nombre={} /> */}
-
-   </>
+      <PersonaInfoCard
+        title="Información Personal"
+        nombre={personaInfo.nombre}
+        apellido={personaInfo.apellido}
+        telefono={personaInfo.telefono}
+        numeroDocumento={personaInfo.numeroDocumento}
+        sexo={personaInfo.sexo}
+        fechaNac={personaInfo.fechaNacimiento}
+        handleEvent={saludar}
+      />
+    </>
+  );
 }
-
 
 export default InformaciónPersonal;
