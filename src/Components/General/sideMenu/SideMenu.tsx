@@ -1,6 +1,7 @@
 import { Offcanvas, Nav, NavDropdown } from "react-bootstrap";
 import { useUserToggleContext } from "../../../context/authContext";
 import useRedirects from "../../../hooks/useRedicrects";
+import { useEffect } from "react";
 
 interface ISideMenu {
   show: boolean;
@@ -11,34 +12,58 @@ function SideMenu({ show, handleClose }: ISideMenu) {
   const login = useUserToggleContext();
 
   const {
-   useRedirectToPacienteHome,
-   useRedirectToNuevoTurnoFilterMedico,
-   useRedirectToNuevoTurnoFilterEspecialidad,
- } = useRedirects();
+    useRedirectToPacienteHome,
+    useRedirectToNuevoTurnoFilterMedico,
+    useRedirectToNuevoTurnoFilterEspecialidad,
+  } = useRedirects();
+
+  //como no puedo pasar un hook en on click uso una función
+  function closeModalAndCallFunction(fn: () => void) {
+    fn();
+    handleClose();
+  }
   return (
     <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }}>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>Menu</Offcanvas.Title>
       </Offcanvas.Header>
-      <Offcanvas.Body>
+      <Offcanvas.Body className="offcanvas-body">
         <Nav className="flex-column">
-          <Nav.Link onClick={useRedirectToPacienteHome}>Mis Turnos</Nav.Link>
+          <Nav.Link
+            onClick={() => {
+              closeModalAndCallFunction(useRedirectToPacienteHome);
+            }}
+          >
+            Mis Turnos
+          </Nav.Link>
           <NavDropdown title="Nuevo Turno" id="nav-dropdown">
             <NavDropdown.Item
-              onClick={useRedirectToNuevoTurnoFilterMedico}
+              onClick={() => {
+                closeModalAndCallFunction(useRedirectToNuevoTurnoFilterMedico);
+              }}
               eventKey="4.1"
             >
               Buscar Medico
             </NavDropdown.Item>
             <NavDropdown.Item
-              onClick={useRedirectToNuevoTurnoFilterEspecialidad}
+              onClick={() => {
+                closeModalAndCallFunction(
+                  useRedirectToNuevoTurnoFilterEspecialidad
+                );
+              }}
               eventKey="4.2"
             >
-              Buscar Especialdiad
+              Buscar Especialidad
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link href="/settings">Mi Perfil</Nav.Link>
-          <Nav.Link href="/" onClick={()=>login(null)}>
+          <Nav.Link>Mi Perfil</Nav.Link>
+          <Nav.Link
+            href="/"
+            onClick={() => {
+              handleClose();
+              login(null);
+            }}
+          >
             Salir
           </Nav.Link>
         </Nav>

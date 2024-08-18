@@ -43,7 +43,10 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     const [subtitleOening,setSubtitleOening] = useState <string>("")
 
     // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
-
+    //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
+    useEffect(()=>{
+      setComponenteActivo(filterBy)
+    },[filterBy])
      useEffect(()=>{
       setSubtitleOening("");
       switch (componenteActivo){
