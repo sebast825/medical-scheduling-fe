@@ -9,7 +9,7 @@ function FillExample() {
    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
    const user = useUserInfo();
 
-  const {useRedirectToNuestrosMedicos,useRedirectToLogin} = useRedicrects();
+  const {useRedirectToNuestrosMedicos,useRedirectToLogin,useRedirectToHome} = useRedicrects();
 
 
    useEffect(()=>{
@@ -36,7 +36,7 @@ function FillExample() {
 
     <Nav fill variant="tabs" activeKey={activeKey} onSelect={handleSelect}>
       <Nav.Item>
-        <Nav.Link href="/" >
+        <Nav.Link onClick={useRedirectToHome} >
           <img src="/logo192.png" alt="Logo" style={{ height: '30px', marginRight: '10px', background:'transparent' }} />
         </Nav.Link>
       </Nav.Item>

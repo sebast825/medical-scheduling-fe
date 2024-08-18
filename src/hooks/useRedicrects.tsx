@@ -6,7 +6,9 @@ const useRedirects = () => {
   const useRedirectToNuestrosMedicos = (): void => {
     navigate("/nuestrosMedicos");
   };
-
+  const useRedirectToHome = (): void => {
+    navigate("/");
+  };
   const useRedirectToLogin = (): void => {
     navigate("/login");
   };
@@ -23,6 +25,7 @@ const useRedirects = () => {
     navigate("/pacientes/informacion");
   };
   return {
+    useRedirectToHome,
     useRedirectToNuestrosMedicos,
     useRedirectToLogin,
     useRedirectToPacienteHome,
