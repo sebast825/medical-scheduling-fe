@@ -1,4 +1,5 @@
 import { Button, Card } from "react-bootstrap";
+import OneButton from "../../../buttons/oneButton/OneButton";
 
 interface IPersonaInfoCard {
   title: String;
@@ -23,9 +24,9 @@ function PersonaInfoCard({
 }: IPersonaInfoCard) {
   return (
     <>
-      <div className="container d-flex justify-content-center p-5 flex-column" style={{maxWidth:"200px"}}>
+      <div className="container d-flex justify-content-center align-items-center p-5 flex-column" >
         <Card style={{ width: "18rem" }}>
-          <Card.Body>
+          <Card.Body >
             <Card.Title>{`${title}`}</Card.Title>
             {/* <Card.Subtitle className="mb-2 text-muted">ID: {numeroDocumento}</Card.Subtitle> */}
             <hr />
@@ -55,11 +56,19 @@ function PersonaInfoCard({
         </Card.Text>
         <Card.Text>
           <strong>Teléfono de Emergencia:</strong> {telefonoEmergencia}
-        </Card.Text> */}
+        </Card.Text> */}   <hr />
+        <Card.Text>
+        <OneButton text="Editar" handleSubmit={handleEvent}/>
+
+        </Card.Text>
+     
           </Card.Body>
+
         </Card>
-        <Button variant="primary" onClick={handleEvent}>Editar</Button>
+        {/* <Button variant="primary" onClick={handleEvent}>Editar</Button> */}
+
       </div>
+
     </>
   );
 }

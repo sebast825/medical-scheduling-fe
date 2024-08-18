@@ -1,0 +1,22 @@
+@import "/src/styles/mixin.scss";
+
+.button{
+
+   @include respond (mobile){
+      width: 100%;
+   }
+   width: 100%;
+}
+
+.OneButton{
+   @include respond (mobile){
+     margin-top: 1rem;
+   }
+   margin-top: .5rem;
+}
+.noPaddingMarginTop{
+   padding-top: 0px!important;
+   margin-top: 0px;
+   padding-bottom: 0px!important;
+   margin-bottom: 0px;
+}
