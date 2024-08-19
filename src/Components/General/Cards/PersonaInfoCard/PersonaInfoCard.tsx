@@ -4,8 +4,13 @@ import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import { useEffect, useState } from "react";
-import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
-import { personaModalFields } from "../../../../utils/objectsField";
+import useGenericObjectFielf, {
+  IObjectField,
+} from "../../../../hooks/objectField/useGenericObjetField";
+import {
+  IGenericObject,
+  personaModalFields,
+} from "../../../../utils/objectsField";
 
 interface IModalFieldPersona {
   key: string;
@@ -18,34 +23,34 @@ interface IPersonaInfoCard {
   propsPersona: IPersonaResponse;
 }
 
-function PersonaInfoCard({  title,
+function PersonaInfoCard({
+  title,
 
   handleEvent,
   propsPersona,
 }: IPersonaInfoCard) {
+  const [modalField, setModalFields] = useState<IGenericObject[]>();
 
-  const [modalFields, setModalFields] = useState<IModalFieldPersona[]>();
-
-  function Asd(){
-    var a = useGenericObjectFielf(personaModalFields,propsPersona);
-
-  }
-  Asd()
-
+  const { updateModalFields } = useGenericObjectFielf();
+  
   useEffect(() => {
-  }, []);
+    const fields = updateModalFields(personaModalFields, propsPersona);
+    setModalFields(fields);
+  }, [propsPersona]);
 
   return (
     <>
       <GenericCard title={title} handleEvent={handleEvent}>
-        {modalFields &&
-          modalFields.map((item) => (
-            <CardItem
-              key={item.key}
-              text={item.value}
-              propertyName={item.label}
-            />
-          ))}
+        {modalField &&
+          modalField.map((item) =>
+            item.value ? (
+              <CardItem
+                key={item.key}
+                text={item.value}
+                propertyName={item.label}
+              />
+            ) : null
+          )}
         {/* <Card.Text>
           <strong>Contacto de Emergencia:</strong> {nombreEmergencia}
         </Card.Text>

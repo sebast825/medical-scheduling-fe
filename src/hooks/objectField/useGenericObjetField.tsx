@@ -8,37 +8,36 @@ export interface IObjectField {
   //permite modificar formatos
 }
 
-function useGenericObjectFielf<T extends IObjectField>(
-  initialFields: IGenericObject[],
-  data: any
+function useGenericObjectFielf(
+  initialFields?: IGenericObject[],
+  data?: any
 ) {
   const [modalFields, setModalFields] =
-    useState<IGenericObject[]>(initialFields);
+    useState<IGenericObject[]>();
 
-  useEffect(() => {
-    updateModalFields();
-  }, [data]);
+  // useEffect(() => {
+  //   updateModalFields();
+  // }, [data]);
 
-  function updateModalFields() {
-    // Accediendo a las claves y valores
-    console.log(data);
-    const entries = Object.entries(data); // ["title", "nombre", "apellido", ...]
-    console.log(entries);
+  function updateModalFields(modalFields :  IGenericObject[],data : any) : IGenericObject[]{
 
     const updateFields = modalFields.map((modal) => {
-      const findEntri = entries.find(([key, value]) => modal.key == key);
-      if (findEntri == undefined || typeof findEntri[1] != "string") return;
-
-      modal.value = findEntri[1];
+      const value = data[modal.key];
+      // Actualizamos solo si el valor existe y es una cadena
+      if (typeof value === "string") {
+        return { ...modal, value };
+      }
       return modal;
     });
+
     console.log(updateFields);
+
     if (updateFields == undefined) {
       setModalFields(updateFields);
     }
-  
+    return updateFields;
   }
-  return modalFields;
+  return {modalFields,updateModalFields};
 }
 
 export default useGenericObjectFielf;
