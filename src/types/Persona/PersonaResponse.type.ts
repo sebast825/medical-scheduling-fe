@@ -1,4 +1,4 @@
-export interface PersonaResponse {
+export interface IPersonaResponse {
    id: number;
    nombre: string;
    apellido: string;

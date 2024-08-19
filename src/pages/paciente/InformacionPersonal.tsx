@@ -3,21 +3,21 @@ import Opening from "../../Components/General/Opening/Opening";
 import CardInfo from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import { usePersonaInfoContext } from "../../context/authContext";
+import usePersonas from "../../hooks/personas/usePersonas";
+import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 
 function InformaciónPersonal() {
   const { personaInfo } = usePersonaInfoContext();
-  const id = 1;
-  const nombre = "Lucía";
-  const apellido = "Martínez";
-  const fechaNacimiento = "1985-04-22T00:00:00";
-  const telefono = "987654321";
-  const numeroDocumento = "87654321";
-  const sexo = "Mujer";
-  const estadoUsuario = "Activo";
-  const telefonoEmergencia = "1122334455";
-  const nombreEmergencia = "Juan Pérez";
+  
+  const {putPersona} = usePersonas();
 
-  function saludar() {
+  async  function saludar () {
+
+   var persona : IPersonaUpdate = personaInfo;
+   //persona.sexoId = 2;
+   var asd = await putPersona(persona, personaInfo.id);
+
+   console.log(asd)
     console.log("hola");
   }
   return (
