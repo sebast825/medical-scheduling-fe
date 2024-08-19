@@ -1,42 +1,24 @@
-import { Button, Card } from "react-bootstrap";
-import OneButton from "../../../buttons/oneButton/OneButton";
 import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
-import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import { useEffect, useState } from "react";
-import useGenericObjectFielf, {
-  IObjectField,
-} from "../../../../hooks/objectField/useGenericObjetField";
 import {
   IGenericObject,
-  personaModalFields,
 } from "../../../../utils/objectsField";
 
-interface IModalFieldPersona {
-  key: string;
-  label: string;
-  value: string;
-}
+
 interface IPersonaInfoCard {
   title: string;
   handleEvent: () => void;
-  propsPersona: IPersonaResponse;
+  propsPersona: IGenericObject[];
 }
 
 function PersonaInfoCard({
   title,
-
   handleEvent,
   propsPersona,
 }: IPersonaInfoCard) {
-  const [modalField, setModalFields] = useState<IGenericObject[]>();
 
-  const { updateModalFields } = useGenericObjectFielf();
-  
-  useEffect(() => {
-    const fields = updateModalFields(personaModalFields, propsPersona);
-    setModalFields(fields);
-  }, [propsPersona]);
+  const [modalField, setModalFields] = useState<IGenericObject[]>(propsPersona);
 
   return (
     <>

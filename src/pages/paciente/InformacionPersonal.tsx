@@ -8,6 +8,8 @@ import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import useRedirects from "../../hooks/useRedicrects";
 import { useEffect } from "react";
 import { useRedirectToLogin } from "../../routes/navigation";
+import { personaModalFields } from "../../utils/objectsField";
+import useGenericObjectFielf from "../../hooks/objectField/useGenericObjetField";
 
 function InformaciónPersonal() {
   const { personaInfo } = usePersonaInfoContext();
@@ -24,23 +26,24 @@ function InformaciónPersonal() {
     
   }, []);
 
-  async  function saludar () {
+  async  function updatePersona () {
 
    var persona : IPersonaUpdate = personaInfo;
    //persona.sexoId = 2;
-   var asd = await putPersona(persona, personaInfo.id);
+   var udpatedPersona = await putPersona(persona, personaInfo.id);
 
-   console.log(asd)
-    console.log("hola");
+   console.log(udpatedPersona)
   }
+  const { updateModalFields } = useGenericObjectFielf();
+
   return (
     <>
       <Opening title="Mi Información"></Opening>
       <PersonaInfoCard
         title="Información Personal"
 
-        handleEvent={saludar}
-        propsPersona={personaInfo}
+        handleEvent={updatePersona}
+        propsPersona={ updateModalFields(personaModalFields, personaInfo)}
       />
     </>
   );

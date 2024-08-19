@@ -36,7 +36,6 @@ function usePersonas() {
   const {error} = useToastit();
 
   useEffect(()=>{
-   console.log(errorPersona)
    if(errorPersona == null) return
      error(errorPersona);
   },[errorPersona])
