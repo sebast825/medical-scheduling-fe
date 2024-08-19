@@ -25,7 +25,12 @@ function useGenericObjectFielf(
       const value = data[modal.key];
       // Actualizamos solo si el valor existe y es una cadena
       if (typeof value === "string") {
-        return { ...modal, value };
+          var formatedValue = value;
+          //si hay una funcion formate su valor
+          if(modal.formatValue && typeof modal.formatValue == "function" ){
+            formatedValue = modal.formatValue(value);
+          }
+        return { ...modal, value : formatedValue };
       }
       return modal;
     });
