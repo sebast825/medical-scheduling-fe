@@ -3,26 +3,41 @@ import CardItem from "../cardItem/CardItem";
 import { useEffect, useState } from "react";
 import {
   IGenericObject,
+  personaModalFields,
 } from "../../../../utils/objectsField";
-
+import { usePersonaInfoContext } from "../../../../context/authContext";
+import { IPersonaUpdate } from "../../../../types/Persona/PersonaUpdate.type";
+import usePersonas from "../../../../hooks/personas/usePersonas";
+import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 
 interface IPersonaInfoCard {
   title: string;
-  handleEvent: () => void;
-  propsPersona: IGenericObject[];
+  handleEvent?: boolean;
 }
 
-function PersonaInfoCard({
-  title,
-  handleEvent,
-  propsPersona,
-}: IPersonaInfoCard) {
+function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
+  const [modalField, setModalFields] = useState<IGenericObject[]>();
+  const { personaInfo } = usePersonaInfoContext();
+  const { putPersona } = usePersonas();
+  const { updateModalFields } = useGenericObjectFielf();
 
-  const [modalField, setModalFields] = useState<IGenericObject[]>(propsPersona);
+  async function updatePersona() {
+    var persona: IPersonaUpdate = personaInfo;    //persona.sexoId = 2;
+
+    var udpatedPersona = await putPersona(persona, personaInfo.id);
+    console.log(udpatedPersona);
+  }
+  useEffect(() => {
+    var modalFields = updateModalFields(personaModalFields, personaInfo);
+    setModalFields(modalFields);
+  }, []);
 
   return (
     <>
-      <GenericCard title={title} handleEvent={handleEvent}>
+      <GenericCard
+        title={title}
+        handleEvent={handleEvent ? updatePersona : undefined}
+      >
         {modalField &&
           modalField.map((item) =>
             item.value ? (
