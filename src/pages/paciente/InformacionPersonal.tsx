@@ -3,14 +3,14 @@ import Opening from "../../Components/General/Opening/Opening";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import {  useUserInfo } from "../../context/authContext";
 import { useEffect } from "react";
-import { useRedirectToLogin } from "../../routes/navigation";
+import useRedirects from "../../hooks/useRedicrects";
 
 
 function InformaciónPersonal() {
   const user = useUserInfo();
-  const redirectToLogin = useRedirectToLogin();
+ // const redirectToLogin = useRedirectToLogin();
 
-  //const {useRedirectToLogin} = useRedirects();
+  const {redirectToLogin} = useRedirects();
 
   useEffect(() => {
     if(user == null){

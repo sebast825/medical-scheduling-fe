@@ -12,10 +12,10 @@ function SideMenu({ show, handleClose }: ISideMenu) {
   const login = useUserToggleContext();
 
   const {
-    useRedirectToPacienteHome,
-    useRedirectToNuevoTurnoFilterMedico,
-    useRedirectToNuevoTurnoFilterEspecialidad,
-    useRedirectToInformacionPersonal
+    redirectToPacienteHome,
+    redirectToNuevoTurnoFilterMedico,
+    redirectToNuevoTurnoFilterEspecialidad,
+    redirectToInformacionPersonal
   } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
@@ -32,7 +32,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
         <Nav className="flex-column">
           <Nav.Link
             onClick={() => {
-              closeModalAndCallFunction(useRedirectToPacienteHome);
+              closeModalAndCallFunction(redirectToPacienteHome);
             }}
           >
             Mis Turnos
@@ -40,7 +40,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
           <NavDropdown title="Nuevo Turno" id="nav-dropdown">
             <NavDropdown.Item
               onClick={() => {
-                closeModalAndCallFunction(useRedirectToNuevoTurnoFilterMedico);
+                closeModalAndCallFunction(redirectToNuevoTurnoFilterMedico);
               }}
               eventKey="4.1"
             >
@@ -49,7 +49,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
             <NavDropdown.Item
               onClick={() => {
                 closeModalAndCallFunction(
-                  useRedirectToNuevoTurnoFilterEspecialidad
+                  redirectToNuevoTurnoFilterEspecialidad
                 );
               }}
               eventKey="4.2"
@@ -59,7 +59,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
           </NavDropdown>
           <Nav.Link  onClick={() => {
                 closeModalAndCallFunction(
-                  useRedirectToInformacionPersonal
+                  redirectToInformacionPersonal
                 );
               }}>Mi Perfil</Nav.Link>
           <Nav.Link

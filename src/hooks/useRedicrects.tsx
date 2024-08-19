@@ -3,35 +3,35 @@ import { useNavigate } from "react-router-dom";
 const useRedirects = () => {
   const navigate = useNavigate();
 
-  const useRedirectToNuestrosMedicos = (): void => {
+  const redirectToNuestrosMedicos = (): void => {
     navigate("/nuestrosMedicos");
   };
-  const useRedirectToHome = (): void => {
+  const redirectToHome = (): void => {
     navigate("/");
   };
-  const useRedirectToLogin = (): void => {
+  const redirectToLogin = (): void => {
     navigate("/login");
   };
-  const useRedirectToPacienteHome = (): void => {
+  const redirectToPacienteHome = (): void => {
     navigate("/pacientes");
   };
-  const useRedirectToNuevoTurnoFilterMedico = (): void => {
+  const redirectToNuevoTurnoFilterMedico = (): void => {
     navigate("/crearTurno/listMedicos");
   };
-  const useRedirectToNuevoTurnoFilterEspecialidad = (): void => {
+  const redirectToNuevoTurnoFilterEspecialidad = (): void => {
     navigate("/crearTurno/listEspecialidades");
   };
-  const useRedirectToInformacionPersonal = (): void => {
+  const redirectToInformacionPersonal = (): void => {
     navigate("/pacientes/informacion");
   };
   return {
-    useRedirectToHome,
-    useRedirectToNuestrosMedicos,
-    useRedirectToLogin,
-    useRedirectToPacienteHome,
-    useRedirectToNuevoTurnoFilterMedico,
-    useRedirectToNuevoTurnoFilterEspecialidad,
-    useRedirectToInformacionPersonal
+    redirectToHome,
+    redirectToNuestrosMedicos,
+    redirectToLogin,
+    redirectToPacienteHome,
+    redirectToNuevoTurnoFilterMedico,
+    redirectToNuevoTurnoFilterEspecialidad,
+    redirectToInformacionPersonal
   };
 };
 

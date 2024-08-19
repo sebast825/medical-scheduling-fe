@@ -9,7 +9,7 @@ import useRedirects from "../../hooks/useRedicrects";
 function Home() {
 
   const { personaInfo } = usePersonaInfoContext();
-  const { useRedirectToLogin, useRedirectToNuestrosMedicos } = useRedirects();
+  const { redirectToLogin, redirectToNuestrosMedicos } = useRedirects();
   
   return (
     <div>
@@ -19,8 +19,8 @@ function Home() {
       <TwoButtonComponent
         textButton1="Ingresar"
         textButton2="Nuestros Medicos"
-        onClickButton1={useRedirectToLogin}
-        onClickButton2={useRedirectToNuestrosMedicos}
+        onClickButton1={redirectToLogin}
+        onClickButton2={redirectToNuestrosMedicos}
       />
     </div>
   );
