@@ -25,13 +25,9 @@ function InformaciónPersonal() {
       <Opening title="Mi Información"></Opening>
       <PersonaInfoCard
         title="Información Personal"
-        nombre={personaInfo.nombre}
-        apellido={personaInfo.apellido}
-        telefono={personaInfo.telefono}
-        numeroDocumento={personaInfo.numeroDocumento}
-        sexo={personaInfo.sexo}
-        fechaNac={personaInfo.fechaNacimiento}
+
         handleEvent={saludar}
+        propsPersona={personaInfo}
       />
     </>
   );
