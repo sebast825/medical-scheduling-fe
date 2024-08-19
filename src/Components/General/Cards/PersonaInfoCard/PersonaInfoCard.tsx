@@ -9,6 +9,8 @@ import { usePersonaInfoContext } from "../../../../context/authContext";
 import { IPersonaUpdate } from "../../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../../hooks/personas/usePersonas";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
+import GenericModal from "../../../modals/GenericModal/GenericModal";
+import useModal from "../../../../hooks/useModal";
 
 interface IPersonaInfoCard {
   title: string;
@@ -20,23 +22,36 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { updateModalFields } = useGenericObjectFielf();
+  const { showModal, closeModal, toggleModal } = useModal();
 
   async function updatePersona() {
-    var persona: IPersonaUpdate = personaInfo;    //persona.sexoId = 2;
-
+    var persona: IPersonaUpdate = personaInfo; //persona.sexoId = 2;
     var udpatedPersona = await putPersona(persona, personaInfo.id);
     console.log(udpatedPersona);
   }
+
   useEffect(() => {
     var modalFields = updateModalFields(personaModalFields, personaInfo);
     setModalFields(modalFields);
   }, []);
 
+  function saludar() {
+    console.log("hoña");
+  }
   return (
     <>
+      {modalField != undefined && (
+        <GenericModal
+          show={toggleModal}
+          handleClose={closeModal}
+          handleConfirm={saludar}
+          title="Actualizar Información Personal"
+          body={modalField}
+        />
+      )}
       <GenericCard
         title={title}
-        handleEvent={handleEvent ? updatePersona : undefined}
+        handleEvent={handleEvent ? showModal : undefined}
       >
         {modalField &&
           modalField.map((item) =>

@@ -5,7 +5,6 @@ export interface IGenericObject{
    label: string;
    value?:string;
    formatValue ?: (value : any) => string;
-
 }
 export const personaModalFields : IGenericObject[] = [
   { key: "nombre", label: "Nombre" },

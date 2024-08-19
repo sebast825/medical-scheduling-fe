@@ -1,29 +1,73 @@
-import { Modal, Button } from "react-bootstrap";
+import { cloneElement, useEffect, useState } from "react";
+import { Modal, Button, Card, Form } from "react-bootstrap";
+import { IGenericObject } from "../../../utils/objectsField";
 type IGenericModal = {
-   show: boolean,
-   handleClose: ()=>void,
-   handleConfirm: ()=>void,
-   title: string,
-   body: string
-}
+  show: boolean;
+  handleClose: () => void;
+  handleConfirm: () => void;
+  title: string;
+  body: IGenericObject[];
+};
 
-function GenericModal  ({ show, handleClose, handleConfirm, title, body }:IGenericModal){
-   return (
-      <Modal show={show} onHide={handleClose}>
+function GenericModal({
+  show,
+  handleClose,
+  handleConfirm,
+  title,
+  body,
+}: IGenericModal) {
+  const [inputValues, setinputValues] = useState<IGenericObject[]>(body);
+  useEffect(() => {
+    //console.log(inputValues);
+  }, [inputValues]);
+  //console.log(body);
+  function enviarInformacion() {
+    console.log(inputValues)
+  }
+
+  // {...inputValues,[key]:value}
+  function handleChange(key: string, value: string) {
+    setinputValues((prevValues) =>
+      prevValues.map((elem) => {
+        if (elem.key === key) {
+          return { ...elem, value: value };
+        }
+
+        return elem;
+      })
+    );
+  }
+
+  return (
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{body}</Modal.Body>
+      <Modal.Body>
+        {inputValues.map((elem) => (
+          <Form.Group key={elem.key} controlId="formBasicInput">
+            <Form.Label>{elem.label}</Form.Label>
+            <Form.Control
+              type="text"
+              value={elem.value || ""}
+              onChange={(e) => {
+                handleChange(elem.key, e.target.value);
+                console.log(elem);
+              }}
+            />
+          </Form.Group>
+        ))}
+      </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
+        <Button variant="primary" onClick={enviarInformacion}>
           Confirmar
         </Button>
       </Modal.Footer>
     </Modal>
-   )
+  );
 }
 
 export default GenericModal;
