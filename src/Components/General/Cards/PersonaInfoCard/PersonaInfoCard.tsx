@@ -4,6 +4,8 @@ import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import { useEffect, useState } from "react";
+import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
+import { personaModalFields } from "../../../../utils/objectsField";
 
 interface IModalFieldPersona {
   key: string;
@@ -24,35 +26,13 @@ function PersonaInfoCard({  title,
 
   const [modalFields, setModalFields] = useState<IModalFieldPersona[]>();
 
-  const modalFieldsBase : IModalFieldPersona[] = [
-    { key: "nombre", label: "Nombre", value: "" },
-    { key: "apellido", label: "Apellido", value: "" },
-    { key: "fechaNacimiento", label: "Fecha Nacimiento", value: "" },
-    { key: "telefono", label: "Telefono", value: "" },
-    { key: "numeroDocumento", label: "numero Documento", value: "" },
-    { key: "sexo", label: "Sexo", value: "" },
-  ];
+  function Asd(){
+    var a = useGenericObjectFielf(personaModalFields,propsPersona);
 
-  function updateModalFields() {
-    // Accediendo a las claves y valores
-    const entries = Object.entries(propsPersona); // ["title", "nombre", "apellido", ...]
-
-    entries.map(([key, value]) => {
-      const modalField = modalFieldsBase.find(
-        (elemModal) => elemModal.key == key
-      );
-
-      if (modalField) {
-        modalField.value = value;
-        if (modalField.key == "fechaNacimiento") {
-          modalField.value = new Date(value).toLocaleDateString();
-        }
-      }
-    });
-    setModalFields(modalFieldsBase);
   }
+  Asd()
+
   useEffect(() => {
-    updateModalFields();
   }, []);
 
   return (
