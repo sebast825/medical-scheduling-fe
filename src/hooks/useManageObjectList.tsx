@@ -23,7 +23,7 @@ function useManageObjectList(initialValues: IGenericObject[]) {
     );
   }
   function getValue  (key : string) : string{
-   var value = inputValues.find(elem => elem.key === key)?.value || "";
+   var value = inputValues.find(elem => elem.key === key)?.value || "";   
    return value;
 }
   return {
