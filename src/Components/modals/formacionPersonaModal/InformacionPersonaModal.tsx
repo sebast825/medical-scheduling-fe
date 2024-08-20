@@ -6,6 +6,12 @@ import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import ModalInput from "../formInput/formInput";
 import FormInput from "../formInput/formInput";
+import { IObjectField } from "../../../hooks/objectField/useGenericObjetField";
+import { usePersonaInfoContext } from "../../../context/authContext";
+import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
+import usePersonas from "../../../hooks/personas/usePersonas";
+import FormSelect from "../formSelect/FormSelect";
+import { Sexo } from "../../../types/Sexo.type";
 
 interface IInformacionPersonaModal {
   nombre: IGenericObject;
@@ -16,7 +22,6 @@ interface IInformacionPersonaModal {
   sexo: IGenericObject;
   show: boolean;
   handleClose: () => void;
-  handleConfirm: () => void;
 
 }
 
@@ -29,7 +34,7 @@ function InformacionPersonaModal({
   sexo,
   show,
   handleClose,
-  handleConfirm,
+
 }: IInformacionPersonaModal) {
   const { handleChange, getValue, inputValues} = useManageObjectList([
     nombre,
@@ -39,13 +44,28 @@ function InformacionPersonaModal({
     numeroDocumento,
     sexo,
   ]);
-  
+  const { personaInfo } = usePersonaInfoContext();
+  const { putPersona } = usePersonas();
+
+  async function updatePersona() {
+    var persona: IPersonaUpdate = personaInfo; //persona.sexoId = 2;
+    var udpatedPersona = await putPersona(persona, personaInfo.id);
+    console.log(udpatedPersona);
+  }
+  function recibirInfoUpdated(){
+    inputValues.forEach(elem => console.log(elem));
+  }
+
+  //utiliza el enum Sexo
+  const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
+  const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
+
   return (
     <>
       <GenericModal
         show={show}
         handleClose={handleClose}
-        handleConfirm={handleConfirm}
+        handleConfirm={recibirInfoUpdated}
         title="Editar Información Personal"
       >
         <Form>
@@ -81,6 +101,12 @@ function InformacionPersonaModal({
             handleChange={handleChange}
             getValue={getValue}
           />
+          <FormSelect 
+            element={sexo}
+            handleChange={handleChange}
+            getValue={getValue}
+            options={claves}
+          />
         </Form>
       </GenericModal>
     </>
@@ -88,3 +114,4 @@ function InformacionPersonaModal({
 }
 
 export default InformacionPersonaModal;
+

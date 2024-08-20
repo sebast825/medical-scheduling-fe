@@ -21,15 +21,9 @@ interface IPersonaInfoCard {
 function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
   const [modalField, setModalFields] = useState<IGenericObject[]>();
   const { personaInfo } = usePersonaInfoContext();
-  const { putPersona } = usePersonas();
   const { updateModalFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
 
-  async function updatePersona() {
-    var persona: IPersonaUpdate = personaInfo; //persona.sexoId = 2;
-    var udpatedPersona = await putPersona(persona, personaInfo.id);
-    console.log(udpatedPersona);
-  }
 
   useEffect(() => {
     var modalFields = updateModalFields(personaModalFields, personaInfo);
@@ -44,7 +38,6 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
         
           <InformacionPersonaModal  show={toggleModal}
             handleClose={closeModal}
-            handleConfirm={}
             nombre={modalField[0]}
             apellido={modalField[1]}
             fechaNacimiento={modalField[2]}
