@@ -18,27 +18,7 @@ function GenericModal({
   children
 
 }: IGenericModal) {
-  // const [inputValues, setinputValues] = useState<IGenericObject[]>(body);
-  // useEffect(() => {
-  //   //console.log(inputValues);
-  // }, [inputValues]);
-  //console.log(body);
-  function enviarInformacion() {
-    console.log("inputValues")
-  }
 
-  // {...inputValues,[key]:value}
-  // function handleChange(key: string, value: string) {
-  //   setinputValues((prevValues) =>
-  //     prevValues.map((elem) => {
-  //       if (elem.key === key) {
-  //         return { ...elem, value: value };
-  //       }
-
-  //       return elem;
-  //     })
-  //   );
-  // }
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -66,7 +46,7 @@ function GenericModal({
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={enviarInformacion}>
+        <Button variant="primary" onClick={handleConfirm}>
           Confirmar
         </Button>
       </Modal.Footer>

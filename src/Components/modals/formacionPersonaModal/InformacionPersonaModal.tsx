@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Form }   from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 import { IGenericObject } from "../../../utils/objectsField";
 import { useBootstrapMinBreakpoint } from "react-bootstrap/esm/ThemeProvider";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
+import ModalInput from "../formInput/formInput";
+import FormInput from "../formInput/formInput";
 
 interface IInformacionPersonaModal {
   nombre: IGenericObject;
@@ -15,56 +17,71 @@ interface IInformacionPersonaModal {
   show: boolean;
   handleClose: () => void;
   handleConfirm: () => void;
-  title: string;
 
 }
 
-
-
-
-function InformacionPersonaModal({ nombre,apellido,fechaNacimiento,telefono,numeroDocumento,sexo ,  show,
+function InformacionPersonaModal({
+  nombre,
+  apellido,
+  fechaNacimiento,
+  telefono,
+  numeroDocumento,
+  sexo,
+  show,
   handleClose,
   handleConfirm,
-  title,
+}: IInformacionPersonaModal) {
+  const { handleChange, getValue, inputValues} = useManageObjectList([
+    nombre,
+    apellido,
+    fechaNacimiento,
+    telefono,
+    numeroDocumento,
+    sexo,
+  ]);
   
- }: IInformacionPersonaModal) {
-  const {handleChange,getValue} = useManageObjectList([nombre,apellido,fechaNacimiento,telefono,numeroDocumento,sexo])
-
-
   return (
     <>
-    <GenericModal  show={show}
-            handleClose={handleClose}
-            handleConfirm={handleConfirm}
-            title="Editar Información Personal"
-          >
-     <Form>
-
-
-      <Form.Group key={nombre.key} controlId="formBasicInput">
-        <Form.Label>{nombre.label}</Form.Label>
-        <Form.Control
-          type="text"
-          value={getValue(nombre.key)}
-          onChange={(e) => {
-            handleChange(nombre.key, e.target.value);
-            console.log(getValue(nombre.key))
-          }}
-        />      </Form.Group>
-           <Form.Group key={apellido.key} controlId="formBasicInput">
-        <Form.Label>{apellido.label}</Form.Label>
-        <Form.Control
-          type="text"
-          value={getValue(apellido.key)}
-          onChange={(e) => {
-            handleChange(apellido.key, e.target.value);
-            console.log(getValue(apellido.key))
-          }}
-        />      </Form.Group>
-
-
-      </Form> 
-
+      <GenericModal
+        show={show}
+        handleClose={handleClose}
+        handleConfirm={handleConfirm}
+        title="Editar Información Personal"
+      >
+        <Form>
+          <FormInput
+            element={nombre}
+            handleChange={handleChange}
+            getValue={getValue}
+          />
+          <FormInput
+            element={apellido}
+            handleChange={handleChange}
+            getValue={getValue}
+          />
+          <FormInput
+            element={fechaNacimiento}
+            handleChange={handleChange}
+            getValue={getValue}
+            typeInput="date"
+          />
+          <FormInput
+            element={telefono}
+            handleChange={handleChange}
+            getValue={getValue}
+          />
+   
+          <FormInput
+            element={numeroDocumento}
+            handleChange={handleChange}
+            getValue={getValue}
+          />
+          <FormInput
+            element={sexo}
+            handleChange={handleChange}
+            getValue={getValue}
+          />
+        </Form>
       </GenericModal>
     </>
   );

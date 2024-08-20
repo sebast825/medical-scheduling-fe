@@ -36,25 +36,15 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
     setModalFields(modalFields);
   }, []);
 
-  function saludar() {
-    console.log("hoña");
-  }
+ 
   return (
     <>
       {modalField != undefined && (
         <>
-          {/* <GenericModal
-            show={toggleModal}
-            handleClose={closeModal}
-            handleConfirm={saludar}
-            title="Actualizar Información Personal"
-            body={modalField}
-          /> */}
+        
           <InformacionPersonaModal  show={toggleModal}
             handleClose={closeModal}
-            handleConfirm={saludar}
-            title="Actualizar Información Personal"
-
+            handleConfirm={}
             nombre={modalField[0]}
             apellido={modalField[1]}
             fechaNacimiento={modalField[2]}
