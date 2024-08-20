@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from "react";
+import { Children, cloneElement, useEffect, useState } from "react";
 import { Modal, Button, Card, Form } from "react-bootstrap";
 import { IGenericObject } from "../../../utils/objectsField";
 type IGenericModal = {
@@ -6,7 +6,8 @@ type IGenericModal = {
   handleClose: () => void;
   handleConfirm: () => void;
   title: string;
-  body: IGenericObject[];
+  // body: any;
+  children: React.ReactNode;
 };
 
 function GenericModal({
@@ -14,29 +15,30 @@ function GenericModal({
   handleClose,
   handleConfirm,
   title,
-  body,
+  children
+
 }: IGenericModal) {
-  const [inputValues, setinputValues] = useState<IGenericObject[]>(body);
-  useEffect(() => {
-    //console.log(inputValues);
-  }, [inputValues]);
+  // const [inputValues, setinputValues] = useState<IGenericObject[]>(body);
+  // useEffect(() => {
+  //   //console.log(inputValues);
+  // }, [inputValues]);
   //console.log(body);
   function enviarInformacion() {
-    console.log(inputValues)
+    console.log("inputValues")
   }
 
   // {...inputValues,[key]:value}
-  function handleChange(key: string, value: string) {
-    setinputValues((prevValues) =>
-      prevValues.map((elem) => {
-        if (elem.key === key) {
-          return { ...elem, value: value };
-        }
+  // function handleChange(key: string, value: string) {
+  //   setinputValues((prevValues) =>
+  //     prevValues.map((elem) => {
+  //       if (elem.key === key) {
+  //         return { ...elem, value: value };
+  //       }
 
-        return elem;
-      })
-    );
-  }
+  //       return elem;
+  //     })
+  //   );
+  // }
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -44,7 +46,9 @@ function GenericModal({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {inputValues.map((elem) => (
+
+        {children}
+        {/* {inputValues.map((elem) => (
           <Form.Group key={elem.key} controlId="formBasicInput">
             <Form.Label>{elem.label}</Form.Label>
             <Form.Control
@@ -52,11 +56,11 @@ function GenericModal({
               value={elem.value || ""}
               onChange={(e) => {
                 handleChange(elem.key, e.target.value);
-                console.log(elem);
+                // console.log(elem);
               }}
             />
           </Form.Group>
-        ))}
+        ))} */}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
