@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
-import {
-  IGenericObject,
-  personaModalFields,
-} from "../../../utils/objectsField";
-import { useBootstrapMinBreakpoint } from "react-bootstrap/esm/ThemeProvider";
+import { useEffect } from "react";
+import { Form } from "react-bootstrap";
+import { IGenericObject } from "../../../utils/objectsField";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
-import ModalInput from "../formInput/formInput";
 import FormInput from "../formInput/formInput";
-import useGenericObjectFielf, {
-  IObjectField,
-} from "../../../hooks/objectField/useGenericObjetField";
+import useGenericObjectFielf from "../../../hooks/objectField/useGenericObjetField";
 import { usePersonaInfoContext } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../hooks/personas/usePersonas";
 import FormSelect from "../formSelect/FormSelect";
 import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
-import { formatDate, getDate, getHour } from "../../../utils/formatDate";
+import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
 interface IInformacionPersonaModal {
@@ -38,6 +31,8 @@ function InformacionPersonaModal({
   var telefono: IGenericObject = modalField[3];
   var numeroDocumento: IGenericObject = modalField[4];
   var sexo: IGenericObject = modalField[5];
+
+  console.log(fechaNacimiento);
 
   const { handleChange, getValue, inputValues } = useManageObjectList([
     nombre,
@@ -65,7 +60,6 @@ function InformacionPersonaModal({
       personaInfo.id
     );
     if (updatedPersona != undefined) {
-      console.log(updatedPersona);
       setPersonaInfo(updatedPersona);
     }
   }
@@ -74,7 +68,6 @@ function InformacionPersonaModal({
     var datosOk: boolean[] = inputValues.map((elem) => validarDatos(elem));
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
-      console.log("DATOS INVALIDOS");
       return;
     }
     handleClose();
@@ -97,7 +90,6 @@ function InformacionPersonaModal({
       sexoId: getSexoId,
       fechaNacimiento: fechaNacFormated,
     };
-    console.log(objetUpdate);
     return objetUpdate;
   }
 
@@ -163,20 +155,13 @@ function InformacionPersonaModal({
             getValue={getValue}
             typeInput="number"
           />
-          <FormInput
-            element={sexo}
-            handleChange={handleChange}
-            getValue={getValue}
-          />
+  
           <FormSelect
             element={sexo}
             handleChange={handleChange}
             getValue={getValue}
             options={claves}
           />
-          <Button variant="primary" type="submit">
-            Enviar
-          </Button>
         </Form>
       </GenericModal>
     </>

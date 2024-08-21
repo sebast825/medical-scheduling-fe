@@ -28,11 +28,12 @@ function FormSelect({
           console.log(getValue(element.key));
         }}
       >
-        <option value="">Selecciona una opción</option>
         {options.map((elem) => (
           <option key={elem} value={elem}>{elem}</option>
         ))}
+        
       </Form.Select>
+
     </Form.Group>
   );
 }

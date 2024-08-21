@@ -24,7 +24,7 @@ function FormInput({
       return "No campo no puede estar vacio";
     }
   }
-
+  
   return (
     <Form.Group key={element.key} controlId="formBasicInput">
       <Form.Label>{element.label}</Form.Label>
