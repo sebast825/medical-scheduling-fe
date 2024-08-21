@@ -13,6 +13,7 @@ import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
+import validarInputForm from "../../../utils/validarDatos";
 
 interface IInformacionPersonaModal {
   modalField: IGenericObject[];
@@ -65,7 +66,7 @@ function InformacionPersonaModal({
   }
 
   function recibirInfoUpdated(): IPersonaUpdate | undefined {
-    var datosOk: boolean[] = inputValues.map((elem) => validarDatos(elem));
+    var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key));
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
@@ -93,29 +94,7 @@ function InformacionPersonaModal({
     return objetUpdate;
   }
 
-  function validarDatos(dato: IGenericObject): boolean {
-    var dataValue = getValue(dato.key);
-    if (dato.value == undefined) return false;
-    if (
-      dato.key === "email" &&
-      (!dataValue.includes("@") || !dataValue.includes(".com"))
-    ) {
-      console.log(dato);
-      return false;
-    } else if (dato.key === "numeroDocumento" && dataValue.length !== 8) {
-      console.log(dato);
-      return false;
-    } else if (dataValue.length == 0) {
-      console.log(dato);
-      return false;
-    } else if (dato.key === "telefono" && !Number(dataValue)) {
-      console.log(Number(dataValue));
-      console.log(dato);
-      return false;
-    } else {
-      return true;
-    }
-  }
+ 
 
   return (
     <>
