@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { IGenericObject } from "../../../utils/objectsField";
+import {
+  IGenericObject,
+  personaModalFields,
+} from "../../../utils/objectsField";
 import { useBootstrapMinBreakpoint } from "react-bootstrap/esm/ThemeProvider";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
@@ -19,26 +22,23 @@ import { formatDate, getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
 interface IInformacionPersonaModal {
-  nombre: IGenericObject;
-  apellido: IGenericObject;
-  fechaNacimiento: IGenericObject;
-  telefono: IGenericObject;
-  numeroDocumento: IGenericObject;
-  sexo: IGenericObject;
+  modalField: IGenericObject[];
   show: boolean;
   handleClose: () => void;
 }
 
 function InformacionPersonaModal({
-  nombre,
-  apellido,
-  fechaNacimiento,
-  telefono,
-  numeroDocumento,
-  sexo,
+  modalField,
   show,
   handleClose,
 }: IInformacionPersonaModal) {
+  var nombre: IGenericObject = modalField[0];
+  var apellido: IGenericObject = modalField[1];
+  var fechaNacimiento: IGenericObject = modalField[2];
+  var telefono: IGenericObject = modalField[3];
+  var numeroDocumento: IGenericObject = modalField[4];
+  var sexo: IGenericObject = modalField[5];
+
   const { handleChange, getValue, inputValues } = useManageObjectList([
     nombre,
     apellido,
@@ -47,41 +47,47 @@ function InformacionPersonaModal({
     numeroDocumento,
     sexo,
   ]);
-  const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
+  const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { updateModalFields } = useGenericObjectFielf();
-  const {error} = useToastit();
+  const { error } = useToastit();
   //utiliza el enum Sexo
   const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
   const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
 
+  useEffect(() => {}, [personaInfo]);
+
   async function updatePersona() {
-    var persona: IPersonaUpdate| undefined = recibirInfoUpdated() //persona.sexoId = 2;
-    if(persona == undefined) return;
-     var udpatedPersona : IPersonaResponse | undefined = await putPersona(persona, personaInfo.id);
-     if(udpatedPersona != undefined){
-    setPersonaInfo(udpatedPersona)}
+    var persona: IPersonaUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
+    if (persona == undefined) return;
+    var updatedPersona: IPersonaResponse | undefined = await putPersona(
+      persona,
+      personaInfo.id
+    );
+    if (updatedPersona != undefined) {
+      console.log(updatedPersona);
+      setPersonaInfo(updatedPersona);
+    }
   }
 
-  function recibirInfoUpdated() : IPersonaUpdate | undefined{
+  function recibirInfoUpdated(): IPersonaUpdate | undefined {
     var datosOk: boolean[] = inputValues.map((elem) => validarDatos(elem));
     if (datosOk.some((value) => value == false)) {
-      error("DATOS INVALIDOS")
-       console.log("DATOS INVALIDOS");
+      error("DATOS INVALIDOS");
+      console.log("DATOS INVALIDOS");
       return;
     }
-    handleClose()
+    handleClose();
     var getNombre = getValue("nombre");
     var getApellido = getValue("apellido");
     var getNumeroDocumento = getValue("numeroDocumento");
     var getTelefono = getValue("telefono");
     var getSexo = getValue("sexo");
-    var getSexoId = claves.indexOf(getSexo)+1;//arranca en 0 los id son 1,2,3
+    var getSexoId = claves.indexOf(getSexo) + 1; //arranca en 0 los id son 1,2,3
     var getFechaNacimiento = getValue("fechaNacimiento");
     var date = getDate(getFechaNacimiento);
     var hour = getHour(getFechaNacimiento);
-    var fechaNacFormated = date+"T"+hour;
-
+    var fechaNacFormated = date + "T" + hour;
 
     const objetUpdate: IPersonaUpdate = {
       nombre: getNombre,
@@ -110,12 +116,11 @@ function InformacionPersonaModal({
     } else if (dataValue.length == 0) {
       console.log(dato);
       return false;
-    } else if (  dato.key === "telefono"  && !Number(dataValue)){ 
-
-      console.log( Number(dataValue))
+    } else if (dato.key === "telefono" && !Number(dataValue)) {
+      console.log(Number(dataValue));
       console.log(dato);
       return false;
-    }else {
+    } else {
       return true;
     }
   }
@@ -133,7 +138,6 @@ function InformacionPersonaModal({
             element={nombre}
             handleChange={handleChange}
             getValue={getValue}
-   
           />
           <FormInput
             element={apellido}
@@ -170,11 +174,7 @@ function InformacionPersonaModal({
             getValue={getValue}
             options={claves}
           />
-          <Button
-    
-            variant="primary"
-            type="submit"
-          >
+          <Button variant="primary" type="submit">
             Enviar
           </Button>
         </Form>

@@ -6,10 +6,8 @@ import {
   personaModalFields,
 } from "../../../../utils/objectsField";
 import { usePersonaInfoContext } from "../../../../context/authContext";
-import { IPersonaUpdate } from "../../../../types/Persona/PersonaUpdate.type";
-import usePersonas from "../../../../hooks/personas/usePersonas";
+
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
-import GenericModal from "../../../modals/GenericModal/GenericModal";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
 
@@ -28,7 +26,7 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
   useEffect(() => {
     var modalFields = updateModalFields(personaModalFields, personaInfo);
     setModalFields(modalFields);
-  }, []);
+  }, [personaInfo]);
 
  
   return (
@@ -38,12 +36,7 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
         
           <InformacionPersonaModal  show={toggleModal}
             handleClose={closeModal}
-            nombre={modalField[0]}
-            apellido={modalField[1]}
-            fechaNacimiento={modalField[2]}
-            telefono={modalField[3]}
-            numeroDocumento={modalField[4]}
-            sexo={modalField[5]}
+            modalField={modalField}            
           />
         </>
       )}
