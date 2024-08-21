@@ -1,7 +1,7 @@
 import { TurnoHorarioDisponibleResponseDTO } from "../../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import BackLink from "../../buttons/BackLink/BackLink";
 import Opening from "../../General/Opening/Opening";
-import Calendario from "../../turno/Calendar/Calendar";
+import Calendario from "../Calendar/Calendar";
 
 interface ICalendarioTurnoDisponible {
   diasDisponible: TurnoHorarioDisponibleResponseDTO[];

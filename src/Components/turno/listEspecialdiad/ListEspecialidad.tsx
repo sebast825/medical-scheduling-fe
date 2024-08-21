@@ -1,7 +1,7 @@
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
 import List from "../../Lists/List/List";
 import ListOpening from "../../Lists/ListOpening/ListOpening";
-import ListHorarios from "../../turno/ListHorarios/ListHorarios";
+import ListHorarios from "../ListHorarios/ListHorarios";
 
 interface IListEspecialidades {
   listMedicos: IMedicoResponse[];

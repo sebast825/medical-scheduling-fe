@@ -3,7 +3,7 @@ import { TurnoHorarioDisponibleResponseDTO } from "../../../types/turno/TurnoHor
 import { getDate } from "../../../utils/formatDate";
 import BackLink from "../../buttons/BackLink/BackLink";
 import Opening from "../../General/Opening/Opening";
-import CardMedicoHorarios from "../../turno/cardMedicoHorarios/CardMedicoHorarios";
+import CardMedicoHorarios from "../cardMedicoHorarios/CardMedicoHorarios";
 
 interface IListHorariosPorMedico {
   horariosPorMedico: TurnoHorarioDisponibleResponseDTO[];

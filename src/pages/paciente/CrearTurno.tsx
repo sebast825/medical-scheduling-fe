@@ -9,10 +9,10 @@ import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO
 import GetJwtContent from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
 import useTurnos from "../../hooks/turnos/UseTurnos";
-import ListMedicos from "../../Components/turnos/listMedicos/ListMedicos";
-import CalendarioTurnoDisponible from "../../Components/turnos/calendarioTurnoDisponible/CalendarioTurnoDisponible";
-import ListEspecialidades from "../../Components/turnos/listEspecialdiad/ListEspecialidad";
-import ListHorariosPorMedico from "../../Components/turnos/listHorariosPorMedico/ListHorariosPorMedico";
+import ListMedicos from "../../Components/turno/listMedicos/ListMedicos";
+import CalendarioTurnoDisponible from "../../Components/turno/calendarioTurnoDisponible/CalendarioTurnoDisponible";
+import ListEspecialidades from "../../Components/turno/listEspecialdiad/ListEspecialidad";
+import ListHorariosPorMedico from "../../Components/turno/listHorariosPorMedico/ListHorariosPorMedico";
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useModal";
 import Opening from "../../Components/General/Opening/Opening";
