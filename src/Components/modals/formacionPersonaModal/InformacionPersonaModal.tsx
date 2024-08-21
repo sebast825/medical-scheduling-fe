@@ -6,12 +6,16 @@ import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import ModalInput from "../formInput/formInput";
 import FormInput from "../formInput/formInput";
-import useGenericObjectFielf, { IObjectField } from "../../../hooks/objectField/useGenericObjetField";
+import useGenericObjectFielf, {
+  IObjectField,
+} from "../../../hooks/objectField/useGenericObjetField";
 import { usePersonaInfoContext } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../hooks/personas/usePersonas";
 import FormSelect from "../formSelect/FormSelect";
 import { Sexo } from "../../../types/Sexo.type";
+import useToastit from "../../../hooks/useToastit";
+import { formatDate, getDate, getHour } from "../../../utils/formatDate";
 
 interface IInformacionPersonaModal {
   nombre: IGenericObject;
@@ -22,7 +26,6 @@ interface IInformacionPersonaModal {
   sexo: IGenericObject;
   show: boolean;
   handleClose: () => void;
-
 }
 
 function InformacionPersonaModal({
@@ -34,9 +37,8 @@ function InformacionPersonaModal({
   sexo,
   show,
   handleClose,
-
 }: IInformacionPersonaModal) {
-  const { handleChange, getValue, inputValues} = useManageObjectList([
+  const { handleChange, getValue, inputValues } = useManageObjectList([
     nombre,
     apellido,
     fechaNacimiento,
@@ -44,65 +46,94 @@ function InformacionPersonaModal({
     numeroDocumento,
     sexo,
   ]);
-  const { personaInfo } = usePersonaInfoContext();
+  const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { updateModalFields } = useGenericObjectFielf();
-
-    //utiliza el enum Sexo
-    const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
-    const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
-
+  const {error} = useToastit();
+  //utiliza el enum Sexo
+  const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
+  const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
 
   async function updatePersona() {
-    var persona: IPersonaUpdate = personaInfo; //persona.sexoId = 2;
-    var udpatedPersona = await putPersona(persona, personaInfo.id);
-    console.log(udpatedPersona);
+    var persona: IPersonaUpdate| undefined = recibirInfoUpdated() //persona.sexoId = 2;
+    if(persona == undefined) return;
+     var udpatedPersona = await putPersona(persona, personaInfo.id);
+ 
   }
 
-  function recibirInfoUpdated(e : any){
-    e.preventDefault();
-    inputValues.forEach(elem => console.log(elem));
+  function recibirInfoUpdated() : IPersonaUpdate | undefined{
+    var datosOk: boolean[] = inputValues.map((elem) => validarDatos(elem));
+    if (datosOk.some((value) => value == false)) {
+      error("DATOS INVALIDOS")
+       console.log("DATOS INVALIDOS");
+      return;
+    }
+    handleClose()
     var getNombre = getValue("nombre");
     var getApellido = getValue("apellido");
     var getNumeroDocumento = getValue("numeroDocumento");
-    var getTelefono   = getValue("telefono");
+    var getTelefono = getValue("telefono");
     var getSexo = getValue("sexo");
-    var getSexoId = claves.indexOf(getSexo);
+    var getSexoId = claves.indexOf(getSexo)+1;//arranca en 0 los id son 1,2,3
     var getFechaNacimiento = getValue("fechaNacimiento");
+    var date = getDate(getFechaNacimiento);
+    var hour = getHour(getFechaNacimiento);
+    var fechaNacFormated = date+"T"+hour;
 
-    console.log(getNombre)
-    const objetUpdate : IPersonaUpdate = {
-       nombre : getNombre ,
-       apellido : getApellido,
-       numeroDocumento: getNumeroDocumento,
-       telefono: getTelefono,
-       sexoId: getSexoId,
-       fechaNacimiento : getFechaNacimiento,
-     } 
-     console.log(objetUpdate)
 
-    // console.log(modalFields)
-    
+    const objetUpdate: IPersonaUpdate = {
+      nombre: getNombre,
+      apellido: getApellido,
+      numeroDocumento: getNumeroDocumento,
+      telefono: getTelefono,
+      sexoId: getSexoId,
+      fechaNacimiento: fechaNacFormated,
+    };
+    console.log(objetUpdate);
+    return objetUpdate;
   }
 
+  function validarDatos(dato: IGenericObject): boolean {
+    var dataValue = getValue(dato.key);
+    if (dato.value == undefined) return false;
+    if (
+      dato.key === "email" &&
+      (!dataValue.includes("@") || !dataValue.includes(".com"))
+    ) {
+      console.log(dato);
+      return false;
+    } else if (dato.key === "numeroDocumento" && dataValue.length !== 8) {
+      console.log(dato);
+      return false;
+    } else if (dataValue.length == 0) {
+      console.log(dato);
+      return false;
+    } else if (  dato.key === "telefono"  && !Number(dataValue)){
+  
 
-function saludar(){
+      console.log( Number(dataValue))
+      console.log(dato);
+      return false;
+    }else {
+      return true;
+    }
+  }
 
-}
+  function saludar() {}
   return (
     <>
       <GenericModal
         show={show}
         handleClose={handleClose}
-        handleConfirm={saludar}
+        handleConfirm={updatePersona}
         title="Editar Información Personal"
       >
-        <Form >
+        <Form>
           <FormInput
             element={nombre}
             handleChange={handleChange}
             getValue={getValue}
-            typeInput="email"
+   
           />
           <FormInput
             element={apellido}
@@ -119,29 +150,33 @@ function saludar(){
             element={telefono}
             handleChange={handleChange}
             getValue={getValue}
+            typeInput="tel"
           />
-   
+
           <FormInput
             element={numeroDocumento}
             handleChange={handleChange}
             getValue={getValue}
             typeInput="number"
-
           />
           <FormInput
             element={sexo}
             handleChange={handleChange}
             getValue={getValue}
           />
-          <FormSelect 
+          <FormSelect
             element={sexo}
             handleChange={handleChange}
             getValue={getValue}
             options={claves}
           />
-        <Button onClick={(e)=>recibirInfoUpdated(e)} variant="primary" type="submit">
-          Enviar
-        </Button>
+          <Button
+    
+            variant="primary"
+            type="submit"
+          >
+            Enviar
+          </Button>
         </Form>
       </GenericModal>
     </>
@@ -149,4 +184,3 @@ function saludar(){
 }
 
 export default InformacionPersonaModal;
-

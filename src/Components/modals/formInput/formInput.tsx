@@ -38,7 +38,6 @@ function FormInput({
         }
         onChange={(e) => {
           handleChange(element.key, e.target.value);
-          console.log(getValue(element.key));
           
         }}
          
