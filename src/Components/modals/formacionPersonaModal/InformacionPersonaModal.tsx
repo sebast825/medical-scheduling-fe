@@ -16,6 +16,7 @@ import FormSelect from "../formSelect/FormSelect";
 import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { formatDate, getDate, getHour } from "../../../utils/formatDate";
+import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
 interface IInformacionPersonaModal {
   nombre: IGenericObject;
@@ -57,8 +58,9 @@ function InformacionPersonaModal({
   async function updatePersona() {
     var persona: IPersonaUpdate| undefined = recibirInfoUpdated() //persona.sexoId = 2;
     if(persona == undefined) return;
-     var udpatedPersona = await putPersona(persona, personaInfo.id);
- 
+     var udpatedPersona : IPersonaResponse | undefined = await putPersona(persona, personaInfo.id);
+     if(udpatedPersona != undefined){
+    setPersonaInfo(udpatedPersona)}
   }
 
   function recibirInfoUpdated() : IPersonaUpdate | undefined{
@@ -108,8 +110,7 @@ function InformacionPersonaModal({
     } else if (dataValue.length == 0) {
       console.log(dato);
       return false;
-    } else if (  dato.key === "telefono"  && !Number(dataValue)){
-  
+    } else if (  dato.key === "telefono"  && !Number(dataValue)){ 
 
       console.log( Number(dataValue))
       console.log(dato);
@@ -119,7 +120,6 @@ function InformacionPersonaModal({
     }
   }
 
-  function saludar() {}
   return (
     <>
       <GenericModal

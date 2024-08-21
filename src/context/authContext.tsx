@@ -1,16 +1,17 @@
 import React, { useState, useContext, ReactNode } from "react";
 import { PacienteResponse } from "../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../types/MedicoResponse.type";
+import { IPersonaResponse } from "../types/Persona/PersonaResponse.type";
 
 type User = string | null;
-type PersonaInfo = any; // Reemplaza 'any' con el tipo correcto para personaInfo
+type PersonaInfo = any | IPersonaResponse; // Reemplaza 'any' con el tipo correcto para personaInfo
 type MedicosList = any; // Reemplaza 'any' con el tipo correcto para medicosList
 
 interface UserContextType {
   user: string | null;
   cambiaLogin: (jwt: string | null) => void;
   personaInfo: PersonaInfo;
-  setPersonaInfo: React.Dispatch<React.SetStateAction<PacienteResponse>>;
+  setPersonaInfo: React.Dispatch<React.SetStateAction<IPersonaResponse>>;
   medicosList: MedicosList;
   setMedicosList: React.Dispatch<React.SetStateAction<IMedicoResponse[]>>;
 }
