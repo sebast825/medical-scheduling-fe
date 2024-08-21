@@ -1,11 +1,6 @@
-import { IObjectField } from "../hooks/objectField/useGenericObjetField";
+import { IGenericObject } from "../../types/IGenericObject.type";
 
-export interface IGenericObject{
-   key:string;
-   label: string;
-   value?:string;
-   formatValue ?: (value : any) => string;
-}
+
 export const personaModalFields : IGenericObject[] = [
   { key: "nombre", label: "Nombre" },
   { key: "apellido", label: "Apellido" },
@@ -14,3 +9,4 @@ export const personaModalFields : IGenericObject[] = [
   { key: "numeroDocumento", label: "Numero Documento" },
   { key: "sexo", label: "Sexo" },
 ];
+

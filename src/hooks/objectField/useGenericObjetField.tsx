@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { IGenericObject } from "../../utils/objectsField";
+import { useState } from "react";
+import { IGenericObject } from "../../types/IGenericObject.type";
 
 export interface IObjectField {
   key: string;

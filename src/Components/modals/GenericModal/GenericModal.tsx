@@ -1,6 +1,5 @@
-import { Children, cloneElement, useEffect, useState } from "react";
-import { Modal, Button, Card, Form } from "react-bootstrap";
-import { IGenericObject } from "../../../utils/objectsField";
+import { Modal, Button} from "react-bootstrap";
+
 type IGenericModal = {
   show: boolean;
   handleClose: () => void;

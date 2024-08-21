@@ -3,6 +3,7 @@ import CardItem from "../cardItem/CardItem";
 import { useEffect, useState } from "react";
 import { personaModalFields } from "../../../../utils/objectFields/objectsField";
 import { usePersonaInfoContext } from "../../../../context/authContext";
+
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Form } from "react-bootstrap";
-import { IGenericObject } from "../../../utils/objectsField";
+import { IGenericObject } from "../../../types/IGenericObject.type";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";

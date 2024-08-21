@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
-import { IGenericObject } from "../utils/objectsField";
+import { useState } from "react";
+import { IGenericObject } from "../types/IGenericObject.type";
 
 function useManageObjectList(initialValues: IGenericObject[]) {
   const [inputValues, setinputValues] =
     useState<IGenericObject[]>(initialValues);
 
-//   useEffect(() => {
-//     inputValues.forEach((elem) => {
-//       console.log(elem);
-//     });
-//   }, [inputValues]);
-
-  // {...inputValues,[key]:value}
   function handleChange(key: string, value: string) {
     setinputValues((prevValues) =>
       prevValues.map((elem) => {

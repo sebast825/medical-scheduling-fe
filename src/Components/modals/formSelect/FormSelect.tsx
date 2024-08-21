@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { IGenericObject } from "../../../utils/objectsField";
+import { IGenericObject } from "../../../types/IGenericObject.type";
 import { getDate } from "../../../utils/formatDate";
 
 interface IFormSelect {
