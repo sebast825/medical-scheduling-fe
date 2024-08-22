@@ -34,7 +34,7 @@ const LoginForm = () => {
     var params: any = GetJwtContent(user);
     console.log(user, params);
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-    await setPersonaInfo(pacienteInfo[0]);
+    await setPersonaInfo(pacienteInfo);
 
     //console.log(pacienteInfo);
   };

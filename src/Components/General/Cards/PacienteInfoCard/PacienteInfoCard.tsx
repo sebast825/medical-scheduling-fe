@@ -3,25 +3,24 @@ import CardItem from "../cardItem/CardItem";
 import { useEffect, useState } from "react";
 import { personaModalFields } from "../../../../utils/objectFields/objectsField";
 import { usePersonaInfoContext } from "../../../../context/authContext";
-
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
 import { IGenericObject } from "../../../../types/IGenericObject.type";
+import { IInfoCard } from "../../../../types/InfoCard.type";
+import { pacienteModalFields } from "../../../../utils/objectFields/pacienteModalFields";
 
-interface IPersonaInfoCard {
-  title: string;
-  handleEvent?: boolean;
-}
 
-function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
+
+
+function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = false }: IInfoCard) {
   const [modalField, setModalFields] = useState<IGenericObject[]>();
   const { personaInfo } = usePersonaInfoContext();
   const { updateModalFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
 
   useEffect(() => {
-    var modalFields = updateModalFields(personaModalFields, personaInfo);
+    var modalFields = updateModalFields(pacienteModalFields, personaInfo);
     setModalFields(modalFields);
   }, [personaInfo]);
 
@@ -61,4 +60,4 @@ function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
   );
 }
 
-export default PersonaInfoCard;
+export default PacienteInfoCard;

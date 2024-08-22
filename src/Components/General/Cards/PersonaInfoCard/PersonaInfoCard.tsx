@@ -7,13 +7,11 @@ import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjet
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
 import { IGenericObject } from "../../../../types/IGenericObject.type";
+import { IInfoCard } from "../../../../types/InfoCard.type";
 
-interface IPersonaInfoCard {
-  title: string;
-  handleEvent?: boolean;
-}
 
-function PersonaInfoCard({ title, handleEvent = false }: IPersonaInfoCard) {
+
+function PersonaInfoCard({ title = "Información Personal", handleEvent = false }: IInfoCard) {
   const [modalField, setModalFields] = useState<IGenericObject[]>();
   const { personaInfo } = usePersonaInfoContext();
   const { updateModalFields } = useGenericObjectFielf();
