@@ -14,6 +14,9 @@ import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import validarInputForm from "../../../utils/validarDatos";
+import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
+import usePacientes from "../../../hooks/pacientes/usePacientes";
+import { IPacienteResponse } from "../../../types/Paciente/PacienteResponse.type";
 
 interface IInformacionPacienteModal {
   modalField: IGenericObject[];
@@ -34,7 +37,7 @@ function InformacionPacienteModal({
   ]);
 
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
-  const { putPersona } = usePersonas();
+  const { putPaciente} = usePacientes();
   const { updateModalFields } = useGenericObjectFielf();
   const { error } = useToastit();
   //utiliza el enum Sexo
@@ -44,42 +47,32 @@ function InformacionPacienteModal({
   useEffect(() => {}, [personaInfo]);
 
   async function updatePersona() {
-    var persona: IPersonaUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
-    if (persona == undefined) return;
-    var updatedPersona: IPersonaResponse | undefined = await putPersona(
-      persona,
+    var paciente: IPacienteUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
+    if (paciente == undefined) return;
+    var updatedPaciente: IPacienteResponse | undefined = await putPaciente(
+      paciente,
       personaInfo.id
     );
-    if (updatedPersona != undefined) {
-      setPersonaInfo(updatedPersona);
+    if (updatedPaciente != undefined) {
+      setPersonaInfo(updatedPaciente);
     }
   }
 
-  function recibirInfoUpdated(): IPersonaUpdate | undefined {
+  function recibirInfoUpdated(): IPacienteUpdate | undefined {
     var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key));
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
     }
     handleClose();
-    var getNombre = getValue("nombre");
-    var getApellido = getValue("apellido");
-    var getNumeroDocumento = getValue("numeroDocumento");
-    var getTelefono = getValue("telefono");
-    var getSexo = getValue("sexo");
-    var getSexoId = claves.indexOf(getSexo) + 1; //arranca en 0 los id son 1,2,3
-    var getFechaNacimiento = getValue("fechaNacimiento");
-    var date = getDate(getFechaNacimiento);
-    var hour = getHour(getFechaNacimiento);
-    var fechaNacFormated = date + "T" + hour;
+    var getTelefonoEmergencia = getValue("telefonoEmergencia");
+    var getNombreEmergencia = getValue("nombreEmergencia");
 
-    const objetUpdate: IPersonaUpdate = {
-      nombre: getNombre,
-      apellido: getApellido,
-      numeroDocumento: getNumeroDocumento,
-      telefono: getTelefono,
-      sexoId: getSexoId,
-      fechaNacimiento: fechaNacFormated,
+
+    const objetUpdate: IPacienteUpdate = {
+      TelefonoEmergencia: getTelefonoEmergencia,
+      NombreEmergencia: getNombreEmergencia,
+ 
     };
     return objetUpdate;
   }
