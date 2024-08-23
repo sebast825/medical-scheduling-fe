@@ -9,6 +9,7 @@ import InformacionPersonaModal from "../../../modals/formacionPersonaModal/Infor
 import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
 import { pacienteModalFields } from "../../../../utils/objectFields/pacienteModalFields";
+import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/InformacionPacienteModal";
 
 
 
@@ -24,11 +25,12 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
     setModalFields(modalFields);
   }, [personaInfo]);
 
+    console.log(modalField)
   return (
     <>
       {modalField != undefined && (
         <>
-          <InformacionPersonaModal
+          <InformacionPacienteModal
             show={toggleModal}
             handleClose={closeModal}
             modalField={modalField}

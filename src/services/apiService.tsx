@@ -2,6 +2,7 @@ import {createApiInstance} from './api';
 import { ILogin } from '../types/Login.types';
 import { ITurnoCreateRequestDTO } from '../types/turno/TurnoCreateRequest.DTO.type';
 import { IPersonaUpdate } from '../types/Persona/PersonaUpdate.type';
+import { IPacienteUpdate } from '../types/Paciente/PacienteUpdate.type';
 
 
 // Ejemplo de una solicitud GET
@@ -81,3 +82,12 @@ export const fetchUpdatePersona = async (jwt: string,  dto  : IPersonaUpdate, id
   return response.data;
  
 };
+
+export const fetchUpdatePaciente = async (jwt: string,  dto  : IPacienteUpdate, id : string) => {
+ 
+  const api = createApiInstance(jwt);
+  const response = await api.put(`api/pacientes/${id}`,dto);
+  return response.data;
+ 
+};
+
