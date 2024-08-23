@@ -3,5 +3,5 @@ export interface IGenericObject{
    label: string;
    value?:string;
    formatValue ?: (value : any) => string;
-   // typeInput: string;
+   typeInput: string;
 }

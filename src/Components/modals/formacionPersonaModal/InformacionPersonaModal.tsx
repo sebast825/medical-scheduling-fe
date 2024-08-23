@@ -66,7 +66,14 @@ function InformacionPersonaModal({
   }
 
   function recibirInfoUpdated(): IPersonaUpdate | undefined {
-    var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key));
+    var datosOk: boolean[] = inputValues.map((elem) => {
+      if (validarInputForm(elem.value, elem.key, elem.typeInput) == false) {
+        error(`Informacion Invalida- ${elem.label}`);
+        return false;
+      } else {
+        return true;
+      }
+    });
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
@@ -94,8 +101,6 @@ function InformacionPersonaModal({
     return objetUpdate;
   }
 
- 
-
   return (
     <>
       <GenericModal
@@ -119,22 +124,22 @@ function InformacionPersonaModal({
             element={fechaNacimiento}
             handleChange={handleChange}
             getValue={getValue}
-            typeInput="date"
+            typeInput={fechaNacimiento.typeInput}
           />
           <FormInput
             element={telefono}
             handleChange={handleChange}
             getValue={getValue}
-            typeInput="tel"
+            typeInput={telefono.typeInput}
           />
 
           <FormInput
             element={numeroDocumento}
             handleChange={handleChange}
             getValue={getValue}
-            typeInput="number"
+            typeInput={numeroDocumento.typeInput}
           />
-  
+
           <FormSelect
             element={sexo}
             handleChange={handleChange}

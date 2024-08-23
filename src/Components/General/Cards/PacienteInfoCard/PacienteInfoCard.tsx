@@ -25,7 +25,7 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
     setModalFields(modalFields);
   }, [personaInfo]);
 
-    console.log(modalField)
+   
   return (
     <>
       {modalField != undefined && (

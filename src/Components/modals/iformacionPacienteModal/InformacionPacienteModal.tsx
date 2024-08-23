@@ -59,7 +59,7 @@ function InformacionPacienteModal({
   }
 
   function recibirInfoUpdated(): IPacienteUpdate | undefined {
-    var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key));
+    var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key, elem.typeInput));
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
