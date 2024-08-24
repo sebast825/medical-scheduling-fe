@@ -8,20 +8,28 @@ import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
 import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
+import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
+import { IPacienteResponse } from "../../../../types/Paciente/PacienteResponse.type";
 
 
 
 function PersonaInfoCard({ title = "Información Personal", handleEvent = false }: IInfoCard) {
   const [modalField, setModalFields] = useState<IGenericObject[]>();
-  const { personaInfo } = usePersonaInfoContext();
-  const { updateModalFields } = useGenericObjectFielf();
+  const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
+  const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
-
   useEffect(() => {
+ 
+
     var modalFields = updateModalFields(personaModalFields, personaInfo);
     setModalFields(modalFields);
   }, [personaInfo]);
 
+  function actualizarInformacionPersona(infoPersona : IPersonaResponse){
+    var personaUpdated : IPacienteResponse = updatObjectFields(infoPersona,personaInfo);
+    setPersonaInfo(personaUpdated);
+
+  }
   return (
     <>
       {modalField != undefined && (
@@ -30,6 +38,7 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
             show={toggleModal}
             handleClose={closeModal}
             modalField={modalField}
+            handleConfirm={actualizarInformacionPersona}
           />
         </>
       )}

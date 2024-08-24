@@ -19,12 +19,14 @@ interface IInformacionPersonaModal {
   modalField: IGenericObject[];
   show: boolean;
   handleClose: () => void;
+  handleConfirm : (personaResponse : IPersonaResponse) => void;
 }
 
 function InformacionPersonaModal({
   modalField,
   show,
   handleClose,
+  handleConfirm
 }: IInformacionPersonaModal) {
   var nombre: IGenericObject = modalField[0];
   var apellido: IGenericObject = modalField[1];
@@ -33,7 +35,6 @@ function InformacionPersonaModal({
   var numeroDocumento: IGenericObject = modalField[4];
   var sexo: IGenericObject = modalField[5];
 
-  console.log(fechaNacimiento);
 
   const { handleChange, getValue, inputValues } = useManageObjectList([
     nombre,
@@ -43,7 +44,7 @@ function InformacionPersonaModal({
     numeroDocumento,
     sexo,
   ]);
-  const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
+  const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { updateModalFields } = useGenericObjectFielf();
   const { error } = useToastit();
@@ -61,7 +62,7 @@ function InformacionPersonaModal({
       personaInfo.id
     );
     if (updatedPersona != undefined) {
-      setPersonaInfo(updatedPersona);
+      handleConfirm(updatedPersona)
     }
   }
 
