@@ -21,7 +21,7 @@ const LoginForm = () => {
   useEffect(() => {
     if (typeof user == "string") {
       getPersonaInfo();
-      navigate("/pacientes");
+      navigate("/secretarios");
     }
   }, [user]);
 

@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 import Opening from "../../Components/General/Opening/Opening";
-import {
-  fetchTurnosPaciente,
-  fetchCancelarTurno,
-} from "../../services/apiService";
-import { ErrorTypeAny } from "../../types/Error.type";
-import { useUserContext } from "../../context/authContext";
-import GetJwtContent from "../../utils/jwtUtils";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import { useRedirectToLogin } from "../../routes/navigation";
+import {  useUserInfo } from "../../context/authContext";
 import { usePersonaInfoContext } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ESTADOS_TURNO } from "../../utils/estadoTurno";
-import useTurnos from "../../hooks/turnos/UseTurnos";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
+import useRedirects from "../../hooks/useRedicrects";
 
 
 function PacienteHome() {
-  const user = useUserContext();
+  const user = useUserInfo();
   //const [error, setError] = useState<ErrorTypeAny>(null);
   const { personaInfo } = usePersonaInfoContext();
-  const redirectToLogin = useRedirectToLogin();
+  const {redirectToLogin} = useRedirects();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
   const {getPacinteTurnos,turnos} = useGetTurnos();
