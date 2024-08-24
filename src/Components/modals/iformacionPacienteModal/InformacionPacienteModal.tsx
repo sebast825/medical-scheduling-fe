@@ -22,12 +22,14 @@ interface IInformacionPacienteModal {
   modalField: IGenericObject[];
   show: boolean;
   handleClose: () => void;
+  handleConfirm : (pacienteResponse : IPacienteResponse) => void;
 }
 
 function InformacionPacienteModal({
   modalField,
   show,
   handleClose,
+  handleConfirm
 }: IInformacionPacienteModal) {
   var telefonoEmergencia: IGenericObject = modalField[0];
   var nombreEmergencia: IGenericObject = modalField[1];
@@ -54,7 +56,8 @@ function InformacionPacienteModal({
       personaInfo.id
     );
     if (updatedPaciente != undefined) {
-      setPersonaInfo(updatedPaciente);
+      handleConfirm(updatedPaciente);
+      // setPersonaInfo(updatedPaciente);
     }
   }
 

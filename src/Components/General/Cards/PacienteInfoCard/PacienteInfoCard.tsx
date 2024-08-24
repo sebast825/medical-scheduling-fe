@@ -10,14 +10,15 @@ import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
 import { pacienteModalFields } from "../../../../utils/objectFields/pacienteModalFields";
 import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/InformacionPacienteModal";
+import { IPacienteResponse } from "../../../../types/Paciente/PacienteResponse.type";
 
 
 
 
 function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = false }: IInfoCard) {
   const [modalField, setModalFields] = useState<IGenericObject[]>();
-  const { personaInfo } = usePersonaInfoContext();
-  const { updateModalFields } = useGenericObjectFielf();
+  const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
+  const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
 
   useEffect(() => {
@@ -25,6 +26,11 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
     setModalFields(modalFields);
   }, [personaInfo]);
 
+  function actualizarInformacionPaciente(updatedPaciente : IPacienteResponse){
+    var personaUpdated = updatObjectFields(personaInfo, updatedPaciente);
+    setPersonaInfo(personaUpdated);
+
+  }
    
   return (
     <>
@@ -34,6 +40,7 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
             show={toggleModal}
             handleClose={closeModal}
             modalField={modalField}
+            handleConfirm={actualizarInformacionPaciente}
           />
         </>
       )}

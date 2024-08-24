@@ -18,15 +18,16 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
   const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
   const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
+
   useEffect(() => {
- 
 
     var modalFields = updateModalFields(personaModalFields, personaInfo);
     setModalFields(modalFields);
+    
   }, [personaInfo]);
 
-  function actualizarInformacionPersona(infoPersona : IPersonaResponse){
-    var personaUpdated : IPacienteResponse = updatObjectFields(personaInfo,infoPersona);
+  function actualizarInformacionPersona(updatedPersona : IPersonaResponse){
+    var personaUpdated : IPacienteResponse = updatObjectFields(personaInfo,updatedPersona);
     setPersonaInfo(personaUpdated);
 
   }
