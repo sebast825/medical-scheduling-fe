@@ -26,7 +26,7 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
   }, [personaInfo]);
 
   function actualizarInformacionPersona(infoPersona : IPersonaResponse){
-    var personaUpdated : IPacienteResponse = updatObjectFields(infoPersona,personaInfo);
+    var personaUpdated : IPacienteResponse = updatObjectFields(personaInfo,infoPersona);
     setPersonaInfo(personaUpdated);
 
   }

@@ -39,6 +39,8 @@ function useGenericObjectFielf(initialFields?: IGenericObject[], data?: any) {
     return updateFields;
   }
 
+  //al actualizar informacion con un modal, permite mantener la estructura anterior
+  //por ejemplo en caso de actualizar persona estando un paciente, la info de paciente no desaparece
   function updatObjectFields(
     target: { [key: string]: any },
     source: { [key: string]: any }
