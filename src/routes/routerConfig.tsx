@@ -1,4 +1,4 @@
-import { Home, Login, NuestrosMedicos, PacienteHome,CrearTurno, InformacionPersonal} from "../pages/index"
+import { Home, Login, NuestrosMedicos, PacienteHome,CrearTurno, InformacionPersonal, SecretarioHome} from "../pages/index"
 
 export const routes = [
    {
@@ -28,5 +28,9 @@ export const routes = [
    {
       path: '/pacientes/informacion',
      element: <InformacionPersonal/>
+   },
+   {
+      path: '/secretarios',
+     element: <SecretarioHome/>
    }
 ]
