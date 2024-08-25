@@ -12,12 +12,17 @@ import { getDate } from "../../../utils/formatDate";
 import OneButton from "../../buttons/oneButton/OneButton";
 import "./TablePaciente.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
+import { usePacienteContext } from "../../../context/authContext";
+import useRedirects from "../../../hooks/useRedicrects";
 
 function TablePaciente() {
   const [pacientesList, setPacientesList] = useState<IPacienteResponse[]>();
   const { getAllPacientes, pacienteList } = usePacientes();
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
+const {setPacienteInfo}= usePacienteContext();
+const {redirectToNuevoTurnoFilterMedico}= useRedirects()
+
   useEffect(() => {
     getPacientes();
   }, []);
@@ -31,6 +36,11 @@ function TablePaciente() {
   useEffect(() => {
     pacienteList?.forEach((elem) => console.log(elem));
   }, []);
+
+  function nuevoTurnoByMedico(paciente : IPacienteResponse) : void {
+      setPacienteInfo(paciente)
+      redirectToNuevoTurnoFilterMedico()
+  }
   return (
     <>
       <div className="flex m-0 m-md-4 table-container">
@@ -78,7 +88,7 @@ function TablePaciente() {
                       <Dropdown.Menu>
                         <Dropdown.Item
                           className="tezt-algin-right"
-                          onClick={() => console.log("medico")}
+                          onClick={() =>nuevoTurnoByMedico(paciente)}
                         >
                           Nuevo Turno por Medico
                         </Dropdown.Item>
@@ -88,7 +98,7 @@ function TablePaciente() {
                           Nuevo Turno por Especialidad
                         </Dropdown.Item>
 
-                        <Dropdown.Item> Mas Informaicón</Dropdown.Item>
+                        <Dropdown.Item> Mas Informaición</Dropdown.Item>
                         <Dropdown.Item>Turnos</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

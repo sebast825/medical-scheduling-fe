@@ -5,6 +5,7 @@ import {
   useUserToggleContext,
   usePersonaInfoContext,
   useUserInfo,
+  usePacienteContext,
 } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import GetJwtContent from "../../../utils/jwtUtils";
@@ -17,6 +18,7 @@ const LoginForm = () => {
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const {setPacienteInfo}= usePacienteContext();
 
   useEffect(() => {
     if (typeof user == "string") {
@@ -35,7 +37,7 @@ const LoginForm = () => {
     console.log(user, params);
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
     await setPersonaInfo(pacienteInfo);
-
+    setPacienteInfo(pacienteInfo)
     //console.log(pacienteInfo);
   };
 

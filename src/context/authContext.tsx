@@ -14,6 +14,10 @@ interface UserContextType {
   setPersonaInfo: React.Dispatch<React.SetStateAction<IPersonaResponse>>;
   medicosList: MedicosList;
   setMedicosList: React.Dispatch<React.SetStateAction<IMedicoResponse[]>>;
+  pacienteInfo: IPacienteResponse | null;
+  setPacienteInfo: React.Dispatch<
+    React.SetStateAction<IPacienteResponse | null>
+  >;
 }
 
 const UserContext = React.createContext<UserContextType | undefined>(undefined);
@@ -26,9 +30,9 @@ export function useUserContext() {
   return context;
 }
 
-export function useUserInfo(){
+export function useUserInfo() {
   const context = useUserContext();
-return context.user;
+  return context.user;
 }
 export function useUserToggleContext() {
   const context = useUserContext();
@@ -37,14 +41,26 @@ export function useUserToggleContext() {
 
 export function usePersonaInfoContext() {
   const context = useUserContext();
-  return { personaInfo: context.personaInfo, setPersonaInfo: context.setPersonaInfo };
+  return {
+    personaInfo: context.personaInfo,
+    setPersonaInfo: context.setPersonaInfo,
+  };
 }
 
 export function useMedicosContext() {
   const context = useUserContext();
-  return { medicosList: context.medicosList, setMedicosList: context.setMedicosList };
+  return {
+    medicosList: context.medicosList,
+    setMedicosList: context.setMedicosList,
+  };
 }
-
+export function usePacienteContext() {
+  const context = useUserContext();
+  return {
+    pacienteInfo: context.pacienteInfo,
+    setPacienteInfo: context.setPacienteInfo,
+  };
+}
 interface UserProviderProps {
   children: ReactNode;
 }
@@ -53,7 +69,9 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User>(null);
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>("");
   const [medicosList, setMedicosList] = useState<MedicosList>("");
-
+  const [pacienteInfo, setPacienteInfo] = useState<IPacienteResponse | null>(
+    null
+  );
   const cambiaLogin = (jwt: string | null) => {
     if (user) {
       setUser(null);
@@ -68,7 +86,9 @@ export function UserProvider({ children }: UserProviderProps) {
     personaInfo,
     setPersonaInfo,
     medicosList,
-    setMedicosList
+    setMedicosList,
+    pacienteInfo,
+    setPacienteInfo,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

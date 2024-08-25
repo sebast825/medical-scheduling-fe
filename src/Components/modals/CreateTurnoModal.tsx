@@ -3,13 +3,13 @@ import { Modal, Button } from "react-bootstrap";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { getDate, getHour } from "../../utils/formatDate";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { usePacienteContext } from "../../context/authContext";
 
 interface IConfirmModal {
   show: boolean;
   handleClose: () => void;
   handleConfirm: () => void;
   title?: string;
-  paciente?: string;
   medico: IMedicoResponse;
   fecha: string;
 }
@@ -19,12 +19,14 @@ function CreatTurnoModal({
   handleClose,
   handleConfirm,
   title = "Crear Turno",
-  paciente,
+
   medico,
 
   fecha,
 }: IConfirmModal) {
   const medicoNombre = medico.nombre + " " + medico.apellido;
+  const {pacienteInfo}= usePacienteContext();
+  
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -36,12 +38,13 @@ function CreatTurnoModal({
           <span className="text-muted small"> {medicoNombre}</span>
         </h5>
 
-        {paciente ? (
-          <h5>
+        {pacienteInfo && <>
+
+        <h5>
             <span className="text-underline">Paciente:</span>
-            <span className="text-muted small"> {paciente}</span>
-          </h5>
-        ) : null}
+            <span className="text-muted small"> {pacienteInfo?.nombre + " " + pacienteInfo?.apellido}</span>
+          </h5> </>
+    }
         <h5>
           <span className="text-underline">Especialidad:</span>
           <span className="text-muted small"> {medico.especialidad}</span>

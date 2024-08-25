@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  useUserInfo } from "../../context/authContext";
+import {  usePacienteContext, useUserInfo } from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
@@ -38,7 +38,8 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     });
     const [titleOening,setTitleOening] = useState <string>("");
     const [subtitleOening,setSubtitleOening] = useState <string>("")
-
+    const {pacienteInfo} = usePacienteContext();
+    
     // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
     //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
     useEffect(()=>{
@@ -143,7 +144,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       MedicoId: 0,
-      PacienteId: 0,
+      PacienteId: Number(pacienteInfo?.id)
     }));
     //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
     navigate("/pacientes", { state: { refreshTurnos: true } });
@@ -172,6 +173,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
           handleConfirm={handleConfirmCreateTurnoModal}
           medico={medicoSelect}
           fecha={createTurnoRequest.Fecha}
+      
         />
       )}
       {componenteActivo == "0" && medicos && (

@@ -61,7 +61,7 @@ const useTurnos = () => {
       //consigue la info del usuario
       try {
         if(user == null)return;
-
+        
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
         console.log(response);
@@ -72,7 +72,8 @@ const useTurnos = () => {
     },
     []
   );
-  const {error} =useToastit();
+
+  const {error} = useToastit();
   useEffect(()=>{
    if(errorTurno == null) return
      error(errorTurno);
