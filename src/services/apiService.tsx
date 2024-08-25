@@ -6,9 +6,9 @@ import { IPacienteUpdate } from '../types/Paciente/PacienteUpdate.type';
 
 
 // Ejemplo de una solicitud GET
-export  const fetchPacientes = async () => {
-  const api = createApiInstance();
-  const response = await api.get('/api/paciente');
+export  const fetchAllPacientes = async (jwt : string) => {
+  const api = createApiInstance(jwt);
+  const response = await api.get('/api/pacientes');
   return response.data;
  
  };
