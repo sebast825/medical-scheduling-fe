@@ -8,8 +8,10 @@ import {
   usePacienteContext,
 } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
-import GetJwtContent from "../../../utils/jwtUtils";
+import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
 import { ILogin } from "../../../types/Login.types";
+import { Roles } from "../../../types/Roles.type";
+import { handleHttpError } from "../../../utils/errorHandler";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -33,12 +35,15 @@ const LoginForm = () => {
   const getPersonaInfo = async () => {
     if (user == null) return;
 
-    var params: any = GetJwtContent(user);
-    console.log(params.http)
+    var params: DecodedToken = GetJwtContent(user);
+    var userRole = params.role;
     console.log(user, params);
-    const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-    await setPersonaInfo(pacienteInfo);
-    setPacienteInfo(pacienteInfo)
+    if(userRole == Roles[Roles.Paciente]){
+      const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
+      await setPersonaInfo(pacienteInfo);
+      setPacienteInfo(pacienteInfo)
+    }
+   
     //console.log(pacienteInfo);
   };
 
@@ -46,18 +51,16 @@ const LoginForm = () => {
     event.preventDefault();
     // Lógica para manejar el login
 
-    let UserName = "Paciente";
+    let UserName = "paciente";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
-      console.log(token)
       cambiaLogin(token);
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      setError("Error al iniciar sesión, por favor intente nuevamente.");
+    } catch (error: any) {
+      setError(handleHttpError(error));
     }
   };
 

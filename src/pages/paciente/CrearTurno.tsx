@@ -132,17 +132,20 @@ const {redirectToSecretarioHome} = useRedirects()
   function handleHorarioSelect(horario: string, medicoId: number) {
     if(user == null)return;
     var params: any = GetJwtContent(user);
-    console.log(params)
-    var pacienteId: number = Number(params.PersonaId);
+    // console.log(params)
+    var pacienteId: number =  Number(pacienteInfo?.id);
     setCreateTurnoRequest({
       MedicoId: medicoId,
       Fecha: horario,
       PacienteId: pacienteId,
     });
     setMedicoSelect(findMedicoById(medicoId));
-    console.log(createTurnoRequest)
     showModal();
   }
+  useEffect(()=>{
+    console.log(createTurnoRequest)
+
+  },[createTurnoRequest])
   async function handleConfirmCreateTurnoModal() {
     
     var response : boolean = await crearTurno(createTurnoRequest);
@@ -151,7 +154,7 @@ const {redirectToSecretarioHome} = useRedirects()
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       MedicoId: 0,
-      PacienteId: Number(pacienteInfo?.id)
+      PacienteId:0
     }));
     //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
     if(user)

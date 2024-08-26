@@ -10,6 +10,7 @@ import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorari
 import { ErrorTypeAny } from "../../types/Error.type";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import useToastit from "../useToastit";
+import { handleHttpError } from "../../utils/errorHandler";
 
 const useTurnos = () => {
   const user = useUserInfo();
@@ -44,16 +45,11 @@ const useTurnos = () => {
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByEspecialdiad(user, id);
       setTurnosDisponibles(response);
-
       console.log(response);
       return response;
-    } catch (err: any) {
-      console.log(err);
-      if (err.response && err.response.status === 401) {
-        SetErrorTurno(err.response.data.message || "Error desconocido");
-      } else {
-        SetErrorTurno("Error desconocido");
-      }
+    } catch (error: any) {
+      SetErrorTurno(handleHttpError(error));
+
     }
   }, []);
   const crearTurno = useCallback(
@@ -66,9 +62,8 @@ const useTurnos = () => {
         const response: any = await fetchCrearTurnos(user, turnoRequest);
         console.log(response);  
         return true;
-      } catch (error: any) {
-        console.error("Error al iniciar sesión:", error);
-        SetErrorTurno(error.response.data);
+      } catch (error: any) { 
+        SetErrorTurno(handleHttpError(error));
         return false;
       }
     },
