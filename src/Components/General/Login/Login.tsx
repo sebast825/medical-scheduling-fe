@@ -34,6 +34,7 @@ const LoginForm = () => {
     if (user == null) return;
 
     var params: any = GetJwtContent(user);
+    console.log(params.http)
     console.log(user, params);
     const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
     await setPersonaInfo(pacienteInfo);
@@ -52,6 +53,7 @@ const LoginForm = () => {
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
+      console.log(token)
       cambiaLogin(token);
     } catch (error) {
       console.error("Error al iniciar sesión:", error);

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import {  usePacienteContext, useUserInfo } from "../../context/authContext";
+import {  usePacienteContext, usePersonaInfoContext, useUserInfo } from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
-import GetJwtContent from "../../utils/jwtUtils";
+import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/UseMedicos";
 import useTurnos from "../../hooks/turnos/UseTurnos";
 import ListMedicos from "../../Components/turno/listMedicos/ListMedicos";
@@ -17,6 +17,9 @@ import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useModal";
 import Opening from "../../Components/General/Opening/Opening";
 import useModal from "../../hooks/useModal";
+import { userInfo } from "os";
+import { Roles } from "../../types/Roles.type";
+import useRedirects from "../../hooks/useRedicrects";
 
 
 
@@ -26,6 +29,7 @@ interface ICrearTurno {
 
 function CrearTurno({filterBy = "1"}:ICrearTurno) {
   const user = useUserInfo();
+
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
@@ -70,7 +74,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     },[componenteActivo])
 
   const navigate = useNavigate();
-
+const {redirectToSecretarioHome} = useRedirects()
   /*
     0- getMedicos trae un listado con todos los medicos
     2- al seleccionar el medico hace un pedido a getTurnosDisponiblesByMedico y trae sus turnos disponibles  
@@ -128,6 +132,7 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
   function handleHorarioSelect(horario: string, medicoId: number) {
     if(user == null)return;
     var params: any = GetJwtContent(user);
+    console.log(params)
     var pacienteId: number = Number(params.PersonaId);
     setCreateTurnoRequest({
       MedicoId: medicoId,
@@ -139,7 +144,9 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
     showModal();
   }
   async function handleConfirmCreateTurnoModal() {
-     await crearTurno(createTurnoRequest);
+    
+    var response : boolean = await crearTurno(createTurnoRequest);
+    if(!response) return;
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
@@ -147,8 +154,19 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
       PacienteId: Number(pacienteInfo?.id)
     }));
     //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
-    navigate("/pacientes", { state: { refreshTurnos: true } });
-    closeModal()
+    if(user)
+    var params: DecodedToken | undefined = GetJwtContent(user);
+   
+    if(params?.role == Roles.Paciente.toString()){
+      navigate("/pacientes", { state: { refreshTurnos: true } });
+
+    }
+    if(params?.role == Roles.Secretario.toString()){
+      redirectToSecretarioHome()
+    }
+    closeModal()    
+
+    
   }
 
   function showDiasDisponiblesEspecialidad(

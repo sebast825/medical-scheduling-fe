@@ -57,17 +57,19 @@ const useTurnos = () => {
     }
   }, []);
   const crearTurno = useCallback(
-    async (turnoRequest: ITurnoCreateRequestDTO) => {
+    //devuelve un bool para que en caso de que no pueda hacer la consulta maneje el error y no actue el redirect en la función
+    async (turnoRequest: ITurnoCreateRequestDTO) : Promise<boolean> => {
       //consigue la info del usuario
       try {
-        if(user == null)return;
-        
+        if(user == null) return false;     
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
-        console.log(response);
+        console.log(response);  
+        return true;
       } catch (error: any) {
         console.error("Error al iniciar sesión:", error);
-        SetErrorTurno(error.message);
+        SetErrorTurno(error.response.data);
+        return false;
       }
     },
     []
