@@ -20,6 +20,13 @@ export  const fetchAllPacientes = async (jwt : string) => {
   
 };
 
+export const fetchPersonaInfo = async (jwt : string,id : string) => {
+  const api = createApiInstance(jwt);
+
+  const response = await api.get(`api/personas/${id}`);
+  return response.data;
+
+};
 
 export const fetchPacienteInfo = async (jwt : string,id : string) => {
   const api = createApiInstance(jwt);

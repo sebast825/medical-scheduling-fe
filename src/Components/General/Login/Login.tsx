@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { fetchLogin, fetchPacienteInfo } from "../../../services/apiService";
+import { fetchLogin, fetchPacienteInfo, fetchPersonaInfo } from "../../../services/apiService";
 import {
   useUserToggleContext,
   usePersonaInfoContext,
@@ -24,24 +24,29 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (typeof user == "string") {
-      getPersonaInfo();
-      navigate("/secretarios");
+      getUserInfo();   
     }
   }, [user]);
 
   const { setPersonaInfo } = usePersonaInfoContext();
 
   //busca la info de la persona, hay que reorganizarla
-  const getPersonaInfo = async () => {
+  const getUserInfo = async () => {
     if (user == null) return;
 
     var params: DecodedToken = GetJwtContent(user);
     var userRole = params.role;
     console.log(user, params);
-    if(userRole == Roles[Roles.Paciente]){
+    if(userRole == Roles[Roles.Secretario]){
+      const personaInfo = await fetchPersonaInfo(user, params.PersonaId);
+      await setPersonaInfo(personaInfo);
+      navigate("/secretarios");
+      
+    }else if(userRole == Roles[Roles.Paciente]){
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
       await setPersonaInfo(pacienteInfo);
       setPacienteInfo(pacienteInfo)
+      navigate("/pacientes");
     }
    
     //console.log(pacienteInfo);
@@ -58,6 +63,7 @@ const LoginForm = () => {
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
+      console.log(token)
       cambiaLogin(token);
     } catch (error: any) {
       setError(handleHttpError(error));
