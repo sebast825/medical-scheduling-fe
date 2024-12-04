@@ -5,6 +5,7 @@ function useManageObjectList(initialValues: IGenericObject[]) {
   const [inputValues, setinputValues] =
     useState<IGenericObject[]>(initialValues);
 
+  //modifica el valor de un atributo de objeto
   function handleChange(key: string, value: string) {
     setinputValues((prevValues) =>
       prevValues.map((elem) => {

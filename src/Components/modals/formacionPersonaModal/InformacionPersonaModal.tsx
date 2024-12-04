@@ -4,7 +4,6 @@ import { IGenericObject } from "../../../types/IGenericObject.type";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";
-import useGenericObjectFielf from "../../../hooks/objectField/useGenericObjetField";
 import { usePersonaInfoContext } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../hooks/personas/usePersonas";
@@ -46,7 +45,7 @@ function InformacionPersonaModal({
   ]);
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
-  const { updateModalFields } = useGenericObjectFielf();
+
   const { error } = useToastit();
   //utiliza el enum Sexo
   const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));

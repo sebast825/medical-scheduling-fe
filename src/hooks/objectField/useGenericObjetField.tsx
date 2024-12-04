@@ -19,6 +19,7 @@ function useGenericObjectFielf(initialFields?: IGenericObject[], data?: any) {
     modalFields: IGenericObject[],
     data: any
   ): IGenericObject[] {
+    
     const updateFields = modalFields.map((modal) => {
       const value = data[modal.key];
       // Actualizamos solo si el valor existe y es una cadena

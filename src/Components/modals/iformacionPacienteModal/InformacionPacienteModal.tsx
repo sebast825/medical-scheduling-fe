@@ -4,15 +4,9 @@ import { IGenericObject } from "../../../types/IGenericObject.type";
 import useManageObjectList from "../../../hooks/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";
-import useGenericObjectFielf from "../../../hooks/objectField/useGenericObjetField";
 import { usePersonaInfoContext } from "../../../context/authContext";
-import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
-import usePersonas from "../../../hooks/personas/usePersonas";
-import FormSelect from "../formSelect/FormSelect";
 import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
-import { getDate, getHour } from "../../../utils/formatDate";
-import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import validarInputForm from "../../../utils/validarDatos";
 import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
@@ -40,7 +34,6 @@ function InformacionPacienteModal({
 
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const { putPaciente} = usePacientes();
-  const { updateModalFields } = useGenericObjectFielf();
   const { error } = useToastit();
   //utiliza el enum Sexo
   const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
