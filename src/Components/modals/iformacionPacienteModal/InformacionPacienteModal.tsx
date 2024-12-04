@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { IGenericObject } from "../../../types/IGenericObject.type";
-import useManageObjectList from "../../../hooks/useManageObjectList";
+import useManageObjectList from "../../../hooks/objectField/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";
 import { usePersonaInfoContext } from "../../../context/authContext";

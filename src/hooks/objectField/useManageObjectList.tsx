@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IGenericObject } from "../types/IGenericObject.type";
+import { IGenericObject } from "../../types/IGenericObject.type";
 
 function useManageObjectList(initialValues: IGenericObject[]) {
   const [inputValues, setinputValues] =
