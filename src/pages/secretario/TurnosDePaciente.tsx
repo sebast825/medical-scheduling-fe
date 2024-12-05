@@ -4,7 +4,7 @@ import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/T
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
-import useIsSecretario from "../../hooks/validateRol/isSecretario";
+import useIsSecretario from "../../hooks/roles/useIsSecretario";
 
 
 function TurnosDePaciente(){

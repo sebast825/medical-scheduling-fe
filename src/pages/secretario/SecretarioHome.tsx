@@ -6,7 +6,7 @@ import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
-import useIsSecretario from "../../hooks/validateRol/isSecretario";
+import useIsSecretario from "../../hooks/roles/useIsSecretario";
 
 function SecreatarioHome() {
   const isSecretario : Boolean = useIsSecretario()
