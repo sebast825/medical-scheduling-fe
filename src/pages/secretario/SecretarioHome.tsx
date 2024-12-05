@@ -17,6 +17,7 @@ function SecreatarioHome() {
 
 
   useEffect(() => {
+    
     user == null ? redirectToLogin() : console.log("asd");
   }, []);
 
