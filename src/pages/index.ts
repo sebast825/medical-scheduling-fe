@@ -12,4 +12,5 @@ export const InformacionPersonal = React.lazy(()=> import ('./paciente/Informaci
 export const SecretarioHome = React.lazy(()=> import ('./secretario/SecretarioHome'))
 export const TurnosDePaciente = React.lazy(()=> import ('./secretario/TurnosDePaciente'))
 
+export const InformaciónPacienteSecretario = React.lazy(()=> import ('./secretario/InformaciónPacienteSecretario'))
 

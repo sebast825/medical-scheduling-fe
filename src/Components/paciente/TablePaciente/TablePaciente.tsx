@@ -21,7 +21,12 @@ function TablePaciente() {
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
   const { setPacienteInfo } = usePacienteContext();
-  const { redirectToNuevoTurnoFilterMedico, redirectToNuevoTurnoFilterEspecialidad,redirectListadoTurnos } = useRedirects();
+  const {
+    redirectToNuevoTurnoFilterMedico,
+    redirectToNuevoTurnoFilterEspecialidad,
+    redirectListadoTurnos,
+    redirectInformaciónPacienteSecretario,
+  } = useRedirects();
 
   useEffect(() => {
     getPacientes();
@@ -50,9 +55,12 @@ function TablePaciente() {
     setPacienteInfo(paciente);
     redirectListadoTurnos();
   }
-  
-  //const {getPacinteTurnos,turnos} = useGetTurnos();
+  function redirectInformacionPaciente(paciente: IPacienteResponse): void {
+    setPacienteInfo(paciente);
+    redirectInformaciónPacienteSecretario();
+  }
 
+  //const {getPacinteTurnos,turnos} = useGetTurnos();
 
   return (
     <>
@@ -115,11 +123,17 @@ function TablePaciente() {
                           Nuevo Turno por Especialidad
                         </Dropdown.Item>
 
-                        <Dropdown.Item> Mas Informaición</Dropdown.Item>
-                        <Dropdown.Item 
-                            onClick={() => redirectTurnosPaciente(paciente)}
-
-                        >Turnos</Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => redirectInformacionPaciente(paciente)}
+                        >
+                          {" "}
+                          Mas Información
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => redirectTurnosPaciente(paciente)}
+                        >
+                          Turnos
+                        </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
