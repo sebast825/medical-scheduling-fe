@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import {
-  usePersonaInfoContext,
-  useUserContext,
-  useUserInfo,
+  usePersonaInfoContext
 } from "../../context/authContext";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
+import useIsSecretario from "../../hooks/validateRol/isSecretario";
 
 function SecreatarioHome() {
-  const user = useUserInfo();
+  const isSecretario : Boolean = useIsSecretario()
+
   const redirectToLogin = useRedirectToLogin();
   const { personaInfo } = usePersonaInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
 
   useEffect(() => {
-    
-    user == null ? redirectToLogin() : console.log("asd");
+    if(!isSecretario) redirectToLogin() 
+
   }, []);
 
   function ShowPacientes() {
