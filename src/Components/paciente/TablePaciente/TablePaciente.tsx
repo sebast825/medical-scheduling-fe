@@ -21,7 +21,7 @@ function TablePaciente() {
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
   const { setPacienteInfo } = usePacienteContext();
-  const { redirectToNuevoTurnoFilterMedico, redirectToNuevoTurnoFilterEspecialidad } = useRedirects();
+  const { redirectToNuevoTurnoFilterMedico, redirectToNuevoTurnoFilterEspecialidad,redirectListadoTurnos } = useRedirects();
 
   useEffect(() => {
     getPacientes();
@@ -45,6 +45,15 @@ function TablePaciente() {
     setPacienteInfo(paciente);
     redirectToNuevoTurnoFilterEspecialidad();
   }
+
+  function redirectTurnosPaciente(paciente: IPacienteResponse): void {
+    setPacienteInfo(paciente);
+    redirectListadoTurnos();
+  }
+  
+  //const {getPacinteTurnos,turnos} = useGetTurnos();
+
+
   return (
     <>
       <div className="flex m-0 m-md-4 table-container">
@@ -107,7 +116,10 @@ function TablePaciente() {
                         </Dropdown.Item>
 
                         <Dropdown.Item> Mas Informaición</Dropdown.Item>
-                        <Dropdown.Item>Turnos</Dropdown.Item>
+                        <Dropdown.Item 
+                            onClick={() => redirectTurnosPaciente(paciente)}
+
+                        >Turnos</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>

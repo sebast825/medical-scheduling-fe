@@ -27,6 +27,9 @@ const useRedirects = () => {
   const redirectToSecretarioHome = (): void => {
     navigate("/secretarios");
   };
+  const redirectListadoTurnos = (): void => {
+    navigate("/secretarios/TurnosDePaciente");
+  };
   return {
     redirectToHome,
     redirectToNuestrosMedicos,
@@ -35,7 +38,8 @@ const useRedirects = () => {
     redirectToNuevoTurnoFilterMedico,
     redirectToNuevoTurnoFilterEspecialidad,
     redirectToInformacionPersonal,
-    redirectToSecretarioHome
+    redirectToSecretarioHome,
+    redirectListadoTurnos
   };
 };
 

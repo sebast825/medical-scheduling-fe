@@ -15,6 +15,7 @@ function SecreatarioHome() {
   const { personaInfo } = usePersonaInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
+
   useEffect(() => {
     user == null ? redirectToLogin() : console.log("asd");
   }, []);
