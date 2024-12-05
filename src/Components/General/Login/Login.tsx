@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { fetchLogin, fetchPacienteInfo, fetchPersonaInfo } from "../../../services/apiService";
+import {
+  fetchLogin,
+  fetchPacienteInfo,
+  fetchPersonaInfo,
+} from "../../../services/apiService";
 import {
   useUserToggleContext,
   usePersonaInfoContext,
@@ -12,6 +16,7 @@ import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
 import { ILogin } from "../../../types/Login.types";
 import { Roles } from "../../../types/Roles.type";
 import { handleHttpError } from "../../../utils/errorHandler";
+import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -20,11 +25,18 @@ const LoginForm = () => {
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const {setPacienteInfo}= usePacienteContext();
+  const { setPacienteInfo } = usePacienteContext();
+  const redirectByRol = useRediectHomeByRole();
 
   useEffect(() => {
     if (typeof user == "string") {
-      getUserInfo();   
+      //espera a traer la info del usuario para realizar el redirect
+      const executeAsyncTasks = async () => {
+        await getUserInfo();
+        await redirectByRol();
+      };
+
+      executeAsyncTasks();
     }
   }, [user]);
 
@@ -36,34 +48,28 @@ const LoginForm = () => {
 
     var params: DecodedToken = GetJwtContent(user);
     var userRole = params.role;
-    console.log(user, params);
-    if(userRole == Roles[Roles.Secretario]){
+
+    if (userRole == Roles[Roles.Secretario]) {
       const personaInfo = await fetchPersonaInfo(user, params.PersonaId);
       await setPersonaInfo(personaInfo);
-      navigate("/secretarios");
-      
-    }else if(userRole == Roles[Roles.Paciente]){
+    } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
       await setPersonaInfo(pacienteInfo);
-      setPacienteInfo(pacienteInfo)
-      navigate("/pacientes");
+      setPacienteInfo(pacienteInfo);
     }
-   
-    //console.log(pacienteInfo);
   };
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-
-    let UserName = "secretario";
+    let UserName = "paciente";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
-      console.log(token)
+      console.log(token);
       cambiaLogin(token);
     } catch (error: any) {
       setError(handleHttpError(error));
