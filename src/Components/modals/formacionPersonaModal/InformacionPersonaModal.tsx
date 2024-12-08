@@ -4,7 +4,7 @@ import { IGenericObject } from "../../../types/IGenericObject.type";
 import useManageObjectList from "../../../hooks/objectField/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";
-import { usePersonaInfoContext } from "../../../context/authContext";
+import { usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../hooks/personas/usePersonas";
 import FormSelect from "../formSelect/FormSelect";
@@ -43,6 +43,8 @@ function InformacionPersonaModal({
     numeroDocumento,
     sexo,
   ]);
+  const { pacienteInfo,setPacienteInfo } = usePacienteContext();
+
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
 
@@ -51,14 +53,14 @@ function InformacionPersonaModal({
   const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
   const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
 
-  useEffect(() => {}, [personaInfo]);
+  useEffect(() => {}, [pacienteInfo]);
 
   async function updatePersona() {
     var persona: IPersonaUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
-    if (persona == undefined) return;
+    if (persona == undefined || pacienteInfo == undefined) return;
     var updatedPersona: IPersonaResponse | undefined = await putPersona(
       persona,
-      personaInfo.id
+      pacienteInfo.id.toString()
     );
     if (updatedPersona != undefined) {
       handleConfirm(updatedPersona)
@@ -74,10 +76,12 @@ function InformacionPersonaModal({
         return true;
       }
     });
+
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
     }
+    
     handleClose();
     var getNombre = getValue("nombre");
     var getApellido = getValue("apellido");

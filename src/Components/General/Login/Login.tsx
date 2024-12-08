@@ -54,15 +54,15 @@ const LoginForm = () => {
       await setPersonaInfo(personaInfo);
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-      await setPersonaInfo(pacienteInfo);
-      setPacienteInfo(pacienteInfo);
+      await setPacienteInfo(pacienteInfo);
+   
     }
   };
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "secretario";
+    let UserName = "paciente";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Opening from "../../Components/General/Opening/Opening";
-import {  useUserInfo } from "../../context/authContext";
+import {  usePacienteContext, useUserInfo } from "../../context/authContext";
 import { usePersonaInfoContext } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
@@ -12,7 +12,7 @@ import useRedirects from "../../hooks/useRedicrects";
 function PacienteHome() {
   const user = useUserInfo();
   //const [error, setError] = useState<ErrorTypeAny>(null);
-  const { personaInfo } = usePersonaInfoContext();
+const { pacienteInfo} = usePacienteContext();
   const {redirectToLogin} = useRedirects();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
@@ -47,7 +47,7 @@ function RedirectBuscarPorEspecialidad(){
 
   return (
     <div>
-      <Opening title={`Bienvenido ${personaInfo.nombre}`} />
+      <Opening title={`Bienvenido ${pacienteInfo?.nombre}`} />
 
       <TwoButtonComponent
         textButton1="Mis Turnos"

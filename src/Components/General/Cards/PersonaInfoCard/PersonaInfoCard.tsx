@@ -2,7 +2,7 @@ import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
 import { useEffect, useState } from "react";
 import { personaModalFields } from "../../../../utils/objectFields/objectsField";
-import { usePersonaInfoContext } from "../../../../context/authContext";
+import { usePacienteContext, usePersonaInfoContext } from "../../../../context/authContext";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
@@ -18,17 +18,22 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
   const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
   const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
+  const { pacienteInfo,setPacienteInfo } = usePacienteContext();
 
   useEffect(() => {
 
-    var modalFields = updateModalFields(personaModalFields, personaInfo);
+    var modalFields = updateModalFields(personaModalFields, pacienteInfo);
+    console.log(modalField)
     setModalFields(modalFields);
-    
-  }, [personaInfo]);
+    console.log(modalField)
+
+  }, [pacienteInfo]);
 
   function actualizarInformacionPersona(updatedPersona : IPersonaResponse){
-    var personaUpdated : IPacienteResponse = updatObjectFields(personaInfo,updatedPersona);
-    setPersonaInfo(personaUpdated);
+    if(pacienteInfo == null) return;
+    var personaUpdated : IPacienteResponse = updatObjectFields(pacienteInfo,updatedPersona);
+    setPacienteInfo(personaUpdated);
+    setPersonaInfo(personaUpdated)
 
   }
   return (
@@ -47,8 +52,10 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
         title={title}
         handleEvent={handleEvent ? showModal : undefined}
       >
-        {modalField &&
-          modalField.map((item) =>
+        
+        {       
+        modalField &&
+          modalField.map((item) =>            
             item.value ? (
               <CardItem
                 key={item.key}
