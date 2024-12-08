@@ -98,3 +98,11 @@ export const fetchUpdatePaciente = async (jwt: string,  dto  : IPacienteUpdate, 
  
 };
 
+
+export const getDisponibilidadMedicos = async (jwt: string) => {
+ 
+  const api = createApiInstance(jwt);
+  const response = await api.get(`api/disponibilidadMedicos/GetAll`);
+  return response.data;
+ 
+};
