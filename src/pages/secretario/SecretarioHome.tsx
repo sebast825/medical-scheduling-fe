@@ -12,6 +12,7 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import { getDisponibilidadMedicos } from "../../services/apiService";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import agruparObjetosPorClave from "../../utils/AgruparObjetosPorClave";
+import HorariosMedico from "../../Components/Medico/HorariosMedico";
 
 function SecreatarioHome() {
   const isSecretario : Boolean = useIsSecretario()
@@ -35,6 +36,8 @@ function SecreatarioHome() {
 
    var agruparHorariosPorMedico =  await agruparObjetosPorClave(horariosAtencionMedicos, "medico")
     console.log(agruparHorariosPorMedico)
+
+    
     await asd(agruparHorariosPorMedico);
   
   
@@ -63,7 +66,7 @@ function SecreatarioHome() {
         onClickButton1={ShowPacientes}
         onClickButton2={ShowHorariosMedicos}
       />
-      {btnToggle ? <TablePaciente /> : <h2>HOla</h2>}
+      {btnToggle ? <TablePaciente /> : <HorariosMedico />}
     </>
   );
 }
