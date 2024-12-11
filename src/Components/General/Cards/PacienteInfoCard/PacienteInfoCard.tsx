@@ -2,7 +2,7 @@ import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
 import { useEffect, useState } from "react";
 import { personaModalFields } from "../../../../utils/objectFields/objectsField";
-import { usePersonaInfoContext } from "../../../../context/authContext";
+import { usePacienteContext, usePersonaInfoContext } from "../../../../context/authContext";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
@@ -20,15 +20,17 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
   const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
   const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
+  const {pacienteInfo, setPacienteInfo} = usePacienteContext();
 
   useEffect(() => {
-    var modalFields = updateModalFields(pacienteModalFields, personaInfo);
+    var modalFields = updateModalFields(pacienteModalFields, pacienteInfo);
     setModalFields(modalFields);
-  }, [personaInfo]);
+  }, [pacienteInfo]);
 
   function actualizarInformacionPaciente(updatedPaciente : IPacienteResponse){
-    var personaUpdated = updatObjectFields(personaInfo, updatedPaciente);
-    setPersonaInfo(personaUpdated);
+    if(pacienteInfo == null) return;
+    var personaUpdated = updatObjectFields(pacienteInfo, updatedPaciente);
+    setPacienteInfo(personaUpdated);
 
   }
    
