@@ -4,8 +4,7 @@ import { IGenericObject } from "../../../types/IGenericObject.type";
 import useManageObjectList from "../../../hooks/objectField/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
 import FormInput from "../formInput/formInput";
-import { usePersonaInfoContext } from "../../../context/authContext";
-import { Sexo } from "../../../types/Sexo.type";
+import { usePacienteContext } from "../../../context/authContext";
 import useToastit from "../../../hooks/useToastit";
 import validarInputForm from "../../../utils/validarDatos";
 import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
@@ -16,46 +15,43 @@ interface IInformacionPacienteModal {
   modalField: IGenericObject[];
   show: boolean;
   handleClose: () => void;
-  handleConfirm : (pacienteResponse : IPacienteResponse) => void;
+  handleConfirm: (pacienteResponse: IPacienteResponse) => void;
 }
 
 function InformacionPacienteModal({
   modalField,
   show,
   handleClose,
-  handleConfirm
+  handleConfirm,
 }: IInformacionPacienteModal) {
   var telefonoEmergencia: IGenericObject = modalField[0];
   var nombreEmergencia: IGenericObject = modalField[1];
   const { handleChange, getValue, inputValues } = useManageObjectList([
     telefonoEmergencia,
-    nombreEmergencia
+    nombreEmergencia,
   ]);
-
-  const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
-  const { putPaciente} = usePacientes();
+  const { pacienteInfo } = usePacienteContext();
+  const { putPaciente } = usePacientes();
   const { error } = useToastit();
-  //utiliza el enum Sexo
-  const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
-  const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
 
-  useEffect(() => {}, [personaInfo]);
+  useEffect(() => {}, [pacienteInfo]);
 
   async function updatePersona() {
-    var paciente: IPacienteUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
-    if (paciente == undefined) return;
+    var paciente: IPacienteUpdate | undefined = recibirInfoUpdated();
+    if (paciente == undefined || pacienteInfo == null) return;
     var updatedPaciente: IPacienteResponse | undefined = await putPaciente(
       paciente,
-      personaInfo.id
+      pacienteInfo.id.toString()
     );
     if (updatedPaciente != undefined) {
       handleConfirm(updatedPaciente);
-      // setPersonaInfo(updatedPaciente);
     }
   }
 
   function recibirInfoUpdated(): IPacienteUpdate | undefined {
-    var datosOk: boolean[] = inputValues.map((elem) => validarInputForm(elem.value, elem.key, elem.typeInput));
+    var datosOk: boolean[] = inputValues.map((elem) =>
+      validarInputForm(elem.value, elem.key, elem.typeInput)
+    );
     if (datosOk.some((value) => value == false)) {
       error("DATOS INVALIDOS");
       return;
@@ -64,16 +60,12 @@ function InformacionPacienteModal({
     var getTelefonoEmergencia = getValue("telefonoEmergencia");
     var getNombreEmergencia = getValue("nombreEmergencia");
 
-
     const objetUpdate: IPacienteUpdate = {
       TelefonoEmergencia: getTelefonoEmergencia,
       NombreEmergencia: getNombreEmergencia,
- 
     };
     return objetUpdate;
   }
-
- 
 
   return (
     <>
@@ -94,7 +86,6 @@ function InformacionPacienteModal({
             handleChange={handleChange}
             getValue={getValue}
           />
-
         </Form>
       </GenericModal>
     </>
