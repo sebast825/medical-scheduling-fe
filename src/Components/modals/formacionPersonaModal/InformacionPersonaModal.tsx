@@ -36,7 +36,7 @@ function InformacionPersonaModal({
     modalField.numeroDocumento
   );
   const [sexo, setSexo] = useState<string>(modalField.sexo);
-  const { pacienteInfo, setPacienteInfo } = usePacienteContext();
+  const { pacienteInfo} = usePacienteContext();
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { error } = useToastit();
@@ -99,7 +99,7 @@ function InformacionPersonaModal({
         title="Editar Información Personal"
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
-          <Form.Group controlId="formBasicnombre">
+          <Form.Group controlId="formBasicnombre" >
             <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
             <Form.Control
               type="text"
@@ -108,7 +108,7 @@ function InformacionPersonaModal({
               value={nombre}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicnombre">
+          <Form.Group >
             <Form.Label style={{ textAlign: "left" }}>Apellido</Form.Label>
             <Form.Control
               type="text"
@@ -117,7 +117,7 @@ function InformacionPersonaModal({
               value={apellido}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicnombre">
+          <Form.Group >
             <Form.Label style={{ textAlign: "left" }}>
               Fecha Nacimiento
             </Form.Label>
@@ -128,7 +128,7 @@ function InformacionPersonaModal({
               value={fechaNacimiento}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicnombre">
+          <Form.Group key="4">
             <Form.Label style={{ textAlign: "left" }}>Teléfono</Form.Label>
             <Form.Control
               type="text"
@@ -137,7 +137,7 @@ function InformacionPersonaModal({
               value={telefono}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicnombre">
+          <Form.Group  key="5">
             <Form.Label style={{ textAlign: "left" }}>
               Número Documento
             </Form.Label>
@@ -149,11 +149,11 @@ function InformacionPersonaModal({
             />
           </Form.Group>
 
-          <Form.Group>
+          <Form.Group key="6">
             <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
             <Form.Select onChange={(e) => setSexo(e.target.value)} value={sexo}>
               {claves.map((elem) => {
-                return <option value={elem}>{elem}</option>;
+                return <option key={elem} value={elem}>{elem}</option>;
               })}
             </Form.Select>
           </Form.Group>

@@ -24,7 +24,7 @@ function usePersonas() {
     try {
       if (user == null) return;
       const response: IPersonaResponse = await fetchUpdatePersona(user, dto,userId);
-      setPersona(response);
+      //setPersona(response);
       return response;
 
     } catch (err: any) {

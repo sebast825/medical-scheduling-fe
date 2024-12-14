@@ -1,8 +1,7 @@
 import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
-import { useEffect, useState } from "react";
-import { personaModalFields } from "../../../../utils/objectFields/objectsField";
-import { usePacienteContext, usePersonaInfoContext } from "../../../../context/authContext";
+import { useEffect } from "react";
+import { usePacienteContext } from "../../../../context/authContext";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
@@ -11,29 +10,28 @@ import { IInfoCard } from "../../../../types/InfoCard.type";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import { IPacienteResponse } from "../../../../types/Paciente/PacienteResponse.type";
 
+function PersonaInfoCard({
+  title = "Información Personal",
+  handleEvent = false,
+}: IInfoCard) {
 
-
-function PersonaInfoCard({ title = "Información Personal", handleEvent = false }: IInfoCard) {
-  const [modalField, setModalFields] = useState<IGenericObject[]>();
-  const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
-  const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
-  const { pacienteInfo,setPacienteInfo } = usePacienteContext();
+  const { pacienteInfo, setPacienteInfo } = usePacienteContext();
 
   useEffect(() => {
-
-    var modalFields = updateModalFields(personaModalFields, pacienteInfo);
-    setModalFields(modalFields);
-
+ 
   }, [pacienteInfo]);
 
-  function actualizarInformacionPersona(updatedPersona : IPersonaResponse){
-    if(pacienteInfo == null) return;
-    var personaUpdated : IPacienteResponse = updatObjectFields(pacienteInfo,updatedPersona);
-    setPacienteInfo(personaUpdated);
-    setPersonaInfo(personaUpdated)
+  function actualizarInformacionPersona(updatedPersona: IPersonaResponse) {
+    if (pacienteInfo == null) return;
 
+    setPacienteInfo((prevInfo) => ({
+      ...updatedPersona,
+      TelefonoEmergencia: prevInfo?.TelefonoEmergencia ?? "",
+      NombreEmergencia: prevInfo?.NombreEmergencia ?? "",
+    }));
   }
+
   return (
     <>
       {pacienteInfo != undefined && (
@@ -50,24 +48,41 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
         title={title}
         handleEvent={handleEvent ? showModal : undefined}
       >
-        
-        {       
-        modalField &&
-          modalField.map((item) =>            
-            item.value ? (
-              <CardItem
-                key={item.key}
-                text={item.value}
-                propertyName={item.label}
-              />
-            ) : null
-          )}
-        {/* <Card.Text>
-          <strong>Contacto de Emergencia:</strong> {nombreEmergencia}
-        </Card.Text>
-        <Card.Text>
-          <strong>Teléfono de Emergencia:</strong> {telefonoEmergencia}
-        </Card.Text> */}{" "}
+        {pacienteInfo && (
+          <>
+            <CardItem
+              key={pacienteInfo.nombre}
+              text={pacienteInfo.nombre}
+              propertyName="Nombre"
+            />
+            <CardItem
+              key={pacienteInfo.apellido}
+              text={pacienteInfo.apellido}
+              propertyName="Apellido"
+            />
+            <CardItem
+              key={pacienteInfo.numeroDocumento}
+              text={pacienteInfo.numeroDocumento}
+              propertyName="Numero Documento"
+            />
+            <CardItem
+              key={pacienteInfo.fechaNacimiento}
+              text={new Date(pacienteInfo.fechaNacimiento).toLocaleDateString()}
+              propertyName="Fecha Nacimiento"
+            />
+            <CardItem
+              key={pacienteInfo.sexo}
+              text={pacienteInfo.sexo}
+              propertyName="Sexo"
+            />
+            <CardItem
+              key={pacienteInfo.telefono}
+              text={pacienteInfo.telefono}
+              propertyName="Telefono"
+            />
+          </>
+        )}
+      
       </GenericCard>
     </>
   );
