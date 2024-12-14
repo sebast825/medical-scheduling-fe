@@ -22,3 +22,5 @@ function validarInputForm(value: string | undefined, key: string, typeInput: str
  }
 
  export default validarInputForm;
+
+ 

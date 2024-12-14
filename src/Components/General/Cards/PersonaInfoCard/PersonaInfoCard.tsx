@@ -23,9 +23,7 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
   useEffect(() => {
 
     var modalFields = updateModalFields(personaModalFields, pacienteInfo);
-    console.log(modalField)
     setModalFields(modalFields);
-    console.log(modalField)
 
   }, [pacienteInfo]);
 
@@ -38,12 +36,12 @@ function PersonaInfoCard({ title = "Información Personal", handleEvent = false 
   }
   return (
     <>
-      {modalField != undefined && (
+      {pacienteInfo != undefined && (
         <>
           <InformacionPersonaModal
             show={toggleModal}
             handleClose={closeModal}
-            modalField={modalField}
+            modalField={pacienteInfo}
             handleConfirm={actualizarInformacionPersona}
           />
         </>

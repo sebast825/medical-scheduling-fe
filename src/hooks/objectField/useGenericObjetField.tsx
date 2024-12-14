@@ -11,9 +11,6 @@ export interface IObjectField {
 function useGenericObjectFielf(initialFields?: IGenericObject[], data?: any) {
   const [modalFields, setModalFields] = useState<IGenericObject[]>();
 
-  // useEffect(() => {
-  //   updateModalFields();
-  // }, [data]);
 
   function updateModalFields(
     modalFields: IGenericObject[],
@@ -45,19 +42,27 @@ function useGenericObjectFielf(initialFields?: IGenericObject[], data?: any) {
   //target es el objeto a modificar
   //source de donde toma los valores nuevos
   function updatObjectFields(
+   
     target: { [key: string]: any },
     source: { [key: string]: any }
+  
   ): any {
+    console.log(target,source)
     const keysSource = Object.keys(source);
     const keysTarget = Object.keys(target);
     //hay que crear un nuevo elemento porque si no react cree que es una mutacion directa y no actualiza los datos con un useffect
     const updatedTarget = {...target};
+    console.log(updatedTarget)
 
     keysSource.forEach((key) => {
       if (keysTarget.includes(key)) {
+       // console.log(  key,updatedTarget[key])
+
         updatedTarget[key] = source[key];
       }
     });
+    console.log(updatedTarget)
+
     return updatedTarget;
   }
   return { modalFields, updateModalFields, updatObjectFields };

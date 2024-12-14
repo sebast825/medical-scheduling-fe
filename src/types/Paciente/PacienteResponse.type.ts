@@ -4,3 +4,4 @@ export interface IPacienteResponse extends IPersonaResponse{
      TelefonoEmergencia: string;
      NombreEmergencia :string;
 }
+

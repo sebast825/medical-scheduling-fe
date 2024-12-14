@@ -7,6 +7,7 @@ function useManageObjectList(initialValues: IGenericObject[]) {
 
   //modifica el valor de un atributo de objeto
   function handleChange(key: string, value: string) {
+    
     setinputValues((prevValues) =>
       prevValues.map((elem) => {
         if (elem.key === key) {
