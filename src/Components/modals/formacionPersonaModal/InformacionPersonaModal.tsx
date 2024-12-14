@@ -11,7 +11,7 @@ import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
-import { IPacienteResponse } from "../../../types/Paciente/PacienteResponse.type";
+import  IPacienteResponse  from "../../../types/Paciente/PacienteResponse.type";
 
 interface IInformacionPersonaModal {
   modalField: IPacienteResponse;

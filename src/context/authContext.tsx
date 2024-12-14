@@ -1,5 +1,5 @@
 import React, { useState, useContext, ReactNode } from "react";
-import { IPacienteResponse } from "../types/Paciente/PacienteResponse.type";
+import IPacienteResponse  from "../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../types/MedicoResponse.type";
 import { IPersonaResponse } from "../types/Persona/PersonaResponse.type";
 

@@ -10,8 +10,8 @@ import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
 import { pacienteModalFields } from "../../../../utils/objectFields/pacienteModalFields";
 import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/InformacionPacienteModal";
-import { IPacienteResponse } from "../../../../types/Paciente/PacienteResponse.type";
-
+import usePacientes from "../../../../hooks/pacientes/usePacientes";
+import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 
 
 
@@ -21,19 +21,26 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
   const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
   const {pacienteInfo, setPacienteInfo} = usePacienteContext();
-
+  const {getPacienteById}=usePacientes()
   useEffect(() => {
     var modalFields = updateModalFields(pacienteModalFields, pacienteInfo);
     setModalFields(modalFields);
   }, [pacienteInfo]);
 
-  function actualizarInformacionPaciente(updatedPaciente : IPacienteResponse){
+  async function actualizarInformacionPaciente(updatedPaciente : IPacienteResponse){
+
     if(pacienteInfo == null) return;
     var personaUpdated = updatObjectFields(pacienteInfo, updatedPaciente);
     setPacienteInfo(personaUpdated);
-
   }
-   
+   async function apyCall(){
+    console.log("llega")
+    if(pacienteInfo == null)return;
+    var datos : IPacienteResponse | undefined= await getPacienteById(pacienteInfo.id.toString())
+    if(datos == undefined)return;
+    console.log(datos)
+    setPacienteInfo(datos)
+   }
   return (
     <>
       {modalField != undefined && (

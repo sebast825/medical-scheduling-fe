@@ -1,7 +1,8 @@
 import { IPersonaResponse } from "../Persona/PersonaResponse.type";
 
-export interface IPacienteResponse extends IPersonaResponse{
-     TelefonoEmergencia: string;
-     NombreEmergencia :string;
+interface IPacienteResponse extends IPersonaResponse{
+     telefonoEmergencia: string;
+     nombreEmergencia :string;
 }
 
+export default IPacienteResponse;

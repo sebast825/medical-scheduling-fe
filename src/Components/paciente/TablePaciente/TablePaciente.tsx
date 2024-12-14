@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
-import { IPacienteResponse } from "../../../types/Paciente/PacienteResponse.type";
+import  IPacienteResponse  from "../../../types/Paciente/PacienteResponse.type";
 import {
   Button,
   ButtonGroup,

@@ -8,7 +8,7 @@ import InformacionPersonaModal from "../../../modals/formacionPersonaModal/Infor
 import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
-import { IPacienteResponse } from "../../../../types/Paciente/PacienteResponse.type";
+import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 
 function PersonaInfoCard({
   title = "Información Personal",
@@ -25,10 +25,10 @@ function PersonaInfoCard({
   function actualizarInformacionPersona(updatedPersona: IPersonaResponse) {
     if (pacienteInfo == null) return;
 
-    setPacienteInfo((prevInfo) => ({
+    setPacienteInfo((prevInfo : IPacienteResponse | null) => ({
       ...updatedPersona,
-      TelefonoEmergencia: prevInfo?.TelefonoEmergencia ?? "",
-      NombreEmergencia: prevInfo?.NombreEmergencia ?? "",
+      telefonoEmergencia: prevInfo?.telefonoEmergencia ?? "",
+      nombreEmergencia: prevInfo?.nombreEmergencia ?? "",
     }));
   }
 

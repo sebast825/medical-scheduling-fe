@@ -4,12 +4,11 @@ import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import { useUserInfo } from "../../context/authContext";
 import { IMedicoResponse } from "../../types/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
-import { fetchAllPacientes, fetchUpdatePaciente, fetchUpdatePersona } from "../../services/apiService";
+import { fetchAllPacientes, fetchPacienteById, fetchUpdatePaciente, fetchUpdatePersona } from "../../services/apiService";
 import useToastit from "../useToastit";
 import GetJwtContent from "../../utils/jwtUtils";
-import { IPacienteResponse } from "../../types/Paciente/PacienteResponse.type";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
-
+import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 
 function usePacientes() {
   const user = useUserInfo();
@@ -54,6 +53,24 @@ function usePacientes() {
       }
     }
   }, []);
+
+  const getPacienteById = useCallback(async (id : string) => {
+    try {
+      if (user == null) return;
+      const response: IPacienteResponse = await fetchPacienteById(user,id);
+
+      console.log(response);
+      return response;
+    } catch (err: any) {
+      console.log(err);
+      if (err.response && err.response.status === 401) {
+        setError(err.response.data || "Error desconocido");
+      } else {
+        setError(err.response.data);
+      }
+    }
+  }, []);
+
   const {error} = useToastit();
 
   useEffect(()=>{
@@ -62,7 +79,7 @@ function usePacientes() {
   },[errorPaciente])
   
   return{
-    putPaciente,getAllPacientes,pacienteList
+    putPaciente,getAllPacientes,pacienteList,getPacienteById
   }
 }
 

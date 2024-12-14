@@ -9,7 +9,7 @@ import useToastit from "../../../hooks/useToastit";
 import validarInputForm from "../../../utils/validarDatos";
 import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
-import { IPacienteResponse } from "../../../types/Paciente/PacienteResponse.type";
+import  IPacienteResponse  from "../../../types/Paciente/PacienteResponse.type";
 
 interface IInformacionPacienteModal {
   modalField: IGenericObject[];
