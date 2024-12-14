@@ -11,7 +11,6 @@ import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
-import validarInputForm from "../../../utils/validarDatos";
 import { IPacienteResponse } from "../../../types/Paciente/PacienteResponse.type";
 
 interface IInformacionPersonaModal {
@@ -30,7 +29,7 @@ function InformacionPersonaModal({
   const [nombre, setNombre] = useState<string>(modalField.nombre);
   const [apellido, setApellido] = useState<string>(modalField.apellido);
   const [fechaNacimiento, setFechaNacimiento] = useState<string>(
-    modalField.fechaNacimiento
+  getDate(modalField.fechaNacimiento)
   );
   const [telefono, setTelefono] = useState<string>(modalField.telefono);
   const [numeroDocumento, setNumeroDocumento] = useState<string>(
@@ -123,7 +122,7 @@ function InformacionPersonaModal({
               Fecha Nacimiento
             </Form.Label>
             <Form.Control
-              type="text"
+              type="date"
               placeholder="Ingresar nombre"
               onChange={(e) => setFechaNacimiento(e.target.value)}
               value={fechaNacimiento}
