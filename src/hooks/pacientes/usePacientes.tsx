@@ -19,6 +19,12 @@ function usePacientes() {
 
    
   const putPaciente = useCallback(async (dto: IPacienteUpdate, userId : string) => {
+    let validarDatos = validarPersona(dto);
+    if(validarDatos!= null){
+      error(validarDatos)
+      return;
+    }
+
     try {
       if (user == null) return;
       const response: IPacienteResponse = await fetchUpdatePaciente(user, dto,userId);
@@ -35,6 +41,13 @@ function usePacientes() {
       }
     }
   }, []);
+
+  
+  function validarPersona (dto : IPacienteUpdate){
+
+    if (!dto.NombreEmergencia || dto.NombreEmergencia.length < 2 || dto.NombreEmergencia.length > 150) return "El nombre debe tener entre 2 caracteres y 150 caracteres.";
+ 
+  }
 
   const getAllPacientes = useCallback(async () => {
     try {
