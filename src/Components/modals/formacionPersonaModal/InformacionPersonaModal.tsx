@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { IGenericObject } from "../../../types/IGenericObject.type";
-import useManageObjectList from "../../../hooks/objectField/useManageObjectList";
 import GenericModal from "../GenericModal/GenericModal";
-import FormInput from "../formInput/formInput";
 import {
   usePacienteContext,
   usePersonaInfoContext,
 } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../../hooks/personas/usePersonas";
-import FormSelect from "../formSelect/FormSelect";
 import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
@@ -31,7 +27,6 @@ function InformacionPersonaModal({
   handleClose,
   handleConfirm,
 }: IInformacionPersonaModal) {
-
   const [nombre, setNombre] = useState<string>(modalField.nombre);
   const [apellido, setApellido] = useState<string>(modalField.apellido);
   const [fechaNacimiento, setFechaNacimiento] = useState<string>(
@@ -46,72 +41,27 @@ function InformacionPersonaModal({
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { error } = useToastit();
+
   //utiliza el enum Sexo
   const valores = Object.keys(Sexo).filter((key) => !isNaN(Number(key)));
   const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
 
   useEffect(() => {}, [pacienteInfo]);
-  /*
-  async function updatePersona() {
-    var persona: IPersonaUpdate | undefined = recibirInfoUpdated(); //persona.sexoId = 2;
-    if (persona == undefined || pacienteInfo == undefined) return;
-    var updatedPersona: IPersonaResponse | undefined = await putPersona(
-      persona,
-      pacienteInfo.id.toString()
-    );
-    if (updatedPersona != undefined) {
-      handleConfirm(updatedPersona)
-    }
-  }*/
-  /*
-  function recibirInfoUpdated(): IPersonaUpdate | undefined {
- var datosOk: boolean[] = inputValues.map((elem) => {
-      if (validarInputForm(elem.value, elem.key, elem.typeInput) == false) {
-        error(`Informacion Invalida- ${elem.label}`);
-        return false;
-      } else {
-        return true;
-      }
-    });
 
-    if (datosOk.some((value) => value == false)) {
-      error("DATOS INVALIDOS");
+  async function handlePersonaUpdate() {
+
+    var persona = createPersonaUpdateObject();
+    var updatedPersona = await updatePersona(persona);
+
+    if (updatedPersona == null) {
+      error("Ha ocurrido un error, no se pudo completar la accion con éxito.");
       return;
-    }
-  
-    handleClose();
-  
-    var getNombre = getValue("nombre");
-    var getApellido = getValue("apellido");
-    var getNumeroDocumento = getValue("numeroDocumento");
-    var getTelefono = getValue("telefono");
-    var getSexo = getValue("sexo");
-    var getSexoId = claves.indexOf(getSexo) + 1; //arranca en 0 los id son 1,2,3
-    var getFechaNacimiento = getValue("fechaNacimiento");
-    var date = getDate(getFechaNacimiento);
-    var hour = getHour(getFechaNacimiento);
-    var fechaNacFormated = date + "T" + hour;
-
-    const objetUpdate: IPersonaUpdate = {
-      nombre: getNombre,
-      apellido: getApellido,
-      numeroDocumento: getNumeroDocumento,
-      telefono: getTelefono,
-      sexoId: getSexoId,
-      fechaNacimiento: fechaNacFormated,
     };
-    return objetUpdate;
-  }  */
+    handleConfirm(updatedPersona);
+    handleClose();
+  }
 
-    function validarInfoPersonaUpdated(persona : IPersonaUpdate) : void{
-
-      Object.entries(persona).map(([key,value])=>{
-     
-      
-  
-    })}
-
-  async function updatePersona() {
+  function createPersonaUpdateObject(): IPersonaUpdate {
     var getSexoId = claves.indexOf(sexo) + 1; //arranca en 0 los id son 1,2,3
 
     var date = getDate(fechaNacimiento);
@@ -126,25 +76,27 @@ function InformacionPersonaModal({
       sexoId: getSexoId,
       fechaNacimiento: fechaNacFormated,
     };
-    console.log(persona);
-    if(pacienteInfo == null)return;
+    return persona;
+  }
+  async function updatePersona(
+    persona: IPersonaUpdate
+  ): Promise<IPersonaResponse | undefined> {
+
+    if (pacienteInfo == null) return undefined;
     var updatedPersona: IPersonaResponse | undefined = await putPersona(
       persona,
       pacienteInfo.id.toString()
-    );    
-    if(updatedPersona == null) return;
-    handleConfirm(updatedPersona)
-    handleClose();
-
-
+    );
+    return updatedPersona;
   }
 
+ 
   return (
     <>
       <GenericModal
         show={show}
         handleClose={handleClose}
-        handleConfirm={updatePersona}
+        handleConfirm={handlePersonaUpdate}
         title="Editar Información Personal"
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
@@ -197,7 +149,6 @@ function InformacionPersonaModal({
               value={numeroDocumento}
             />
           </Form.Group>
-
 
           <Form.Group>
             <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
