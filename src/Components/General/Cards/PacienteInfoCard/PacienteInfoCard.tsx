@@ -43,12 +43,12 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
    }
   return (
     <>
-      {modalField != undefined && (
+      {pacienteInfo != undefined && (
         <>
           <InformacionPacienteModal
             show={toggleModal}
             handleClose={closeModal}
-            modalField={modalField}
+            modalField={pacienteInfo}
             handleConfirm={actualizarInformacionPaciente}
           />
         </>
