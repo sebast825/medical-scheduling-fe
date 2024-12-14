@@ -1,7 +1,7 @@
 
 import Opening from "../../Components/General/Opening/Opening";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
-import {  useUserInfo } from "../../context/authContext";
+import {  usePacienteContext, useUserInfo } from "../../context/authContext";
 import { useEffect } from "react";
 import useRedirects from "../../hooks/useRedicrects";
 import PacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/PacienteInfoCard";
@@ -10,6 +10,7 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 
 function InformaciónPacienteSecretario() {
   const user = useUserInfo();
+  const {pacienteInfo}= usePacienteContext()
  // const redirectToLogin = useRedirectToLogin();
  const isSecretario : Boolean = useIsSecretario()
   
@@ -24,7 +25,7 @@ function InformaciónPacienteSecretario() {
 
   return (
     <>
-      <Opening title='Información de ${persona}'></Opening>
+      <Opening title={`Información de ${pacienteInfo?.nombre} ${pacienteInfo?.apellido}`}></Opening>
       <PersonaInfoCard
         // title="Información Personal"
         handleEvent={true}
