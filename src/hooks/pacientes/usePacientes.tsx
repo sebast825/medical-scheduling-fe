@@ -44,7 +44,7 @@ function usePacientes() {
 
   
   function validarPersona (dto : IPacienteUpdate){
-
+    if (!/^\d{8,15}$/.test(dto.TelefonoEmergencia)) return "El teléfono debe contener entre 8 y 15 dígitos.";
     if (!dto.NombreEmergencia || dto.NombreEmergencia.length < 2 || dto.NombreEmergencia.length > 150) return "El nombre debe tener entre 2 caracteres y 150 caracteres.";
  
   }
