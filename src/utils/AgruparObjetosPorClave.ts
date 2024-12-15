@@ -4,7 +4,12 @@ import { DisponibilidadMedico } from "../types/DisponibilidadMedico/Disponibilid
     agrupamos todos los horarios bajo un mismo medico
     Record devuelve conjuntos clave valor
   */
-   const agruparObjetosPorClave = (arrayObjetos : Array<DisponibilidadMedico>, key : string) :Record<string, DisponibilidadMedico[]>  =>  {
+
+    // Define el tipo del estado
+
+   const agruparObjetosPorClave2 = (arrayObjetos : Array<DisponibilidadMedico>, key : string)
+   
+   :Record<string, DisponibilidadMedico[]>  =>  {
       return arrayObjetos.reduce((result : any, item : any) => {
         const groupKey = item[key];
         if (!result[groupKey]) {
@@ -14,5 +19,22 @@ import { DisponibilidadMedico } from "../types/DisponibilidadMedico/Disponibilid
         return result;
       }, {} as Record<string,DisponibilidadMedico[]>);
     };
-    export default agruparObjetosPorClave;
 
+
+    const agruparObjetosPorClave = (arrayObjetos : Array<DisponibilidadMedico>, key : string,especialidad:string)
+   
+    :Record<string, DisponibilidadMedico[]>  =>  {
+      return arrayObjetos.reduce((result : any, item : any) => {
+         const groupKey = `${item[key]}-${item[especialidad]}`;
+         if (!result[groupKey]) {
+           result[groupKey] = [];
+         }
+         result[groupKey].push(item);
+         return result;
+       }, {} as Record<string,DisponibilidadMedico[]>);
+        
+     };
+
+     export { agruparObjetosPorClave};
+ 
+    
