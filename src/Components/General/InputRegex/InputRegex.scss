@@ -1,0 +1,18 @@
+@import "/src/styles/mixin.scss";
+
+
+.input-con-lupa {
+   background: url('../../../../public/images/lupa.png') no-repeat right 10px center;
+   background-size: 20px 20px;
+   border-color: #aaa ;
+
+}
+
+.input{
+   width: 600px;
+
+   // @include respond (mobile){
+   //    width: 300px;
+   // }
+   // margin: auto;
+}
