@@ -9,8 +9,9 @@ export const NuestrosMedicos = React.lazy(() => import('./home/NuestrosMedicos')
 export const PacienteHome = React.lazy(()=>import('./paciente/PacienteHome'))
 export const CrearTurno = React.lazy(()=> import ('./paciente/CrearTurno'))
 export const InformacionPersonal = React.lazy(()=> import ('./paciente/InformacionPersonal'))
+
 export const SecretarioHome = React.lazy(()=> import ('./secretario/SecretarioHome'))
 export const TurnosDePaciente = React.lazy(()=> import ('./secretario/TurnosDePaciente'))
-
 export const InformaciónPacienteSecretario = React.lazy(()=> import ('./secretario/InformaciónPacienteSecretario'))
 
+export const MedicoHome = React.lazy(()=> import ('./medico/MedicoHome'))

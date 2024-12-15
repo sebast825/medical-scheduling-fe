@@ -26,6 +26,9 @@ import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
          }else if(userRole == Roles[Roles.Paciente]){
          
            navigate("/pacientes/informacion");
+         }else if(userRole == Roles[Roles.Medico]){
+            navigate("/medicos");
+
          }
       }
   
