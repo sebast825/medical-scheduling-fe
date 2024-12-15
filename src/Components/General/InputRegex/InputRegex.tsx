@@ -16,7 +16,7 @@ function InputRegex({onFraseRegexChage,placeholder = "Buscar",lupa = true}: IInp
     }
 
    return(
-      <div className="row m-3 m-2  d-flex flex-column justify-content-center align-items-center">
+      <div className="row m-2  d-flex flex-column justify-content-center align-items-center">
       <input
         className= {`form-control input ${lupa ? "input-con-lupa":""}`}
         placeholder={placeholder}
