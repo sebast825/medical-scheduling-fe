@@ -9,6 +9,7 @@ function ListaHorariosMedicos() {
   const [horariosMedicos, setHorariosMedicos] = useState<
     Record<string, DisponibilidadMedico[]>
   >({});
+  const [buscarItem, setbuscarItem] = useState<string>("");
 
   useEffect(() => {
     const executeAsyncTask = async () => {
@@ -21,6 +22,7 @@ function ListaHorariosMedicos() {
     if (user != null) {
       var horariosAtencionMedicos: DisponibilidadMedico[] =
         await getDisponibilidadMedicos(user);
+        console.log(horariosAtencionMedicos)
 
       var agruparHorariosPorMedico = await agruparObjetosPorClave(
         horariosAtencionMedicos,
@@ -28,10 +30,8 @@ function ListaHorariosMedicos() {
       );
 
       setHorariosMedicos(agruparHorariosPorMedico);
-
     }
   }
-
 
   function iterarHorarios(grupo: Record<string, DisponibilidadMedico[]>) {
     // `Object.entries` devuelve un array de pares [clave, valor]
@@ -42,34 +42,53 @@ function ListaHorariosMedicos() {
       });
     });
   }
+  function updateRegEx(e: any) {
+    setbuscarItem(e.target.value);
+  }
 
   return (
-<div className="container">
-  <div className="row">
-    {Object.entries(horariosMedicos).map(([medico, horarios]) => (
-      <div className="col-12 col-md-4 mb-3" key={medico}>
-        <div className="card">
-          <div className="card-header text-center">
-            <h5>{medico}</h5>
+    <div className="container d-flex  flex-column justify-content-center gap-3 " >
+ 
+        <div className="row m-1" >
+          <input
+            className="form-control  input-con-lupa"
+            placeholder="Buscar por especialidad o médico"
+            type="text"
+            value={buscarItem}
+            onChange={(e) => updateRegEx(e)}
+          //  style={{ width: "350px", minWidth: "300px" }}
+          />
           </div>
-          <div className="card-body ps-5 pe-5 ">
-            {horarios.map((horario, index) => (
-              <div className="row mb-2" key={index}>
-                <div className=" col-6 ">
-                  <strong>{horario.diaSemana}</strong>
+     
+
+          <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3" >
+
+          
+          {Object.entries(horariosMedicos).map(([medico, horarios]) => (
+            <div className="col-12 col-lg-3  mb-3"  key={medico} >
+              <div className="card">
+                <div className="card-header text-center">
+                  <h5>{medico}</h5>
                 </div>
-                <div className=" col-6 text-center">
-                  <span>{horario.startTime} - {horario.endTime}</span>
+                <div className="card-body ps-5 pe-5 ">
+                  {horarios.map((horario, index) => (
+                    <div className="row mb-2" key={index}>
+                      <div className=" col-6 ">
+                        <strong>{horario.diaSemana}</strong>
+                      </div>
+                      <div className=" col-6 text-center">
+                        <span>
+                          {horario.startTime} - {horario.endTime}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </div>
-    ))}
-    
-  </div>
-</div>
+        </div>
   );
-}  
+}
 export default ListaHorariosMedicos;
