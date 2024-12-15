@@ -59,7 +59,7 @@ function TablePaciente() {
 
 
   return (
-    <>
+    <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
         placeholder="Buscar paciente por documento"
         onFraseRegexChage={setFraseRegex}
@@ -141,7 +141,7 @@ function TablePaciente() {
             ))}
         </tbody>
       </Table>
-    </>
+    </div>
   );
 }
 

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useUserInfo } from "../../context/authContext";
 import { getDisponibilidadMedicos } from "../../services/apiService";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
-import {
-  agruparObjetosPorClave,
-} from "../../utils/AgruparObjetosPorClave";
+import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
+import InputRegex from "../General/InputRegex/InputRegex";
 
 function ListaHorariosMedicos() {
   const user = useUserInfo();
@@ -50,9 +49,6 @@ function ListaHorariosMedicos() {
     }
   }
 
-  function updateRegEx(e: any) {
-    setbuscarItem(e.target.value);
-  }
   function splitKeyNombreEspecialidad(key: string): {
     nombre: string;
     especialidad: string;
@@ -66,17 +62,11 @@ function ListaHorariosMedicos() {
     return splitKey;
   }
   return (
-    <div className="container d-flex  flex-column justify-content-center gap-3 ">
-      <div className="row m-1">
-        <input
-          className="form-control  input-con-lupa"
-          placeholder="Buscar por especialidad o médico"
-          type="text"
-          value={buscarItem}
-          onChange={(e) => updateRegEx(e)}
-          //  style={{ width: "350px", minWidth: "300px" }}
-        />
-      </div>
+    <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
+      <InputRegex
+        placeholder="Buscar paciente por documento"
+        onFraseRegexChage={setbuscarItem}
+      />
 
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
