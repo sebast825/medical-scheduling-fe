@@ -27,10 +27,25 @@ function TablePaciente() {
     redirectListadoTurnos,
     redirectInformaciónPacienteSecretario,
   } = useRedirects();
+  const [fraseRegex, setFraseRegex] = useState<string>("");
+  const [showPacientes , setShowPacientes] = useState<IPacienteResponse[]>();
 
   useEffect(() => {
     getPacientes();
   }, []);
+
+  useEffect(()=>{
+    const regEx = new RegExp(`^${fraseRegex}`, "i");
+    const filteredItems = pacienteList?.filter(
+      (paciente) => {
+     
+        return regEx.test(paciente.numeroDocumento)
+      }
+    );
+    setShowPacientes(filteredItems)
+  },[pacienteList, fraseRegex])
+
+
 
   async function getPacientes() {
     var pacientes: IPacienteResponse[] | undefined = await getAllPacientes();
@@ -60,11 +75,25 @@ function TablePaciente() {
     redirectInformaciónPacienteSecretario();
   }
 
+  function updateRegEx(e: any) {
+    setFraseRegex(e.target.value);
+  }
   //const {getPacinteTurnos,turnos} = useGetTurnos();
 
   return (
     <>
       <div className="flex m-0 m-md-4 table-container">
+      <div className="row m-1">
+        <input
+          className="form-control  input-con-lupa"
+          placeholder="Buscar paciente por documento"
+          type="text"
+          value={fraseRegex}
+          onChange={(e) => updateRegEx(e)}
+          //  style={{ width: "350px", minWidth: "300px" }}
+        />
+      </div>
+      
         <Table
           striped
           bordered
@@ -89,8 +118,8 @@ function TablePaciente() {
             </tr>
           </thead>
           <tbody>
-            {pacientesList &&
-              pacientesList.map((paciente, index) => (
+            {showPacientes &&
+              showPacientes.map((paciente, index) => (
                 <tr key={paciente.id}>
                   <td className="index">{index}</td>
 
