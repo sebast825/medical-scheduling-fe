@@ -17,8 +17,8 @@ function GenericCard({
   handleEvent,
 }: IGenericCard) {
   return (
-    <div className="container d-flex justify-content-center align-items-center p-5 flex-column">
-      <Card style={{ width: "18rem" }}>
+    <div className="container d-flex justify-content-center align-items-center  flex-column" style={{ width: "max-content"}}>
+      <Card style={{ width: "max-content"}}>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           {/* <Card.Subtitle className="mb-2 text-muted">ID: {numeroDocumento}</Card.Subtitle> */}

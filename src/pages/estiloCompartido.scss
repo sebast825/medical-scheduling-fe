@@ -1,0 +1,11 @@
+@import "/src/styles/mixin.scss";
+
+.informacionPersonal{
+   align-items: start!important;
+
+   @include respond (mobile){
+      align-items: stretch;
+    }
+ 
+    
+}
