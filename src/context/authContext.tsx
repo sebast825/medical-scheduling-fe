@@ -16,8 +16,11 @@ interface UserContextType {
   setMedicosList: React.Dispatch<React.SetStateAction<IMedicoResponse[]>>;
   pacienteInfo: IPacienteResponse | null;
   setPacienteInfo: React.Dispatch<
-    React.SetStateAction<IPacienteResponse | null>
-  >;
+    React.SetStateAction<IPacienteResponse | null>>;
+    medicoInfo: IMedicoResponse | null;
+    setMedicoInfo :  React.Dispatch<
+    React.SetStateAction<IMedicoResponse | null>>;
+    
 }
 
 const UserContext = React.createContext<UserContextType | undefined>(undefined);
@@ -46,7 +49,13 @@ export function usePersonaInfoContext() {
     setPersonaInfo: context.setPersonaInfo,
   };
 }
-
+export function useMedicoInfoContext() {
+  const context = useUserContext();
+  return {
+    medicoInfo: context.medicoInfo,
+    setMedicoInfo: context.setMedicoInfo,
+  };
+}
 export function useMedicosContext() {
   const context = useUserContext();
   return {
@@ -69,6 +78,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User>(null);
   const [personaInfo, setPersonaInfo] = useState<PersonaInfo>("");
   const [medicosList, setMedicosList] = useState<MedicosList>("");
+  const [medicoInfo, setMedicoInfo] = useState<IMedicoResponse | null>(null);
   const [pacienteInfo, setPacienteInfo] = useState<IPacienteResponse | null>(
     null
   );
@@ -89,6 +99,8 @@ export function UserProvider({ children }: UserProviderProps) {
     setMedicosList,
     pacienteInfo,
     setPacienteInfo,
+    medicoInfo,
+    setMedicoInfo
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

@@ -114,3 +114,12 @@ export const fetchPacienteById= async (jwt: string,id:string) => {
   return response.data;
  
 };
+
+
+export const fetchMedicoInfo = async (jwt : string,id : string) => {
+  const api = createApiInstance(jwt);
+
+  const response = await api.get(`api/medicos/${id}`);
+  return response.data;
+
+};

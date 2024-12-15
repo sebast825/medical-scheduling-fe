@@ -53,7 +53,7 @@ export const routes = [
     element: <InformaciónPacienteSecretario />,
   },
   {
-    path: "/medicos/",
+    path: "/medicos",
     element: <MedicoHome />,
   }
 ];

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import {
   fetchLogin,
+  fetchMedicoInfo,
   fetchPacienteInfo,
   fetchPersonaInfo,
 } from "../../../services/apiService";
@@ -10,6 +11,7 @@ import {
   usePersonaInfoContext,
   useUserInfo,
   usePacienteContext,
+  useMedicoInfoContext,
 } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
@@ -26,6 +28,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setPacienteInfo } = usePacienteContext();
+  const { setMedicoInfo ,medicoInfo} = useMedicoInfoContext();
+
   const redirectByRol = useRediectHomeByRole();
 
   useEffect(() => {
@@ -54,7 +58,14 @@ const LoginForm = () => {
       await setPersonaInfo(personaInfo);
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-      await setPacienteInfo(pacienteInfo);
+      await setPacienteInfo(pacienteInfo);   
+    }
+    else if (userRole == Roles[Roles.Medico]) {
+
+     const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
+      await setMedicoInfo(medicoInfo);
+
+    console.log(medicoInfo)
    
     }
   };
