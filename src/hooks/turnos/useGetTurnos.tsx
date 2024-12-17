@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { fetchTurnosPaciente } from "../../services/apiService";
+import { fetchTurnosByMedicoId, fetchTurnosPaciente } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
@@ -35,6 +35,7 @@ const useGetTurnos = () =>{
 
    }
  },[]);
+
  const {error} =useToastit();
  useEffect(()=>{
   if(errorTurno == null) return
@@ -54,9 +55,36 @@ const useGetTurnos = () =>{
   });
   return sortTurnos
 }
+
+
+
+
+
+
+   const getTurnosMedicoById = useCallback(async (userId : string) => {
+ 
+      
+      try {
+        if (user == null) return;
+        const response: TurnoResponse[] = await fetchTurnosByMedicoId(user,userId);
+  
+        setTurnos(orderTurnos(response))
+        console.log(response);
+        return response;
+      } catch (err: any) {
+        console.log(err);
+        if (err.response && err.response.status === 401) {
+          SetErrorTurno(err.response.data || "Error desconocido");
+        } else {
+          SetErrorTurno(err.response.data);
+        }
+      }
+    }, [user]);
+
  return{
    getPacinteTurnos,
-   turnos
+   turnos,
+   getTurnosMedicoById
  }
 }
 

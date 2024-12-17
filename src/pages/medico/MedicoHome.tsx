@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import Opening from "../../Components/General/Opening/Opening";
 import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
-import useMedicos from "../../hooks/medicos/useMedicos2";
-import useMedicos2 from "../../hooks/medicos/useMedicos2";
+import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 
 
 
 function MedicoHome(){
 
    const {medicoInfo} = useMedicoInfoContext();
-   const {getTurnosById, turnosMedicos} = useMedicos2()
+   const {getTurnosMedicoById, turnos} = useGetTurnos()
    const user = useUserInfo()
 
    useEffect(()=>{
       if(medicoInfo == undefined) return
-         getTurnosById(medicoInfo?.id.toString())
+      getTurnosMedicoById(medicoInfo?.id.toString())
          
    },[])
 
@@ -30,8 +29,8 @@ function MedicoHome(){
       }
    <h2>Tus turnos para hoy</h2>
    {
-      turnosMedicos && 
-      turnosMedicos.map((turno)=>{
+      turnos && 
+      turnos.map((turno)=>{
        return  <div>
 
      
