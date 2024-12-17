@@ -1,12 +1,14 @@
 import {  useState } from "react";
 import { Card, Button, Row, Col, ButtonGroup, Dropdown } from "react-bootstrap";
 import ConfirmModal from "../../modals/ConfirmModal";
-import { useUserContext } from "../../../context/authContext";
+import { useUserContext, useUserInfo } from "../../../context/authContext";
 import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import useWindowSize from "../../../hooks/ScreenSize";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import { getDate, getHour } from "../../../utils/formatDate";
+import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
+
 
 type ICardTurnoMedico = {
  turno: TurnoResponse
@@ -19,7 +21,7 @@ function CardTurnoMedico({
 }: ICardTurnoMedico) {
 
   const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
-
+  const user = useUserInfo();
   var id = turno.id
   var paciente = turno.paciente;
   var estadoTurno = turno.estado;
@@ -29,6 +31,17 @@ function CardTurnoMedico({
   function IsMobile(): boolean {
     return screenSize < 600;
   }
+  
+  async function cancelarTurno(): Promise<void> {
+
+    if(user == null)return;    
+    var cancelarTurno = await fetchCancelarTurno(user, turno.id);
+    if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
+       btnEvent(cancelarTurno)
+    }
+  }
+
+
 
   return (
     <>
@@ -65,7 +78,7 @@ function CardTurnoMedico({
                     <Dropdown.Menu>
                       <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => btnEvent(turno)}
+                        onClick={() => cancelarTurno()}
                       >
                         Llamar
                       </Dropdown.Item>

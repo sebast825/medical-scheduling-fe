@@ -3,6 +3,8 @@ import Opening from "../../Components/General/Opening/Opening";
 import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import TurnosListWithModalMedico from "../../Components/Medico/TurnosListWithModal/TurnosListWithModalMedico";
+import TurnosList from "../../Components/paciente/TurnosList/TurnosList";
+import TurnosListMedico from "../../Components/Medico/TurnosList/TurnosListMedico";
 
 
 
@@ -21,6 +23,7 @@ function MedicoHome(){
 
 
 
+//   <TurnosListWithModalMedico turnosList={turnos}/>
 
    return(
       <>
@@ -29,8 +32,8 @@ function MedicoHome(){
          medicoInfo && <Opening title={medicoInfo?.nombre}/>
       }
    <h2>Tus turnos para hoy</h2>
-   <TurnosListWithModalMedico turnosList={turnos}/>
 
+<TurnosListMedico></TurnosListMedico>
 
       </>
    )

@@ -50,7 +50,7 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
   const handleConfirmAction = (): void => {
     // Acción que deseas confirmar
     if (turnoACancelar) {
-      cancelarTurno(turnoACancelar.id);
+      removerTurnoCancelado(turnoACancelar.id);
       console.log("Acción confirmada");
     }
 
@@ -63,7 +63,7 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
     if(user == null)return;
 
     var params: any = GetJwtContent(user);
-    var cancelarTurno = await fetchCancelarTurno(user, params.PersonaId);
+    var cancelarTurno = await fetchCancelarTurno(user, e);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
       console.log("turno cancelado");
       if (turnoACancelar) {
@@ -81,10 +81,13 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
         body={bodyConfirmModal}
       />
       
-      <TurnosList turnos={turnos} handleOpenModal={handleOpenModal} />
      
     </>
   );
 }
 
 export default TurnosListWithModalMedico;
+
+
+/*     <TurnosList turnos={turnos} handleOpenModal={handleOpenModal} />
+ */

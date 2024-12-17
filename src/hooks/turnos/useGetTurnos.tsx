@@ -84,6 +84,7 @@ const useGetTurnos = () =>{
  return{
    getPacinteTurnos,
    turnos,
+   setTurnos,
    getTurnosMedicoById
  }
 }
