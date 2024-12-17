@@ -28,7 +28,7 @@ const useGetTurnos = () =>{
      );
      //muestra los turnos con status programado
      const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
-     setTurnos(orderTurnos(turnosProgramados))
+     setTurnos(orderTurnosByDate(turnosProgramados))
    } catch (err: any) {
     console.log(err)
      SetErrorTurno(err.response.data || "Error desconocido");
@@ -42,8 +42,8 @@ const useGetTurnos = () =>{
     error(errorTurno);
  },[errorTurno])
  
- function orderTurnos( array : TurnoResponse[]) : TurnoResponse[]{
-  var sortTurnos = array.sort((a, b) => {
+ function orderTurnosByDate( array : TurnoResponse[]) : TurnoResponse[]{
+  var sortTurnosByPrioridad = array.sort((a, b) => {
     var fecha1 = new Date(a.fecha);
     var fecha2 = new Date(b.fecha) 
     
@@ -53,7 +53,7 @@ const useGetTurnos = () =>{
       return -1;
     }
   });
-  return sortTurnos
+  return sortTurnosByPrioridad
 }
 
 
@@ -67,8 +67,8 @@ const useGetTurnos = () =>{
       try {
         if (user == null) return;
         const response: TurnoResponse[] = await fetchTurnosByMedicoId(user,userId);
-  
-        setTurnos(orderTurnos(response))
+        let orderByDate = orderTurnosByDate(response);
+        setTurnos(sortTurnosByPrioridad(orderByDate))
         console.log(response);
         return response;
       } catch (err: any) {
@@ -81,11 +81,49 @@ const useGetTurnos = () =>{
       }
     }, [user]);
 
+
+    const prioridadTurnos = {
+      [ESTADOS_TURNO.EN_PROGRESO]: 1,
+      [ESTADOS_TURNO.LLAMANDO]: 2,
+      [ESTADOS_TURNO.PROGRAMADO]: 3,
+      [ESTADOS_TURNO.COMPLETADO]: 4,
+      [ESTADOS_TURNO.CANCELADO]: 5,
+      [ESTADOS_TURNO.NO_ASISTIDO]: 6,
+    };
+  
+    function sortTurnosByPrioridad(turnosList : TurnoResponse[]) {
+      //se usa el spread operator para crear una copia y no modificar el estado original
+      //el 100 en caso ed que el estad no este definido tiene la priooridad mas alta
+      let ordenarTurnos = [...turnosList].sort((a, b) => {
+        let prioridadA = prioridadTurnos[a.estado] || 100;
+        let prioridadB = prioridadTurnos[b.estado] || 100;
+        return prioridadA - prioridadB;
+      });
+      return ordenarTurnos;
+    }
+
+      // Actualiza el turno modificado en el array de turnos.
+  function updateStatusTurno(turnoModificado: TurnoResponse) {
+    console.log("Turno modificado:", turnoModificado);
+
+    const updateTurnos = turnos.map((turno) => {
+      if (turno.id === turnoModificado.id) {
+        turno.estado = turnoModificado.estado;
+        return turno;
+      }
+      return turno;
+    });
+    setTurnos(sortTurnosByPrioridad(updateTurnos));
+  }
+
+
  return{
    getPacinteTurnos,
    turnos,
    setTurnos,
-   getTurnosMedicoById
+   getTurnosMedicoById,
+   sortTurnosByPrioridad,
+   updateStatusTurno
  }
 }
 
