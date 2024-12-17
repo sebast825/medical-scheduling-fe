@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
-import CardPaciente from "../../paciente/CardTurno/CardTurno";
+import CardPaciente from "../CardTurno/CardTurno";
 
 interface ITurnosList{
    turnos :TurnoResponse[],

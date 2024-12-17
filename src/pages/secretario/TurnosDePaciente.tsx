@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Opening from "../../Components/General/Opening/Opening";
-import TurnosListWithModal from "../../Components/turno/TurnosListWithModal/TurnosListWithModal";
+import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";

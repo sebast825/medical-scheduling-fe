@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Opening from "../../Components/General/Opening/Opening";
 import {  usePacienteContext, useUserInfo } from "../../context/authContext";
 import { usePersonaInfoContext } from "../../context/authContext";
-import TurnosListWithModal from "../../Components/turno/TurnosListWithModal/TurnosListWithModal";
+import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
