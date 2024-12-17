@@ -1,5 +1,5 @@
 import {  useState } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Row, Col, ButtonGroup, Dropdown } from "react-bootstrap";
 import ConfirmModal from "../../modals/ConfirmModal";
 import { useUserContext } from "../../../context/authContext";
 import GetJwtContent from "../../../utils/jwtUtils";
@@ -52,14 +52,43 @@ function CardTurnoMedico({
                 </Col>
               </Col>
             )}
-
-            {btnEvent != undefined ? (
               <Col xs={4} md={2}  className="d-flex align-items-center justify-content-center">
-                <Button variant="warning" onClick={()=>btnEvent(turno)}>
-                  Cancelar
-                </Button>
-              </Col>
-            ) : null}
+
+                  <Dropdown as={ButtonGroup}>
+                    <Dropdown.Toggle
+                      variant="primary"
+                      id="dropdown-basic"
+                      
+                    >Modificar Estado</Dropdown.Toggle>
+                      
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        //className="tezt-algin-right"
+                        onClick={() => console.log("Llamar")}
+                      >
+                        Llamar
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        //className="tezt-algin-right"
+                        onClick={() => console.log("Progreso")}
+                      >
+                        En Progreso
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        //className="tezt-algin-right"
+                        onClick={() => console.log("Completado")}
+                      >
+                        Completado
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                        //className="tezt-algin-right"
+                        onClick={() => console.log("no Asiste")}
+                      >
+                        No Asiste
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                      </Dropdown>
+                      </Col>
           </Row>
         </Card.Body>
       </Card>
@@ -68,3 +97,20 @@ function CardTurnoMedico({
 }
 
 export default CardTurnoMedico;
+
+/*   {btnEvent != undefined ? (
+              <Col xs={4} md={2}  className="d-flex align-items-center justify-content-center">
+                <Button variant="primary" onClick={()=>btnEvent(turno)}>
+                  Actualizar Estado
+                </Button>
+              </Col>
+            ) : null} 
+             
+            
+            PROGRAMADO: 'Programada',
+CANCELADO: 'Cancelada',
+COMPLETADO: 'Completada',
+LLAMANDO: 'LLamando',
+EN_PROGRESO: 'EnProgreso',
+FINALIZADO: 'Finalizada',
+NO_ASISTIDO: 'NoAsistida'*/
