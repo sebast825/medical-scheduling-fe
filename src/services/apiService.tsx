@@ -52,10 +52,10 @@ export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
  
 };
 
-export const fetchCancelarTurno = async (jwt: string, idTurno : number, idPaciente : string ) => {
+export const fetchCancelarTurno = async (jwt: string, idTurno : number ) => {
 
   const api = createApiInstance(jwt);
-  const response = await api.patch(`api/pacientes/${idPaciente}/turnos/${idTurno}/cancelar`);
+  const response = await api.patch(`api/pacientes/turnos/${idTurno}/cancelar`);
   return response.data;
  
 };

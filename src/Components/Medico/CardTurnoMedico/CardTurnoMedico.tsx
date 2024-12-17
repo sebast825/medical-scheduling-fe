@@ -10,7 +10,7 @@ import { getDate, getHour } from "../../../utils/formatDate";
 
 type ICardTurnoMedico = {
  turno: TurnoResponse
-  btnEvent?: (turno : TurnoResponse) => void;
+  btnEvent: (turno : TurnoResponse) => void;
 };
 
 function CardTurnoMedico({
@@ -24,6 +24,7 @@ function CardTurnoMedico({
   var paciente = turno.paciente;
   var estadoTurno = turno.estado;
   var fecha = getDate(turno.fecha) + " " + getHour(turno.fecha);
+  
   
   function IsMobile(): boolean {
     return screenSize < 600;
@@ -64,7 +65,7 @@ function CardTurnoMedico({
                     <Dropdown.Menu>
                       <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => console.log("Llamar")}
+                        onClick={() => btnEvent(turno)}
                       >
                         Llamar
                       </Dropdown.Item>

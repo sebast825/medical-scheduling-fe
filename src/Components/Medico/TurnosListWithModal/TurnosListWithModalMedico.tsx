@@ -28,6 +28,7 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
   }, [turnosList]);
 
 
+
   const handleOpenModal = (turno: TurnoResponse): void => {
     setTurnoACancelar(turno);
 
@@ -57,10 +58,12 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
   };
 
   async function cancelarTurno(e: number): Promise<void> {
+    console.log("turno cancelado");
+
     if(user == null)return;
 
     var params: any = GetJwtContent(user);
-    var cancelarTurno = await fetchCancelarTurno(user, e, params.PersonaId);
+    var cancelarTurno = await fetchCancelarTurno(user, params.PersonaId);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
       console.log("turno cancelado");
       if (turnoACancelar) {

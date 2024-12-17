@@ -4,7 +4,7 @@ import CardTurnoMedico from "../CardTurnoMedico/CardTurnoMedico";
 
 interface ITurnosListMedico{
    turnos :TurnoResponse[],
-   handleOpenModal?: (turno: TurnoResponse)=>void
+   handleOpenModal: (turno: TurnoResponse)=>void
 }
 
 function TurnosListMedico(props :ITurnosListMedico){
@@ -21,7 +21,7 @@ function TurnosListMedico(props :ITurnosListMedico){
         <CardTurnoMedico
           key={turno.id}
           turno={turno}
-          btnEvent={handleOpenModal ? () => handleOpenModal(turno) : undefined}
+          btnEvent={() => handleOpenModal(turno)}
         />
       ))}
     
