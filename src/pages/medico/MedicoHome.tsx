@@ -8,57 +8,22 @@ import TurnosListMedico from "../../Components/Medico/TurnosList/TurnosListMedic
 import useIsMedico from "../../hooks/roles/useIsMedico";
 import { useRedirectToLogin } from "../../routes/navigation";
 
-
-
-function MedicoHome(){
-
-   const {medicoInfo} = useMedicoInfoContext();
-   const isMedico  : Boolean = useIsMedico()
+function MedicoHome() {
+  const { medicoInfo } = useMedicoInfoContext();
+  const isMedico: Boolean = useIsMedico();
   const redirectToLogin = useRedirectToLogin();
 
+  useEffect(() => {
+    if (!isMedico) redirectToLogin();
+  }, []);
 
-   useEffect(() => {
-      if(!isMedico) redirectToLogin() 
-  
-    }, []);
+  return (
+    <>
+      {medicoInfo && <Opening title={medicoInfo?.nombre} />}
 
-
-
-//   <TurnosListWithModalMedico turnosList={turnos}/>
-
-   return(
-      <>
-
-      {
-         medicoInfo && <Opening title={medicoInfo?.nombre}/>
-      }
-   <h2>Tus turnos para hoy</h2>
-
-<TurnosListMedico></TurnosListMedico>
-
-      </>
-   )
+      <TurnosListMedico />
+    </>
+  );
 }
 
 export default MedicoHome;
-
-
-function redirectToLogin() {
-   throw new Error("Function not implemented.");
-}
-/*
-   {
-      turnos && 
-      turnos.map((turno)=>{
-       return 
-
-
-
-  
-     <div>   <div>{turno.medico}</div>
-         <div>{turno.paciente}</div>
-         <div>{turno.estado}</div>
-
-         <div>{turno.fechaCreacion.toString()}</div>
-         </div>    })
-   } */

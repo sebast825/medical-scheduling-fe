@@ -3,7 +3,7 @@ import { Card, Button, Row, Col, ButtonGroup, Dropdown } from "react-bootstrap";
 import ConfirmModal from "../../modals/ConfirmModal";
 import { useUserContext, useUserInfo } from "../../../context/authContext";
 import GetJwtContent from "../../../utils/jwtUtils";
-import { fetchCancelarTurno } from "../../../services/apiService";
+import { fetchActualizarEstadoTurno, fetchCancelarTurno } from "../../../services/apiService";
 import useWindowSize from "../../../hooks/ScreenSize";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import { getDate, getHour } from "../../../utils/formatDate";
@@ -40,6 +40,14 @@ function CardTurnoMedico({
        btnEvent(cancelarTurno)
     }
   }
+  async function updateStatusTurno(nuevoEstado : string): Promise<void> {
+
+    if(user == null)return;    
+    var updateStatus = await fetchActualizarEstadoTurno(user, turno.id.toString(), nuevoEstado);
+    if (updateStatus.estado == nuevoEstado) {
+       btnEvent(updateStatus)
+    }
+  }
 
 
 
@@ -73,30 +81,30 @@ function CardTurnoMedico({
                       variant="primary"
                       id="dropdown-basic"
                       
-                    >Modificar Estado</Dropdown.Toggle>
+                    >Estado</Dropdown.Toggle>
                       
                     <Dropdown.Menu>
                       <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => cancelarTurno()}
+                        onClick={() =>  updateStatusTurno(ESTADOS_TURNO.LLAMANDO)}
                       >
                         Llamar
                       </Dropdown.Item>
                       <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => console.log("Progreso")}
+                        onClick={() => updateStatusTurno(ESTADOS_TURNO.EN_PROGRESO)}
                       >
                         En Progreso
                       </Dropdown.Item>
                       <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => console.log("Completado")}
+                        onClick={() => updateStatusTurno(ESTADOS_TURNO.COMPLETADO)}
                       >
                         Completado
                         </Dropdown.Item>
                         <Dropdown.Item
                         //className="tezt-algin-right"
-                        onClick={() => console.log("no Asiste")}
+                        onClick={() => updateStatusTurno(ESTADOS_TURNO.NO_ASISTIDO)}
                       >
                         No Asiste
                         </Dropdown.Item>

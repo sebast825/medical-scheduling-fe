@@ -1,5 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
-import { fetchTurnosByMedicoId, fetchTurnosPaciente } from "../../services/apiService";
+import {
+  fetchTurnosByMedicoId,
+  fetchTurnosPaciente,
+} from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
@@ -7,68 +10,74 @@ import GetJwtContent from "../../utils/jwtUtils";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
 
+const useGetTurnos = () => {
+  const user = useUserInfo();
 
-const useGetTurnos = () =>{
-   const user = useUserInfo();
+  const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
+  const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
+  const { pacienteInfo } = usePacienteContext();
 
-   const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
-   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
-   const {pacienteInfo} = usePacienteContext()
+  const prioridadTurnos = {
+    [ESTADOS_TURNO.EN_PROGRESO]: 1,
+    [ESTADOS_TURNO.LLAMANDO]: 2,
+    [ESTADOS_TURNO.PROGRAMADO]: 3,
+    [ESTADOS_TURNO.COMPLETADO]: 4,
+    [ESTADOS_TURNO.NO_ASISTIDO]: 5,
+    [ESTADOS_TURNO.CANCELADO]: 6,
+  };
 
-  const getPacinteTurnos = useCallback(async (pacienteId ?: string) => {
-   try {
-    if(user == null)return;
+  const getPacinteTurnos = useCallback(async (pacienteId?: string) => {
+    try {
+      if (user == null) return;
 
-     var paramId: any = pacienteInfo?.id;
-   
-     console.log(user)
-     const response: TurnoResponse[] = await fetchTurnosPaciente(
-       user,
-       pacienteId ? pacienteId : paramId
-     );
-     //muestra los turnos con status programado
-     const turnosProgramados = response.filter(turno => turno.estado == ESTADOS_TURNO.PROGRAMADO)
-     setTurnos(orderTurnosByDate(turnosProgramados))
-   } catch (err: any) {
-    console.log(err)
-     SetErrorTurno(err.response.data || "Error desconocido");
+      var paramId: any = pacienteInfo?.id;
 
-   }
- },[]);
-
- const {error} =useToastit();
- useEffect(()=>{
-  if(errorTurno == null) return
-    error(errorTurno);
- },[errorTurno])
- 
- function orderTurnosByDate( array : TurnoResponse[]) : TurnoResponse[]{
-  var sortTurnosByPrioridad = array.sort((a, b) => {
-    var fecha1 = new Date(a.fecha);
-    var fecha2 = new Date(b.fecha) 
-    
-    if ( fecha1 < fecha2 ) {
-      return 1;
-    } else {
-      return -1;
+      console.log(user);
+      const response: TurnoResponse[] = await fetchTurnosPaciente(
+        user,
+        pacienteId ? pacienteId : paramId
+      );
+      //muestra los turnos con status programado
+      const turnosProgramados = response.filter(
+        (turno) => turno.estado == ESTADOS_TURNO.PROGRAMADO
+      );
+      setTurnos(orderTurnosByDate(turnosProgramados));
+    } catch (err: any) {
+      console.log(err);
+      SetErrorTurno(err.response.data || "Error desconocido");
     }
-  });
-  return sortTurnosByPrioridad
-}
+  }, []);
 
+  const { error } = useToastit();
+  useEffect(() => {
+    if (errorTurno == null) return;
+    error(errorTurno);
+  }, [errorTurno]);
 
+  function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
+    var sortTurnosByPrioridad = array.sort((a, b) => {
+      var fecha1 = new Date(a.fecha);
+      var fecha2 = new Date(b.fecha);
 
+      if (fecha1 < fecha2) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    return sortTurnosByPrioridad;
+  }
 
-
-
-   const getTurnosMedicoById = useCallback(async (userId : string) => {
- 
-      
+  const getTurnosMedicoById = useCallback(
+    async (userId: string) => {
       try {
         if (user == null) return;
-        const response: TurnoResponse[] = await fetchTurnosByMedicoId(user,userId);
+        const response: TurnoResponse[] = await fetchTurnosByMedicoId(
+          user,
+          userId
+        );
         let orderByDate = orderTurnosByDate(response);
-        setTurnos(sortTurnosByPrioridad(orderByDate))
+        setTurnos(sortTurnosByPrioridad(orderByDate));
         console.log(response);
         return response;
       } catch (err: any) {
@@ -79,30 +88,22 @@ const useGetTurnos = () =>{
           SetErrorTurno(err.response.data);
         }
       }
-    }, [user]);
+    },
+    [user]
+  );
 
+  function sortTurnosByPrioridad(turnosList: TurnoResponse[]) {
+    //se usa el spread operator para crear una copia y no modificar el estado original
+    //el 100 en caso ed que el estad no este definido tiene la priooridad mas alta
+    let ordenarTurnos = [...turnosList].sort((a, b) => {
+      let prioridadA = prioridadTurnos[a.estado] || 100;
+      let prioridadB = prioridadTurnos[b.estado] || 100;
+      return prioridadA - prioridadB;
+    });
+    return ordenarTurnos;
+  }
 
-    const prioridadTurnos = {
-      [ESTADOS_TURNO.EN_PROGRESO]: 1,
-      [ESTADOS_TURNO.LLAMANDO]: 2,
-      [ESTADOS_TURNO.PROGRAMADO]: 3,
-      [ESTADOS_TURNO.COMPLETADO]: 4,
-      [ESTADOS_TURNO.CANCELADO]: 5,
-      [ESTADOS_TURNO.NO_ASISTIDO]: 6,
-    };
-  
-    function sortTurnosByPrioridad(turnosList : TurnoResponse[]) {
-      //se usa el spread operator para crear una copia y no modificar el estado original
-      //el 100 en caso ed que el estad no este definido tiene la priooridad mas alta
-      let ordenarTurnos = [...turnosList].sort((a, b) => {
-        let prioridadA = prioridadTurnos[a.estado] || 100;
-        let prioridadB = prioridadTurnos[b.estado] || 100;
-        return prioridadA - prioridadB;
-      });
-      return ordenarTurnos;
-    }
-
-      // Actualiza el turno modificado en el array de turnos.
+  // Actualiza el turno modificado en el array de turnos.
   function updateStatusTurno(turnoModificado: TurnoResponse) {
     console.log("Turno modificado:", turnoModificado);
 
@@ -116,15 +117,14 @@ const useGetTurnos = () =>{
     setTurnos(sortTurnosByPrioridad(updateTurnos));
   }
 
-
- return{
-   getPacinteTurnos,
-   turnos,
-   setTurnos,
-   getTurnosMedicoById,
-   sortTurnosByPrioridad,
-   updateStatusTurno
- }
-}
+  return {
+    getPacinteTurnos,
+    turnos,
+    setTurnos,
+    getTurnosMedicoById,
+    sortTurnosByPrioridad,
+    updateStatusTurno,
+  };
+};
 
 export default useGetTurnos;

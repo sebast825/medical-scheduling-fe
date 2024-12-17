@@ -131,3 +131,12 @@ export const fetchTurnosByMedicoId = async (jwt : string,id : string) => {
   return response.data;
 
 };
+
+
+export const fetchActualizarEstadoTurno = async (jwt : string,turnoId : string, estadoTurno : string) => {
+  const api = createApiInstance(jwt);
+
+  const response = await api.patch(`api/pacientes/turnos/${turnoId}/${estadoTurno}`);
+  return response.data;
+
+};
