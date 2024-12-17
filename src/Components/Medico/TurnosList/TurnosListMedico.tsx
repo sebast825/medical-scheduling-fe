@@ -22,13 +22,10 @@ function TurnosListMedico(props: ITurnosListMedico) {
     getTurnosMedicoById(medicoInfo?.id.toString());
   }, []);
 
-  useEffect(() => {
-   // Este useEffect se dispara cuando `turnos` cambia.
-   console.log(turnos);
- }, [turnos]);
+
 
  // Actualiza el turno modificado en el array de turnos.
- function sortTurnos(turnoModificado: TurnoResponse) {
+ function updateStatusTurno(turnoModificado: TurnoResponse) {
    console.log("Turno modificado:", turnoModificado);
 
    const updateTurnos = turnos.map((turno) => {
@@ -41,6 +38,12 @@ function TurnosListMedico(props: ITurnosListMedico) {
 
    setTurnos(updateTurnos); 
  }
+
+ function sortTurnos (){
+
+ }
+
+  
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "auto" }}>
@@ -48,7 +51,7 @@ function TurnosListMedico(props: ITurnosListMedico) {
           <CardTurnoMedico
             key={turno.id}
             turno={turno}
-            btnEvent={(e) => sortTurnos(e)}
+            btnEvent={(e) => updateStatusTurno(e)}
           />
         ))}
       </div>
