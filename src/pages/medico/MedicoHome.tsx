@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Opening from "../../Components/General/Opening/Opening";
 import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
+import TurnosListWithModal from "../../Components/turno/TurnosListWithModal/TurnosListWithModal";
 
 
 
@@ -32,13 +33,8 @@ function MedicoHome(){
       turnos && 
       turnos.map((turno)=>{
        return  <div>
+   <TurnosListWithModal turnosList={turnos} />
 
-     
-         <div>{turno.medico}</div>
-         <div>{turno.paciente}</div>
-         <div>{turno.estado}</div>
-
-         <div>{turno.fechaCreacion.toString()}</div>
          </div>
 
       })
@@ -47,4 +43,9 @@ function MedicoHome(){
    )
 }
 
-export default MedicoHome;
+export default MedicoHome;     /*
+<div>{turno.medico}</div>
+<div>{turno.paciente}</div>
+<div>{turno.estado}</div>
+
+<div>{turno.fechaCreacion.toString()}</div>*/
