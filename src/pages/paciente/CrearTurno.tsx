@@ -7,7 +7,7 @@ import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
-import useMedicos from "../../hooks/UseMedicos";
+import useMedicos from "../../hooks/medicos/useMedicos";
 import useTurnos from "../../hooks/turnos/UseTurnos";
 import ListMedicos from "../../Components/turno/listMedicos/ListMedicos";
 import CalendarioTurnoDisponible from "../../Components/turno/calendarioTurnoDisponible/CalendarioTurnoDisponible";
@@ -85,7 +85,7 @@ const {redirectToSecretarioHome} = useRedirects()
     6 - handleHorarioSelect -> llama al hook para crear un turno
   */
 
-  const { medicos, getMedicos, medicosError, findMedicoById, medicoNombre } =
+  const { medicos, getMedicos, findMedicoById } =
     useMedicos();
   const {
     getTurnosDisponiblesByMedico,

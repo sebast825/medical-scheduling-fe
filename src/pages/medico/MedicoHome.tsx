@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import Opening from "../../Components/General/Opening/Opening";
 import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
-import useMedicos from "../../hooks/medicos/useMedicos";
+import useMedicos from "../../hooks/medicos/useMedicos2";
+import useMedicos2 from "../../hooks/medicos/useMedicos2";
 
 
 
 function MedicoHome(){
 
    const {medicoInfo} = useMedicoInfoContext();
-   const {getTurnosById, turnosMedicos} = useMedicos()
+   const {getTurnosById, turnosMedicos} = useMedicos2()
    const user = useUserInfo()
 
    useEffect(()=>{

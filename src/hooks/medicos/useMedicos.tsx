@@ -1,47 +1,40 @@
-import { useCallback, useEffect, useState } from "react";
-import { useUserContext, useUserInfo } from "../../context/authContext";
-import { fetchTurnosByMedicoId } from "../../services/apiService";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import useToastit from "../useToastit";
-import { ErrorTypeAny } from "../../types/Error.type";
+import { useState, useCallback } from 'react';
+import { IMedicoResponse } from '../../types/MedicoResponse.type';
+import { ErrorTypeAny } from '../../types/Error.type';
+import {  fetchMedicos } from '../../services/apiService';
 
 
-function useMedicos (){
+const useMedicos = () => {
+  const [medicos, setMedicos] = useState<IMedicoResponse[]>();
+  const [medicosError, setError] = useState<ErrorTypeAny>(null);
 
-   const user = useUserInfo()
+  const getMedicos = useCallback(async () => {
 
-   const [turnosMedicos, setturnosMedicos] = useState<TurnoResponse[]>();
-  const [errorturnosMedicos, setErrorturnosMedicos] = useState<ErrorTypeAny>(null);
+    try {
+      const response: IMedicoResponse[] = await fetchMedicos();
+      setMedicos(response);
+
+    } catch (err: any) {
+      console.log(err);
+      setError("Error desconocido");
+    }
+  }, []);
+
+  function findMedicoById(id:number) :IMedicoResponse | undefined{
+    var medicoSelected = medicos?.find(elem => elem.id == id);
+    return medicoSelected ? medicoSelected : undefined;
+  }
+
+  function getMedicoNombre(id : number){
+    var medico = findMedicoById(id);
+    var medicoNombre =  medico?.nombre + " " + medico?.apellido;
+    return medicoNombre;
+  }
 
 
-   const getTurnosById = useCallback(async (userId : string) => {
- 
-      
-      try {
-        if (user == null) return;
-        const response: TurnoResponse[] = await fetchTurnosByMedicoId(user,userId);
   
-        setturnosMedicos(response)
-        console.log(response);
-        return response;
-      } catch (err: any) {
-        console.log(err);
-        if (err.response && err.response.status === 401) {
-          setErrorturnosMedicos(err.response.data || "Error desconocido");
-        } else {
-          setErrorturnosMedicos(err.response.data);
-        }
-      }
-    }, [user]);
-  
-    const {error} = useToastit();
 
-    useEffect(()=>{
-     if(errorturnosMedicos == null) return
-       error(errorturnosMedicos);
-    },[errorturnosMedicos])
-    
-    return {getTurnosById,turnosMedicos}
-}
+  return { medicos, medicosError, getMedicos,findMedicoById,getMedicoNombre };
+};
 
 export default useMedicos;
