@@ -8,7 +8,7 @@ import useWindowSize from "../../../hooks/ScreenSize";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
-
+import "./CardTurnoMedico.scss"
 
 type ICardTurnoMedico = {
  turno: TurnoResponse
@@ -55,7 +55,7 @@ function CardTurnoMedico({
     <>
    
       <Card className="d-flex m-2" key={id}>
-        <Card.Body>
+        <Card.Body className={`${turno.estado}`}>
           <Row className="d-flex flex-row">
             {IsMobile() ? (
               <Col xs={8}  className="col-8 flex-column">
@@ -96,6 +96,7 @@ function CardTurnoMedico({
                       >
                         En Progreso
                       </Dropdown.Item>
+                      
                       <Dropdown.Item
                         //className="tezt-algin-right"
                         onClick={() => updateStatusTurno(ESTADOS_TURNO.COMPLETADO)}
@@ -108,6 +109,12 @@ function CardTurnoMedico({
                       >
                         No Asiste
                         </Dropdown.Item>
+                        <Dropdown.Item
+                        //className="tezt-algin-right"
+                        onClick={() => updateStatusTurno(ESTADOS_TURNO.PROGRAMADO)}
+                      >
+                        Programada
+                      </Dropdown.Item>
                       </Dropdown.Menu>
                       </Dropdown>
                       </Col>

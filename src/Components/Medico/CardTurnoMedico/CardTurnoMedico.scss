@@ -1,0 +1,22 @@
+
+
+.LLamando{
+ 
+   background-color: rgba($color: blue, $alpha: .3);
+
+   
+}
+.EnProgreso{
+   background-color: rgba($color: green, $alpha: .3);
+}
+
+/*
+export const ESTADOS_TURNO = {
+   PROGRAMADO: 'Programada',
+   CANCELADO: 'Cancelada',
+   COMPLETADO: 'Completada',
+   LLAMANDO: 'LLamando',
+   EN_PROGRESO: 'EnProgreso',
+   FINALIZADO: 'Finalizada',
+   NO_ASISTIDO: 'NoAsistida'
+};*/
