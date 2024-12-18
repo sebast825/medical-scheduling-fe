@@ -64,7 +64,7 @@ function ListaHorariosMedicos() {
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
-        placeholder="Buscar paciente por documento"
+        placeholder="Buscar medico por nombre o especialidad"
         onFraseRegexChage={setbuscarItem}
       />
 
