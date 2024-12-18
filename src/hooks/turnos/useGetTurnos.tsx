@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import {
+  fetchFilterTurnosMedicoHoy,
   fetchTurnosByMedicoId,
   fetchTurnosPaciente,
 } from "../../services/apiService";
@@ -9,6 +10,7 @@ import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import GetJwtContent from "../../utils/jwtUtils";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
+import { getDate, getHour } from "../../utils/formatDate";
 
 const useGetTurnos = () => {
   const user = useUserInfo();
@@ -72,13 +74,22 @@ const useGetTurnos = () => {
     async (userId: string) => {
       try {
         if (user == null) return;
-        const response: TurnoResponse[] = await fetchTurnosByMedicoId(
+
+     /*   const response: TurnoResponse[] = await fetchTurnosByMedicoId(
           user,
           userId
         );
+        */
+        const now = new Date().toString()
+
+        let dateConcat = `{ ${getDate(now)}" "${getHour(now)}}`; //Date = {02/02/2023 0:00:00}
+        const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
+          user,
+          userId
+        );
+        
         let orderByDate = orderTurnosByDate(response);
         setTurnos(sortTurnosByPrioridad(orderByDate));
-        console.log(response);
         return response;
       } catch (err: any) {
         console.log(err);

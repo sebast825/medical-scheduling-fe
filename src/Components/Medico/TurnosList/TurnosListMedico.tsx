@@ -23,7 +23,6 @@ function TurnosListMedico(props: ITurnosListMedico) {
     getTurnosMedicoById(medicoInfo?.id.toString());
   }, []);
 
-
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "auto" }}>
