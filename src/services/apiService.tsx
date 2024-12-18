@@ -138,11 +138,26 @@ export const fetchActualizarEstadoTurno = async (
 
 export const fetchFilterTurnosMedicoHoy = async (
   jwt: string,
+  howa:string,
   idDoctor: string
 ) => {
   const api = createApiInstance(jwt);
   const response = await api.get(
-    `/medico/${idDoctor}/turnosHoy`
+    `/medico/${idDoctor}/turnosHoy/${howa}`
+  );
+  return response.data;
+};
+
+
+
+export const fetchFilterTurnosMedicoHoy2 = async (
+  jwt: string,
+  howa:string,
+  idDoctor: string
+) => {
+  const api = createApiInstance(jwt);
+  const response = await api.get(
+    `/medico/${idDoctor}/turnosHoy/${howa}`
   );
   return response.data;
 };

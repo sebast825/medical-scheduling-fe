@@ -70,21 +70,17 @@ const useGetTurnos = () => {
     return sortTurnosByPrioridad;
   }
 
-  const getTurnosMedicoById = useCallback(
+  const getTurnosHoyMedicoById = useCallback(
     async (userId: string) => {
       try {
         if (user == null) return;
-
-     /*   const response: TurnoResponse[] = await fetchTurnosByMedicoId(
-          user,
-          userId
-        );
-        */
         const now = new Date().toString()
 
-        let dateConcat = `{ ${getDate(now)}" "${getHour(now)}}`; //Date = {02/02/2023 0:00:00}
+        let dateConcat = `${getDate(now)}`; 
+        
         const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
           user,
+          dateConcat,
           userId
         );
         
@@ -132,7 +128,7 @@ const useGetTurnos = () => {
     getPacinteTurnos,
     turnos,
     setTurnos,
-    getTurnosMedicoById,
+    getTurnosHoyMedicoById,
     sortTurnosByPrioridad,
     updateStatusTurno,
   };

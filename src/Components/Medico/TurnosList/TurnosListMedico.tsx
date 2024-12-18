@@ -15,12 +15,12 @@ interface ITurnosListMedico {
 
 function TurnosListMedico(props: ITurnosListMedico) {
   const { medicoInfo } = useMedicoInfoContext();
-  const { getTurnosMedicoById, turnos, updateStatusTurno } = useGetTurnos();
+  const { getTurnosHoyMedicoById, turnos, updateStatusTurno } = useGetTurnos();
 
 
   useEffect(() => {
     if (medicoInfo == undefined) return;
-    getTurnosMedicoById(medicoInfo?.id.toString());
+    getTurnosHoyMedicoById(medicoInfo?.id.toString());
   }, []);
 
   return (
