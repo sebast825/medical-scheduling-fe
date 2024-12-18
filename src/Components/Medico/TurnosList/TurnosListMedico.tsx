@@ -17,7 +17,6 @@ function TurnosListMedico(props: ITurnosListMedico) {
   const { medicoInfo } = useMedicoInfoContext();
   const { getTurnosHoyMedicoById, turnos, updateStatusTurno } = useGetTurnos();
 
-
   useEffect(() => {
     if (medicoInfo == undefined) return;
     getTurnosHoyMedicoById(medicoInfo?.id.toString());
@@ -26,13 +25,19 @@ function TurnosListMedico(props: ITurnosListMedico) {
   return (
     <>
       <div style={{ maxWidth: "1200px", margin: "auto" }}>
-        {turnos.map((turno: TurnoResponse) => (
-          <CardTurnoMedico
-            key={turno.id}
-            turno={turno}
-            btnEvent={(e) => updateStatusTurno(e)}
-          />
-        ))}
+        {turnos && turnos.length > 0 ? (
+          turnos.map((turno: TurnoResponse) => (
+            <CardTurnoMedico
+              key={turno.id}
+              turno={turno}
+              btnEvent={(e) => updateStatusTurno(e)}
+            />
+          ))
+        ) : (
+          <div className="container d-flex justify-content-center p-md-5 pt-5 p-2">
+            <h4>Hoy no tenés turnos agendados</h4>
+          </div>
+        )}
       </div>
     </>
   );

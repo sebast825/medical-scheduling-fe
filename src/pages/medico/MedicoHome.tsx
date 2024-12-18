@@ -19,7 +19,7 @@ function MedicoHome() {
 
   return (
     <>
-      {medicoInfo && <Opening title={medicoInfo?.nombre} />}
+      {medicoInfo && <Opening title={`Bienvenido ${medicoInfo?.nombre}`} subTitle="Tus turnos para hoy"/>}
 
       <TurnosListMedico />
     </>

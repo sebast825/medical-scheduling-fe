@@ -25,7 +25,7 @@ function CardTurnoMedico({
   var id = turno.id
   var paciente = turno.paciente;
   var estadoTurno = turno.estado;
-  var fecha = getDate(turno.fecha) + " " + getHour(turno.fecha);
+  var fecha = `${getHour(turno.fecha)} Hs.`;
   
   
   function IsMobile(): boolean {
