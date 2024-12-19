@@ -38,6 +38,7 @@ function ListaHorariosMedicos() {
   }, []);
 
   useEffect(() => {
+    if(editarDisponibilidad.especialidad == "") return;
     console.log(editarDisponibilidad)
     showModal();
   }, [editarDisponibilidad]);
@@ -138,6 +139,7 @@ function ListaHorariosMedicos() {
                             <Dropdown.Item
                               key={index}
                               onClick={() => {
+                                console.log("mabel")
                                 setEditarDisponibilidad(horario);
                               }}
                             >

@@ -4,32 +4,35 @@ import GenericModal from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
 
 interface IHorarioMedicoModal {
-   modalField: DisponibilidadMedico;
-   show: boolean;
-   handleClose: () => void;
-   handleConfirm: (personaResponse: DisponibilidadMedico) => void;
- }
- 
-function HorarioMedicoModal({ modalField,
-   show,
-   handleClose,
-   handleConfirm,
- }:IHorarioMedicoModal){
+  modalField: DisponibilidadMedico;
+  show: boolean;
+  handleClose: () => void;
+  handleConfirm: (personaResponse: DisponibilidadMedico) => void;
+}
 
-   function confirmar(){
-      console.log("confirado")
-   }
-   const [nombre,setNombre] =useState<string>(modalField.diaSemana);
-   return(
-      <>
+function HorarioMedicoModal({
+  modalField,
+  show,
+  handleClose,
+  handleConfirm,
+}: IHorarioMedicoModal) {
+  function confirmar() {
+    console.log("confirado");
+  }
+  const [nombre, setNombre] = useState<string>();
+  useEffect(() => {
+    setNombre(modalField.diaSemana);
+  }, [modalField]);
+  return (
+    <>
       <GenericModal
         show={show}
         handleClose={handleClose}
         handleConfirm={confirmar}
         title="Editar Información Personal"
       >
-          <Form className="d-flex flex-column" style={{ gap: "10px" }}>
-          <Form.Group controlId="formBasicnombre" >
+        <Form className="d-flex flex-column" style={{ gap: "10px" }}>
+          <Form.Group controlId="formBasicnombre">
             <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
             <Form.Control
               type="text"
@@ -38,10 +41,10 @@ function HorarioMedicoModal({ modalField,
               value={nombre}
             />
           </Form.Group>
-          </Form>
-         </GenericModal>
-</>
-   )
+        </Form>
+      </GenericModal>
+    </>
+  );
 }
 
 export default HorarioMedicoModal;
