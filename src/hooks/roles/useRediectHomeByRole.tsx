@@ -25,10 +25,15 @@ import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
            
          }else if(userRole == Roles[Roles.Paciente]){
          
-           navigate("/pacientes/informacion");
+           navigate("/pacientes");
          }else if(userRole == Roles[Roles.Medico]){
             navigate("/medicos");
 
+         }else if(userRole == Roles[Roles.Admin]){
+            navigate("/administrador");
+         }
+         else{
+            console.log("error")
          }
       }
   

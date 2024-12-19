@@ -73,7 +73,7 @@ const LoginForm = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "secretario";
+    let UserName = "admin";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
