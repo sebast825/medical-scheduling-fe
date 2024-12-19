@@ -110,7 +110,7 @@ function ListaHorariosMedicos() {
       />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
-          <div className="col-12 col-lg-4  mb-3" key={key}>
+          <div className="col-12 col-lg-3  mb-3" key={key}>
             <div className="card">
               <div className="card-header d-flex align-items-center  justify-content-center">
                 <div className=" text-center ms-auto">

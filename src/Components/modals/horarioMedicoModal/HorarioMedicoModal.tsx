@@ -19,9 +19,15 @@ function HorarioMedicoModal({
   function confirmar() {
     console.log("confirado");
   }
-  const [nombre, setNombre] = useState<string>();
+  const [diaSemana, setDiaSemana] = useState<string>();
+  const [horarioInicio,setHorarioInicio] = useState<string>();
+  const [horarioFin,setHorarioFin] = useState<string>();
+
   useEffect(() => {
-    setNombre(modalField.diaSemana);
+   setDiaSemana(modalField.diaSemana);
+   setHorarioInicio(modalField.startTime.toString())
+   setHorarioFin(modalField.endTime.toString())
+
   }, [modalField]);
   return (
     <>
@@ -29,16 +35,34 @@ function HorarioMedicoModal({
         show={show}
         handleClose={handleClose}
         handleConfirm={confirmar}
-        title="Editar Información Personal"
-      >
+        title={`Editar Horario del medico ${modalField.medico}`}
+             >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group controlId="formBasicnombre">
-            <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
+            <Form.Label style={{ textAlign: "left" }}>Dia Semana</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingresar nombre"
-              onChange={(e) => setNombre(e.target.value)}
-              value={nombre}
+              onChange={(e) => setDiaSemana(e.target.value)}
+              value={diaSemana}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicnombre">
+            <Form.Label style={{ textAlign: "left" }}>Horario Inicio</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingresar nombre"
+              onChange={(e) => setHorarioInicio(e.target.value)}
+              value={horarioInicio}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicnombre">
+            <Form.Label style={{ textAlign: "left" }}>Horario Fin</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingresar nombre"
+              onChange={(e) => setHorarioFin(e.target.value)}
+              value={horarioFin}
             />
           </Form.Group>
         </Form>
