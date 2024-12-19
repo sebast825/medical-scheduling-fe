@@ -3,6 +3,7 @@ import { usePersonaInfoContext } from "../../context/authContext";
 import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
+import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 
 
 
@@ -21,6 +22,7 @@ function AdministradorHome() {
   return (
     <>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
+      <ListaHorariosMedicos />
     </>
   );
 }

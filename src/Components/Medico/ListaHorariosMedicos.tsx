@@ -4,6 +4,8 @@ import { getDisponibilidadMedicos } from "../../services/apiService";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
 import InputRegex from "../General/InputRegex/InputRegex";
+import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
+import OneButton from "../buttons/oneButton/OneButton";
 
 function ListaHorariosMedicos() {
   const user = useUserInfo();
@@ -72,9 +74,34 @@ function ListaHorariosMedicos() {
         {horariosMedicosFiltrados.map(([key, horarios]) => (
           <div className="col-12 col-lg-3  mb-3" key={key}>
             <div className="card">
-              <div className="card-header text-center">
-                <h5>{splitKeyNombreEspecialidad(key).nombre}</h5>
-                <h6>{splitKeyNombreEspecialidad(key).especialidad}</h6>
+              <div className="card-header d-flex align-items-center  justify-content-center">
+                <div className=" text-center ms-auto">
+                  <h5>{splitKeyNombreEspecialidad(key).nombre}</h5>
+                  <h6>{splitKeyNombreEspecialidad(key).especialidad}</h6>
+                </div>
+
+                <div className="ms-auto">
+                  <Dropdown as={ButtonGroup}>
+                    <Dropdown.Toggle
+                      variant="primary"
+                      id="dropdown-basic"
+                    ></Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => console.log("asd")}
+                      >
+                        Editar Información
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => console.log("asd")}
+                      >
+                        Editar Horario
+                      </Dropdown.Item>
+                      
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
               </div>
               <div className="card-body ps-5 pe-5 ">
                 {horarios.map((horario, index) => (
@@ -87,6 +114,7 @@ function ListaHorariosMedicos() {
                         {horario.startTime} - {horario.endTime}
                       </span>
                     </div>
+                  
                   </div>
                 ))}
               </div>
