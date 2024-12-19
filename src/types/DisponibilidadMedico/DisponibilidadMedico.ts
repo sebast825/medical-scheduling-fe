@@ -1,8 +1,8 @@
 export interface DisponibilidadMedico{   
       id: number,
-      medico: String,
-      especialidad: String
-      diaSemana: String,
+      medico: string,
+      especialidad: string
+      diaSemana: string,
       startTime: String,
-      endTime: String
+      endTime: string
 }

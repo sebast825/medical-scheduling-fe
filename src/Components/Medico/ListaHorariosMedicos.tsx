@@ -6,7 +6,10 @@ import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
 import InputRegex from "../General/InputRegex/InputRegex";
 import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import OneButton from "../buttons/oneButton/OneButton";
-
+import HorarioMedicoModal from "../modals/horarioMedicoModal/HorarioMedicoModal";
+import useModal from "../../hooks/useModal";
+import { text } from "stream/consumers";
+import "./ListaHorariosMedicos.scss";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   const [horariosMedicos, setHorariosMedicos] = useState<
@@ -17,12 +20,27 @@ function ListaHorariosMedicos() {
     [string, DisponibilidadMedico[]][]
   >([]);
 
+  const { showModal, closeModal, toggleModal } = useModal();
+  const [editarDisponibilidad, setEditarDisponibilidad] =
+    useState<DisponibilidadMedico>({
+      id: 0,
+      medico: "",
+      especialidad: "",
+      diaSemana: "",
+      startTime: "",
+      endTime: "",
+    });
   useEffect(() => {
     const executeAsyncTask = async () => {
       await getMedicos();
     };
     executeAsyncTask();
   }, []);
+
+  useEffect(() => {
+    console.log(editarDisponibilidad)
+    showModal();
+  }, [editarDisponibilidad]);
 
   //filtra los medicos
   useEffect(() => {
@@ -63,16 +81,35 @@ function ListaHorariosMedicos() {
     };
     return splitKey;
   }
+
+  function primerFiltrado(): DisponibilidadMedico {
+    const primerDisponibilidadMedico = {
+      id: 1,
+      medico: "Dr. Juan Pérez",
+      especialidad: "Cardiología",
+      diaSemana: "Lunes",
+      startTime: "08:00",
+      endTime: "12:00",
+    };
+    return primerDisponibilidadMedico;
+  }
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
         placeholder="Buscar medico por nombre o especialidad"
         onFraseRegexChage={setbuscarItem}
       />
-
+      <HorarioMedicoModal
+        modalField={editarDisponibilidad}
+        show={toggleModal}
+        handleClose={closeModal}
+        handleConfirm={function (personaResponse: DisponibilidadMedico): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
-          <div className="col-12 col-lg-3  mb-3" key={key}>
+          <div className="col-12 col-lg-4  mb-3" key={key}>
             <div className="card">
               <div className="card-header d-flex align-items-center  justify-content-center">
                 <div className=" text-center ms-auto">
@@ -88,25 +125,36 @@ function ListaHorariosMedicos() {
                     ></Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => console.log("asd")}
-                      >
+                      <Dropdown.Item onClick={() => showModal()}>
                         Editar Información
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => console.log("asd")}
-                      >
-                        Editar Horario
-                      </Dropdown.Item>
-                      
+
+                      <Dropdown className="hover">
+                        <Dropdown.Toggle as={Dropdown.ItemText}>
+                          Editar Horario
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          {horarios.map((horario, index) => (
+                            <Dropdown.Item
+                              key={index}
+                              onClick={() => {
+                                setEditarDisponibilidad(horario);
+                              }}
+                            >
+                              {horario.diaSemana}: {horario.startTime} -{" "}
+                              {horario.endTime}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
               </div>
-              <div className="card-body ps-5 pe-5 ">
+              <div className="card-body ">
                 {horarios.map((horario, index) => (
                   <div className="row mb-2" key={index}>
-                    <div className=" col-6 ">
+                    <div className=" col-6">
                       <strong>{horario.diaSemana}</strong>
                     </div>
                     <div className=" col-6 text-center">
@@ -114,7 +162,6 @@ function ListaHorariosMedicos() {
                         {horario.startTime} - {horario.endTime}
                       </span>
                     </div>
-                  
                   </div>
                 ))}
               </div>
