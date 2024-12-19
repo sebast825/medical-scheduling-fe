@@ -28,7 +28,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setPacienteInfo } = usePacienteContext();
-  const { setMedicoInfo ,medicoInfo} = useMedicoInfoContext();
+  const { setMedicoInfo, medicoInfo } = useMedicoInfoContext();
 
   const redirectByRol = useRediectHomeByRole();
 
@@ -58,15 +58,15 @@ const LoginForm = () => {
       await setPersonaInfo(personaInfo);
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
-      await setPacienteInfo(pacienteInfo);   
-    }
-    else if (userRole == Roles[Roles.Medico]) {
-
-     const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
+      await setPacienteInfo(pacienteInfo);
+    } else if (userRole == Roles[Roles.Medico]) {
+      const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
       await setMedicoInfo(medicoInfo);
-
-    console.log(medicoInfo)
-   
+    } else if (userRole == Roles[Roles.Admin]) {
+      const administradorInfo = await fetchPersonaInfo(user, params.PersonaId);
+      await setPersonaInfo(administradorInfo);
+    } else {
+      console.log("error");
     }
   };
 
