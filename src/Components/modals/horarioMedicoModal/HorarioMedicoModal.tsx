@@ -22,12 +22,10 @@ function HorarioMedicoModal({
 
  
 
-  const [diaSemana, setDiaSemana] = useState<string>();
   const [horarioInicio,setHorarioInicio] = useState<string>();
   const [horarioFin,setHorarioFin] = useState<string>();
 
   useEffect(() => {
-   setDiaSemana(modalField.diaSemana);
    setHorarioInicio(modalField.startTime.toString())
    setHorarioFin(modalField.endTime.toString())
 
