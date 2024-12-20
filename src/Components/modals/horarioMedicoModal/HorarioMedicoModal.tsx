@@ -39,7 +39,6 @@ function HorarioMedicoModal({
     if(horarioFin == undefined || horarioInicio == undefined) return;
     let disponibilidadUpdated : IDisponibilidadMedicoUpdateRequest ={
       id : modalField.id,
-      DiaSemanaId : 1,
       StartTime : horarioInicio,
       EndTime : horarioFin
 
@@ -53,18 +52,10 @@ function HorarioMedicoModal({
         show={show}
         handleClose={handleClose}
         handleConfirm={confirmar}
-        title={`Editar Horario del medico ${modalField.medico}`}
-             >
+        title={`Editar Horario del medico ${modalField.medico}, dia ${modalField.diaSemana}`}
+       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
-          <Form.Group controlId="formBasicnombre">
-            <Form.Label style={{ textAlign: "left" }}>Dia Semana</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Ingresar nombre"
-              onChange={(e) => setDiaSemana(e.target.value)}
-              value={diaSemana}
-            />
-          </Form.Group>
+    
           <Form.Group controlId="formBasicnombre">
             <Form.Label style={{ textAlign: "left" }}>Horario Inicio</Form.Label>
             <Form.Control
