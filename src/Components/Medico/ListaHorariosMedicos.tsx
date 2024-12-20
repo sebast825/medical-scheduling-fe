@@ -12,6 +12,7 @@ import { text } from "stream/consumers";
 import "./ListaHorariosMedicos.scss";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicos";
+import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   const [horariosMedicos, setHorariosMedicos] = useState<
@@ -93,13 +94,31 @@ function ListaHorariosMedicos() {
       await getMedicos()
   }
 
+  const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
 
+  function closeCreateModal (){
+    setToggleCreateModal(false)
+ }
+ function showCreateModal(){
+  setToggleCreateModal(true)
+  
+}
+
+function enviadoCreate(e:any){
+  console.log(e)
+}
 
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
         placeholder="Buscar medico por nombre o especialidad"
         onFraseRegexChage={setbuscarItem}
+      />
+      <CreateHorarioMedicoModal
+        modalField={editarDisponibilidad}
+        show={toggleCreateModal}
+        handleClose={closeCreateModal}
+        handleConfirm={(e)=>enviadoCreate(e)}
       />
       <HorarioMedicoModal
         modalField={editarDisponibilidad}
@@ -126,6 +145,9 @@ function ListaHorariosMedicos() {
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => showModal()}>
                       Editar Información
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => showCreateModal()}>
+                      Crear Horario
                     </Dropdown.Item>
 
                     <Dropdown className="hover">
