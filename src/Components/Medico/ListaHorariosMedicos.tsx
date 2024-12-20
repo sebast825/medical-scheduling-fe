@@ -28,6 +28,7 @@ function ListaHorariosMedicos() {
   const [editarDisponibilidad, setEditarDisponibilidad] =
     useState<DisponibilidadMedico>({
       id: 0,
+      medicoId : 0,
       medico: "",
       especialidad: "",
       diaSemana: "",
@@ -41,11 +42,7 @@ function ListaHorariosMedicos() {
     executeAsyncTask();
   }, []);
 
-  useEffect(() => {
-    if (editarDisponibilidad.especialidad == "") return;
-    console.log(editarDisponibilidad);
-    showModal();
-  }, [editarDisponibilidad]);
+ 
 
   //filtra los medicos
   useEffect(() => {
@@ -95,6 +92,7 @@ function ListaHorariosMedicos() {
   }
 
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
+ 
 
   function closeCreateModal (){
     setToggleCreateModal(false)
@@ -115,7 +113,7 @@ function enviadoCreate(e:any){
         onFraseRegexChage={setbuscarItem}
       />
       <CreateHorarioMedicoModal
-        modalField={editarDisponibilidad}
+        modalField={editarDisponibilidad}          
         show={toggleCreateModal}
         handleClose={closeCreateModal}
         handleConfirm={(e)=>enviadoCreate(e)}
@@ -146,7 +144,7 @@ function enviadoCreate(e:any){
                     <Dropdown.Item onClick={() => showModal()}>
                       Editar Información
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={() => showCreateModal()}>
+                    <Dropdown.Item onClick={() => {setEditarDisponibilidad(horarios[0]);showCreateModal()}}>
                       Crear Horario
                     </Dropdown.Item>
 
@@ -161,6 +159,7 @@ function enviadoCreate(e:any){
                             onClick={() => {
                             
                               setEditarDisponibilidad(horario);
+                              showModal()
                             }}
                           >
                             <div className="d-flex justify-content-between">

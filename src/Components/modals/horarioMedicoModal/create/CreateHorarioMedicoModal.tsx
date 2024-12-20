@@ -3,6 +3,7 @@ import { DisponibilidadMedico } from "../../../../types/DisponibilidadMedico/Dis
 import GenericModal from "../../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
 import { DisponibilidadMedicoCreate } from "../../../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
+import useToastit from "../../../../hooks/useToastit";
 
 interface ICreateHorarioMedicoModal {
   modalField: DisponibilidadMedico;
@@ -17,27 +18,37 @@ function CreateHorarioMedicoModal({
   handleClose,
   handleConfirm,
 }: ICreateHorarioMedicoModal) {
-  const [horarioInicio, setHorarioInicio] = useState<string>();
-  const [horarioFin, setHorarioFin] = useState<string>();
-  const [diaSemana, setDiaSemana] = useState<string>();
+  const [horarioInicio, setHorarioInicio] = useState<string>("");
+  const [horarioFin, setHorarioFin] = useState<string>("");
+  const [diaSemana, setDiaSemana] = useState<number>(1);
 
-  useEffect(() => {
-    setHorarioInicio(modalField.startTime.toString());
-    setHorarioFin(modalField.endTime.toString());
-  }, [modalField]);
+  const { error } = useToastit();
 
   function confirmar() {
-    console.log("entra");
-    if (horarioFin == undefined || horarioInicio == undefined) return;
+    let getDiaSemana = diasSemana.find((elem) => elem.id == diaSemana)?.id;
+
+    if (
+      horarioFin == "" ||
+      horarioInicio == "" ||
+      getDiaSemana === undefined
+    ) {
+      return;
+    }else if (!formatHour(horarioInicio) || !formatHour(horarioFin)) {
+      error("El formato de la hora es invalido");
+      return;
+    }
     let disponibilidadUpdated: DisponibilidadMedicoCreate = {
-      MedicoId: 1,
-      DiaSemanaId: 1,
+      MedicoId: modalField.medicoId,
+      DiaSemanaId: getDiaSemana,
       StartTime: horarioInicio,
       EndTime: horarioFin,
     };
     handleConfirm(disponibilidadUpdated);
   }
-
+  function formatHour(hora: string): boolean {
+    const regex = /^\d+\d+:\d+\d+$/;
+    return regex.test(hora);
+  }
   const diasSemana = [
     { id: 1, nombre: "Lunes" },
     { id: 2, nombre: "Martes" },
@@ -47,25 +58,30 @@ function CreateHorarioMedicoModal({
     { id: 6, nombre: "Sábado" },
     { id: 7, nombre: "Domingo" },
   ];
-
-  useEffect(()=>{
-    console.log(diaSemana)
-  },[diaSemana])
-
+useEffect(()=>{
+  console.log(diaSemana)
+},[diaSemana])
   return (
     <>
       <GenericModal
         show={show}
         handleClose={handleClose}
         handleConfirm={confirmar}
-        title={`Editar Horario del medico ${modalField.medico}, dia ${modalField.diaSemana}`}
+        title={`Crear Horario para el medico ${modalField.medico}`}
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
-        <Form.Group key="6">
+          <Form.Group key="6">
             <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
-            <Form.Select onChange={(e) => setDiaSemana(e.target.value)} value={diaSemana}>
+            <Form.Select
+              onChange={(e) => {setDiaSemana(parseInt(e.target.value))}}
+              value={diaSemana}
+            >
               {diasSemana.map((dia) => {
-                return <option key={dia.id} value={dia.id}>{dia.nombre}</option>;
+                return (
+                  <option key={dia.id} value={dia.id}>
+                    {dia.nombre}
+                  </option>
+                );
               })}
             </Form.Select>
           </Form.Group>
