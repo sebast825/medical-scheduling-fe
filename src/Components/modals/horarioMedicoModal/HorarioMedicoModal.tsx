@@ -2,12 +2,14 @@ import { Form } from "react-bootstrap";
 import { DisponibilidadMedico } from "../../../types/DisponibilidadMedico/DisponibilidadMedico";
 import GenericModal from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
+import { IDisponibilidadMedicoUpdateRequest } from "../../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
+import { start } from "repl";
 
 interface IHorarioMedicoModal {
   modalField: DisponibilidadMedico;
   show: boolean;
   handleClose: () => void;
-  handleConfirm: (personaResponse: DisponibilidadMedico) => void;
+  handleConfirm: (disponibilidadUpdated: IDisponibilidadMedicoUpdateRequest) => void;
 }
 
 function HorarioMedicoModal({
@@ -16,9 +18,10 @@ function HorarioMedicoModal({
   handleClose,
   handleConfirm,
 }: IHorarioMedicoModal) {
-  function confirmar() {
-    console.log("confirado");
-  }
+
+
+ 
+
   const [diaSemana, setDiaSemana] = useState<string>();
   const [horarioInicio,setHorarioInicio] = useState<string>();
   const [horarioFin,setHorarioFin] = useState<string>();
@@ -29,6 +32,21 @@ function HorarioMedicoModal({
    setHorarioFin(modalField.endTime.toString())
 
   }, [modalField]);
+
+
+  function confirmar() {
+    console.log("entra");
+    if(horarioFin == undefined || horarioInicio == undefined) return;
+    let disponibilidadUpdated : IDisponibilidadMedicoUpdateRequest ={
+      id : modalField.id,
+      DiaSemanaId : 1,
+      StartTime : horarioInicio,
+      EndTime : horarioFin
+
+    } 
+    handleConfirm(disponibilidadUpdated)
+  }
+  
   return (
     <>
       <GenericModal

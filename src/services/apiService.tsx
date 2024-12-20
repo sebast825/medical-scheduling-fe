@@ -3,6 +3,7 @@ import { ILogin } from "../types/Login.types";
 import { ITurnoCreateRequestDTO } from "../types/turno/TurnoCreateRequest.DTO.type";
 import { IPersonaUpdate } from "../types/Persona/PersonaUpdate.type";
 import { IPacienteUpdate } from "../types/Paciente/PacienteUpdate.type";
+import { IDisponibilidadMedicoUpdateRequest } from "../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
@@ -150,14 +151,11 @@ export const fetchFilterTurnosMedicoHoy = async (
 
 
 
-export const fetchFilterTurnosMedicoHoy2 = async (
-  jwt: string,
-  howa:string,
-  idDoctor: string
-) => {
+
+export const UpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
   const api = createApiInstance(jwt);
-  const response = await api.get(
-    `/medico/${idDoctor}/turnosHoy/${howa}`
+  const response = await api.put(
+    `api/DisponibilidadMedicos`,dto
   );
   return response.data;
-};
+}

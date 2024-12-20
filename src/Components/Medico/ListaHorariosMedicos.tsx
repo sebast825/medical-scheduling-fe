@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserInfo } from "../../context/authContext";
-import { getDisponibilidadMedicos } from "../../services/apiService";
+import { getDisponibilidadMedicos, UpdateDisponibilidadMedico } from "../../services/apiService";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
 import InputRegex from "../General/InputRegex/InputRegex";
@@ -10,6 +10,7 @@ import HorarioMedicoModal from "../modals/horarioMedicoModal/HorarioMedicoModal"
 import useModal from "../../hooks/useModal";
 import { text } from "stream/consumers";
 import "./ListaHorariosMedicos.scss";
+import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   const [horariosMedicos, setHorariosMedicos] = useState<
@@ -38,8 +39,8 @@ function ListaHorariosMedicos() {
   }, []);
 
   useEffect(() => {
-    if(editarDisponibilidad.especialidad == "") return;
-    console.log(editarDisponibilidad)
+    if (editarDisponibilidad.especialidad == "") return;
+    console.log(editarDisponibilidad);
     showModal();
   }, [editarDisponibilidad]);
 
@@ -83,16 +84,10 @@ function ListaHorariosMedicos() {
     return splitKey;
   }
 
-  function primerFiltrado(): DisponibilidadMedico {
-    const primerDisponibilidadMedico = {
-      id: 1,
-      medico: "Dr. Juan Pérez",
-      especialidad: "Cardiología",
-      diaSemana: "Lunes",
-      startTime: "08:00",
-      endTime: "12:00",
-    };
-    return primerDisponibilidadMedico;
+  async function updateDisponibilidadHorario(disponibilidadMedicoUpdated : IDisponibilidadMedicoUpdateRequest){
+    if(!user) return;
+      let apiCall = await UpdateDisponibilidadMedico(user, disponibilidadMedicoUpdated);
+      await closeModal();
   }
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
@@ -104,69 +99,69 @@ function ListaHorariosMedicos() {
         modalField={editarDisponibilidad}
         show={toggleModal}
         handleClose={closeModal}
-        handleConfirm={function (personaResponse: DisponibilidadMedico): void {
-          throw new Error("Function not implemented.");
-        }}
+        handleConfirm={(e)=>updateDisponibilidadHorario(e)}
       />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
-          <div className="col-12 col-lg-3  mb-3" key={key}>
-            <div className="card">
-              <div className="card-header d-flex align-items-center  justify-content-center">
-                <div className=" text-center ms-auto">
-                  <h5>{splitKeyNombreEspecialidad(key).nombre}</h5>
-                  <h6>{splitKeyNombreEspecialidad(key).especialidad}</h6>
-                </div>
-
-                <div className="ms-auto">
-                  <Dropdown as={ButtonGroup}>
-                    <Dropdown.Toggle
-                      variant="primary"
-                      id="dropdown-basic"
-                    ></Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => showModal()}>
-                        Editar Información
-                      </Dropdown.Item>
-
-                      <Dropdown className="hover">
-                        <Dropdown.Toggle as={Dropdown.ItemText}>
-                          Editar Horario
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {horarios.map((horario, index) => (
-                            <Dropdown.Item
-                              key={index}
-                              onClick={() => {
-                                console.log("mabel")
-                                setEditarDisponibilidad(horario);
-                              }}
-                            >
-                              {horario.diaSemana}: {horario.startTime} -{" "}
-                              {horario.endTime}
-                            </Dropdown.Item>
-                          ))}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
+          <div className="card col-12 col-lg-3  mb-3" key={key}>
+            <div className="card-header d-flex align-items-center  justify-content-center">
+              <div className=" text-center ms-auto">
+                <h5>{splitKeyNombreEspecialidad(key).nombre}</h5>
+                <h6>{splitKeyNombreEspecialidad(key).especialidad}</h6>
               </div>
-              <div className="card-body ">
-                {horarios.map((horario, index) => (
-                  <div className="row mb-2" key={index}>
-                    <div className=" col-6">
-                      <strong>{horario.diaSemana}</strong>
-                    </div>
-                    <div className=" col-6 text-center">
-                      <span>
-                        {horario.startTime} - {horario.endTime}
-                      </span>
-                    </div>
+
+              <div className="ms-auto">
+                <Dropdown as={ButtonGroup}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-basic"
+                  ></Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => showModal()}>
+                      Editar Información
+                    </Dropdown.Item>
+
+                    <Dropdown className="hover">
+                      <Dropdown.Toggle as={Dropdown.ItemText}>
+                        Editar Horario
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {horarios.map((horario, index) => (
+                          <Dropdown.Item
+                            key={index}
+                            onClick={() => {
+                            
+                              setEditarDisponibilidad(horario);
+                            }}
+                          >
+                            <div className="d-flex justify-content-between">
+                              <span style={{ fontWeight: 'bold' }}> {`${horario.diaSemana}: `} </span>
+                              <span>
+                                {horario.startTime} - {horario.endTime}
+                              </span>
+                            </div>
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </div>
+            <div className="card-body ">
+              {horarios.map((horario, index) => (
+                <div className="row mb-2" key={index}>
+                  <div className=" col-6">
+                    <strong>{horario.diaSemana}</strong>
                   </div>
-                ))}
-              </div>
+                  <div className=" col-6 text-center">
+                    <span>
+                      {horario.startTime} - {horario.endTime}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ))}
