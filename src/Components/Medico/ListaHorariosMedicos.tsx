@@ -11,6 +11,7 @@ import useModal from "../../hooks/useModal";
 import { text } from "stream/consumers";
 import "./ListaHorariosMedicos.scss";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
+import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicos";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   const [horariosMedicos, setHorariosMedicos] = useState<
@@ -22,6 +23,7 @@ function ListaHorariosMedicos() {
   >([]);
 
   const { showModal, closeModal, toggleModal } = useModal();
+
   const [editarDisponibilidad, setEditarDisponibilidad] =
     useState<DisponibilidadMedico>({
       id: 0,
@@ -84,11 +86,15 @@ function ListaHorariosMedicos() {
     return splitKey;
   }
 
+  const {UpdateDisponibilidadMedico2} = useDisponibilidadMedicos();
   async function updateDisponibilidadHorario(disponibilidadMedicoUpdated : IDisponibilidadMedicoUpdateRequest){
-    if(!user) return;
-      let apiCall = await UpdateDisponibilidadMedico(user, disponibilidadMedicoUpdated);
+    await UpdateDisponibilidadMedico2(disponibilidadMedicoUpdated)
       await closeModal();
+      await getMedicos()
   }
+
+
+
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
