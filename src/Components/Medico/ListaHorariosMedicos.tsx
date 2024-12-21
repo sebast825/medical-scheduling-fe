@@ -32,14 +32,15 @@ function ListaHorariosMedicos() {
     horariosMedicosFiltrados,
     editarDisponibilidad,
     setEditarDisponibilidad,
-    updateDisponibilidadHorario,
-    createDisponibilidadHorario,
-    deleteDisponibilidadHorario,
-    closeModal,
-    toggleModal,
+    handleUpdate,
+    handleCreate,
+    handleDelete,
+    closeEditModal,
+    toggleEditModal,
     toggleCreateModal,
     closeCreateModal,
-    showModal,showCreateModal
+    showEditModal,
+    showCreateModal,
   } = useDisponibilidadMedicosLogic();
 
   useEffect(() => {
@@ -64,14 +65,14 @@ function ListaHorariosMedicos() {
         modalField={editarDisponibilidad}
         show={toggleCreateModal}
         handleClose={closeCreateModal}
-        handleConfirm={(e) => createDisponibilidadHorario(e)}
+        handleConfirm={(e) => handleCreate(e)}
       />
       <HorarioMedicoModal
         modalField={editarDisponibilidad}
-        show={toggleModal}
-        handleClose={closeModal}
-        handleConfirm={(e) => updateDisponibilidadHorario(e)}
-        handleDelete={(e) => deleteDisponibilidadHorario(e)}
+        show={toggleEditModal}
+        handleClose={closeEditModal}
+        handleConfirm={(e) => handleUpdate(e)}
+        handleDelete={(e) => handleDelete(e)}
       />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
@@ -79,7 +80,7 @@ function ListaHorariosMedicos() {
             key={key}
             clave={key}
             horarios={horarios}
-            showModal={showModal}
+            showModal={showEditModal}
             showCreateModal={showCreateModal}
             setEditarDisponibilidad={setEditarDisponibilidad}
           />

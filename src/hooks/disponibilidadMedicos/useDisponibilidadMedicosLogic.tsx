@@ -19,24 +19,37 @@ function useDisponibilidadMedicosLogic() {
   const [horariosMedicosFiltrados, setHorariosMedicosFiltrados] = useState<
     [string, DisponibilidadMedico[]][]
   >([]);
+  const [editarDisponibilidad, setEditarDisponibilidad] =
+  useState<DisponibilidadMedico>({
+    id: 0,
+    medicoId: 0,
+    medico: "",
+    especialidad: "",
+    diaSemana: "",
+    startTime: "",
+    endTime: "",
+  });
+  const {
+   fetchUpdateDisponibilidadMedico,
+   fetchCreateDisponibilidadMedico,
+   fetchDeleteDisponibilidadMedico,
+ } = useDisponibilidadMedicosApi();
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
+  const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
+  function closeEditModal() {
+    setToggleEditModal(false);
+  }
+  function showEditModal() {
+    setToggleEditModal(true);
+  }
   function closeCreateModal() {
     setToggleCreateModal(false);
   }
   function showCreateModal() {
     setToggleCreateModal(true);
   }
-  const [editarDisponibilidad, setEditarDisponibilidad] =
-    useState<DisponibilidadMedico>({
-      id: 0,
-      medicoId: 0,
-      medico: "",
-      especialidad: "",
-      diaSemana: "",
-      startTime: "",
-      endTime: "",
-    });
+
 
   function handleInputRegex() {
     const regEx = new RegExp(`^${buscarItem}`, "i");
@@ -96,27 +109,20 @@ function useDisponibilidadMedicosLogic() {
       );
     return newRecord;
   }
-  const {
-    fetchUpdateDisponibilidadMedico,
-    fetchCreateDisponibilidadMedico,
-    fetchDeleteDisponibilidadMedico,
-  } = useDisponibilidadMedicosApi();
 
-  const { showModal, closeModal, toggleModal } = useModal();
-
-  async function updateDisponibilidadHorario(
+  async function handleUpdate(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
   ) {
     var rsta = await fetchUpdateDisponibilidadMedico(
       disponibilidadMedicoUpdated
     );
-    await closeModal();
+    await closeEditModal();
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     setHorariosMedicos(updatedList);
   }
 
-  async function createDisponibilidadHorario(
+  async function handleCreate(
     disponibilidadMedico: DisponibilidadMedicoCreate
   ) {
     await fetchCreateDisponibilidadMedico(disponibilidadMedico);
@@ -124,9 +130,9 @@ function useDisponibilidadMedicosLogic() {
     await getMedicos();
   }
 
-  async function deleteDisponibilidadHorario(id: number) {
+  async function handleDelete(id: number) {
     await fetchDeleteDisponibilidadMedico(id);
-    await closeModal();
+    await closeEditModal();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
   }
@@ -140,14 +146,14 @@ function useDisponibilidadMedicosLogic() {
     horariosMedicosFiltrados,
     editarDisponibilidad,
     setEditarDisponibilidad,
-    updateDisponibilidadHorario,
-    createDisponibilidadHorario,
-    deleteDisponibilidadHorario,
-    closeModal,
-    toggleModal,
+    handleUpdate,
+    handleCreate,
+    handleDelete,
+    closeEditModal,
+    toggleEditModal,
     toggleCreateModal,
     closeCreateModal,
-    showModal,
+    showEditModal,
     showCreateModal,
   };
 }
