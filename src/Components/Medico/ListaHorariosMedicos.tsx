@@ -83,8 +83,9 @@ function ListaHorariosMedicos() {
     }
   }
 
-
-  function removeDisponibilidadFromRecord(id: number) : Record<string, DisponibilidadMedico[]> {
+  function removeDisponibilidadFromRecord(
+    id: number
+  ): Record<string, DisponibilidadMedico[]> {
     const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
       horariosMedicos
     ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
@@ -96,7 +97,29 @@ function ListaHorariosMedicos() {
         acc[key] = filterHorarios;
       }
       return acc;
+    }, {});
+    return newRecord;
+  }
 
+  function updateDisponibilidadFromRecord(
+    dto: DisponibilidadMedico
+  ): Record<string, DisponibilidadMedico[]> {
+    const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
+      horariosMedicos
+    ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
+      let horarioToUpdate = value.find(
+        (horario: DisponibilidadMedico) => horario.id == dto.id
+      );
+
+      if (horarioToUpdate) {
+        horarioToUpdate.startTime = dto.startTime;
+        horarioToUpdate.endTime = dto.endTime;
+
+      }
+     
+        acc[key] = value;
+      
+      return acc;
     }, {});
     return newRecord;
   }
@@ -119,12 +142,16 @@ function ListaHorariosMedicos() {
     fetchCreateDisponibilidadMedico,
     fetchDeleteDisponibilidadMedico,
   } = useDisponibilidadMedicos();
+
   async function updateDisponibilidadHorario(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
   ) {
-    await fetchUpdateDisponibilidadMedico(disponibilidadMedicoUpdated);
+    var rsta = await fetchUpdateDisponibilidadMedico(disponibilidadMedicoUpdated);
     await closeModal();
-    await getMedicos();
+    //await getMedicos();
+    if(rsta == undefined)return
+    let updatedList = updateDisponibilidadFromRecord(rsta);
+    setHorariosMedicos(updatedList);
   }
 
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
@@ -143,13 +170,13 @@ function ListaHorariosMedicos() {
     await closeCreateModal();
     await getMedicos();
   }
+
   async function deleteDisponibilidadHorario(id: number) {
     await fetchDeleteDisponibilidadMedico(id);
     await closeModal();
     // await getMedicos();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
-
   }
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
