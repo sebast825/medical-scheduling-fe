@@ -1,0 +1,155 @@
+import { useState } from "react";
+import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
+import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
+import { useUserInfo } from "../../context/authContext";
+import { getDisponibilidadMedicos } from "../../services/apiService";
+import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
+import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
+import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
+import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
+import useModal from "../useModal";
+
+function useDisponibilidadMedicosLogic() {
+  const user = useUserInfo();
+
+  const [horariosMedicos, setHorariosMedicos] = useState<
+    Record<string, DisponibilidadMedico[]>
+  >({});
+  const [buscarItem, setbuscarItem] = useState<string>("");
+  const [horariosMedicosFiltrados, setHorariosMedicosFiltrados] = useState<
+    [string, DisponibilidadMedico[]][]
+  >([]);
+  const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
+
+  function closeCreateModal() {
+    setToggleCreateModal(false);
+  }
+  function showCreateModal() {
+    setToggleCreateModal(true);
+  }
+  const [editarDisponibilidad, setEditarDisponibilidad] =
+    useState<DisponibilidadMedico>({
+      id: 0,
+      medicoId: 0,
+      medico: "",
+      especialidad: "",
+      diaSemana: "",
+      startTime: "",
+      endTime: "",
+    });
+
+  function handleInputRegex() {
+    const regEx = new RegExp(`^${buscarItem}`, "i");
+    const filteredItems = Object.entries(horariosMedicos).filter(
+      ([key, horarios]) => {
+        let splitKey = splitKeyNombreEspecialidad(key);
+        return regEx.test(splitKey.nombre) || regEx.test(splitKey.especialidad);
+      }
+    );
+    setHorariosMedicosFiltrados(filteredItems);
+  }
+  async function getMedicos() {
+    if (user != null) {
+      var horariosAtencionMedicos: DisponibilidadMedico[] =
+        await getDisponibilidadMedicos(user);
+
+      var agruparHorariosPorMedico = await agruparObjetosPorClave(
+        horariosAtencionMedicos,
+        "medico",
+        "especialidad"
+      );
+
+      setHorariosMedicos(agruparHorariosPorMedico);
+    }
+  }
+
+  function removeDisponibilidadFromRecord(
+    id: number
+  ): Record<string, DisponibilidadMedico[]> {
+    const newRecord: Record<string, DisponibilidadMedico[]> =
+      //from entries lo vuelve a covertir a u objeto
+      Object.fromEntries(
+        Object.entries(horariosMedicos)
+          .map(([key, horario]) => [
+            key,
+            horario.filter((elem) => elem.id != id),
+          ])
+          //remueve el elemento si no tiene valores
+          .filter(([key, value]) => value.length != 0)
+      );
+    return newRecord;
+  }
+
+  function updateDisponibilidadFromRecord(
+    dto: DisponibilidadMedico
+  ): Record<string, DisponibilidadMedico[]> {
+    const newRecord: Record<string, DisponibilidadMedico[]> =
+      Object.fromEntries(
+        Object.entries(horariosMedicos).map(([key, horario]) => [
+          key,
+          horario.map((elem) =>
+            elem.id === dto.id
+              ? { ...elem, startTime: dto.startTime, endTime: dto.endTime }
+              : elem
+          ),
+        ])
+      );
+    return newRecord;
+  }
+  const {
+    fetchUpdateDisponibilidadMedico,
+    fetchCreateDisponibilidadMedico,
+    fetchDeleteDisponibilidadMedico,
+  } = useDisponibilidadMedicosApi();
+
+  const { showModal, closeModal, toggleModal } = useModal();
+
+  async function updateDisponibilidadHorario(
+    disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
+  ) {
+    var rsta = await fetchUpdateDisponibilidadMedico(
+      disponibilidadMedicoUpdated
+    );
+    await closeModal();
+    if (rsta == undefined) return;
+    let updatedList = updateDisponibilidadFromRecord(rsta);
+    setHorariosMedicos(updatedList);
+  }
+
+  async function createDisponibilidadHorario(
+    disponibilidadMedico: DisponibilidadMedicoCreate
+  ) {
+    await fetchCreateDisponibilidadMedico(disponibilidadMedico);
+    await closeCreateModal();
+    await getMedicos();
+  }
+
+  async function deleteDisponibilidadHorario(id: number) {
+    await fetchDeleteDisponibilidadMedico(id);
+    await closeModal();
+    let updateList = removeDisponibilidadFromRecord(id);
+    setHorariosMedicos(updateList);
+  }
+
+  return {
+    handleInputRegex,
+    getMedicos,
+    horariosMedicos,
+    buscarItem,
+    setbuscarItem,
+    horariosMedicosFiltrados,
+    editarDisponibilidad,
+    setEditarDisponibilidad,
+    updateDisponibilidadHorario,
+    createDisponibilidadHorario,
+    deleteDisponibilidadHorario,
+    closeModal,
+    toggleModal,
+    toggleCreateModal,
+    closeCreateModal,
+    showModal,
+    showCreateModal,
+  };
+}
+
+export default useDisponibilidadMedicosLogic;
