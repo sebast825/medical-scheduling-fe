@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import {Table } from "react-bootstrap";
+import {ButtonGroup, Table } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
 import "./TablePaciente.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
 
 import InputRegex from "../../General/InputRegex/InputRegex";
 import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
+import useIsSecretario from "../../../hooks/roles/useIsSecretario";
+import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
+import OneButton from "../../buttons/oneButton/OneButton";
 
 function TablePaciente() {
   const { getAllPacientes, pacienteList } = usePacientes();
@@ -16,7 +19,8 @@ function TablePaciente() {
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showPacientes, setShowPacientes] = useState<IPacienteResponse[]>();
-
+const isSecretario = useIsSecretario();
+const isAdmin = useIsAdministrador()
   useEffect(() => {
     async function getPacientes() {
       await getAllPacientes();
@@ -62,7 +66,7 @@ function TablePaciente() {
               </>
             )}
 
-            <th>Opciones</th>
+            <th>{isAdmin ? "Cambiar Estado" : "Opciones"}</th>
           </tr>
         </thead>
         <tbody>
@@ -81,7 +85,13 @@ function TablePaciente() {
                   </>
                 )}
                 <td className="dropdown ">
-             <PacienteDropdown paciente={paciente} />
+                  {
+                    isSecretario &&              <PacienteDropdown paciente={paciente} />
+
+                  }
+                  {
+                    isAdmin && <OneButton handleSubmit={()=>{console.log("anda")}} text="Editar" />
+                  }
                 </td>
               </tr>
             ))}
