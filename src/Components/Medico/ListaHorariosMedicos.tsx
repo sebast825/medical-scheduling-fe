@@ -1,6 +1,6 @@
 import { useEffect} from "react";
 import InputRegex from "../General/InputRegex/InputRegex";
-import HorarioMedicoModal from "../modals/horarioMedicoModal/HorarioMedicoModal";
+import EditHorarioMedicoModal from "../modals/horarioMedicoModal/EditHorarioMedicoModal";
 import "./ListaHorariosMedicos.scss";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import DisponibilidadHorarioCard from "./DisponibilidadHorarioCard/DisponibilidadHorarioCard";
@@ -51,7 +51,7 @@ function ListaHorariosMedicos() {
         handleClose={closeCreateModal}
         handleConfirm={(e) => handleCreate(e)}
       />
-      <HorarioMedicoModal
+      <EditHorarioMedicoModal
         modalField={editarDisponibilidad}
         show={toggleEditModal}
         handleClose={closeEditModal}

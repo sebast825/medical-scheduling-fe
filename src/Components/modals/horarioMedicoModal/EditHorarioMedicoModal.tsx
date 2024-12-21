@@ -13,7 +13,7 @@ interface IHorarioMedicoModal {
   handleDelete:(e: number)=>void;
 }
 
-function HorarioMedicoModal({
+function EditHorarioMedicoModal({
   modalField,
   show,
   handleClose,
@@ -84,4 +84,4 @@ function HorarioMedicoModal({
   );
 }
 
-export default HorarioMedicoModal;
+export default EditHorarioMedicoModal;
