@@ -77,34 +77,36 @@ function ListaHorariosMedicos() {
   function removeDisponibilidadFromRecord(
     id: number
   ): Record<string, DisponibilidadMedico[]> {
-
-    const newRecord: Record<string, DisponibilidadMedico[]> = 
-    //from entries lo vuelve a covertir a u objeto
-    Object.fromEntries(
-      Object.entries(horariosMedicos).map(([key,horario])=>(
-        [key,horario.filter(elem => elem.id != id)]
-      ))
-      //remueve el elemento si no tiene valores
-      .filter(([key,value])=> value.length != 0)
-    )    
+    const newRecord: Record<string, DisponibilidadMedico[]> =
+      //from entries lo vuelve a covertir a u objeto
+      Object.fromEntries(
+        Object.entries(horariosMedicos)
+          .map(([key, horario]) => [
+            key,
+            horario.filter((elem) => elem.id != id),
+          ])
+          //remueve el elemento si no tiene valores
+          .filter(([key, value]) => value.length != 0)
+      );
     return newRecord;
   }
 
   function updateDisponibilidadFromRecord(
     dto: DisponibilidadMedico
   ): Record<string, DisponibilidadMedico[]> {
-    const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
-      horariosMedicos
-    ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
-      let horarioToUpdate = value.map(
-        (horario: DisponibilidadMedico) => horario.id === dto.id ? 
-        {...horario, startTime : dto.startTime, endTime: dto.endTime } : horario
+    const newRecord: Record<string, DisponibilidadMedico[]> =
+      Object.fromEntries(
+        Object.entries(horariosMedicos)
+          .map(([key, horario]) => [
+            key,
+            horario.map((elem) =>
+              elem.id === dto.id
+                ? { ...elem, startTime: dto.startTime, endTime: dto.endTime }
+                : elem
+            ),
+          ])
+         
       );
-
-        acc[key] = horarioToUpdate;
-      
-      return acc;
-    }, {});
     return newRecord;
   }
 
@@ -130,10 +132,12 @@ function ListaHorariosMedicos() {
   async function updateDisponibilidadHorario(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
   ) {
-    var rsta = await fetchUpdateDisponibilidadMedico(disponibilidadMedicoUpdated);
+    var rsta = await fetchUpdateDisponibilidadMedico(
+      disponibilidadMedicoUpdated
+    );
     await closeModal();
     //await getMedicos();
-    if(rsta == undefined)return
+    if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     setHorariosMedicos(updatedList);
   }
