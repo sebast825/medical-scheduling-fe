@@ -8,7 +8,7 @@ import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/Dis
 
 
 
-function useDisponibilidadMedicos(){
+function useDisponibilidadMedicosApi(){
 
    const user = useUserInfo();
 const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
@@ -88,4 +88,4 @@ const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
      return {fetchUpdateDisponibilidadMedico,fetchCreateDisponibilidadMedico,fetchDeleteDisponibilidadMedico}
 }
 
-export default useDisponibilidadMedicos;
+export default useDisponibilidadMedicosApi;

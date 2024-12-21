@@ -11,7 +11,7 @@ import useModal from "../../hooks/useModal";
 import { text } from "stream/consumers";
 import "./ListaHorariosMedicos.scss";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
-import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicos";
+import useDisponibilidadMedicosApi from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicosApi";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import { idText } from "typescript";
@@ -119,7 +119,7 @@ function ListaHorariosMedicos() {
     fetchUpdateDisponibilidadMedico,
     fetchCreateDisponibilidadMedico,
     fetchDeleteDisponibilidadMedico,
-  } = useDisponibilidadMedicos();
+  } = useDisponibilidadMedicosApi();
 
   async function updateDisponibilidadHorario(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
@@ -156,6 +156,8 @@ function ListaHorariosMedicos() {
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
   }
+
+
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
