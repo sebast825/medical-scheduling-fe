@@ -15,6 +15,9 @@ import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDispo
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import { idText } from "typescript";
+import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
+import DisponibilidadHorarioCard from "./DisponibilidadHorarioCard/DisponibilidadHorarioCard";
+
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   //record conjunto clave valor
@@ -110,18 +113,7 @@ function ListaHorariosMedicos() {
     return newRecord;
   }
 
-  function splitKeyNombreEspecialidad(key: string): {
-    nombre: string;
-    especialidad: string;
-  } {
-    var nombreEspecialidad: string[] = key.split("-");
 
-    var splitKey = {
-      nombre: nombreEspecialidad[0],
-      especialidad: nombreEspecialidad[1],
-    };
-    return splitKey;
-  }
 
   const {
     fetchUpdateDisponibilidadMedico,
@@ -136,7 +128,6 @@ function ListaHorariosMedicos() {
       disponibilidadMedicoUpdated
     );
     await closeModal();
-    //await getMedicos();
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     setHorariosMedicos(updatedList);
@@ -162,7 +153,6 @@ function ListaHorariosMedicos() {
   async function deleteDisponibilidadHorario(id: number) {
     await fetchDeleteDisponibilidadMedico(id);
     await closeModal();
-    // await getMedicos();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
   }
@@ -187,78 +177,9 @@ function ListaHorariosMedicos() {
       />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
-          <div className="card col-12 col-lg-3  mb-3" key={key}>
-            <div className="card-header d-flex align-items-center  justify-content-center">
-              <div className=" text-center ms-auto">
-                <h5>{splitKeyNombreEspecialidad(key).nombre}</h5>
-                <h6>{splitKeyNombreEspecialidad(key).especialidad}</h6>
-              </div>
-
-              <div className="ms-auto">
-                <Dropdown as={ButtonGroup}>
-                  <Dropdown.Toggle
-                    variant="primary"
-                    id="dropdown-basic"
-                  ></Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => showModal()}>
-                      Editar Información
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        setEditarDisponibilidad(horarios[0]);
-                        showCreateModal();
-                      }}
-                    >
-                      Crear Horario
-                    </Dropdown.Item>
-
-                    <Dropdown className="hover">
-                      <Dropdown.Toggle as={Dropdown.ItemText}>
-                        Editar Horario
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        {horarios.map((horario, index) => (
-                          <Dropdown.Item
-                            key={index}
-                            onClick={() => {
-                              setEditarDisponibilidad(horario);
-                              showModal();
-                            }}
-                          >
-                            <div className="d-flex justify-content-between">
-                              <span style={{ fontWeight: "bold" }}>
-                                {" "}
-                                {`${horario.diaSemana}: `}{" "}
-                              </span>
-                              <span>
-                                {horario.startTime} - {horario.endTime}
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </div>
-            <div className="card-body ">
-              {horarios.map((horario, index) => (
-                <div className="row mb-2" key={index}>
-                  <div className=" col-6">
-                    <strong>{horario.diaSemana}</strong>
-                  </div>
-                  <div className=" col-6 text-center">
-                    <span>
-                      {horario.startTime} - {horario.endTime}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          
+          <DisponibilidadHorarioCard key={key} clave={key} horarios={horarios} showModal={showModal}
+          showCreateModal={showCreateModal} setEditarDisponibilidad={setEditarDisponibilidad} />
         ))}
       </div>
     </div>
