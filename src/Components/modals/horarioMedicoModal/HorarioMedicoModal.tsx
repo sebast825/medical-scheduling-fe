@@ -35,7 +35,6 @@ function HorarioMedicoModal({
 
 
   function confirmar() {
-    console.log("entra");
     if(horarioFin == undefined || horarioInicio == undefined) return;
     let disponibilidadUpdated : IDisponibilidadMedicoUpdateRequest ={
       id : modalField.id,

@@ -50,21 +50,12 @@ function ListaHorariosMedicos() {
   //filtra los medicos
   useEffect(() => {
     const regEx = new RegExp(`^${buscarItem}`, "i");
-    var contarUno = 0;
-    Object.entries(horariosMedicos).forEach((elem) =>
-      elem[1].forEach((elem) => contarUno++)
-    );
-
     const filteredItems = Object.entries(horariosMedicos).filter(
       ([key, horarios]) => {
         let splitKey = splitKeyNombreEspecialidad(key);
         return regEx.test(splitKey.nombre) || regEx.test(splitKey.especialidad);
       }
     );
-    console.log("entra");
-    let contar = 0;
-    filteredItems.forEach((elem) => elem[1].forEach((elem) => contar++));
-    console.log(contar, contarUno);
     setHorariosMedicosFiltrados(filteredItems);
   }, [buscarItem, horariosMedicos]);
 
@@ -107,17 +98,12 @@ function ListaHorariosMedicos() {
     const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
       horariosMedicos
     ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
-      let horarioToUpdate = value.find(
-        (horario: DisponibilidadMedico) => horario.id == dto.id
+      let horarioToUpdate = value.map(
+        (horario: DisponibilidadMedico) => horario.id === dto.id ? 
+        {...horario, startTime : dto.startTime, endTime: dto.endTime } : horario
       );
 
-      if (horarioToUpdate) {
-        horarioToUpdate.startTime = dto.startTime;
-        horarioToUpdate.endTime = dto.endTime;
-
-      }
-     
-        acc[key] = value;
+        acc[key] = horarioToUpdate;
       
       return acc;
     }, {});
