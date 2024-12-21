@@ -77,18 +77,16 @@ function ListaHorariosMedicos() {
   function removeDisponibilidadFromRecord(
     id: number
   ): Record<string, DisponibilidadMedico[]> {
-    const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
-      horariosMedicos
-    ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
-      const filterHorarios = value.filter(
-        (horario: DisponibilidadMedico) => horario.id != id
-      );
 
-      if (filterHorarios.length != 0) {
-        acc[key] = filterHorarios;
-      }
-      return acc;
-    }, {});
+    const newRecord: Record<string, DisponibilidadMedico[]> = 
+    //from entries lo vuelve a covertir a u objeto
+    Object.fromEntries(
+      Object.entries(horariosMedicos).map(([key,horario])=>(
+        [key,horario.filter(elem => elem.id != id)]
+      ))
+      //remueve el elemento si no tiene valores
+      .filter(([key,value])=> value.length != 0)
+    )    
     return newRecord;
   }
 
