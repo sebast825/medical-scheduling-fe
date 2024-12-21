@@ -14,8 +14,11 @@ import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMe
 import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicos";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
+import { idText } from "typescript";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
+  //record conjunto clave valor
+  //clave-> nombremedico-especialidad
   const [horariosMedicos, setHorariosMedicos] = useState<
     Record<string, DisponibilidadMedico[]>
   >({});
@@ -36,6 +39,7 @@ function ListaHorariosMedicos() {
       startTime: "",
       endTime: "",
     });
+
   useEffect(() => {
     const executeAsyncTask = async () => {
       await getMedicos();
@@ -46,12 +50,21 @@ function ListaHorariosMedicos() {
   //filtra los medicos
   useEffect(() => {
     const regEx = new RegExp(`^${buscarItem}`, "i");
+    var contarUno = 0;
+    Object.entries(horariosMedicos).forEach((elem) =>
+      elem[1].forEach((elem) => contarUno++)
+    );
+
     const filteredItems = Object.entries(horariosMedicos).filter(
       ([key, horarios]) => {
         let splitKey = splitKeyNombreEspecialidad(key);
         return regEx.test(splitKey.nombre) || regEx.test(splitKey.especialidad);
       }
     );
+    console.log("entra");
+    let contar = 0;
+    filteredItems.forEach((elem) => elem[1].forEach((elem) => contar++));
+    console.log(contar, contarUno);
     setHorariosMedicosFiltrados(filteredItems);
   }, [buscarItem, horariosMedicos]);
 
@@ -68,6 +81,24 @@ function ListaHorariosMedicos() {
 
       setHorariosMedicos(agruparHorariosPorMedico);
     }
+  }
+
+
+  function removeDisponibilidadFromRecord(id: number) : Record<string, DisponibilidadMedico[]> {
+    const newRecord: Record<string, DisponibilidadMedico[]> = Object.entries(
+      horariosMedicos
+    ).reduce<Record<string, DisponibilidadMedico[]>>((acc, [key, value]) => {
+      const filterHorarios = value.filter(
+        (horario: DisponibilidadMedico) => horario.id != id
+      );
+
+      if (filterHorarios.length != 0) {
+        acc[key] = filterHorarios;
+      }
+      return acc;
+
+    }, {});
+    return newRecord;
   }
 
   function splitKeyNombreEspecialidad(key: string): {
@@ -115,7 +146,10 @@ function ListaHorariosMedicos() {
   async function deleteDisponibilidadHorario(id: number) {
     await fetchDeleteDisponibilidadMedico(id);
     await closeModal();
-    await getMedicos();
+    // await getMedicos();
+    let updateList = removeDisponibilidadFromRecord(id);
+    setHorariosMedicos(updateList);
+
   }
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
