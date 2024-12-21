@@ -7,6 +7,8 @@ type IGenericModal = {
   title: string;
   // body: any;
   children: React.ReactNode;
+  handleThirdButton?: () => void;
+  textThirdButton ?: string
 };
 
 function GenericModal({
@@ -14,7 +16,10 @@ function GenericModal({
   handleClose,
   handleConfirm,
   title,
-  children
+  children,
+  handleThirdButton,
+  textThirdButton
+  
 
 }: IGenericModal) {
 
@@ -48,6 +53,11 @@ function GenericModal({
         <Button variant="primary" onClick={handleConfirm}>
           Confirmar
         </Button>
+        {
+          handleThirdButton &&  <Button variant="danger" onClick={handleThirdButton}>
+          {textThirdButton}
+        </Button>
+        }
       </Modal.Footer>
     </Modal>
   );

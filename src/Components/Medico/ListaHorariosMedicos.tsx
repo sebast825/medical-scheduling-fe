@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserInfo } from "../../context/authContext";
-import { getDisponibilidadMedicos, UpdateDisponibilidadMedico } from "../../services/apiService";
+import { getDisponibilidadMedicos } from "../../services/apiService";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
 import InputRegex from "../General/InputRegex/InputRegex";
@@ -13,6 +13,7 @@ import "./ListaHorariosMedicos.scss";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import useDisponibilidadMedicos from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicos";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
+import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 function ListaHorariosMedicos() {
   const user = useUserInfo();
   const [horariosMedicos, setHorariosMedicos] = useState<
@@ -28,7 +29,7 @@ function ListaHorariosMedicos() {
   const [editarDisponibilidad, setEditarDisponibilidad] =
     useState<DisponibilidadMedico>({
       id: 0,
-      medicoId : 0,
+      medicoId: 0,
       medico: "",
       especialidad: "",
       diaSemana: "",
@@ -41,8 +42,6 @@ function ListaHorariosMedicos() {
     };
     executeAsyncTask();
   }, []);
-
- 
 
   //filtra los medicos
   useEffect(() => {
@@ -84,28 +83,40 @@ function ListaHorariosMedicos() {
     return splitKey;
   }
 
-  const {UpdateDisponibilidadMedico2} = useDisponibilidadMedicos();
-  async function updateDisponibilidadHorario(disponibilidadMedicoUpdated : IDisponibilidadMedicoUpdateRequest){
-    await UpdateDisponibilidadMedico2(disponibilidadMedicoUpdated)
-      await closeModal();
-      await getMedicos()
+  const {
+    fetchUpdateDisponibilidadMedico,
+    fetchCreateDisponibilidadMedico,
+    fetchDeleteDisponibilidadMedico,
+  } = useDisponibilidadMedicos();
+  async function updateDisponibilidadHorario(
+    disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
+  ) {
+    await fetchUpdateDisponibilidadMedico(disponibilidadMedicoUpdated);
+    await closeModal();
+    await getMedicos();
   }
 
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
- 
 
-  function closeCreateModal (){
-    setToggleCreateModal(false)
- }
- function showCreateModal(){
-  setToggleCreateModal(true)
-  
-}
+  function closeCreateModal() {
+    setToggleCreateModal(false);
+  }
+  function showCreateModal() {
+    setToggleCreateModal(true);
+  }
 
-function enviadoCreate(e:any){
-  console.log(e)
-}
-
+  async function createDisponibilidadHorario(
+    disponibilidadMedico: DisponibilidadMedicoCreate
+  ) {
+    await fetchCreateDisponibilidadMedico(disponibilidadMedico);
+    await closeCreateModal();
+    await getMedicos();
+  }
+  async function deleteDisponibilidadHorario(id: number) {
+    await fetchDeleteDisponibilidadMedico(id);
+    await closeModal();
+    await getMedicos();
+  }
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">
       <InputRegex
@@ -113,16 +124,17 @@ function enviadoCreate(e:any){
         onFraseRegexChage={setbuscarItem}
       />
       <CreateHorarioMedicoModal
-        modalField={editarDisponibilidad}          
+        modalField={editarDisponibilidad}
         show={toggleCreateModal}
         handleClose={closeCreateModal}
-        handleConfirm={(e)=>enviadoCreate(e)}
+        handleConfirm={(e) => createDisponibilidadHorario(e)}
       />
       <HorarioMedicoModal
         modalField={editarDisponibilidad}
         show={toggleModal}
         handleClose={closeModal}
-        handleConfirm={(e)=>updateDisponibilidadHorario(e)}
+        handleConfirm={(e) => updateDisponibilidadHorario(e)}
+        handleDelete={(e) => deleteDisponibilidadHorario(e)}
       />
       <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
@@ -144,7 +156,12 @@ function enviadoCreate(e:any){
                     <Dropdown.Item onClick={() => showModal()}>
                       Editar Información
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={() => {setEditarDisponibilidad(horarios[0]);showCreateModal()}}>
+                    <Dropdown.Item
+                      onClick={() => {
+                        setEditarDisponibilidad(horarios[0]);
+                        showCreateModal();
+                      }}
+                    >
                       Crear Horario
                     </Dropdown.Item>
 
@@ -157,13 +174,15 @@ function enviadoCreate(e:any){
                           <Dropdown.Item
                             key={index}
                             onClick={() => {
-                            
                               setEditarDisponibilidad(horario);
-                              showModal()
+                              showModal();
                             }}
                           >
                             <div className="d-flex justify-content-between">
-                              <span style={{ fontWeight: 'bold' }}> {`${horario.diaSemana}: `} </span>
+                              <span style={{ fontWeight: "bold" }}>
+                                {" "}
+                                {`${horario.diaSemana}: `}{" "}
+                              </span>
                               <span>
                                 {horario.startTime} - {horario.endTime}
                               </span>

@@ -4,6 +4,7 @@ import { ITurnoCreateRequestDTO } from "../types/turno/TurnoCreateRequest.DTO.ty
 import { IPersonaUpdate } from "../types/Persona/PersonaUpdate.type";
 import { IPacienteUpdate } from "../types/Paciente/PacienteUpdate.type";
 import { IDisponibilidadMedicoUpdateRequest } from "../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
+import { DisponibilidadMedicoCreate } from "../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
@@ -152,10 +153,26 @@ export const fetchFilterTurnosMedicoHoy = async (
 
 
 
-export const UpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
+export const PutUpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
   const api = createApiInstance(jwt);
   const response = await api.put(
     `api/DisponibilidadMedicos`,dto
+  );
+  return response.data;
+}
+
+export const SetCreateDisponibilidadMedico = async (jwt: string, dto : DisponibilidadMedicoCreate)=>{
+  const api = createApiInstance(jwt);
+  const response = await api.post(
+    `api/DisponibilidadMedicos`,dto
+  );
+  return response.data;
+}
+
+export const DeleteDisponibilidadMedico = async (jwt: string, id : number)=>{
+  const api = createApiInstance(jwt);
+  const response = await api.delete(
+    `api/DisponibilidadMedicos/${id}`
   );
   return response.data;
 }

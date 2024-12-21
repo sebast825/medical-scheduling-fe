@@ -10,6 +10,7 @@ interface IHorarioMedicoModal {
   show: boolean;
   handleClose: () => void;
   handleConfirm: (disponibilidadUpdated: IDisponibilidadMedicoUpdateRequest) => void;
+  handleDelete:(e: number)=>void;
 }
 
 function HorarioMedicoModal({
@@ -17,6 +18,7 @@ function HorarioMedicoModal({
   show,
   handleClose,
   handleConfirm,
+  handleDelete
 }: IHorarioMedicoModal) {
 
 
@@ -43,7 +45,9 @@ function HorarioMedicoModal({
     } 
     handleConfirm(disponibilidadUpdated)
   }
-  
+  function eliminar(){
+    handleDelete(modalField.id)
+  }
   return (
     <>
       <GenericModal
@@ -51,6 +55,9 @@ function HorarioMedicoModal({
         handleClose={handleClose}
         handleConfirm={confirmar}
         title={`Editar Horario del medico ${modalField.medico}, dia ${modalField.diaSemana}`}
+        handleThirdButton = {eliminar}
+        textThirdButton="Eliminar"
+      
        >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
     
