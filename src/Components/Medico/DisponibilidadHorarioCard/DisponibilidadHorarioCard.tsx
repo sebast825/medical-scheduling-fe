@@ -1,6 +1,7 @@
 import { Dropdown, ButtonGroup } from "react-bootstrap";
 import { DisponibilidadMedico } from "../../../types/DisponibilidadMedico/DisponibilidadMedico";
 import splitKeyNombreEspecialidad from "../../../utils/splitKeyNombreEspecialidad";
+import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 
 interface IDisponibilidadHorarioCard{
    clave: string,
@@ -14,7 +15,7 @@ function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
 
    const {clave,horarios,showEditModal,showCreateModal,setEditarDisponibilidad} = props;
     
-  
+  const isAdmin = useIsAdministrador()
 
    return (
 
@@ -26,7 +27,9 @@ function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
               </div>
 
               <div className="ms-auto">
-                <Dropdown as={ButtonGroup}>
+                {isAdmin &&
+                  
+                  <Dropdown as={ButtonGroup}>
                   <Dropdown.Toggle
                     variant="primary"
                     id="dropdown-basic"
@@ -72,7 +75,7 @@ function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
                       </Dropdown.Menu>
                     </Dropdown>
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown>}
               </div>
             </div>
             <div className="card-body ">
