@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { ButtonGroup, Dropdown, Table } from "react-bootstrap";
+import {Table } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
 import "./TablePaciente.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
-import { usePacienteContext } from "../../../context/authContext";
-import useRedirects from "../../../hooks/useRedicrects";
+
 import InputRegex from "../../General/InputRegex/InputRegex";
+import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
 
 function TablePaciente() {
   const { getAllPacientes, pacienteList } = usePacientes();
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
-  const { setPacienteInfo } = usePacienteContext();
-  const {
-    redirectToNuevoTurnoFilterMedico,
-    redirectToNuevoTurnoFilterEspecialidad,
-    redirectListadoTurnos,
-    redirectInformaciónPacienteSecretario,
-  } = useRedirects();
+
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showPacientes, setShowPacientes] = useState<IPacienteResponse[]>();
 
@@ -39,23 +33,6 @@ function TablePaciente() {
     setShowPacientes(filteredItems);
   }, [pacienteList, fraseRegex]);
 
-  function nuevoTurnoByMedico(paciente: IPacienteResponse): void {
-    setPacienteInfo(paciente);
-    redirectToNuevoTurnoFilterMedico();
-  }
-  function nuevoTurnoByEspecialidad(paciente: IPacienteResponse): void {
-    setPacienteInfo(paciente);
-    redirectToNuevoTurnoFilterEspecialidad();
-  }
-
-  function redirectTurnosPaciente(paciente: IPacienteResponse): void {
-    setPacienteInfo(paciente);
-    redirectListadoTurnos();
-  }
-  function redirectInformacionPaciente(paciente: IPacienteResponse): void {
-    setPacienteInfo(paciente);
-    redirectInformaciónPacienteSecretario();
-  }
 
 
   return (
@@ -104,38 +81,7 @@ function TablePaciente() {
                   </>
                 )}
                 <td className="dropdown ">
-                  <Dropdown as={ButtonGroup}>
-                    <Dropdown.Toggle
-                      variant="primary"
-                      id="dropdown-basic"
-                    ></Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        //className="tezt-algin-right"
-                        onClick={() => nuevoTurnoByMedico(paciente)}
-                      >
-                        Nuevo Turno por Medico
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => nuevoTurnoByEspecialidad(paciente)}
-                      >
-                        Nuevo Turno por Especialidad
-                      </Dropdown.Item>
-
-                      <Dropdown.Item
-                        onClick={() => redirectInformacionPaciente(paciente)}
-                      >
-                        {" "}
-                        Mas Información
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => redirectTurnosPaciente(paciente)}
-                      >
-                        Turnos
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+             <PacienteDropdown paciente={paciente} />
                 </td>
               </tr>
             ))}
