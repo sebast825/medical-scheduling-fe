@@ -27,12 +27,17 @@ function TablePaciente() {
   const { showModal, closeModal, toggleModal } = useModal();
 
   useEffect(() => {
+   
+    if(pacienteList != undefined)return;
+    
     getPacientes();
-    pacienteList?.forEach((elem) => console.log(elem));
   }, [pacienteList]);
 
   async function getPacientes() {
+    
     await getAllPacientes();
+    pacienteList?.forEach((elem) => console.log(elem));
+
   }
 
   useEffect(() => {
@@ -43,9 +48,7 @@ function TablePaciente() {
     setShowPacientes(filteredItems);
   }, [pacienteList, fraseRegex]);
 
-  function handleUpdateStatus() {
-    getPacientes();
-  }
+  
   return (
     <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex

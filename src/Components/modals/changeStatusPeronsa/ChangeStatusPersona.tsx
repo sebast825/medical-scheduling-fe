@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { EstadoUsuario } from "../../../types/usuario/estadoUsuario";
 import useModal from "../../../hooks/useModal";
 import ConfirmModal from "../ConfirmModal";
+import { useUserInfo } from "../../../context/authContext";
+import usePersonas from "../../../hooks/personas/usePersonas";
 
 interface IChangeStatusPersona {
   modalField: IPersonaResponse;
@@ -14,40 +16,45 @@ interface IChangeStatusPersona {
 }
 
 function ChangeStatusPersona(props: IChangeStatusPersona) {
-
+  const user = useUserInfo();
   const { modalField, show, handleClose, handleConfirm } = props;
   const { toggleModal, closeModal, showModal } = useModal();
-  function confirmar() {}
   const [estado, setEstado] = useState<string>(modalField.estadoUsuario);
+  const { updateEstadoPersonaYUsuario } = usePersonas();
 
-  useEffect(() => {
+  async function handleConfirmModal() {
+    closeModal();
     var estadoUsuarioId = claves.indexOf(estado);
-
-    console.log(estado, estadoUsuarioId);
-  });
-
-  function handleConfirmModal(){
-
+    if (user == null) return;
+    var personaUpdated = await updateEstadoPersonaYUsuario(
+      modalField.id,
+      estadoUsuarioId
+    );
   }
 
   const claves = Object.keys(EstadoUsuario).filter((key) => isNaN(Number(key)));
 
-  function showAndHideModal(){
-   showModal()
-   handleClose()
+  function showConfirmModalAndHideGenericModal() {
+    showModal();
+    handleClose();
   }
+  useEffect(() => {
+    console.log(estado);
+  }, [estado]);
   return (
     <>
       <ConfirmModal
         show={toggleModal}
         handleClose={closeModal}
         handleConfirm={handleConfirmModal}
-        body={`Estas seguro que deseas cambiar el estado del usuario ${modalField.nombre} ${modalField.apellido} a ${estado.toUpperCase()}`}
+        body={`Estas seguro que deseas cambiar el estado del usuario ${
+          modalField.nombre
+        } ${modalField.apellido} a ${estado.toUpperCase()}`}
       />
       <GenericModal
         show={show}
         handleClose={handleClose}
-        handleConfirm={showAndHideModal}
+        handleConfirm={showConfirmModalAndHideGenericModal}
         title="Actualizar estado usuario "
       >
         <Form>
@@ -62,7 +69,6 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
               value={estado}
               onChange={(e) => {
                 setEstado(e.target.value);
-                console.log(estado);
               }}
             >
               {claves.map((estado) => (

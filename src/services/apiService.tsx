@@ -176,3 +176,15 @@ export const DeleteDisponibilidadMedico = async (jwt: string, id : number)=>{
   );
   return response.data;
 }
+
+export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number, estado: number)=>{
+ 
+    const api = createApiInstance(jwt);
+    const response = await api.patch(
+      `/api/usuario/${id}/estado/${estado}`
+    );
+    return response.data;
+ 
+}
+
+
