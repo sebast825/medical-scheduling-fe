@@ -5,14 +5,14 @@ import splitKeyNombreEspecialidad from "../../../utils/splitKeyNombreEspecialida
 interface IDisponibilidadHorarioCard{
    clave: string,
    horarios : DisponibilidadMedico[],
-   showModal : ()=>void,
+   showEditModal : ()=>void,
    showCreateModal : ()=>void,
    setEditarDisponibilidad : (e : DisponibilidadMedico) => void
 
 }
 function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
 
-   const {clave,horarios,showModal,showCreateModal,setEditarDisponibilidad} = props;
+   const {clave,horarios,showEditModal,showCreateModal,setEditarDisponibilidad} = props;
     
   
 
@@ -33,7 +33,7 @@ function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
                   ></Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => showModal()}>
+                    <Dropdown.Item>
                       Editar Información
                     </Dropdown.Item>
                     <Dropdown.Item
@@ -55,7 +55,7 @@ function DisponibilidadHorarioCard(props : IDisponibilidadHorarioCard){
                             key={index}
                             onClick={() => {
                               setEditarDisponibilidad(horario);
-                              showModal();
+                              showEditModal();
                             }}
                           >
                             <div className="d-flex justify-content-between">

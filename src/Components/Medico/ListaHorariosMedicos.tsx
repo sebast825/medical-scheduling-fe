@@ -80,7 +80,7 @@ function ListaHorariosMedicos() {
             key={key}
             clave={key}
             horarios={horarios}
-            showModal={showEditModal}
+            showEditModal={showEditModal}
             showCreateModal={showCreateModal}
             setEditarDisponibilidad={setEditarDisponibilidad}
           />
