@@ -1,28 +1,12 @@
-import { useEffect, useState } from "react";
-import { useUserInfo } from "../../context/authContext";
-import { getDisponibilidadMedicos } from "../../services/apiService";
-import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
-import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
+import { useEffect} from "react";
 import InputRegex from "../General/InputRegex/InputRegex";
-import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
-import OneButton from "../buttons/oneButton/OneButton";
 import HorarioMedicoModal from "../modals/horarioMedicoModal/HorarioMedicoModal";
-import useModal from "../../hooks/useModal";
-import { text } from "stream/consumers";
 import "./ListaHorariosMedicos.scss";
-import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
-import useDisponibilidadMedicosApi from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicosApi";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
-import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
-import { idText } from "typescript";
-import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
 import DisponibilidadHorarioCard from "./DisponibilidadHorarioCard/DisponibilidadHorarioCard";
 import useDisponibilidadMedicosLogic from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
 
 function ListaHorariosMedicos() {
-  //record conjunto clave valor
-  //clave-> nombremedico-especialidad
-
   const {
     handleInputRegex,
     getMedicos,
