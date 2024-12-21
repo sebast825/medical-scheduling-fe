@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import {ButtonGroup, Table } from "react-bootstrap";
+import { ButtonGroup, Table } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
 import "./TablePaciente.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
@@ -11,6 +11,8 @@ import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 import OneButton from "../../buttons/oneButton/OneButton";
+import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPersona";
+import useModal from "../../../hooks/useModal";
 
 function TablePaciente() {
   const { getAllPacientes, pacienteList } = usePacientes();
@@ -19,15 +21,19 @@ function TablePaciente() {
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showPacientes, setShowPacientes] = useState<IPacienteResponse[]>();
-const isSecretario = useIsSecretario();
-const isAdmin = useIsAdministrador()
+  const isSecretario = useIsSecretario();
+  const isAdmin = useIsAdministrador();
+
+  const { showModal, closeModal, toggleModal } = useModal();
+
   useEffect(() => {
-    async function getPacientes() {
-      await getAllPacientes();
-    }
     getPacientes();
     pacienteList?.forEach((elem) => console.log(elem));
-  }, []);
+  }, [pacienteList]);
+
+  async function getPacientes() {
+    await getAllPacientes();
+  }
 
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
@@ -37,8 +43,9 @@ const isAdmin = useIsAdministrador()
     setShowPacientes(filteredItems);
   }, [pacienteList, fraseRegex]);
 
-
-
+  function handleUpdateStatus() {
+    getPacientes();
+  }
   return (
     <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
@@ -85,13 +92,23 @@ const isAdmin = useIsAdministrador()
                   </>
                 )}
                 <td className="dropdown ">
-                  {
-                    isSecretario &&              <PacienteDropdown paciente={paciente} />
-
-                  }
-                  {
-                    isAdmin && <OneButton handleSubmit={()=>{console.log("anda")}} text="Editar" />
-                  }
+                  {isSecretario && <PacienteDropdown paciente={paciente} />}
+                  {isAdmin && (
+                    <OneButton
+                      handleSubmit={() => {
+                        console.log("anda");
+                        showModal();
+                      }}
+                      text="Editar"
+                      variant="danger"
+                    />
+                  )}
+                  <ChangeStatusPersona
+                    modalField={paciente}
+                    show={toggleModal}
+                    handleClose={closeModal}
+                    handleConfirm={() => console.log("confirmo")}
+                  />
                 </td>
               </tr>
             ))}
