@@ -30,6 +30,8 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
       modalField.id,
       estadoUsuarioId
     );
+    if(personaUpdated == undefined)return;
+    handleConfirm(personaUpdated)
   }
 
   const claves = Object.keys(EstadoUsuario).filter((key) => isNaN(Number(key)));

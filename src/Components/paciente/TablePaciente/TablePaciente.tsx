@@ -13,9 +13,10 @@ import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 import OneButton from "../../buttons/oneButton/OneButton";
 import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPersona";
 import useModal from "../../../hooks/useModal";
+import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
 function TablePaciente() {
-  const { getAllPacientes, pacienteList } = usePacientes();
+  const { getAllPacientes, pacienteList,RemovePacienteNotActive } = usePacientes();
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
@@ -110,7 +111,7 @@ function TablePaciente() {
                     modalField={paciente}
                     show={toggleModal}
                     handleClose={closeModal}
-                    handleConfirm={() => console.log("confirmo")}
+                    handleConfirm={(e:IPersonaResponse)=>RemovePacienteNotActive(e)}
                   />
                 </td>
               </tr>
