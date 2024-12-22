@@ -5,6 +5,7 @@ import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
+import TableMedico from "../../Components/Medico/TableMedico/TableMedico";
 
 
 
@@ -23,7 +24,8 @@ function AdministradorHome() {
   return (
     <>
       <Opening title={`Bienvenido ${personaInfo.nombre}`} />
-      <TablePaciente/>
+      {/* <TablePaciente/> */}
+      <TableMedico/>
       {/* <ListaHorariosMedicos /> */}
     </>
   );
