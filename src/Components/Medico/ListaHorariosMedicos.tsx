@@ -14,8 +14,8 @@ function ListaHorariosMedicos() {
     buscarItem,
     setbuscarItem,
     horariosMedicosFiltrados,
-    editarDisponibilidad,
-    setEditarDisponibilidad,
+    estadoDisponibilidad,
+    setEstadoDisponibilidad,
     handleUpdate,
     handleCreate,
     handleDelete,
@@ -46,13 +46,13 @@ function ListaHorariosMedicos() {
         onFraseRegexChage={setbuscarItem}
       />
       <CreateHorarioMedicoModal
-        modalField={editarDisponibilidad}
+        modalField={estadoDisponibilidad}
         show={toggleCreateModal}
         handleClose={closeCreateModal}
         handleConfirm={(e) => handleCreate(e)}
       />
       <EditHorarioMedicoModal
-        modalField={editarDisponibilidad}
+        modalField={estadoDisponibilidad}
         show={toggleEditModal}
         handleClose={closeEditModal}
         handleConfirm={(e) => handleUpdate(e)}
@@ -66,7 +66,7 @@ function ListaHorariosMedicos() {
             horarios={horarios}
             showEditModal={showEditModal}
             showCreateModal={showCreateModal}
-            setEditarDisponibilidad={setEditarDisponibilidad}
+            setEditarDisponibilidad={setEstadoDisponibilidad}
           />
         ))}
       </div>

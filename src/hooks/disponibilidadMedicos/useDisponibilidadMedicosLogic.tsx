@@ -19,7 +19,7 @@ function useDisponibilidadMedicosLogic() {
   const [horariosMedicosFiltrados, setHorariosMedicosFiltrados] = useState<
     [string, DisponibilidadMedico[]][]
   >([]);
-  const [editarDisponibilidad, setEditarDisponibilidad] =
+  const [estadoDisponibilidad, setEstadoDisponibilidad] =
   useState<DisponibilidadMedico>({
     id: 0,
     medicoId: 0,
@@ -144,8 +144,8 @@ function useDisponibilidadMedicosLogic() {
     buscarItem,
     setbuscarItem,
     horariosMedicosFiltrados,
-    editarDisponibilidad,
-    setEditarDisponibilidad,
+    estadoDisponibilidad,
+    setEstadoDisponibilidad,
     handleUpdate,
     handleCreate,
     handleDelete,

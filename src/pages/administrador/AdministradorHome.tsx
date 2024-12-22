@@ -4,6 +4,7 @@ import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TableMedico from "../../Components/Medico/TableMedico/TableMedico";
+import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 
 
 
@@ -21,7 +22,6 @@ function AdministradorHome() {
   return (
     <>
       <Opening title={`Bienvenido ${administrativoInfo.nombre}`} />
-      {/* <TablePaciente/> */}
       <TableMedico/>
       {/* <ListaHorariosMedicos /> */}
     </>

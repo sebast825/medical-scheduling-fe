@@ -3,6 +3,9 @@ import useRedirects from "../../../hooks/useRedicrects";
 import { useMedicoInfoContext, useMedicosContext, usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
+import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
+import useModal from "../../../hooks/useModal";
+import useDisponibilidadMedicosLogic from "../../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
 
 interface IMedicoDropdown {
   medico: IMedicoResponse;
@@ -12,7 +15,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
   const {
     redirectInformacionMedicoAdministrador
   } = useRedirects();
-
+const {toggleModal,closeModal,showModal} = useModal();
     const {setMedicoInfo} = useMedicoInfoContext()
   const {setPersonaInfo} = usePersonaInfoContext()
   function handleMedicoInfo(){
@@ -21,12 +24,22 @@ function MedicoDropdown(props: IMedicoDropdown) {
     redirectInformacionMedicoAdministrador()
 
   }
+
+  const {handleCreate,estadoDisponibilidad} = useDisponibilidadMedicosLogic();
   return (
+    <>
+    
+    <CreateHorarioMedicoModal
+        modalField={estadoDisponibilidad}
+        show={toggleModal}
+        handleClose={closeModal}
+        handleConfirm={(e) => handleCreate(e)}
+      />
     <Dropdown as={ButtonGroup}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic"></Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => {}}>
+        <Dropdown.Item onClick={() => {showModal()}}>
           Crear Horario
         </Dropdown.Item>
 
@@ -36,6 +49,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
+    </>
   );
 }
 

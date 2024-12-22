@@ -101,12 +101,7 @@ function TableMedico() {
                 )}
                 <td className="dropdown ">
                   <MedicoDropdown medico={medico} />
-                  {/* <ChangeStatusPersona
-                    modalField={medico}
-                    show={toggleModal}
-                    handleClose={closeModal}
-                    handleConfirm={(e:IPersonaResponse)=>RemovemedicoNotActive(e)}  />
-                    */}
+               
                 </td>
               </tr>
             ))}
