@@ -192,8 +192,19 @@ export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number,
 export const fecthUpdateMedico = async (jwt: string, id : number, dto: MedicoUpdateRequestDTO)=>{
  
   const api = createApiInstance(jwt);
-  const response = await api.patch(
+  const response = await api.put(
     `/api/medicos/${id}`,dto
+  );
+  return response.data;
+
+}
+
+export const fecthGetEspecialidadesMedico = async (jwt: string)=>{
+ 
+  const api = createApiInstance(jwt);
+  const response = await api.get(
+    `/api/medicos/especialidad/getAll`
+
   );
   return response.data;
 

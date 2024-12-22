@@ -14,7 +14,8 @@ function MedicoInfoCard() {
       if (!medicoInfo)return;
       setNumeroLicencia(medicoInfo.numeroLicencia)
       setEspecialidad(medicoInfo.especialidad)
-   },[])
+   },[medicoInfo])
+
    const{showModal,closeModal,toggleModal} = useModal()
  
   return (
