@@ -1,6 +1,6 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
-import { usePacienteContext } from "../../../context/authContext";
+import { usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 
 interface IpacienteDropwdown{
@@ -16,7 +16,7 @@ function PacienteDropdown (props:IpacienteDropwdown ) {
       redirectInformaciónPacienteSecretario,
     } = useRedirects();
     const { setPacienteInfo } = usePacienteContext();
-
+    const {setPersonaInfo} = usePersonaInfoContext();
     
   function nuevoTurnoByMedico(): void {
    setPacienteInfo(paciente);
@@ -33,6 +33,7 @@ function PacienteDropdown (props:IpacienteDropwdown ) {
  }
  function redirectInformacionPaciente(): void {
    setPacienteInfo(paciente);
+   setPersonaInfo(paciente)
    redirectInformaciónPacienteSecretario();
  }
    return(

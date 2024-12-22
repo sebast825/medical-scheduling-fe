@@ -16,14 +16,14 @@ function InformaciónPersonal() {
   const { redirectToLogin } = useRedirects();
   const {pacienteInfo,setPacienteInfo} = usePacienteContext();
   const {setPersonaInfo} = usePersonaInfoContext()
-  
+
   useEffect(() => {
     if (user == null) {
       redirectToLogin();
     }
   }, []);
 
-  function handlePersnaUpdate(updatedPersona: IPersonaResponse) {
+  function handlePersonaUpdate(updatedPersona: IPersonaResponse) {
     if (pacienteInfo == null) return;
 
     setPacienteInfo((prevInfo: IPacienteResponse | null) => ({
@@ -43,7 +43,7 @@ function InformaciónPersonal() {
       >
         <PersonaInfoCard
           title="Información Personal"
-          handleConfirm={handlePersnaUpdate}
+          handleConfirm={handlePersonaUpdate}
         />
         <PacienteInfoCard
           // title="Información Personal"
