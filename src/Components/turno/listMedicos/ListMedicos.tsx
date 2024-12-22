@@ -1,4 +1,4 @@
-import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import List from "../../Lists/List/List";
 import ListOpening from "../../Lists/ListOpening/ListOpening";
 

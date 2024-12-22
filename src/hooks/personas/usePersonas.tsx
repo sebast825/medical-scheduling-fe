@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import { useUserInfo } from "../../context/authContext";
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { fecthUpdateEstadoUsuarioYPersona, fetchUpdatePersona } from "../../services/apiService";
 import useToastit from "../useToastit";

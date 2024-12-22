@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {  usePacienteContext, usePersonaInfoContext, useUserInfo } from "../../context/authContext";
 
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../utils/formatDate";
 import { useNavigate } from "react-router-dom";

@@ -11,7 +11,7 @@ import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import useRedicrects from "../../hooks/useRedicrects";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 
 function InformacionMedicoAdministrador() {
   const isAdmin = useIsAdministrador();

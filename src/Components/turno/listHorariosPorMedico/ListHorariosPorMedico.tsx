@@ -1,4 +1,4 @@
-import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../../utils/formatDate";
 import BackLink from "../../buttons/BackLink/BackLink";

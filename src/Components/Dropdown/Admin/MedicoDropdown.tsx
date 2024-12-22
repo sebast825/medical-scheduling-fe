@@ -2,7 +2,7 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
 import { useMedicoInfoContext, useMedicosContext, usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 
 interface IMedicoDropdown {
   medico: IMedicoResponse;

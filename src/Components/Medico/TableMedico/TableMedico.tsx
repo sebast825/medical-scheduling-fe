@@ -10,7 +10,7 @@ import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 import OneButton from "../../buttons/oneButton/OneButton";
 import useModal from "../../../hooks/useModal";
 import useMedicos from "../../../hooks/medicos/useMedicos";
-import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import MedicoDropdown from "../../Dropdown/Admin/MedicoDropdown";
 
 function TableMedico() {

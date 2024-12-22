@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { getDate, getHour } from "../../utils/formatDate";
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { usePacienteContext } from "../../context/authContext";
 
 interface IConfirmModal {

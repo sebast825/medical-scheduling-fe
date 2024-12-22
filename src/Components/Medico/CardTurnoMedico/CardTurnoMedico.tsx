@@ -20,7 +20,7 @@ function CardTurnoMedico({
   btnEvent
 }: ICardTurnoMedico) {
 
-  const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
+  const [screenSize] = useState<number>(useWindowSize().width);
   const user = useUserInfo();
   var id = turno.id
   var paciente = turno.paciente;

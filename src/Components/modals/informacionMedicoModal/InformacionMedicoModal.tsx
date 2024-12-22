@@ -1,11 +1,12 @@
 import { Form } from "react-bootstrap";
-import { IMedicoResponse } from "../../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import GenericModal from "../GenericModal/GenericModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useMedicos from "../../../hooks/medicos/useMedicos";
+import { useMedicoInfoContext } from "../../../context/authContext";
 
 
 interface IInformacionMedicoModal {
-   modalField: IMedicoResponse;
    show: boolean;
    handleClose: () => void;
    handleConfirm: (personaResponse: IMedicoResponse) => void;
@@ -13,11 +14,17 @@ interface IInformacionMedicoModal {
  
 function InformacionMedicoModal(props: IInformacionMedicoModal) {
 
-   const {modalField,show,handleClose,handleConfirm} = props;
+   const {show,handleClose,handleConfirm} = props;
    const [nombre,setNombre] = useState<string>("");
+   const {medicoInfo}= useMedicoInfoContext()
+  const {updateMedicos}= useMedicos()
 
+  useEffect(()=>{
+      if(medicoInfo != undefined)
+    
+    setNombre(medicoInfo?.numeroLicencia)},[])
    function confirmar(){
-
+      //await useMedicos()
    }
   return (
    <GenericModal

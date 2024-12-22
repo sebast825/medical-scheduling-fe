@@ -1,7 +1,7 @@
 import MedicosList from "../../Components/General/MedicosList/MedicosList";
 import { useEffect,useState } from "react";
 import { fetchMedicos } from "../../services/apiService";
-import { IMedicoResponse } from "../../types/MedicoResponse.type";
+import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { Table } from 'react-bootstrap';
 import DataTable from "../../Components/General/MedicosList/MedicosList";
 

@@ -5,6 +5,8 @@ import { IPersonaUpdate } from "../types/Persona/PersonaUpdate.type";
 import { IPacienteUpdate } from "../types/Paciente/PacienteUpdate.type";
 import { IDisponibilidadMedicoUpdateRequest } from "../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import { DisponibilidadMedicoCreate } from "../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
+import { IMedicoResponse } from "../types/Medico/MedicoResponse.type";
+import { MedicoUpdateRequestDTO } from "../types/Medico/MedicoUpdateRequest.type";
 
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
@@ -185,6 +187,16 @@ export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number,
     );
     return response.data;
  
+}
+
+export const fecthUpdateMedico = async (jwt: string, id : number, dto: MedicoUpdateRequestDTO)=>{
+ 
+  const api = createApiInstance(jwt);
+  const response = await api.patch(
+    `/api/medicos/${id}`,dto
+  );
+  return response.data;
+
 }
 
 

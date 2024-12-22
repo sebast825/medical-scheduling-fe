@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useMedicoInfoContext } from "../../../../context/authContext";
 import CardItem from "../cardItem/CardItem";
 import GenericCard from "../GenericCard/GenericCard";
+import useModal from "../../../../hooks/useModal";
+import InformacionMedicoModal from "../../../modals/informacionMedicoModal/InformacionMedicoModal";
 
 function MedicoInfoCard() {
 
@@ -13,8 +15,14 @@ function MedicoInfoCard() {
       setNumeroLicencia(medicoInfo.numeroLicencia)
       setEspecialidad(medicoInfo.especialidad)
    },[])
+   const{showModal,closeModal,toggleModal} = useModal()
+ 
   return (
-    <GenericCard title={"Información Profesional"} handleEvent={() => {}}>
+    <>
+       <InformacionMedicoModal  show={toggleModal} handleClose={closeModal } handleConfirm={()=>console.log("hola")}/>
+
+  
+    <GenericCard title={"Información Profesional"} handleEvent={showModal}>
       {true && (
         <>
           <CardItem key={"numLic"} text={numeroLicencia} propertyName="Numero Licencia" />
@@ -22,6 +30,7 @@ function MedicoInfoCard() {
         </>
       )}
     </GenericCard>
+    </>
   );
 }
 

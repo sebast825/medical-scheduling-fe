@@ -1,12 +1,16 @@
 import { useState, useCallback } from 'react';
-import { IMedicoResponse } from '../../types/MedicoResponse.type';
+import { IMedicoResponse } from '../../types/Medico/MedicoResponse.type';
 import { ErrorTypeAny } from '../../types/Error.type';
-import {  fetchMedicos } from '../../services/apiService';
+import {  fecthUpdateMedico, fetchMedicos } from '../../services/apiService';
+import { useMedicoInfoContext, useUserInfo } from '../../context/authContext';
+import { MedicoUpdateRequestDTO } from '../../types/Medico/MedicoUpdateRequest.type';
 
 
 const useMedicos = () => {
   const [medicos, setMedicos] = useState<IMedicoResponse[]>();
   const [medicosError, setError] = useState<ErrorTypeAny>(null);
+  const user = useUserInfo()
+  const {setMedicoInfo} = useMedicoInfoContext();
 
   const getMedicos = useCallback(async () => {
 
@@ -31,10 +35,22 @@ const useMedicos = () => {
     return medicoNombre;
   }
 
+  const updateMedicos = useCallback(async (id : number, dto: MedicoUpdateRequestDTO) => {
+    
+    try {
+      if(user == null) return
+      const response: IMedicoResponse = await fecthUpdateMedico(user,id,dto);
+    //  setMedicos(response);
+     await setMedicoInfo(response)
 
+    } catch (err: any) {
+      console.log(err);
+      setError("Error desconocido");
+    }
+  }, []);
   
 
-  return { medicos, medicosError, getMedicos,findMedicoById,getMedicoNombre };
+  return { medicos, medicosError, getMedicos,findMedicoById,getMedicoNombre,updateMedicos};
 };
 
 export default useMedicos;
