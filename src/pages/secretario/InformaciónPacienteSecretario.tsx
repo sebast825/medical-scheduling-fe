@@ -29,10 +29,10 @@ function InformaciónPacienteSecretario() {
         className="d-flex  informacionPersonal justify-content-center flex-md-row flex-column gap-5 mt-5 mb-5"
         style={{ width: "min-content", margin: "auto" }}
       >
-        <PersonaInfoCard
-          // title="Información Personal"
+        {/* <PersonaInfoCard
+           title="Información Personal"
           handleEvent={true}
-        />
+        /> */}
         <PacienteInfoCard
           // title="Información Personal"
           handleEvent={true}

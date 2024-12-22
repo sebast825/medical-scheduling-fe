@@ -4,6 +4,7 @@ import Opening from "../../Components/General/Opening/Opening";
 import { useMedicoInfoContext, useUserContext, useUserInfo } from "../../context/authContext";
 import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import useRedicrects from "../../hooks/useRedicrects";
+import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 
 
 function InformacionMedicoAdministrador(){
@@ -18,6 +19,7 @@ function InformacionMedicoAdministrador(){
 
       <>
       <Opening title={`Información de ${medicoInfo?.nombre} ${medicoInfo?.apellido}`}/>
+      {/* <PersonaInfoCard/> */}
       <MedicoInfoCard/>
       </>
    )

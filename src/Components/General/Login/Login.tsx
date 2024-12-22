@@ -12,6 +12,7 @@ import {
   useUserInfo,
   usePacienteContext,
   useMedicoInfoContext,
+  usePersonaInfoContext,
 } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
@@ -45,6 +46,7 @@ const LoginForm = () => {
   }, [user]);
 
   const { setAdministrativoInfo } = useAdministrativoInfoContext();
+  const { setPersonaInfo } = usePersonaInfoContext();
 
   //busca la info de la persona, hay que reorganizarla
   const getUserInfo = async () => {
@@ -59,6 +61,7 @@ const LoginForm = () => {
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
       await setPacienteInfo(pacienteInfo);
+      await setPersonaInfo(pacienteInfo)
     } else if (userRole == Roles[Roles.Medico]) {
       const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
       await setMedicoInfo(medicoInfo);
@@ -73,7 +76,7 @@ const LoginForm = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "admin";
+    let UserName = "paciente";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 

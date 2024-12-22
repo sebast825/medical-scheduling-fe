@@ -11,7 +11,7 @@ import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
-import  IPacienteResponse  from "../../../types/Paciente/PacienteResponse.type";
+import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 
 interface IInformacionPersonaModal {
   modalField: IPacienteResponse;
@@ -26,17 +26,18 @@ function InformacionPersonaModal({
   handleClose,
   handleConfirm,
 }: IInformacionPersonaModal) {
+
   const [nombre, setNombre] = useState<string>(modalField.nombre);
   const [apellido, setApellido] = useState<string>(modalField.apellido);
   const [fechaNacimiento, setFechaNacimiento] = useState<string>(
-  getDate(modalField.fechaNacimiento)
+    getDate(modalField.fechaNacimiento)
   );
   const [telefono, setTelefono] = useState<string>(modalField.telefono);
   const [numeroDocumento, setNumeroDocumento] = useState<string>(
     modalField.numeroDocumento
   );
   const [sexo, setSexo] = useState<string>(modalField.sexo);
-  const { pacienteInfo} = usePacienteContext();
+  const { pacienteInfo } = usePacienteContext();
   const { personaInfo } = usePersonaInfoContext();
   const { putPersona } = usePersonas();
   const { error } = useToastit();
@@ -48,14 +49,13 @@ function InformacionPersonaModal({
   useEffect(() => {}, [pacienteInfo]);
 
   async function handlePersonaUpdate() {
-
     var persona = createPersonaUpdateObject();
     var updatedPersona = await updatePersona(persona);
 
     if (updatedPersona == null) {
       error("Ha ocurrido un error, no se pudo completar la accion con éxito.");
       return;
-    };
+    }
     handleConfirm(updatedPersona);
     handleClose();
   }
@@ -80,17 +80,14 @@ function InformacionPersonaModal({
   async function updatePersona(
     persona: IPersonaUpdate
   ): Promise<IPersonaResponse | undefined> {
-
     if (pacienteInfo == null) return undefined;
     var updatedPersona: IPersonaResponse | undefined = await putPersona(
       persona,
       pacienteInfo.id.toString()
     );
-    console.log(persona,       pacienteInfo.id.toString() )
     return updatedPersona;
   }
 
- 
   return (
     <>
       <GenericModal
@@ -100,7 +97,7 @@ function InformacionPersonaModal({
         title="Editar Información Personal"
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
-          <Form.Group controlId="formBasicnombre" >
+          <Form.Group controlId="formBasicnombre">
             <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
             <Form.Control
               type="text"
@@ -109,7 +106,7 @@ function InformacionPersonaModal({
               value={nombre}
             />
           </Form.Group>
-          <Form.Group >
+          <Form.Group>
             <Form.Label style={{ textAlign: "left" }}>Apellido</Form.Label>
             <Form.Control
               type="text"
@@ -118,7 +115,7 @@ function InformacionPersonaModal({
               value={apellido}
             />
           </Form.Group>
-          <Form.Group >
+          <Form.Group>
             <Form.Label style={{ textAlign: "left" }}>
               Fecha Nacimiento
             </Form.Label>
@@ -138,7 +135,7 @@ function InformacionPersonaModal({
               value={telefono}
             />
           </Form.Group>
-          <Form.Group  key="5">
+          <Form.Group key="5">
             <Form.Label style={{ textAlign: "left" }}>
               Número Documento
             </Form.Label>
@@ -154,7 +151,11 @@ function InformacionPersonaModal({
             <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
             <Form.Select onChange={(e) => setSexo(e.target.value)} value={sexo}>
               {claves.map((elem) => {
-                return <option key={elem} value={elem}>{elem}</option>;
+                return (
+                  <option key={elem} value={elem}>
+                    {elem}
+                  </option>
+                );
               })}
             </Form.Select>
           </Form.Group>

@@ -1,7 +1,10 @@
 import GenericCard from "../GenericCard/GenericCard";
 import CardItem from "../cardItem/CardItem";
 import { useEffect } from "react";
-import { usePacienteContext } from "../../../../context/authContext";
+import {
+  usePacienteContext,
+  usePersonaInfoContext,
+} from "../../../../context/authContext";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
 import InformacionPersonaModal from "../../../modals/formacionPersonaModal/InformacionPersonaModal";
@@ -10,79 +13,67 @@ import { IInfoCard } from "../../../../types/InfoCard.type";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 
+interface IPersonaInfoCard {
+  title: string;
+  handleConfirm: (updatedPersona: IPersonaResponse) => void;
+}
+
 function PersonaInfoCard({
   title = "Información Personal",
-  handleEvent = false,
-}: IInfoCard) {
-
+  handleConfirm = () => {},
+}: IPersonaInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
-  const { pacienteInfo, setPacienteInfo } = usePacienteContext();
+  const { personaInfo } = usePersonaInfoContext();
 
-  useEffect(() => {
- 
-  }, [pacienteInfo]);
-
-  function actualizarInformacionPersona(updatedPersona: IPersonaResponse) {
-    if (pacienteInfo == null) return;
-
-    setPacienteInfo((prevInfo : IPacienteResponse | null) => ({
-      ...updatedPersona,
-      telefonoEmergencia: prevInfo?.telefonoEmergencia ?? "",
-      nombreEmergencia: prevInfo?.nombreEmergencia ?? "",
-    }));
-  }
+  useEffect(() => {}, [personaInfo]);
 
   return (
     <>
-      {pacienteInfo != undefined && (
+      {personaInfo != undefined && (
         <>
           <InformacionPersonaModal
             show={toggleModal}
             handleClose={closeModal}
-            modalField={pacienteInfo}
-            handleConfirm={actualizarInformacionPersona}
+            modalField={personaInfo}
+            handleConfirm={handleConfirm}
           />
         </>
       )}
-      <GenericCard
-        title={title}
-        handleEvent={handleEvent ? showModal : undefined}
-      >
-        {pacienteInfo && (
+      <GenericCard title={title} handleEvent={showModal}>
+        {personaInfo && (
           <>
             <CardItem
-              key={pacienteInfo.nombre}
-              text={pacienteInfo.nombre}
+              key={personaInfo.nombre}
+              text={personaInfo.nombre}
               propertyName="Nombre"
             />
             <CardItem
-              key={pacienteInfo.apellido}
-              text={pacienteInfo.apellido}
+              key={personaInfo.apellido}
+              text={personaInfo.apellido}
               propertyName="Apellido"
             />
             <CardItem
-              key={pacienteInfo.numeroDocumento}
-              text={pacienteInfo.numeroDocumento}
+              key={personaInfo.numeroDocumento}
+              text={personaInfo.numeroDocumento}
               propertyName="Numero Documento"
             />
             <CardItem
-              key={pacienteInfo.fechaNacimiento}
-              text={new Date(pacienteInfo.fechaNacimiento).toLocaleDateString()}
+              key={personaInfo.fechaNacimiento}
+              text={new Date(personaInfo.fechaNacimiento).toLocaleDateString()}
               propertyName="Fecha Nacimiento"
             />
             <CardItem
-              key={pacienteInfo.sexo}
-              text={pacienteInfo.sexo}
+              key={personaInfo.sexo}
+              text={personaInfo.sexo}
               propertyName="Sexo"
             />
             <CardItem
-              key={pacienteInfo.telefono}
-              text={pacienteInfo.telefono}
+              key={personaInfo.telefono}
+              text={personaInfo.telefono}
               propertyName="Telefono"
             />
           </>
         )}
-      
       </GenericCard>
     </>
   );
