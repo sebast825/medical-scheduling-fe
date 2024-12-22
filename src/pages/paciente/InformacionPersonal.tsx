@@ -42,11 +42,9 @@ function InformaciónPersonal() {
         style={{ width: "min-content", margin: "auto" }}
       >
         <PersonaInfoCard
-          title="Información Personal"
           handleConfirm={handlePersonaUpdate}
         />
         <PacienteInfoCard
-          // title="Información Personal"
           handleEvent={true}
         />
       </div>

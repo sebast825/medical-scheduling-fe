@@ -50,6 +50,7 @@ function InformacionPersonaModal({
 
   async function handlePersonaUpdate() {
     var persona = createPersonaUpdateObject();
+    console.log(persona)
     var updatedPersona = await updatePersona(persona);
 
     if (updatedPersona == null) {
@@ -80,10 +81,10 @@ function InformacionPersonaModal({
   async function updatePersona(
     persona: IPersonaUpdate
   ): Promise<IPersonaResponse | undefined> {
-    if (pacienteInfo == null) return undefined;
+    if (personaInfo == null) return undefined;
     var updatedPersona: IPersonaResponse | undefined = await putPersona(
       persona,
-      pacienteInfo.id.toString()
+      personaInfo.id.toString()
     );
     return updatedPersona;
   }

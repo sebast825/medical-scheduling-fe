@@ -1,6 +1,6 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
-import { useMedicoInfoContext, useMedicosContext, usePacienteContext } from "../../../context/authContext";
+import { useMedicoInfoContext, useMedicosContext, usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
 
@@ -12,12 +12,12 @@ function MedicoDropdown(props: IMedicoDropdown) {
   const {
     redirectInformacionMedicoAdministrador
   } = useRedirects();
-  const { setPacienteInfo } = usePacienteContext();
 
     const {setMedicoInfo} = useMedicoInfoContext()
-
+  const {setPersonaInfo} = usePersonaInfoContext()
   function handleMedicoInfo(){
     setMedicoInfo(medico);
+    setPersonaInfo(medico);
     redirectInformacionMedicoAdministrador()
 
   }

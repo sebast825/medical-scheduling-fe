@@ -1,12 +1,7 @@
-export interface IMedicoResponse {
+import { IPersonaResponse } from "./Persona/PersonaResponse.type";
+
+export interface IMedicoResponse extends IPersonaResponse {
    numeroLicencia: string;
    especialidad: string;
-   nombre: string;
-   apellido: string;
-   fechaNacimiento: Date;
-   telefono: string;
-   numeroDocumento: string;
-   sexo: string;
-   estadoUsuario: string;
-   id:number;
+
  }

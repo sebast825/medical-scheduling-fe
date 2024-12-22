@@ -14,13 +14,11 @@ import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 
 interface IPersonaInfoCard {
-  title: string;
   handleConfirm: (updatedPersona: IPersonaResponse) => void;
 }
 
 function PersonaInfoCard({
-  title = "Información Personal",
-  handleConfirm = () => {},
+  handleConfirm = () => {}
 }: IPersonaInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
   const { personaInfo } = usePersonaInfoContext();
@@ -39,7 +37,7 @@ function PersonaInfoCard({
           />
         </>
       )}
-      <GenericCard title={title} handleEvent={showModal}>
+      <GenericCard title={"Información Personal"} handleEvent={showModal}>
         {personaInfo && (
           <>
             <CardItem
