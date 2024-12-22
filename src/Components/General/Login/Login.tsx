@@ -8,7 +8,7 @@ import {
 } from "../../../services/apiService";
 import {
   useUserToggleContext,
-  usePersonaInfoContext,
+  useAdministrativoInfoContext,
   useUserInfo,
   usePacienteContext,
   useMedicoInfoContext,
@@ -44,7 +44,7 @@ const LoginForm = () => {
     }
   }, [user]);
 
-  const { setPersonaInfo } = usePersonaInfoContext();
+  const { setAdministrativoInfo } = useAdministrativoInfoContext();
 
   //busca la info de la persona, hay que reorganizarla
   const getUserInfo = async () => {
@@ -55,7 +55,7 @@ const LoginForm = () => {
 
     if (userRole == Roles[Roles.Secretario]) {
       const personaInfo = await fetchPersonaInfo(user, params.PersonaId);
-      await setPersonaInfo(personaInfo);
+      await setAdministrativoInfo(personaInfo);
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
       await setPacienteInfo(pacienteInfo);
@@ -64,7 +64,7 @@ const LoginForm = () => {
       await setMedicoInfo(medicoInfo);
     } else if (userRole == Roles[Roles.Admin]) {
       const administradorInfo = await fetchPersonaInfo(user, params.PersonaId);
-      await setPersonaInfo(administradorInfo);
+      await setAdministrativoInfo(administradorInfo);
     } else {
       console.log("error");
     }

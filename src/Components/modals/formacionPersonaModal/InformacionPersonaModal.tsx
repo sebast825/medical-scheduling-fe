@@ -86,6 +86,7 @@ function InformacionPersonaModal({
       persona,
       pacienteInfo.id.toString()
     );
+    console.log(persona,       pacienteInfo.id.toString() )
     return updatedPersona;
   }
 

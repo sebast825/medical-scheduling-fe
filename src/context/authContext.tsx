@@ -20,6 +20,9 @@ interface UserContextType {
     medicoInfo: IMedicoResponse | null;
     setMedicoInfo :  React.Dispatch<
     React.SetStateAction<IMedicoResponse | null>>;
+    administrativoInfo : PersonaInfo;
+    setAdministrativoInfo: React.Dispatch<React.SetStateAction<IPersonaResponse>>;
+
     
 }
 
@@ -42,6 +45,13 @@ export function useUserToggleContext() {
   return context.cambiaLogin;
 }
 
+export function useAdministrativoInfoContext() {
+  const context = useUserContext();
+  return {
+    administrativoInfo: context.administrativoInfo,
+    setAdministrativoInfo: context.setAdministrativoInfo,
+  };
+}
 export function usePersonaInfoContext() {
   const context = useUserContext();
   return {
@@ -82,6 +92,8 @@ export function UserProvider({ children }: UserProviderProps) {
   const [pacienteInfo, setPacienteInfo] = useState<IPacienteResponse | null>(
     null
   );
+  const [administrativoInfo, setAdministrativoInfo] = useState<PersonaInfo>("");
+
   const cambiaLogin = (jwt: string | null) => {
     if (user) {
       setUser(null);
@@ -100,7 +112,9 @@ export function UserProvider({ children }: UserProviderProps) {
     pacienteInfo,
     setPacienteInfo,
     medicoInfo,
-    setMedicoInfo
+    setMedicoInfo,
+    administrativoInfo,
+    setAdministrativoInfo
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  usePersonaInfoContext
+  useAdministrativoInfoContext
 } from "../../context/authContext";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
@@ -12,7 +12,7 @@ import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 function SecreatarioHome() {
   const isSecretario : Boolean = useIsSecretario()
   const redirectToLogin = useRedirectToLogin();
-  const { personaInfo } = usePersonaInfoContext();
+  const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
 
@@ -34,7 +34,7 @@ function SecreatarioHome() {
 
   return (
     <>
-      <Opening title={`Bienvenido Secretario ${personaInfo.nombre}`} />
+      <Opening title={`Bienvenido Secretario ${administrativoInfo.nombre}`} />
       <TwoButtonComponent
         textButton1="Listado Pacientes"
         textButton2="Horarios Medicos"
