@@ -9,7 +9,8 @@ import {
   TurnosDePaciente,
   InformaciónPacienteSecretario,
   MedicoHome,
-  AdministradorHome
+  AdministradorHome,
+  InformacionMedicoAdministrador
 } from "../pages/index";
 
 export const routes = [
@@ -60,5 +61,9 @@ export const routes = [
   {
     path: "/administrador",
     element: <AdministradorHome />,
+  },
+  {
+    path: "/administrador/informacionMedico",
+    element: <InformacionMedicoAdministrador />,
   }
 ];

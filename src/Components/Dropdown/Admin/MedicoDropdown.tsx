@@ -1,6 +1,6 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
-import { usePacienteContext } from "../../../context/authContext";
+import { useMedicoInfoContext, useMedicosContext, usePacienteContext } from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../../../types/MedicoResponse.type";
 
@@ -10,14 +10,17 @@ interface IMedicoDropdown {
 function MedicoDropdown(props: IMedicoDropdown) {
   const { medico } = props;
   const {
-    redirectToNuevoTurnoFilterMedico,
-    redirectToNuevoTurnoFilterEspecialidad,
-    redirectListadoTurnos,
-    redirectInformaciónPacienteSecretario,
+    redirectInformacionMedicoAdministrador
   } = useRedirects();
   const { setPacienteInfo } = usePacienteContext();
 
+    const {setMedicoInfo} = useMedicoInfoContext()
 
+  function handleMedicoInfo(){
+    setMedicoInfo(medico);
+    redirectInformacionMedicoAdministrador()
+
+  }
   return (
     <Dropdown as={ButtonGroup}>
       <Dropdown.Toggle variant="primary" id="dropdown-basic"></Dropdown.Toggle>
@@ -27,7 +30,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
           Crear Horario
         </Dropdown.Item>
 
-        <Dropdown.Item onClick={() => {}}>
+        <Dropdown.Item onClick={handleMedicoInfo }>
           {" "}
           Mas Información
         </Dropdown.Item>

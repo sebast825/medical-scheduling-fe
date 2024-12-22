@@ -33,6 +33,10 @@ const useRedirects = () => {
   const redirectInformaciónPacienteSecretario = (): void => {
     navigate("/secretarios/InformaciónPacienteSecretario");
   };
+  const redirectInformacionMedicoAdministrador = () : void =>{
+    navigate("/administrador/informacionMedico");
+
+  }
   
   return {
     redirectToHome,
@@ -44,7 +48,8 @@ const useRedirects = () => {
     redirectToInformacionPersonal,
     redirectToSecretarioHome,
     redirectListadoTurnos,
-    redirectInformaciónPacienteSecretario
+    redirectInformaciónPacienteSecretario,
+    redirectInformacionMedicoAdministrador
   };
 };
 
