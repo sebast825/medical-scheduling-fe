@@ -61,7 +61,7 @@ const useGetTurnos = () => {
       var fecha1 = new Date(a.fecha);
       var fecha2 = new Date(b.fecha);
 
-      if (fecha1 < fecha2) {
+      if (fecha1 > fecha2) {
         return 1;
       } else {
         return -1;
