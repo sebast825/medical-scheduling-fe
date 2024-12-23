@@ -21,10 +21,6 @@ function TableMedico() {
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showMedicos, setShowMedicos] = useState<IMedicoResponse[]>();
-  const isSecretario = useIsSecretario();
-  const isAdmin = useIsAdministrador();
-
-  const { showModal, closeModal, toggleModal } = useModal();
 
   useEffect(() => {
     if (medicos != undefined) return;
@@ -55,7 +51,7 @@ function TableMedico() {
   return (
     <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
-        placeholder="Buscar medico por documento"
+        placeholder="Buscar medico"
         onFraseRegexChage={setFraseRegex}
       />
 
