@@ -35,7 +35,7 @@ function TurnosListMedico(props: ITurnosListMedico) {
           ))
         ) : (
           <div className="container d-flex justify-content-center p-md-5 pt-5 p-2">
-            <h4>Hoy no tenés turnos agendados</h4>
+            <h2 className="text-center mb-4 border-bottom pb-2">Hoy no tenés turnos agendados</h2>
           </div>
         )}
       </div>
