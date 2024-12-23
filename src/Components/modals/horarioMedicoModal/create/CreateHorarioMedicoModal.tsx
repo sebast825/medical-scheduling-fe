@@ -43,6 +43,7 @@ function CreateHorarioMedicoModal({
       StartTime: horarioInicio,
       EndTime: horarioFin,
     };
+    console.log(disponibilidadUpdated)
     handleConfirm(disponibilidadUpdated);
   }
   function formatHour(hora: string): boolean {
@@ -58,9 +59,12 @@ function CreateHorarioMedicoModal({
     { id: 6, nombre: "Sábado" },
     { id: 7, nombre: "Domingo" },
   ];
+
+
 useEffect(()=>{
   console.log(diaSemana)
 },[diaSemana])
+
   return (
     <>
       <GenericModal

@@ -1,6 +1,11 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
-import { useMedicoInfoContext, useMedicosContext, usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
+import {
+  useMedicoInfoContext,
+  useMedicosContext,
+  usePacienteContext,
+  usePersonaInfoContext,
+} from "../../../context/authContext";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
@@ -12,43 +17,63 @@ interface IMedicoDropdown {
 }
 function MedicoDropdown(props: IMedicoDropdown) {
   const { medico } = props;
-  const {
-    redirectInformacionMedicoAdministrador
-  } = useRedirects();
-const {toggleModal,closeModal,showModal} = useModal();
-    const {setMedicoInfo} = useMedicoInfoContext()
-  const {setPersonaInfo} = usePersonaInfoContext()
-  function handleMedicoInfo(){
+  const { redirectInformacionMedicoAdministrador } = useRedirects();
+  const { setMedicoInfo } = useMedicoInfoContext();
+  const { setPersonaInfo } = usePersonaInfoContext();
+
+  function handleMedicoInfo() {
     setMedicoInfo(medico);
     setPersonaInfo(medico);
-    redirectInformacionMedicoAdministrador()
-
+    redirectInformacionMedicoAdministrador();
   }
 
-  const {handleCreate,estadoDisponibilidad} = useDisponibilidadMedicosLogic();
+  const {
+    handleCreate,
+    estadoDisponibilidad,
+    setEstadoDisponibilidad,
+    toggleCreateModal,
+    closeCreateModal,
+    showCreateModal,
+  } = useDisponibilidadMedicosLogic();
+
+  function handleCreateHorario() {
+    setEstadoDisponibilidad((prevState) => ({
+      ...prevState,
+      medicoId: medico.id,
+      medico: medico.nombre,
+    }));
+    showCreateModal();
+  }
+  
   return (
     <>
-    
-    <CreateHorarioMedicoModal
+      <CreateHorarioMedicoModal
         modalField={estadoDisponibilidad}
-        show={toggleModal}
-        handleClose={closeModal}
-        handleConfirm={(e) => handleCreate(e)}
+        show={toggleCreateModal}
+        handleClose={closeCreateModal}
+        handleConfirm={(e) => {
+          handleCreate(e);
+        }}
       />
-    <Dropdown as={ButtonGroup}>
-      <Dropdown.Toggle variant="primary" id="dropdown-basic"></Dropdown.Toggle>
+      <Dropdown as={ButtonGroup}>
+        <Dropdown.Toggle
+          variant="primary"
+          id="dropdown-basic"
+        ></Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => {showModal()}}>
-          Crear Horario
-        </Dropdown.Item>
+        <Dropdown.Menu>
+          <Dropdown.Item
+            onClick={() => {
+              handleCreateHorario();
+            }}>
+            Crear Horario
+          </Dropdown.Item>
 
-        <Dropdown.Item onClick={handleMedicoInfo }>
-          {" "}
-          Mas Información
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+          <Dropdown.Item onClick={handleMedicoInfo}>
+            Mas Información
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </>
   );
 }

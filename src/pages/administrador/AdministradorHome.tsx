@@ -23,7 +23,7 @@ function AdministradorHome() {
     <>
       <Opening title={`Bienvenido ${administrativoInfo.nombre}`} />
       <TableMedico/>
-      {/* <ListaHorariosMedicos /> */}
+      <ListaHorariosMedicos />
     </>
   );
 }
