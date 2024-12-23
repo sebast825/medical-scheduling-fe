@@ -54,28 +54,24 @@ function RedirectBuscarPorEspecialidad(){
         onClickButton1={ShowTurnos}
         onClickButton2={ShowNuevoTurno}
       />
-      {btnToggle ? (
-        <div className="container p-4">
-          <h2>Mis Turnos</h2>
-          <TurnosListWithModal turnosList={turnos} />
-        </div>
-      ) : (
-        <h2>
-          <div className="container p-4">
-          
-          <h2>Nuevo Turno</h2>
-          
-           <TwoButtonComponent 
-        textButton1="Buscar por Medico"
-        textButton2="Buscar por Especialidad"
-        onClickButton1={RedirectBuscarPorMedico}
-        onClickButton2={RedirectBuscarPorEspecialidad}
-        layout="mobileWrap gap-3"
-        
-      />
-       </div>
-        </h2>
-      )}
+{btnToggle ? (
+  <div className="container p-4">
+    <h2 className="text-center  mb-4 border-bottom pb-2">Mis Turnos</h2>
+    <TurnosListWithModal turnosList={turnos} />
+  </div>
+) : (
+  <div className="container p-4">
+    <h2 className="text-center mb-4 border-bottom pb-2">Nuevo Turno</h2>
+    <TwoButtonComponent 
+      textButton1="Buscar por Medico"
+      textButton2="Buscar por Especialidad"
+      onClickButton1={RedirectBuscarPorMedico}
+      onClickButton2={RedirectBuscarPorEspecialidad}
+      layout="mobileWrap gap-3"
+    />
+  </div>
+)}
+
 
     </div>
   );
