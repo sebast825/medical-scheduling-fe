@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import './TwoButtonComponent.scss'
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import "./TwoButtonComponent.scss";
 interface ITwoButtonComponent {
   textButton1: string;
   textButton2: string;
@@ -9,6 +9,7 @@ interface ITwoButtonComponent {
   onClickButton1: () => void;
   onClickButton2: () => void;
   layout?: string;
+  setShadowDefault ?: boolean
 }
 
 const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
@@ -18,29 +19,50 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
   variantButton2,
   onClickButton1,
   onClickButton2,
-  layout
+  layout,
+  setShadowDefault
+
 }) => {
-   
+  const [colorSelected, setColorSelected] = useState<string>("");
+
+  useEffect(()=>{
+    if(!setShadowDefault){
+      setColorSelected("primary")
+    }
+  },[])
+
+  function activeBtnPrimary() {
+    onClickButton1();
+    setColorSelected("primary");
+  }
+  function activeBtnSecondary() {
+    onClickButton2();
+    setColorSelected("secondary");
+  }
   return (
-    <div className={`d-flex gap-1  gap-sm-2 m-1  m-sm-4 ${layout} contaiener`}>
-      <Button
-        variant={variantButton1 != undefined ? variantButton1 : "primary"}
-        onClick={onClickButton1}
-        size="lg"
-        className="w-100 w-lg-50"
-      >
-        {textButton1}
-      </Button>
-      <Button
-        variant={variantButton2 != undefined ? variantButton2 : "secondary"}
-        onClick={onClickButton2}
-        size="lg"
-        className="w-100 w-lg-50"
-      >
-        {textButton2}
-      </Button>
+    <div className="gap-sm-2  m-1 m-sm-4">
+      <div className={`d-flex gap-1 gap-sm-2 ${layout} container`}>
+        <Button
+          variant={variantButton1 != undefined ? variantButton1 : "primary"}
+          onClick={activeBtnPrimary}
+          size="lg"
+          className={`w-100 w-lg-20 ${colorSelected === "primary" ? "active" : ""}`}
+        >
+          {textButton1}
+        </Button>
+        <Button
+          variant={variantButton2 != undefined ? variantButton2 : "secondary"}
+          onClick={activeBtnSecondary}
+          size="lg"
+          className={`w-100 w-lg-20 ${colorSelected === "secondary" ? "active" : ""}`}
+        >
+          {textButton2}
+        </Button>
+      </div>
+  
+     
     </div>
   );
-};
+}  
 
 export default TwoButtonComponent;

@@ -1,14 +1,21 @@
 @import "/src/styles/mixin.scss";
 
-
-.mobileWrap{
-   
- @include respond(mobile){
-   flex-wrap: wrap;
- }
- flex-wrap: wrap;
- button{
-   padding: 30px;
- }
+.mobileWrap {
+  @include respond(mobile) {
+    flex-wrap: wrap;
+  }
+  flex-wrap: wrap;
+  button {
+    padding: 30px;
+  }
 }
-
+.transition-bar {
+  transition: background-color 0.3s ease;
+}
+.btn.active,
+.btn:active {
+  box-shadow: inset 10px 10px 25px rgba(0, 0, 0, 0.525);
+  @include respond(mobile) {
+    box-shadow: inset 5px 5px 25px rgba(0, 0, 0, 0.525);
+  }
+}
