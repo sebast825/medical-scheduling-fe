@@ -12,7 +12,7 @@ import { EspecialidadResponse } from "../../types/Especialidad/EspecialidadRespo
 import { convertCompilerOptionsFromJson } from "typescript";
 
 const useMedicos = () => {
-  const [medicos, setMedicos] = useState<IMedicoResponse[]>();
+  const [medicos, setMedicos] = useState<IMedicoResponse[] | undefined>(undefined);
   const [medicosError, setError] = useState<ErrorTypeAny>(null);
   const user = useUserInfo();
   const { setMedicoInfo } = useMedicoInfoContext();
