@@ -1,8 +1,11 @@
-import { Offcanvas, Nav, NavDropdown } from "react-bootstrap";
+import { Offcanvas, Nav } from "react-bootstrap";
 import { useUserToggleContext } from "../../../context/authContext";
 import useRedirects from "../../../hooks/useRedicrects";
-import { useEffect } from "react";
 import SideMenuPaciente from "./Paciente/SideMenuPaciente";
+import usePacientes from "../../../hooks/pacientes/usePacientes";
+import SideMenuAdministrador from "./Administrador/SideMenuAdministrador";
+import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
+import useIsPaciente from "../../../hooks/roles/useIsPaciente";
 
 interface ISideMenu {
   show: boolean;
@@ -11,13 +14,9 @@ interface ISideMenu {
 
 function SideMenu({ show, handleClose }: ISideMenu) {
   const login = useUserToggleContext();
-
-  const {
-    redirectToPacienteHome,
-    redirectToNuevoTurnoFilterMedico,
-    redirectToNuevoTurnoFilterEspecialidad,
-    redirectToInformacionPersonal,
-  } = useRedirects();
+  const isPaciente = useIsPaciente();
+  const isAdmin = useIsAdministrador();
+  const { redirectToPacienteHome } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
   function closeModalAndCallFunction(fn: () => void) {
@@ -38,7 +37,10 @@ function SideMenu({ show, handleClose }: ISideMenu) {
           >
             Mis Turnos
           </Nav.Link>
-          <SideMenuPaciente handleClose={()=>handleClose()}/>
+          {isPaciente && <SideMenuPaciente handleClose={() => handleClose()} />}
+          {isAdmin && 
+            <SideMenuAdministrador handleClose={() => handleClose()} />
+          }
           <Nav.Link
             href="/"
             onClick={() => {
