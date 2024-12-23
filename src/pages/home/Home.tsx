@@ -21,6 +21,9 @@ function Home() {
         onClickButton1={redirectToLogin}
         onClickButton2={redirectToNuestrosMedicos}
       />
+      <div className="d-flex gap-4 gap-md-3 flex-column">
+
+      
       <ImageTextCard
         title={saludGeneralCard.title}
         content={saludGeneralCard.content}
@@ -49,6 +52,7 @@ function Home() {
         altImg={habitosSaludablesCard.altImg}
         imageLeft={false}
       />
+      </div>
     </div>
   );
 }

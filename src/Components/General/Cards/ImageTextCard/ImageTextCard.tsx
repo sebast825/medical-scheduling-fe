@@ -15,11 +15,11 @@ function ImageTextCard(props : IImageTextCard) {
       <div className="row justify-content-center">
         {/* Card 1 */}
         <div className="col-12 ">
-          <div className=" gap-4 d-flex flex-column flex-md-row justify-content-center">
+          <div className=" gap-2 gap-md-4 d-flex flex-column flex-md-row justify-content-center">
 
             <img
               src={imageUrl}
-              className="card-img-left img-fluid rounded-start"
+              className="card-img-left img-fluid rounded-start rounded"
               alt={altImg}
               style={{ width: "500px", objectFit: "cover" }}
             />

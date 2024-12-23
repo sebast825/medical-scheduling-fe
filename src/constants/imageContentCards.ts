@@ -17,7 +17,7 @@ export const saludGeneralCard : IImageTextCard = {
    para una buena recuperación física y mental. Finalmente, reduce el consumo 
    excesivo de sal y azúcar para prevenir enfermedades como la hipertensión 
    y la diabetes.`,
-   imageUrl: "/images/hospital.jpg",
+   imageUrl: "/images/kidsPark.jpg",
    altImg:"Salud General"
 
 }
@@ -32,7 +32,7 @@ export const saludMentalCard: IImageTextCard = {
      el estrés y mejorar tu concentración. Si sientes que las cosas se vuelven abrumadoras, 
      no dudes en buscar ayuda profesional. Además, establece límites claros en el trabajo 
      y haz pausas regulares para evitar el agotamiento mental.`,
-   imageUrl: "/images/salud-mental.jpg",
+   imageUrl: "/images/meditar.jpg",
    altImg: "Salud Mental",
  };
  
@@ -45,7 +45,7 @@ export const saludMentalCard: IImageTextCard = {
      proteger tu piel del sol con protector solar es esencial para prevenir daños 
      a largo plazo. Por último, reducir o eliminar el consumo de tabaco y moderar el alcohol 
      son hábitos que disminuyen significativamente el riesgo de desarrollar enfermedades crónicas.`,
-   imageUrl: "/images/prevencion-medica.jpg",
+   imageUrl: "/images/womenRun.jpg",
    altImg: "Prevención Médica",
  };
  
@@ -58,6 +58,6 @@ export const saludMentalCard: IImageTextCard = {
      al sentarte para evitar dolores de espalda y procura reducir el tiempo frente a las pantallas, 
      especialmente antes de dormir. Incorporar estas rutinas de manera constante te ayudará a 
      sentirte mejor física y mentalmente.`,
-   imageUrl: "/images/habitos-saludables.jpg",
+   imageUrl: "/images/doctor.jpg",
    altImg: "Hábitos Saludables",
  };
