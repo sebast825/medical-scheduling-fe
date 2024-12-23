@@ -4,13 +4,13 @@ import './Opening.scss'; // Importa el archivo CSS para los estilos
 type IOpening = {
   title : string,
   subTitle?: string,
-  customOpen?: string
+  customOpen?: string,
   
 }
 
 function Opening({ title, subTitle,customOpen } :IOpening) : React.ReactElement {
   return (
-    <div className={`opening-container ${customOpen}`}style={{ backgroundImage: `url(/images/hospital.jpg)` }}>
+    <div className={`opening-container ${customOpen == "miniOpening" ?"miniOpening":customOpen }`}style={{ backgroundImage: `url(/images/hospital.jpg)` }}>
       <div className="overlay">
         <div className="text-content">
           <h1 className="title">{title}</h1>

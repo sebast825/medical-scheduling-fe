@@ -34,7 +34,7 @@ function SecreatarioHome() {
 
   return (
     <>
-      <Opening title={`Bienvenido Secretario ${administrativoInfo.nombre}`} />
+      <Opening title={`Bienvenido Secretario ${administrativoInfo.nombre}`} customOpen="miniOpening" />
       <TwoButtonComponent
         textButton1="Listado Pacientes"
         textButton2="Horarios Medicos"

@@ -40,7 +40,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
     setColorSelected("secondary");
   }
   return (
-    <div className="gap-sm-2  m-1 m-sm-4">
+    <div className="gap-sm-2  m-1  m-sm-4">
       <div className={`d-flex gap-1 gap-sm-2 ${layout} container`}>
         <Button
           variant={variantButton1 != undefined ? variantButton1 : "primary"}
