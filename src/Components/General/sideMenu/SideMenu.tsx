@@ -2,6 +2,7 @@ import { Offcanvas, Nav, NavDropdown } from "react-bootstrap";
 import { useUserToggleContext } from "../../../context/authContext";
 import useRedirects from "../../../hooks/useRedicrects";
 import { useEffect } from "react";
+import SideMenuPaciente from "./Paciente/SideMenuPaciente";
 
 interface ISideMenu {
   show: boolean;
@@ -15,7 +16,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
     redirectToPacienteHome,
     redirectToNuevoTurnoFilterMedico,
     redirectToNuevoTurnoFilterEspecialidad,
-    redirectToInformacionPersonal
+    redirectToInformacionPersonal,
   } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
@@ -37,31 +38,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
           >
             Mis Turnos
           </Nav.Link>
-          <NavDropdown title="Nuevo Turno" id="nav-dropdown">
-            <NavDropdown.Item
-              onClick={() => {
-                closeModalAndCallFunction(redirectToNuevoTurnoFilterMedico);
-              }}
-              eventKey="4.1"
-            >
-              Buscar Medico
-            </NavDropdown.Item>
-            <NavDropdown.Item
-              onClick={() => {
-                closeModalAndCallFunction(
-                  redirectToNuevoTurnoFilterEspecialidad
-                );
-              }}
-              eventKey="4.2"
-            >
-              Buscar Especialidad
-            </NavDropdown.Item>
-          </NavDropdown>
-          <Nav.Link  onClick={() => {
-                closeModalAndCallFunction(
-                  redirectToInformacionPersonal
-                );
-              }}>Mi Perfil</Nav.Link>
+          <SideMenuPaciente handleClose={()=>handleClose()}/>
           <Nav.Link
             href="/"
             onClick={() => {
