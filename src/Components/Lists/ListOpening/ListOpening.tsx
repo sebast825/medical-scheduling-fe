@@ -14,7 +14,7 @@ interface IListOpening{
 function ListOpening ({title,subtitle,listItems,handleSelect}:IListOpening){
    return(
       <>
-         <Opening title={title} subTitle={subtitle ? subtitle : undefined} customOpen="miniOpening"/>
+         <Opening title={title} subTitle={subtitle ? subtitle : undefined} />
          <List listItems={listItems} handleSelect={handleSelect}/>
       </>
    )

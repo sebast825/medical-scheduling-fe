@@ -8,7 +8,7 @@ function Home() {
   
   return (
     <div>
-      <Opening title="Clinica Horizonte" subTitle="" />
+      <Opening title="Clinica Horizonte" smallOpening={false} />
 
       <TwoButtonComponent
         textButton1="Ingresar"

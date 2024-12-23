@@ -46,7 +46,7 @@ function RedirectBuscarPorEspecialidad(){
 
   return (
     <div>
-      <Opening title={`Bienvenido ${pacienteInfo?.nombre}`} />
+      <Opening title={`Bienvenido ${pacienteInfo?.nombre}`} smallOpening={false} />
 
       <TwoButtonComponent
         textButton1="Mis Turnos"
