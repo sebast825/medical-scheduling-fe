@@ -36,7 +36,7 @@ function Home() {
         content={saludMentalCard.content}
         imageUrl={saludMentalCard.imageUrl}
         altImg={saludMentalCard.altImg}
-        imageLeft={false}
+        imageLeft={true}
       />
       <ImageTextCard
         title={pevenciónMedicaCard.title}
@@ -50,7 +50,7 @@ function Home() {
         content={habitosSaludablesCard.content}
         imageUrl={habitosSaludablesCard.imageUrl}
         altImg={habitosSaludablesCard.altImg}
-        imageLeft={false}
+        imageLeft={true}
       />
       </div>
     </div>
