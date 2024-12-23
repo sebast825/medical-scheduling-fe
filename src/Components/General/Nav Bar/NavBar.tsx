@@ -4,7 +4,7 @@ import { useUserInfo } from '../../../context/authContext';
 import useRedicrects from '../../../hooks/useRedicrects';
 import SideMenu from '../sideMenu/SideMenu';
 
-function FillExample() {
+function NavBar() {
    const [activeKey, setActiveKey] = useState<string>('link');
    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
    const user = useUserInfo();
@@ -67,4 +67,4 @@ function FillExample() {
   );
 }
 
-export default FillExample;
+export default NavBar;

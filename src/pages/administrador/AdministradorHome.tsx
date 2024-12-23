@@ -6,6 +6,7 @@ import Opening from "../../Components/General/Opening/Opening";
 import TableMedico from "../../Components/Medico/TableMedico/TableMedico";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
+import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
 
 function AdministradorHome() {
   const { administrativoInfo } = useAdministrativoInfoContext();
@@ -35,6 +36,7 @@ function AdministradorHome() {
         onClickButton2={showHorariosMedicos}
       />
       {btnToggle ? <TableMedico /> : <ListaHorariosMedicos />}
+      <TablePaciente/>
     </>
   );
 }

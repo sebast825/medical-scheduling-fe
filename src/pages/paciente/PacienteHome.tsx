@@ -55,12 +55,12 @@ function RedirectBuscarPorEspecialidad(){
         onClickButton2={ShowNuevoTurno}
       />
 {btnToggle ? (
-  <div className="container p-4">
+  <div className="container p-4 pt-md-0">
     <h2 className="text-center  mb-4 border-bottom pb-2">Mis Turnos</h2>
     <TurnosListWithModal turnosList={turnos} />
   </div>
 ) : (
-  <div className="container p-4">
+  <div className="container p-4 pt-md-0">
     <h2 className="text-center mb-4 border-bottom pb-2">Nuevo Turno</h2>
     <TwoButtonComponent 
       textButton1="Buscar por Medico"
