@@ -16,6 +16,7 @@ function SideMenuPaciente(props: ISideMenuGeneric) {
     fn();
     handleClose();
   }
+  
   return (
     <>
       <NavDropdown title="Nuevo Turno" id="nav-dropdown">
