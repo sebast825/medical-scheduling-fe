@@ -3,7 +3,7 @@
 
 .contenedor{
    width: 90vw;
-   height: 90vh;
+   height: 80vh;
    @include respond (mobile){
       width: 80vw;
    }
