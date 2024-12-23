@@ -20,6 +20,8 @@ import { ILogin } from "../../../types/Login.types";
 import { Roles } from "../../../types/Roles.type";
 import { handleHttpError } from "../../../utils/errorHandler";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
+import "./Login.scss";
+import useWindowSize from "../../../hooks/ScreenSize";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ const LoginForm = () => {
 
   const { setAdministrativoInfo } = useAdministrativoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
+  const windowSize = useWindowSize();
 
   //busca la info de la persona, hay que reorganizarla
   const getUserInfo = async () => {
@@ -61,7 +64,7 @@ const LoginForm = () => {
     } else if (userRole == Roles[Roles.Paciente]) {
       const pacienteInfo = await fetchPacienteInfo(user, params.PersonaId);
       await setPacienteInfo(pacienteInfo);
-      await setPersonaInfo(pacienteInfo)
+      await setPersonaInfo(pacienteInfo);
     } else if (userRole == Roles[Roles.Medico]) {
       const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
       await setMedicoInfo(medicoInfo);
@@ -91,44 +94,42 @@ const LoginForm = () => {
   };
 
   return (
-    <Container className="mt-2">
-      <Row className="justify-content-md-center">
-        <Col md={4}>
-          <h2 className="text-center">Login</h2>
-          <Form
-            onSubmit={handleSubmit}
-            className="d-flex flex-column"
-            style={{ gap: "20px" }}
-          >
-            <Form.Group controlId="formBasicnombre">
-              <Form.Label style={{ textAlign: "left" }}>nombre</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Ingresar nombre"
-                onChange={(e) => setNombre(e.target.value)}
-                value={nombre}
-              />
-            </Form.Group>
+    <Row className="contenedor justify-content-center align-items-center ">
+      {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
+      <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
+        <h2 className="text-center mb-2 text-primary">Login</h2>
+        <Form onSubmit={handleSubmit} className="d-flex flex-column ">
+          <Form.Group controlId="formBasicNombre">
+            <Form.Label className="fw-bold"></Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingresar usuario"
+              onChange={(e) => setNombre(e.target.value)}
+              value={nombre}
+              className="p-2"
+            />
+          </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label className=""></Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Ingresar contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-2"
+            />
+          </Form.Group>
+          <div className="mt-4 d-flex flex-column">
+            {error && <p className="text-danger text-center ">{error}</p>}
 
-            {error && <p className="text-danger">{error}</p>}
-
-            <Button className="mt-2" variant="primary" type="submit">
-              Submit
+            <Button className="" variant="primary" type="submit">
+              Iniciar sesión
             </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          </div>
+        </Form>
+      </Col>
+    </Row>
   );
 };
 
