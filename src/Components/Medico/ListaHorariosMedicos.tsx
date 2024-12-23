@@ -58,7 +58,7 @@ function ListaHorariosMedicos() {
         handleConfirm={(e) => handleUpdate(e)}
         handleDelete={(e) => handleDelete(e)}
       />
-      <div className=" d-flex flex-column flex-lg-row justify-content-center gap-3">
+      <div className=" d-flex flex-column flex-md-row  flex-lg-row flex-wrap justify-content-center gap-3">
         {horariosMedicosFiltrados.map(([key, horarios]) => (
           <DisponibilidadHorarioCard
             key={key}

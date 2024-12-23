@@ -1,0 +1,16 @@
+.custom-border-bottom::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  border-bottom: 1px solid #000; /* Grosor y color */
+  width: 90%; /* Ancho deseado del borde */
+  margin: 0 auto; /* Centra el borde horizontalmente */
+  opacity: 20%;
+}
+
+
+.cont{
+   position: relative;
+}
