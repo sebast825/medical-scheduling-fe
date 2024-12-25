@@ -16,12 +16,14 @@ import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type"
 
 
 function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = false }: IInfoCard) {
+
   const [modalField, setModalFields] = useState<IGenericObject[]>();
   const { personaInfo,setPersonaInfo } = usePersonaInfoContext();
   const { updateModalFields,updatObjectFields } = useGenericObjectFielf();
   const { showModal, closeModal, toggleModal } = useModal();
   const {pacienteInfo, setPacienteInfo} = usePacienteContext();
   const {getPacienteById}=usePacientes()
+  
   useEffect(() => {
     var modalFields = updateModalFields(pacienteModalFields, pacienteInfo);
     setModalFields(modalFields);
@@ -41,6 +43,7 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
     console.log(datos)
     setPacienteInfo(datos)
    }
+   
   return (
     <>
       {pacienteInfo != undefined && (

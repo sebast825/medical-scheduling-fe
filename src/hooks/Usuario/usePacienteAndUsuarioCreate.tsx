@@ -3,12 +3,39 @@ import { fecthCreateUsuarioAndPaciente } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { CreateUsuarioAndPacienteRequestDto } from "../../types/usuario/CreateUsuarioAndPacienteReques";
 import useToastit from "../useToastit";
+import { PacienteAndUsuarioCreate } from "../../pages";
+import PacienteCreateRequest from "../../types/Paciente/PacienteCreateRequest.type copy";
+import { CreateUsuarioRequest } from "../../types/usuario/CreateUsuarioRequest";
 
 
 function usePacienteAndUsuarioCreate (){
 
+  let unPaciente : PacienteCreateRequest={
+    telefonoEmergencia: "",
+    nombreEmergencia: "",
+    id: 0,
+    nombre: "",
+    apellido: "",
+    fechaNacimiento: "",
+    telefono: 0,
+    numeroDocumento: 0,
+    sexoId: 0,
+    estadoUsuario: ""
+  }
+  let unUsuario : CreateUsuarioRequest={
+    UserName: "",
+    Password: "",
+    Email: ""
+  }
+  let unusuarioAndPacientE : CreateUsuarioAndPacienteRequestDto={
+    Paciente: unPaciente,
+    Usuario: unUsuario
+  }
   const [errorUsuario, SetErrorUsuario] = useState<ErrorTypeAny>(null);
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
+  const [usuarioAndPaciente, setUsuarioAndPaciente] = useState<CreateUsuarioAndPacienteRequestDto>(unusuarioAndPacientE)
+
+
 
   function closeCreateModal() {
     setToggleCreateModal(false);
