@@ -10,7 +10,8 @@ import {
   InformaciónPacienteSecretario,
   MedicoHome,
   AdministradorHome,
-  InformacionMedicoAdministrador
+  InformacionMedicoAdministrador,
+  PacienteAndUsuarioCreate
 } from "../pages/index";
 
 export const routes = [
@@ -65,5 +66,11 @@ export const routes = [
   {
     path: "/administrador/informacionMedico",
     element: <InformacionMedicoAdministrador />,
+  },
+  {
+    path: "/create/Paciente",
+    element: <PacienteAndUsuarioCreate />,
   }
+
+  
 ];

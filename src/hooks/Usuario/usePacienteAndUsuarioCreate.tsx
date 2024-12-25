@@ -5,9 +5,18 @@ import { CreateUsuarioAndPacienteRequestDto } from "../../types/usuario/CreateUs
 import useToastit from "../useToastit";
 
 
-function useUsuario (){
+function usePacienteAndUsuarioCreate (){
 
   const [errorUsuario, SetErrorUsuario] = useState<ErrorTypeAny>(null);
+  const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
+
+  function closeCreateModal() {
+    setToggleCreateModal(false);
+  }
+  function showCreateModal() {
+    setToggleCreateModal(true);
+  }
+
 
      const createUsuarioAndPaciente = useCallback(async (dto : CreateUsuarioAndPacienteRequestDto) => {
        try {
@@ -32,8 +41,8 @@ function useUsuario (){
         error(errorUsuario);
      },[errorUsuario])
      
-     return (createUsuarioAndPaciente)
+     return {createUsuarioAndPaciente,closeCreateModal,showCreateModal,toggleCreateModal}
 
 }
 
-export default useUsuario;
+export default usePacienteAndUsuarioCreate;

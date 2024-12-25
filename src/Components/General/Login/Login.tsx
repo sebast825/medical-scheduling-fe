@@ -14,7 +14,7 @@ import {
   useMedicoInfoContext,
   usePersonaInfoContext,
 } from "../../../context/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
 import { ILogin } from "../../../types/Login.types";
 import { Roles } from "../../../types/Roles.type";
@@ -128,6 +128,7 @@ const LoginForm = () => {
             </Button>
           </div>
         </Form>
+        <Link to={"./create/paciente"} >Crear</Link>
       </Col>
     </Row>
   );

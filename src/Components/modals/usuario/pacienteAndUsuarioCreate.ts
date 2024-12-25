@@ -1,4 +1,4 @@
 
-function pacienteAndUsuarioCreate(){
+export function asd(){
    
 }

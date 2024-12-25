@@ -11,7 +11,7 @@ interface ICrearUsuarioModal {
 }
 
 function CrearUsuarioModal (props:ICrearUsuarioModal){
-   
+
    const { show, handleClose, handleConfirm } = props;
 
    const [nombre, setNombre] = useState<string>("");
@@ -20,7 +20,13 @@ function CrearUsuarioModal (props:ICrearUsuarioModal){
    const [confirmEmail, setConfirmEmail] = useState<string>("");
 
    function confirmar (){
+      let usuario : CreateUsuarioRequest = {
+         UserName : nombre,
+         Password : password,
+         Email : email
 
+      }
+      handleConfirm(usuario);
    }
 
    return (
@@ -52,7 +58,7 @@ function CrearUsuarioModal (props:ICrearUsuarioModal){
             />
           </Form.Group>
           <Form.Group controlId="Contraseña">
-            <Form.Label style={{ textAlign: "left" }}>Contraseña</Form.Label>
+            <Form.Label style={{ textAlign: "left" }}>Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Ingresar email"  
@@ -61,7 +67,7 @@ function CrearUsuarioModal (props:ICrearUsuarioModal){
             />
           </Form.Group>
           <Form.Group controlId="ContraseñaEmail">
-            <Form.Label style={{ textAlign: "left" }}>Contraseña Email</Form.Label>
+            <Form.Label style={{ textAlign: "left" }}>Confirmar Email</Form.Label>
             <Form.Control
               type="email"
               placeholder="Ingresar email"
