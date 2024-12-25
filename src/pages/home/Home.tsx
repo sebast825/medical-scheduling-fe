@@ -20,8 +20,10 @@ function Home() {
         textButton2="Nuestros Medicos"
         onClickButton1={redirectToLogin}
         onClickButton2={redirectToNuestrosMedicos}
+        setShadowDefault={false}
+        
       />
-      <div className="d-flex gap-4 gap-md-3 flex-column">
+      <div className="d-flex gap-4 gap-md-5 flex-column justify-content-center">
 
       
       <ImageTextCard

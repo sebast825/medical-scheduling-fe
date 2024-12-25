@@ -26,7 +26,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
   const [colorSelected, setColorSelected] = useState<string>("");
 
   useEffect(()=>{
-    if(!setShadowDefault){
+    if(setShadowDefault){
       setColorSelected("primary")
     }
   },[])
