@@ -8,6 +8,7 @@ import {
   saludGeneralCard,
   saludMentalCard,
 } from "../../constants/imageContentCards";
+import LineTitle from "../../Components/General/LineTitle/LineTitle";
 function Home() {
   const { redirectToLogin, redirectToNuestrosMedicos } = useRedirects();
 
@@ -23,7 +24,8 @@ function Home() {
         setShadowDefault={false}
         
       />
-      <div className="d-flex gap-4 gap-md-5 flex-column justify-content-center">
+
+      <div className="d-flex gap-4 pt-5 gap-md-5 flex-column justify-content-center">
 
       
       <ImageTextCard
@@ -33,6 +35,7 @@ function Home() {
         altImg={saludGeneralCard.altImg}
         imageLeft={false}
       />
+      <LineTitle/>
       <ImageTextCard
         title={saludMentalCard.title}
         content={saludMentalCard.content}
@@ -40,6 +43,8 @@ function Home() {
         altImg={saludMentalCard.altImg}
         imageLeft={true}
       />
+            <LineTitle/>
+
       <ImageTextCard
         title={pevenciónMedicaCard.title}
         content={pevenciónMedicaCard.content}
@@ -47,6 +52,8 @@ function Home() {
         altImg={pevenciónMedicaCard.altImg}
         imageLeft={false}
       />
+            <LineTitle/>
+
       <ImageTextCard
         title={habitosSaludablesCard.title}
         content={habitosSaludablesCard.content}

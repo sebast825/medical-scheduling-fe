@@ -1,0 +1,9 @@
+@import "/src/styles/mixin.scss";
+
+.line{
+   width: 40%;
+
+   @include respond (mobile){
+      width: 60%;
+   }
+}
