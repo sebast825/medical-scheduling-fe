@@ -25,7 +25,7 @@ function Home() {
         
       />
 
-      <div className="d-flex gap-4 pt-3 pb-5 gap-md-5 flex-column justify-content-center">
+      <div className="d-flex gap-4 pt-md-3 pb-5 gap-md-5 flex-column justify-content-center">
 
       
       <ImageTextCard
