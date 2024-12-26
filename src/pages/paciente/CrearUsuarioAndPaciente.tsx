@@ -66,7 +66,7 @@ function CrearUsuarioAndPaciente() {
         createUserInfo &&      <UsuarioCard usuarioInfo={createUserInfo} updatedInfo={setCreateUserInfo} ></UsuarioCard>
 
       }
-      <PersonaInfoCard handleConfirm={handleUsuarioResponse}/>
+      {/* <PersonaInfoCard handleConfirm={handleUsuarioResponse}/> */}
       {/* <CreatePacienteInfoCard handleConfirm={ handlePaciente }/> */}
      </div>
   

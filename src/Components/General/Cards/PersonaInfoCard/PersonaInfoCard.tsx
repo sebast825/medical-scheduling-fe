@@ -12,9 +12,10 @@ import { IGenericObject } from "../../../../types/IGenericObject.type";
 import { IInfoCard } from "../../../../types/InfoCard.type";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
+import { IPersonaUpdate } from "../../../../types/Persona/PersonaUpdate.type";
 
 interface IPersonaInfoCard {
-  handleConfirm: (updatedPersona: IPersonaResponse) => void;
+  handleConfirm: (updatedPersona: IPersonaUpdate) => void;
 }
 
 function PersonaInfoCard({

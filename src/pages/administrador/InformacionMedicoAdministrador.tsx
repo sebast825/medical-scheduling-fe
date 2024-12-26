@@ -43,7 +43,7 @@ function InformacionMedicoAdministrador() {
         className="d-flex  informacionPersonal justify-content-start flex-md-row flex-column gap-5 mt-5 mb-5"
         style={{ width: "min-content", margin: "auto" }}
       >
-        <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
+        {/* <PersonaInfoCard handleConfirm={handlePersonaUpdate} /> */}
         <MedicoInfoCard />
       </div>
     </>

@@ -17,7 +17,7 @@ interface IInformacionPersonaModal {
   modalField: IPacienteResponse;
   show: boolean;
   handleClose: () => void;
-  handleConfirm: (personaResponse: IPersonaResponse) => void;
+  handleConfirm: (personaResponse: IPersonaUpdate) => void;
 }
 
 function InformacionPersonaModal({
@@ -38,8 +38,6 @@ function InformacionPersonaModal({
   );
   const [sexo, setSexo] = useState<string>(modalField.sexo);
   const { pacienteInfo } = usePacienteContext();
-  const { personaInfo } = usePersonaInfoContext();
-  const { putPersona } = usePersonas();
   const { error } = useToastit();
 
   //utiliza el enum Sexo
@@ -51,13 +49,9 @@ function InformacionPersonaModal({
   async function handlePersonaUpdate() {
     var persona = createPersonaUpdateObject();
     console.log(persona)
-    var updatedPersona = await updatePersona(persona);
 
-    if (updatedPersona == null) {
-      error("Ha ocurrido un error, no se pudo completar la accion con éxito.");
-      return;
-    }
-    handleConfirm(updatedPersona);
+    handleConfirm(persona);
+   
     handleClose();
   }
 
@@ -78,16 +72,9 @@ function InformacionPersonaModal({
     };
     return persona;
   }
-  async function updatePersona(
-    persona: IPersonaUpdate
-  ): Promise<IPersonaResponse | undefined> {
-    if (personaInfo == null) return undefined;
-    var updatedPersona: IPersonaResponse | undefined = await putPersona(
-      persona,
-      personaInfo.id.toString()
-    );
-    return updatedPersona;
-  }
+
+  
+ 
 
   return (
     <>
