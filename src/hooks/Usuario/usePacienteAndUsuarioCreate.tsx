@@ -15,6 +15,8 @@ import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 import { Sexo } from "../../types/Sexo.type";
+import { validarPersona } from "../../utils/validarPersona";
+import { validarPaciente } from "../../utils/validatePaciente";
 
 function usePacienteAndUsuarioCreate() {
   let unPaciente: IPacienteResponse = {
@@ -52,48 +54,16 @@ function usePacienteAndUsuarioCreate() {
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
 
-  function mergeUsuarioInUsuarioAndPaciente() {
-    if (createUserInfo == undefined) return;
-    setUsuarioAndPaciente((prevState) => ({
-      ...prevState,
-      Usuario: {
-        UserName: createUserInfo.UserName,
-        Password: createUserInfo.Password,
-        Email: createUserInfo.Email,
-      },
-    }));
-    console.log("merge", createUserInfo);
+  interface ICheckBoxFrom {
+    personaInfo: boolean;
+    pacienteInfo: boolean;
+    usuarioInfo: boolean;
   }
-
-  function mergePacienteInUsuarioAndPaciente() {
-    if (pacienteInfo == undefined) return;
-    setUsuarioAndPaciente((prevState) => ({
-      ...prevState,
-      Paciente: {
-        ...prevState.Paciente,
-        telefonoEmergencia: pacienteInfo.telefonoEmergencia,
-        nombreEmergencia: pacienteInfo.nombreEmergencia,
-      },
-    }));
-    console.log("merge", pacienteInfo);
-  }
-  function mergePersonaInUsuarioAndPaciente() {
-    if (personaInfo == undefined) return;
-    setUsuarioAndPaciente((prevState) => ({
-      ...prevState,
-      Paciente: {
-        ...prevState.Paciente,
-        nombre: personaInfo.nombre,
-        apellido: personaInfo.apellido,
-        numeroDocumento: personaInfo.numeroDocumento,
-        telefono: personaInfo.telefono,
-        sexo: Sexo[personaInfo.sexoId - 1],
-        fechaNacimiento: personaInfo.fechaNacimiento,
-        estadoUsuario: EstadoUsuario.Activo.toString(),
-      },
-    }));
-    console.log("merge", personaInfo);
-  }
+  const [checkBoxForms, setCheckBoxForms] = useState<ICheckBoxFrom>({
+    personaInfo: false,
+    pacienteInfo: false,
+    usuarioInfo: false,
+  });
 
   function closeCreateModal() {
     setToggleCreateModal(false);
@@ -117,6 +87,10 @@ function usePacienteAndUsuarioCreate() {
       telefonoEmergencia: e.telefonoEmergencia,
     });
     setPacienteCreate(e);
+    setCheckBoxForms((prevState) => ({
+      ...prevState,
+      pacienteInfo: true,
+    }));
   }
   function handlePersonaUpdate(e: IPersonaUpdate) {
     console.log(e, Sexo[e.sexoId - 1]);
@@ -130,6 +104,10 @@ function usePacienteAndUsuarioCreate() {
       fechaNacimiento: e.fechaNacimiento,
       estadoUsuario: EstadoUsuario.Activo.toString(),
     });
+    setCheckBoxForms((prevState) => ({
+      ...prevState,
+      personaInfo: true,
+    }));
   }
   function mergePacienteAndUsuarioInCreateDto() {
     const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
@@ -161,19 +139,25 @@ function usePacienteAndUsuarioCreate() {
         Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
       },
     };
-
-    // Actualizar el estado con el objeto temporal
     setUsuarioAndPaciente(updatedUsuarioAndPaciente);
-
-    console.log("Estado actualizado:", updatedUsuarioAndPaciente);
   }
-
+  function validarFormularios(): string | undefined {
+    if (!checkBoxForms.pacienteInfo)
+      return "Es necesario completar la informacion del contacto de emergencia.";
+    if (!checkBoxForms.personaInfo)
+      return "Es necesario completar la informacion de personal.";
+    if (!checkBoxForms.usuarioInfo)
+      return "Es necesario completar la informacion del usuario.";
+  }
   function handleCreateUsuarioAndPaciente() {
+    let validateMsge = validarFormularios();
+    if (validateMsge != undefined) {
+      error(validateMsge);
+      return;
+    }
     mergePacienteAndUsuarioInCreateDto();
   }
-  useEffect(() => {
-    console.log(usuarioAndPaciente);
-  }, [usuarioAndPaciente]);
+
   const createUsuarioAndPaciente = useCallback(
     async (dto: CreateUsuarioAndPacienteRequestDto) => {
       try {
@@ -193,6 +177,14 @@ function usePacienteAndUsuarioCreate() {
     []
   );
 
+  function handleUsuarioUpdate(e: CreateUsuarioRequest) {
+    setCreateUserInfo(e);
+    setCheckBoxForms((prevState) => ({
+      ...prevState,
+      usuarioInfo: true,
+    }));
+  }
+
   const { error } = useToastit();
   useEffect(() => {
     if (errorUsuario == null) return;
@@ -206,7 +198,7 @@ function usePacienteAndUsuarioCreate() {
     toggleCreateModal,
     setRequiredContext,
     createUserInfo,
-    setCreateUserInfo,
+    handleUsuarioUpdate,
     pacienteInfo,
     setPacienteInfo,
     pacienteCreate,

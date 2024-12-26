@@ -5,6 +5,7 @@ import UsuarioCard from "../../Components/General/Cards/UsuarioCard/UsuarioCard"
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import Opening from "../../Components/General/Opening/Opening";
 import CreatePacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/CreatePacienteInfoCard";
+import OneButton from "../../Components/buttons/oneButton/OneButton";
 
 
 function CrearUsuarioAndPaciente() {
@@ -12,7 +13,7 @@ function CrearUsuarioAndPaciente() {
     showCreateModal,    
     setRequiredContext,
     createUserInfo,
-    setCreateUserInfo,
+    handleUsuarioUpdate,
     pacienteInfo,       
     handlePacienteCreate,
     handlePersonaUpdate,
@@ -36,7 +37,7 @@ function CrearUsuarioAndPaciente() {
         {createUserInfo && (
           <UsuarioCard
             usuarioInfo={createUserInfo}
-            updatedInfo={setCreateUserInfo}
+            updatedInfo={handleUsuarioUpdate}
           ></UsuarioCard>
         )}
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
@@ -47,8 +48,8 @@ function CrearUsuarioAndPaciente() {
           />
         )}
       </div>
-
-      <Button onClick={()=>handleCreateUsuarioAndPaciente()}>asd</Button>
+        <OneButton handleSubmit={handleCreateUsuarioAndPaciente }/>
+      {/* <Button onClick={()=>handleCreateUsuarioAndPaciente()}>asd</Button> */}
     </>
   );
 }
