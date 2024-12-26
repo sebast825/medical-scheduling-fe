@@ -87,7 +87,8 @@ function usePacienteAndUsuarioCreate() {
     closeCreateModal,
     showCreateModal,
     toggleCreateModal,
-    setRequiredContext
+    setRequiredContext,
+    createUserInfo, setCreateUserInfo 
   };
 }
 

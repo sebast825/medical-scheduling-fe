@@ -18,7 +18,9 @@ function CrearUsuarioAndPaciente() {
     closeCreateModal,
     showCreateModal,
     toggleCreateModal,
-    setRequiredContext
+    setRequiredContext,
+    createUserInfo,
+    setCreateUserInfo
   } = usePacienteAndUsuarioCreate();
 
 
@@ -35,7 +37,7 @@ function CrearUsuarioAndPaciente() {
 
   useEffect(() => {
    setRequiredContext()
-   
+ /*  
    let paciente: IPacienteResponse = {
       telefonoEmergencia: "adasd",
       nombreEmergencia: "asdaasdasdasdd",
@@ -48,18 +50,24 @@ function CrearUsuarioAndPaciente() {
       sexo: "asdasd",
       estadoUsuario: "asdasdasd",
     };
-    setPersonaInfo(paciente);
+    setPersonaInfo(paciente);*/
     //setPacienteInfo(paciente);
     showCreateModal();
   }, []);
+  console.log(createUserInfo)
+  useEffect(()=>{},[createUserInfo])
+
 
   return (
     <>
     <Opening title={"Crear Usuario"}/>
      <div className="container d-flex p-5 justify-content-center align-items-start">
-     <UsuarioCard nombre={"nombre"} email={"emailasd"} ></UsuarioCard>
-      <PersonaInfoCard handleConfirm={handleUsuarioResponse}/>
-      <CreatePacienteInfoCard handleConfirm={ handlePaciente }/>
+      {
+        createUserInfo &&      <UsuarioCard usuarioInfo={createUserInfo} updatedInfo={setCreateUserInfo} ></UsuarioCard>
+
+      }
+      {/* <PersonaInfoCard handleConfirm={handleUsuarioResponse}/> */}
+      {/* <CreatePacienteInfoCard handleConfirm={ handlePaciente }/> */}
      </div>
   
       <Button onClick={showCreateModal}>asd</Button>

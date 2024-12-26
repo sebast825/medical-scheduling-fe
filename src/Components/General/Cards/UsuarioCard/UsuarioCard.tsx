@@ -1,50 +1,68 @@
 import { useEffect, useState } from "react";
-import { useMedicoInfoContext } from "../../../../context/authContext";
+import {
+  useCreateUserInfoContext,
+  useMedicoInfoContext,
+} from "../../../../context/authContext";
 import CardItem from "../cardItem/CardItem";
 import GenericCard from "../GenericCard/GenericCard";
 import useModal from "../../../../hooks/useModal";
 import InformacionMedicoModal from "../../../modals/informacionMedicoModal/InformacionMedicoModal";
 import { CreateUsuarioRequest } from "../../../../types/usuario/CreateUsuarioRequest";
 import CrearUsuarioModal from "../../../modals/usuario/crearUsuarioModal";
+import { userInfo } from "os";
 
-
-interface IUsuarioCard{
-   nombre : string,
-   email : string
+interface IUsuarioCard {
+  usuarioInfo: CreateUsuarioRequest;
+  updatedInfo : (e :CreateUsuarioRequest)=>void
 }
-function UsuarioCard(props : IUsuarioCard) {
-   const {nombre,email} = props;
+function UsuarioCard(props: IUsuarioCard) {
+  const { usuarioInfo, updatedInfo } = props;
 
-   const [nombreUsuario,setNombreUsuario] = useState<string>("")
-   const [emailusuario,setEmailusuario] = useState<string>("")
+  const [nombreUsuario, setNombreUsuario] = useState<string>("");
+  const [emailusuario, setEmailusuario] = useState<string>("");
 
-    useEffect(()=>{
-      setNombreUsuario(nombre)
-      setEmailusuario(email)
-   },[])
+  useEffect(() => {
+    console.log("entraaca", usuarioInfo);
+    setNombreUsuario(usuarioInfo.UserName);
+    setEmailusuario(usuarioInfo.Email);
+  }, [usuarioInfo]);
 
-   const{showModal,closeModal,toggleModal} = useModal()
+  useEffect(() => {
+    console.log(nombreUsuario, emailusuario);
+  }, [nombreUsuario]);
+
+  const { showModal, closeModal, toggleModal } = useModal();
+
+  function handleUsuarioResponse(user: CreateUsuarioRequest) {
  
-   function handleUsuarioResponse(user: CreateUsuarioRequest) {
-     console.log("llega");
-     console.log(user);
-   }
+    updatedInfo(user)
+    closeModal();
+  }
+
   return (
     <>
-  <CrearUsuarioModal
+      <CrearUsuarioModal
         show={toggleModal}
         handleClose={closeModal}
         handleConfirm={handleUsuarioResponse}
       />
-  
-    <GenericCard title={"Usuario"} handleEvent={showModal}>
-      {true && (
-        <>
-          <CardItem key={"numLic"} text={nombreUsuario} propertyName="Nombre" />
-          <CardItem key={"Especialdiad"} text={emailusuario} propertyName="Email" />
-        </>
-      )}
-    </GenericCard>
+
+      <GenericCard title={"Usuario"} handleEvent={showModal}>
+        {true && (
+          <>
+            <CardItem
+              key={"numLic"}
+              text={nombreUsuario}
+              propertyName="Nombre"
+            />
+            <CardItem
+              key={"Especialdiad"}
+              text={emailusuario}
+              propertyName="Email"
+            />
+          </>
+        )}
+      </GenericCard>
     </>
   );
 }
