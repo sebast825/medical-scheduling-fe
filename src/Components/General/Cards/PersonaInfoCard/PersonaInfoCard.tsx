@@ -25,7 +25,7 @@ function PersonaInfoCard({
   const { personaInfo } = usePersonaInfoContext();
 
   useEffect(() => {}, [personaInfo]);
-
+let fechaNacimiento = new Date(personaInfo.fechaNacimiento);
   return (
     <>
       {personaInfo != undefined && (
@@ -58,7 +58,7 @@ function PersonaInfoCard({
             />
             <CardItem
               key="Fecha Nacimiento"
-              text={new Date(personaInfo.fechaNacimiento).toLocaleDateString()}
+              text={isNaN(fechaNacimiento.getTime())? "": fechaNacimiento.toLocaleDateString() }
               propertyName="Fecha Nacimiento"
             />
             <CardItem
