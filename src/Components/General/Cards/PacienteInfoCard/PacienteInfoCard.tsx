@@ -70,10 +70,10 @@ function PacienteInfoCard({
         handleEvent={handleEvent ? showModal : undefined}
       >
         {modalField &&
-          modalField.map((item) =>
+          modalField.map((item,index) =>
             item.value ? (
               <CardItem
-                key={item.key}
+                key={item.key || index}
                 text={item.value}
                 propertyName={item.label}
               />

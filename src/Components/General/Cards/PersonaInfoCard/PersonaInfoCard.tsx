@@ -41,32 +41,32 @@ function PersonaInfoCard({
         {personaInfo && (
           <>
             <CardItem
-              key={personaInfo.nombre}
+              key="Nombre"
               text={personaInfo.nombre}
               propertyName="Nombre"
             />
             <CardItem
-              key={personaInfo.apellido}
+              key="Apellido"
               text={personaInfo.apellido}
               propertyName="Apellido"
             />
             <CardItem
-              key={personaInfo.numeroDocumento}
+              key="Numero Documento"
               text={personaInfo.numeroDocumento}
               propertyName="Numero Documento"
             />
             <CardItem
-              key={personaInfo.fechaNacimiento}
+              key="Fecha Nacimiento"
               text={new Date(personaInfo.fechaNacimiento).toLocaleDateString()}
               propertyName="Fecha Nacimiento"
             />
             <CardItem
-              key={personaInfo.sexo}
+              key="Sexo"
               text={personaInfo.sexo}
               propertyName="Sexo"
             />
             <CardItem
-              key={personaInfo.telefono}
+              key="Telefono"
               text={personaInfo.telefono}
               propertyName="Telefono"
             />

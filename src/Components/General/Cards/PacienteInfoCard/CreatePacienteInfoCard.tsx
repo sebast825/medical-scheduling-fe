@@ -45,12 +45,12 @@ function CreatePacienteInfoCard({
         {pacienteInfo && (
           <>
             <CardItem
-              key={pacienteInfo.nombreEmergencia}
+              key="Nombre"
               text={pacienteInfo.nombreEmergencia}
               propertyName="Nombre"
             />
             <CardItem
-              key={pacienteInfo.telefonoEmergencia}
+              key="Telefono"
               text={pacienteInfo.telefonoEmergencia}
               propertyName="Telefono"
             />

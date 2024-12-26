@@ -29,9 +29,9 @@ function GenericCard({
             <>
               {" "}
               <hr />
-              <Card.Text>
+              <div>
                 <OneButton text={btnText} handleSubmit={handleEvent} />
-              </Card.Text>{" "}
+              </div>{" "}
             </>
           )}
         </Card.Body>

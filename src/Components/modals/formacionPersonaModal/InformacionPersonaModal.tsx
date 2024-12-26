@@ -100,14 +100,14 @@ function InformacionPersonaModal({
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group controlId="formBasicnombre">
             <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
-            <Form.Control
+            <Form.Control key="1"
               type="text"
               placeholder="Ingresar nombre"
               onChange={(e) => setNombre(e.target.value)}
               value={nombre}
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group key="2">
             <Form.Label style={{ textAlign: "left" }}>Apellido</Form.Label>
             <Form.Control
               type="text"
@@ -116,7 +116,7 @@ function InformacionPersonaModal({
               value={apellido}
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group key="3">
             <Form.Label style={{ textAlign: "left" }}>
               Fecha Nacimiento
             </Form.Label>
