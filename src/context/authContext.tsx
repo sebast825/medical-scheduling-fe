@@ -2,6 +2,7 @@ import React, { useState, useContext, ReactNode } from "react";
 import IPacienteResponse  from "../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../types/Medico/MedicoResponse.type";
 import { IPersonaResponse } from "../types/Persona/PersonaResponse.type";
+import { CreateUsuarioRequest } from "../types/usuario/CreateUsuarioRequest";
 
 type User = string | null;
 type PersonaInfo = any | IPersonaResponse; // Reemplaza 'any' con el tipo correcto para personaInfo
@@ -22,7 +23,8 @@ interface UserContextType {
     React.SetStateAction<IMedicoResponse | null>>;
     administrativoInfo : PersonaInfo;
     setAdministrativoInfo: React.Dispatch<React.SetStateAction<IPersonaResponse>>;
-
+    createUserInfo : CreateUsuarioRequest | null;
+    setCreateUserInfo: React.Dispatch<React.SetStateAction<CreateUsuarioRequest | null>>;
     
 }
 
@@ -44,7 +46,13 @@ export function useUserToggleContext() {
   const context = useUserContext();
   return context.cambiaLogin;
 }
-
+export function useCreateUserInfoContext() {
+  const context = useUserContext();
+  return {
+    createUserInfo: context.createUserInfo,
+    setCreateUserInfo: context.setCreateUserInfo,
+  };
+}
 export function useAdministrativoInfoContext() {
   const context = useUserContext();
   return {
@@ -93,7 +101,7 @@ export function UserProvider({ children }: UserProviderProps) {
     null
   );
   const [administrativoInfo, setAdministrativoInfo] = useState<PersonaInfo>("");
-
+  const [createUserInfo, setCreateUserInfo] = useState<CreateUsuarioRequest | null>(null);
   const cambiaLogin = (jwt: string | null) => {
     if (user) {
       setUser(null);
@@ -114,7 +122,9 @@ export function UserProvider({ children }: UserProviderProps) {
     medicoInfo,
     setMedicoInfo,
     administrativoInfo,
-    setAdministrativoInfo
+    setAdministrativoInfo,
+    createUserInfo,
+    setCreateUserInfo
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

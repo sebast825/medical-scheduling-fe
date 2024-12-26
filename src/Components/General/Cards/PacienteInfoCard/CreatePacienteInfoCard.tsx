@@ -23,11 +23,11 @@ function CreatePacienteInfoCard({
 }: IPersonaInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
   const { pacienteInfo, setPacienteInfo } = usePacienteContext();
-
   useEffect(() => {
-  
-  }, [pacienteInfo]);
+   console.log(pacienteInfo)
 
+  }, [pacienteInfo]);
+  
   return (
     <>
       {pacienteInfo != undefined && (

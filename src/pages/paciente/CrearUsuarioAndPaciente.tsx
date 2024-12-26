@@ -18,9 +18,10 @@ function CrearUsuarioAndPaciente() {
     closeCreateModal,
     showCreateModal,
     toggleCreateModal,
+    setRequiredContext
   } = usePacienteAndUsuarioCreate();
 
-  
+
   const {setPacienteInfo} = usePacienteContext();
   const {setPersonaInfo} = usePersonaInfoContext() 
   function handleUsuarioResponse(user: IPersonaResponse) {
@@ -33,6 +34,8 @@ function CrearUsuarioAndPaciente() {
  }
 
   useEffect(() => {
+   setRequiredContext()
+   
    let paciente: IPacienteResponse = {
       telefonoEmergencia: "adasd",
       nombreEmergencia: "asdaasdasdasdd",
@@ -46,7 +49,7 @@ function CrearUsuarioAndPaciente() {
       estadoUsuario: "asdasdasd",
     };
     setPersonaInfo(paciente);
-    setPacienteInfo(paciente);
+    //setPacienteInfo(paciente);
     showCreateModal();
   }, []);
 
