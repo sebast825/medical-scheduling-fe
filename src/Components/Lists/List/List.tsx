@@ -41,7 +41,7 @@ function List({ listItems, handleSelect }: IList) {
         style={{ width: "350px", minWidth: "300px"}}
         />
       <br></br>
-      <ListGroup className="gap-2 d-flex justify-content-center align-items-center">
+      <ListGroup className="gap-2 mb-2 mb-md-4 d-flex justify-content-center align-items-center">
         {mostrarItems.map((item) => (
           <ListGroup.Item 
           key= {item.id}

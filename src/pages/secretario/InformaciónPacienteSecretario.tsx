@@ -8,6 +8,7 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import "../estiloCompartido.scss";
 
 import usePersonas from "../../hooks/personas/usePersonas";
+import BackLink from "../../Components/buttons/BackLink/BackLink";
 
 function InformaciónPacienteSecretario() {
   const { pacienteInfo } = usePacienteContext();
@@ -32,6 +33,7 @@ function InformaciónPacienteSecretario() {
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
         <PacienteInfoCard handleEvent={true} />
       </div>
+      <BackLink/>
     </>
   );
 }

@@ -8,6 +8,7 @@ import "../estiloCompartido.scss";
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import usePersonas from "../../hooks/personas/usePersonas";
+import BackLink from "../../Components/buttons/BackLink/BackLink";
 
 function InformaciónPersonal() {
   const user = useUserInfo();
@@ -31,6 +32,8 @@ function InformaciónPersonal() {
 
         <PacienteInfoCard handleEvent={true} />
       </div>
+
+      <BackLink/>
     </>
   );
 }

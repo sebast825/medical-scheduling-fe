@@ -7,6 +7,7 @@ import useRedicrects from "../../hooks/useRedicrects";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import "../estiloCompartido.scss";
 import usePersonas from "../../hooks/personas/usePersonas";
+import BackLink from "../../Components/buttons/BackLink/BackLink";
 
 function InformacionMedicoAdministrador() {
   const isAdmin = useIsAdministrador();
@@ -32,6 +33,7 @@ function InformacionMedicoAdministrador() {
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
         <MedicoInfoCard />
       </div>
+      <BackLink/>
     </>
   );
 }
