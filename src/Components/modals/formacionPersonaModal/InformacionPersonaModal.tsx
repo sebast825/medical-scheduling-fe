@@ -12,6 +12,7 @@ import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
+import { validarPersona } from "../../../utils/validarPersona";
 
 interface IInformacionPersonaModal {
   modalField: IPacienteResponse;
@@ -49,7 +50,11 @@ function InformacionPersonaModal({
   async function handlePersonaUpdate() {
     var persona = createPersonaUpdateObject();
     console.log(persona)
-
+    let validate = validarPersona(persona);
+    if(validate != null) {
+      error(validate);
+      return;
+    }
     handleConfirm(persona);
    
     handleClose();

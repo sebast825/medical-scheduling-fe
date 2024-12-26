@@ -83,7 +83,7 @@ function usePacienteAndUsuarioCreate() {
         apellido : e.apellido,
         numeroDocumento : e.numeroDocumento,
         telefono : e.telefono,
-        sexo : Sexo[e.sexoId],
+        sexo : Sexo[e.sexoId-1],
         fechaNacimiento : e.fechaNacimiento,
         estadoUsuario : EstadoUsuario.Activo.toString(),
       }
