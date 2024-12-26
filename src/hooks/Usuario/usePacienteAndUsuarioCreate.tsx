@@ -27,17 +27,17 @@ function usePacienteAndUsuarioCreate() {
     telefono: "",
     numeroDocumento: "",
     sexo: "",
-    estadoUsuario: ""
+    estadoUsuario: "",
   };
   let unUsuario: CreateUsuarioRequest = {
     UserName: "",
     Password: "",
     Email: "",
   };
-  let unPacienteCreate : PacienteCreateRequest = {
+  let unPacienteCreate: PacienteCreateRequest = {
     telefonoEmergencia: "",
     nombreEmergencia: "",
-  }
+  };
   let unUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
     Paciente: unPaciente,
     Usuario: unUsuario,
@@ -52,6 +52,49 @@ function usePacienteAndUsuarioCreate() {
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
 
+  function mergeUsuarioInUsuarioAndPaciente() {
+    if (createUserInfo == undefined) return;
+    setUsuarioAndPaciente((prevState) => ({
+      ...prevState,
+      Usuario: {
+        UserName: createUserInfo.UserName,
+        Password: createUserInfo.Password,
+        Email: createUserInfo.Email,
+      },
+    }));
+    console.log("merge", createUserInfo);
+  }
+
+  function mergePacienteInUsuarioAndPaciente() {
+    if (pacienteInfo == undefined) return;
+    setUsuarioAndPaciente((prevState) => ({
+      ...prevState,
+      Paciente: {
+        ...prevState.Paciente,
+        telefonoEmergencia: pacienteInfo.telefonoEmergencia,
+        nombreEmergencia: pacienteInfo.nombreEmergencia,
+      },
+    }));
+    console.log("merge", pacienteInfo);
+  }
+  function mergePersonaInUsuarioAndPaciente() {
+    if (personaInfo == undefined) return;
+    setUsuarioAndPaciente((prevState) => ({
+      ...prevState,
+      Paciente: {
+        ...prevState.Paciente,
+        nombre: personaInfo.nombre,
+        apellido: personaInfo.apellido,
+        numeroDocumento: personaInfo.numeroDocumento,
+        telefono: personaInfo.telefono,
+        sexo: Sexo[personaInfo.sexoId - 1],
+        fechaNacimiento: personaInfo.fechaNacimiento,
+        estadoUsuario: EstadoUsuario.Activo.toString(),
+      },
+    }));
+    console.log("merge", personaInfo);
+  }
+
   function closeCreateModal() {
     setToggleCreateModal(false);
   }
@@ -62,33 +105,75 @@ function usePacienteAndUsuarioCreate() {
   function setRequiredContext() {
     setPacienteInfo(unPaciente);
     setPersonaInfo(unPaciente);
-    setCreateUserInfo(unUsuario)
-    setPacienteCreate(unPacienteCreate)
+    setCreateUserInfo(unUsuario);
+    setPacienteCreate(unPacienteCreate);
   }
 
-  function handlePacienteCreate(e :PacienteCreateRequest){
-//el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
+  function handlePacienteCreate(e: PacienteCreateRequest) {
+    //el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
     setPacienteInfo({
       ...personaInfo,
-      nombreEmergencia : e.nombreEmergencia,
-      telefonoEmergencia : e.telefonoEmergencia
+      nombreEmergencia: e.nombreEmergencia,
+      telefonoEmergencia: e.telefonoEmergencia,
     });
-    setPacienteCreate(e)
+    setPacienteCreate(e);
   }
-   function handlePersonaUpdate(e: IPersonaUpdate) {
-    setPersonaInfo(
-      {
-        id:1,
-        nombre :  e.nombre,
-        apellido : e.apellido,
-        numeroDocumento : e.numeroDocumento,
-        telefono : e.telefono,
-        sexo : Sexo[e.sexoId-1],
-        fechaNacimiento : e.fechaNacimiento,
-        estadoUsuario : EstadoUsuario.Activo.toString(),
-      }
-    )
+  function handlePersonaUpdate(e: IPersonaUpdate) {
+    console.log(e, Sexo[e.sexoId - 1]);
+    setPersonaInfo({
+      id: 1,
+      nombre: e.nombre,
+      apellido: e.apellido,
+      numeroDocumento: e.numeroDocumento,
+      telefono: e.telefono,
+      sexo: Sexo[e.sexoId - 1],
+      fechaNacimiento: e.fechaNacimiento,
+      estadoUsuario: EstadoUsuario.Activo.toString(),
+    });
   }
+  function mergePacienteAndUsuarioInCreateDto() {
+    const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
+      Paciente: {
+        ...usuarioAndPaciente.Paciente,
+        telefonoEmergencia:
+          pacienteInfo?.telefonoEmergencia ||
+          usuarioAndPaciente.Paciente.telefonoEmergencia,
+        nombreEmergencia:
+          pacienteInfo?.nombreEmergencia ||
+          usuarioAndPaciente.Paciente.nombreEmergencia,
+        nombre: personaInfo?.nombre || usuarioAndPaciente.Paciente.nombre,
+        apellido: personaInfo?.apellido || usuarioAndPaciente.Paciente.apellido,
+        numeroDocumento:
+          personaInfo?.numeroDocumento ||
+          usuarioAndPaciente.Paciente.numeroDocumento,
+        telefono: personaInfo?.telefono || usuarioAndPaciente.Paciente.telefono,
+        sexo: personaInfo?.sexo || usuarioAndPaciente.Paciente.sexo,
+        fechaNacimiento:
+          personaInfo?.fechaNacimiento ||
+          usuarioAndPaciente.Paciente.fechaNacimiento,
+        estadoUsuario: EstadoUsuario.Activo.toString(),
+      },
+      Usuario: {
+        UserName:
+          createUserInfo?.UserName || usuarioAndPaciente.Usuario.UserName,
+        Password:
+          createUserInfo?.Password || usuarioAndPaciente.Usuario.Password,
+        Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
+      },
+    };
+
+    // Actualizar el estado con el objeto temporal
+    setUsuarioAndPaciente(updatedUsuarioAndPaciente);
+
+    console.log("Estado actualizado:", updatedUsuarioAndPaciente);
+  }
+
+  function handleCreateUsuarioAndPaciente() {
+    mergePacienteAndUsuarioInCreateDto();
+  }
+  useEffect(() => {
+    console.log(usuarioAndPaciente);
+  }, [usuarioAndPaciente]);
   const createUsuarioAndPaciente = useCallback(
     async (dto: CreateUsuarioAndPacienteRequestDto) => {
       try {
@@ -120,10 +205,14 @@ function usePacienteAndUsuarioCreate() {
     showCreateModal,
     toggleCreateModal,
     setRequiredContext,
-    createUserInfo, setCreateUserInfo ,
-    pacienteInfo, setPacienteInfo,
-    pacienteCreate, handlePacienteCreate,
-    handlePersonaUpdate
+    createUserInfo,
+    setCreateUserInfo,
+    pacienteInfo,
+    setPacienteInfo,
+    pacienteCreate,
+    handlePacienteCreate,
+    handlePersonaUpdate,
+    handleCreateUsuarioAndPaciente,
   };
 }
 

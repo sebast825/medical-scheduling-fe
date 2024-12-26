@@ -15,7 +15,8 @@ function CrearUsuarioAndPaciente() {
     setCreateUserInfo,
     pacienteInfo,       
     handlePacienteCreate,
-    handlePersonaUpdate
+    handlePersonaUpdate,
+    handleCreateUsuarioAndPaciente
   } = usePacienteAndUsuarioCreate();
 
  
@@ -47,7 +48,7 @@ function CrearUsuarioAndPaciente() {
         )}
       </div>
 
-      <Button onClick={showCreateModal}>asd</Button>
+      <Button onClick={()=>handleCreateUsuarioAndPaciente()}>asd</Button>
     </>
   );
 }
