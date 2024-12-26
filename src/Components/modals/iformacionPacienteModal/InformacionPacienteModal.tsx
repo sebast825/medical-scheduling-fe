@@ -11,6 +11,7 @@ import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
 import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import useIsPaciente from "../../../hooks/roles/useIsPaciente";
+import { validarPaciente } from "../../../utils/validatePaciente";
 
 interface IInformacionPacienteModal {
   modalField: IPacienteResponse;
@@ -40,9 +41,17 @@ function InformacionPacienteModal({
   useEffect(() => {}, [pacienteInfo]);
 
   async function handleUpdatePaciente() {
-    handleClose();
+
+   
 
     let paciente = createPaciente();
+    let validarDatos = validarPaciente(paciente);
+    if(validarDatos != null){
+      error(validarDatos);
+      return;
+    }
+    handleClose();
+
     handleConfirm(paciente)
     return paciente;
     
