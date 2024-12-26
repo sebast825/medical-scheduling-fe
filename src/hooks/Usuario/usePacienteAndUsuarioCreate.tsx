@@ -12,11 +12,14 @@ import {
   usePersonaInfoContext,
 } from "../../context/authContext";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
+import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
+import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
+import { Sexo } from "../../types/Sexo.type";
 
 function usePacienteAndUsuarioCreate() {
   let unPaciente: IPacienteResponse = {
-    telefonoEmergencia: "asd",
-    nombreEmergencia: "asd",
+    telefonoEmergencia: "",
+    nombreEmergencia: "",
     id: 0,
     nombre: "",
     apellido: "",
@@ -32,8 +35,8 @@ function usePacienteAndUsuarioCreate() {
     Email: "",
   };
   let unPacienteCreate : PacienteCreateRequest = {
-    telefonoEmergencia: "jojo",
-    nombreEmergencia: "jojo",
+    telefonoEmergencia: "",
+    nombreEmergencia: "",
   }
   let unUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
     Paciente: unPaciente,
@@ -72,7 +75,20 @@ function usePacienteAndUsuarioCreate() {
     });
     setPacienteCreate(e)
   }
-
+   function handlePersonaUpdate(e: IPersonaUpdate) {
+    setPersonaInfo(
+      {
+        id:1,
+        nombre :  e.nombre,
+        apellido : e.apellido,
+        numeroDocumento : e.numeroDocumento,
+        telefono : e.telefono,
+        sexo : Sexo[e.sexoId],
+        fechaNacimiento : e.fechaNacimiento,
+        estadoUsuario : EstadoUsuario.Activo.toString(),
+      }
+    )
+  }
   const createUsuarioAndPaciente = useCallback(
     async (dto: CreateUsuarioAndPacienteRequestDto) => {
       try {
@@ -106,7 +122,8 @@ function usePacienteAndUsuarioCreate() {
     setRequiredContext,
     createUserInfo, setCreateUserInfo ,
     pacienteInfo, setPacienteInfo,
-    pacienteCreate, handlePacienteCreate
+    pacienteCreate, handlePacienteCreate,
+    handlePersonaUpdate
   };
 }
 

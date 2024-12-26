@@ -61,13 +61,13 @@ function InformacionPacienteModal({
         show={show}
         handleClose={handleClose}
         handleConfirm={handleUpdatePaciente}
-        title="Editar Contacto Emergencia"
+        title="Editar Contacto de Emergencia"
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
    
           <Form.Group>
             <Form.Label style={{ textAlign: "left" }}>
-              Contacto de Emergencia
+              Nombre
             </Form.Label>
             <Form.Control
               type="text"
@@ -78,7 +78,7 @@ function InformacionPacienteModal({
           </Form.Group>
           <Form.Group>
             <Form.Label style={{ textAlign: "left" }}>
-              Telefono Contacto
+              Telefono
             </Form.Label>
             <Form.Control
               type="text"

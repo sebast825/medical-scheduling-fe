@@ -55,6 +55,7 @@ function usePersonas() {
 
     }
   }
+  
   function  actualizarPacienteFe(updatedPersona: IPersonaResponse) {
     setPacienteInfo((prevInfo: IPacienteResponse | null) => ({
       ...updatedPersona,
