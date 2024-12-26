@@ -36,10 +36,7 @@ function usePersonas() {
         dto,
         personaInfo.id.toString()
       );
-      if (response != null) {
-        actualizarPacienteFe(response)
-
-      }
+     
       return response;
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
@@ -49,6 +46,15 @@ function usePersonas() {
       }
     }
   }, []);
+  async function handlePersonaUpdate(persona: IPersonaUpdate) {
+    var updatedPersona: IPersonaResponse | undefined = await putPersona(
+      persona
+    );
+    if (updatedPersona != null) {
+      actualizarPacienteFe(updatedPersona)
+
+    }
+  }
   function  actualizarPacienteFe(updatedPersona: IPersonaResponse) {
     setPacienteInfo((prevInfo: IPacienteResponse | null) => ({
       ...updatedPersona,
@@ -103,7 +109,7 @@ function usePersonas() {
   }, [errorPersona]);
 
   return {
-    putPersona,
+    handlePersonaUpdate,
     updateEstadoPersonaYUsuario,
   };
 }

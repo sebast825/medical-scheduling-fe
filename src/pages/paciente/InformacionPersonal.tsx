@@ -12,19 +12,13 @@ import usePersonas from "../../hooks/personas/usePersonas";
 function InformaciónPersonal() {
   const user = useUserInfo();
   const { redirectToLogin } = useRedirects();
-  const { putPersona } = usePersonas();
+  const { handlePersonaUpdate } = usePersonas();
 
   useEffect(() => {
     if (user == null) {
       redirectToLogin();
     }
   }, []);
-
-  async function handlePersonaUpdate(persona: IPersonaUpdate) {
-    var updatedPersona: IPersonaResponse | undefined = await putPersona(
-      persona
-    );
-  }
 
   return (
     <>
