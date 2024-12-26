@@ -9,8 +9,14 @@ import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/Pers
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import CreatePacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/CreatePacienteInfoCard";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
-import { usePacienteContext, usePersonaInfoContext } from "../../context/authContext";
+import {
+  usePacienteContext,
+  usePersonaInfoContext,
+} from "../../context/authContext";
 import Opening from "../../Components/General/Opening/Opening";
+import usePacientes from "../../hooks/pacientes/usePacientes";
+import usePersonas from "../../hooks/personas/usePersonas";
+import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 
 function CrearUsuarioAndPaciente() {
   const {
@@ -20,56 +26,53 @@ function CrearUsuarioAndPaciente() {
     toggleCreateModal,
     setRequiredContext,
     createUserInfo,
-    setCreateUserInfo
+    setCreateUserInfo,
+    pacienteInfo,
+    setPacienteInfo,
+    pacienteCreate,
+    handlePacienteCreate,
   } = usePacienteAndUsuarioCreate();
 
+  const { handlePersonaUpdate } = usePersonas();
 
-  const {setPacienteInfo} = usePacienteContext();
-  const {setPersonaInfo} = usePersonaInfoContext() 
   function handleUsuarioResponse(user: IPersonaResponse) {
     console.log("llega");
     console.log(user);
   }
   function handlePaciente(user: IPacienteResponse) {
-   console.log("llega");
-   console.log(user);
- }
+    console.log("llega");
+    console.log(user);
+  }
 
   useEffect(() => {
-   setRequiredContext()
- /*  
-   let paciente: IPacienteResponse = {
-      telefonoEmergencia: "adasd",
-      nombreEmergencia: "asdaasdasdasdd",
-      id: 0,
-      nombre: "asd",
-      apellido: "asd",
-      fechaNacimiento: "11/3/2024",
-      telefono: "asdasd",
-      numeroDocumento: "asdasdasd",
-      sexo: "asdasd",
-      estadoUsuario: "asdasdasd",
-    };
-    setPersonaInfo(paciente);*/
-    //setPacienteInfo(paciente);
+    setRequiredContext();
     showCreateModal();
   }, []);
-  console.log(createUserInfo)
-  useEffect(()=>{},[createUserInfo])
+  
+  console.log(createUserInfo);
+  useEffect(() => {}, [createUserInfo]);
 
+  function udpatePacienteApi(paciente: IPacienteUpdate) {}
 
   return (
     <>
-    <Opening title={"Crear Usuario"}/>
-     <div className="container d-flex p-5 justify-content-center align-items-start">
-      {
-        createUserInfo &&      <UsuarioCard usuarioInfo={createUserInfo} updatedInfo={setCreateUserInfo} ></UsuarioCard>
+      <Opening title={"Crear Usuario"} />
+      <div className="container d-flex p-5 justify-content-center align-items-start">
+        {createUserInfo && (
+          <UsuarioCard
+            usuarioInfo={createUserInfo}
+            updatedInfo={setCreateUserInfo}
+          ></UsuarioCard>
+        )}
+        <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
+        {pacienteInfo && (
+          <CreatePacienteInfoCard
+            pacienteInfo={pacienteInfo}
+            handleConfirm={handlePacienteCreate}
+          />
+        )}
+      </div>
 
-      }
-      {/* <PersonaInfoCard handleConfirm={handleUsuarioResponse}/> */}
-      {/* <CreatePacienteInfoCard handleConfirm={ handlePaciente }/> */}
-     </div>
-  
       <Button onClick={showCreateModal}>asd</Button>
     </>
   );

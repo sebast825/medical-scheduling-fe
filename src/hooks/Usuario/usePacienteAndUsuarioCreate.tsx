@@ -31,6 +31,10 @@ function usePacienteAndUsuarioCreate() {
     Password: "",
     Email: "",
   };
+  let unPacienteCreate : PacienteCreateRequest = {
+    telefonoEmergencia: "jojo",
+    nombreEmergencia: "jojo",
+  }
   let unUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
     Paciente: unPaciente,
     Usuario: unUsuario,
@@ -43,6 +47,7 @@ function usePacienteAndUsuarioCreate() {
   const { createUserInfo, setCreateUserInfo } = useCreateUserInfoContext();
   const { pacienteInfo, setPacienteInfo } = usePacienteContext();
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
+  const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
 
   function closeCreateModal() {
     setToggleCreateModal(false);
@@ -55,6 +60,17 @@ function usePacienteAndUsuarioCreate() {
     setPacienteInfo(unPaciente);
     setPersonaInfo(unPaciente);
     setCreateUserInfo(unUsuario)
+    setPacienteCreate(unPacienteCreate)
+  }
+
+  function handlePacienteCreate(e :PacienteCreateRequest){
+//el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
+    setPacienteInfo({
+      ...personaInfo,
+      nombreEmergencia : e.nombreEmergencia,
+      telefonoEmergencia : e.telefonoEmergencia
+    });
+    setPacienteCreate(e)
   }
 
   const createUsuarioAndPaciente = useCallback(
@@ -88,7 +104,9 @@ function usePacienteAndUsuarioCreate() {
     showCreateModal,
     toggleCreateModal,
     setRequiredContext,
-    createUserInfo, setCreateUserInfo 
+    createUserInfo, setCreateUserInfo ,
+    pacienteInfo, setPacienteInfo,
+    pacienteCreate, handlePacienteCreate
   };
 }
 

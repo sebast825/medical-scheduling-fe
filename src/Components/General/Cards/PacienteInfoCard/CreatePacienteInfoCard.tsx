@@ -13,32 +13,48 @@ import { IInfoCard } from "../../../../types/InfoCard.type";
 import { IPersonaResponse } from "../../../../types/Persona/PersonaResponse.type";
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/InformacionPacienteModal";
+import { IPacienteUpdate } from "../../../../types/Paciente/PacienteUpdate.type";
+import PacienteCreateRequest from "../../../../types/Paciente/PacienteCreateRequest.type copy";
 
 interface IPersonaInfoCard {
-  handleConfirm: (updatedPersona: IPacienteResponse) => void;
+  pacienteInfo : IPacienteResponse,
+  handleConfirm: (updatedPersona: PacienteCreateRequest) => void;
+
 }
 
 function CreatePacienteInfoCard({
+  pacienteInfo ,
   handleConfirm = () => {},
 }: IPersonaInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
-  const { pacienteInfo, setPacienteInfo } = usePacienteContext();
+  //const { pacienteInfo, setPacienteInfo } = usePacienteContext();
   useEffect(() => {
    console.log(pacienteInfo)
 
   }, [pacienteInfo]);
+
   
+  function handleUpdatePaciente (e : IPacienteUpdate){
+    console.log(e)
+  
+    handleConfirm({
+      telefonoEmergencia : e.TelefonoEmergencia,
+      nombreEmergencia : e.NombreEmergencia}
+    )
+
+  }
+
   return (
     <>
       {pacienteInfo != undefined && (
         <>
           
-          {/* <InformacionPacienteModal
+           <InformacionPacienteModal
             show={toggleModal}
             handleClose={closeModal}
             modalField={pacienteInfo}
-            handleConfirm={handleConfirm}
-          /> */}
+            handleConfirm={handleUpdatePaciente}
+          /> 
         </>
       )}
       <GenericCard title={"Contacto de Emergencia"} handleEvent={showModal}>
