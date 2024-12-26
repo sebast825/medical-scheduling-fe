@@ -33,12 +33,12 @@ function CreatePacienteInfoCard({
       {pacienteInfo != undefined && (
         <>
           
-          <InformacionPacienteModal
+          {/* <InformacionPacienteModal
             show={toggleModal}
             handleClose={closeModal}
             modalField={pacienteInfo}
             handleConfirm={handleConfirm}
-          />
+          /> */}
         </>
       )}
       <GenericCard title={"Contacto de Emergencia"} handleEvent={showModal}>

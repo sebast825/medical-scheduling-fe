@@ -12,6 +12,7 @@ import { pacienteModalFields } from "../../../../utils/objectFields/pacienteModa
 import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/InformacionPacienteModal";
 import usePacientes from "../../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
+import { IPacienteUpdate } from "../../../../types/Paciente/PacienteUpdate.type";
 
 
 
@@ -23,7 +24,8 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
   const { showModal, closeModal, toggleModal } = useModal();
   const {pacienteInfo, setPacienteInfo} = usePacienteContext();
   const {getPacienteById}=usePacientes()
-  
+  const { putPaciente } = usePacientes();
+
   useEffect(() => {
     var modalFields = updateModalFields(pacienteModalFields, pacienteInfo);
     setModalFields(modalFields);
@@ -43,16 +45,40 @@ function PacienteInfoCard({ title = "Informacion de Emergencia", handleEvent = f
     console.log(datos)
     setPacienteInfo(datos)
    }
+   async  function udpate(paciente :IPacienteUpdate){
+    let updatedPaciente = await fetchPacienteUpdate(paciente);
+    
+        if (updatedPaciente != undefined) {
+          //handleConfirm(updatedPaciente);
+          actualizarInformacionPaciente(updatedPaciente)
+        }else{
+          //error("Ocurrio un error, no se pudo actualizar la información.");
+        }
+   }
+
    
+  async function fetchPacienteUpdate(
+    paciente: IPacienteUpdate
+  ): Promise<IPacienteResponse | undefined> {
+    if (pacienteInfo == null) return;
+
+    var updatedPaciente: IPacienteResponse | undefined = await putPaciente(
+      paciente,
+      pacienteInfo.id.toString()
+    );
+    return updatedPaciente;
+  }
+
   return (
     <>
       {pacienteInfo != undefined && (
         <>
+        
           <InformacionPacienteModal
             show={toggleModal}
             handleClose={closeModal}
             modalField={pacienteInfo}
-            handleConfirm={actualizarInformacionPaciente}
+            handleConfirm={udpate}
           />
         </>
       )}

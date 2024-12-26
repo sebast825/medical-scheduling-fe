@@ -16,7 +16,7 @@ interface IInformacionPacienteModal {
   modalField: IPacienteResponse;
   show: boolean;
   handleClose: () => void;
-  handleConfirm: (pacienteResponse: IPacienteResponse) => void;
+  handleConfirm: (pacienteResponse: IPacienteUpdate) => void;
 }
 
 function InformacionPacienteModal({
@@ -43,33 +43,18 @@ function InformacionPacienteModal({
     handleClose();
 
     let paciente = createPaciente();
-    let updatedPaciente = await fetchPacienteUpdate(paciente);
-
-    if (updatedPaciente != undefined) {
-      handleConfirm(updatedPaciente);
-    }else{
-      error("Ocurrio un error, no se pudo actualizar la información.");
-    }
+    handleConfirm(paciente)
+    return paciente;
+    
   }
-  function createPaciente(): IPacienteUpdate {
+
+  function createPaciente() : IPacienteUpdate {
     const paciente: IPacienteUpdate = {
       TelefonoEmergencia: telefonoEmergencia,
       NombreEmergencia: nombreEmergencia,
     };
     return paciente;
   }
-  async function fetchPacienteUpdate(
-    paciente: IPacienteUpdate
-  ): Promise<IPacienteResponse | undefined> {
-    if (pacienteInfo == null) return;
-
-    var updatedPaciente: IPacienteResponse | undefined = await putPaciente(
-      paciente,
-      pacienteInfo.id.toString()
-    );
-    return updatedPaciente;
-  }
-
   return (
     <>
       <GenericModal
