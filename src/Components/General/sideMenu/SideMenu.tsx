@@ -30,13 +30,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
       </Offcanvas.Header>
       <Offcanvas.Body className="offcanvas-body">
         <Nav className="flex-column">
-          <Nav.Link
-            onClick={() => {
-              closeModalAndCallFunction(redirectToPacienteHome);
-            }}
-          >
-            Mis Turnos
-          </Nav.Link>
+        
           {isPaciente && <SideMenuPaciente handleClose={() => handleClose()} />}
           {isAdmin && 
             <SideMenuAdministrador handleClose={() => handleClose()} />

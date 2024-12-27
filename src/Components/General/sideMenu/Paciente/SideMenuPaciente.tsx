@@ -9,6 +9,7 @@ function SideMenuPaciente(props: ISideMenuGeneric) {
     redirectToNuevoTurnoFilterMedico,
     redirectToNuevoTurnoFilterEspecialidad,
     redirectToInformacionPersonal,
+    redirectToPacienteHome
   } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
@@ -19,6 +20,13 @@ function SideMenuPaciente(props: ISideMenuGeneric) {
   
   return (
     <>
+      <Nav.Link
+            onClick={() => {
+              closeModalAndCallFunction(redirectToPacienteHome);
+            }}
+          >
+            Mis Turnos
+          </Nav.Link>
       <NavDropdown title="Nuevo Turno" id="nav-dropdown">
         <NavDropdown.Item
           onClick={() => {
