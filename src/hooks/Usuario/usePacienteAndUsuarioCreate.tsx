@@ -17,6 +17,7 @@ import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 import { Sexo } from "../../types/Sexo.type";
 import { validarPersona } from "../../utils/validarPersona";
 import { validarPaciente } from "../../utils/validatePaciente";
+import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 
 function usePacienteAndUsuarioCreate() {
   let unPaciente: IPacienteResponse = {
@@ -39,9 +40,15 @@ function usePacienteAndUsuarioCreate() {
   let unPacienteCreate: PacienteCreateRequest = {
     telefonoEmergencia: "",
     nombreEmergencia: "",
+    nombre: "",
+    apellido: "",
+    fechaNacimiento: "",
+    telefono: "",
+    numeroDocumento: "",
+    sexoId: 0,
   };
   let unUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
-    Paciente: unPaciente,
+    Paciente: unPacienteCreate,
     Usuario: unUsuario,
   };
   const [errorUsuario, SetErrorUsuario] = useState<ErrorTypeAny>(null);
@@ -79,14 +86,14 @@ function usePacienteAndUsuarioCreate() {
     setPacienteCreate(unPacienteCreate);
   }
 
-  function handlePacienteCreate(e: PacienteCreateRequest) {
+  function handlePacienteCreate(e: IPacienteUpdate) {
     //el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
     setPacienteInfo({
       ...personaInfo,
-      nombreEmergencia: e.nombreEmergencia,
-      telefonoEmergencia: e.telefonoEmergencia,
+      nombreEmergencia: e.NombreEmergencia,
+      telefonoEmergencia: e.TelefonoEmergencia,
     });
-    setPacienteCreate(e);
+    //setPacienteCreate();
     setCheckBoxForms((prevState) => ({
       ...prevState,
       pacienteInfo: true,
@@ -112,7 +119,6 @@ function usePacienteAndUsuarioCreate() {
   function mergePacienteAndUsuarioInCreateDto() {
     const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
       Paciente: {
-        ...usuarioAndPaciente.Paciente,
         telefonoEmergencia:
           pacienteInfo?.telefonoEmergencia ||
           usuarioAndPaciente.Paciente.telefonoEmergencia,
@@ -125,11 +131,10 @@ function usePacienteAndUsuarioCreate() {
           personaInfo?.numeroDocumento ||
           usuarioAndPaciente.Paciente.numeroDocumento,
         telefono: personaInfo?.telefono || usuarioAndPaciente.Paciente.telefono,
-        sexo: personaInfo?.sexo || usuarioAndPaciente.Paciente.sexo,
+        sexoId: personaInfo?.sexo + 1,
         fechaNacimiento:
           personaInfo?.fechaNacimiento ||
           usuarioAndPaciente.Paciente.fechaNacimiento,
-        estadoUsuario: EstadoUsuario.Activo.toString(),
       },
       Usuario: {
         UserName:
@@ -139,7 +144,27 @@ function usePacienteAndUsuarioCreate() {
         Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
       },
     };
-    setUsuarioAndPaciente(updatedUsuarioAndPaciente);
+
+const usuarioAndPacient2 : CreateUsuarioAndPacienteRequestDto = {
+  Paciente: {
+    telefonoEmergencia: '9876543210',
+    nombreEmergencia: 'Ana Rodríguez',
+    nombre: 'Luis',
+    apellido: 'Martínez',
+    numeroDocumento: '1987654321',
+    telefono: '1956789012',
+    sexoId: 2, // Mujer
+    fechaNacimiento: '1985-05-10',
+  },
+  Usuario: {
+    UserName: 'lmartinez',
+    Password: 'password123',
+    Email: 'lmartinez@example.com',
+  },
+};
+    console.log(usuarioAndPacient2);
+    setUsuarioAndPaciente(usuarioAndPacient2);
+    createUsuarioAndPaciente(usuarioAndPacient2);
   }
   function validarFormularios(): string | undefined {
     if (!checkBoxForms.pacienteInfo)
@@ -150,11 +175,13 @@ function usePacienteAndUsuarioCreate() {
       return "Es necesario completar la informacion del usuario.";
   }
   function handleCreateUsuarioAndPaciente() {
+    console.log("entra");
+    /*
     let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
       return;
-    }
+    }*/
     mergePacienteAndUsuarioInCreateDto();
   }
 

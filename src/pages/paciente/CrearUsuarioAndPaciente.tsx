@@ -26,7 +26,6 @@ function CrearUsuarioAndPaciente() {
     showCreateModal();
   }, []);
 
-  console.log(createUserInfo);
   useEffect(() => {}, [createUserInfo]);
 
 

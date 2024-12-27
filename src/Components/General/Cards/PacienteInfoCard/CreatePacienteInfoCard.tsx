@@ -9,7 +9,7 @@ import PacienteCreateRequest from "../../../../types/Paciente/PacienteCreateRequ
 
 interface IPersonaInfoCard {
   pacienteInfo: IPacienteResponse;
-  handleConfirm: (updatedPersona: PacienteCreateRequest) => void;
+  handleConfirm: (updatedPersona: IPacienteUpdate) => void;
 }
 
 function CreatePacienteInfoCard({
@@ -24,8 +24,8 @@ function CreatePacienteInfoCard({
 
   function handleUpdatePaciente(e: IPacienteUpdate) {
     handleConfirm({
-      telefonoEmergencia: e.TelefonoEmergencia,
-      nombreEmergencia: e.NombreEmergencia,
+      TelefonoEmergencia: e.TelefonoEmergencia,
+      NombreEmergencia: e.NombreEmergencia,
     });
   }
 
