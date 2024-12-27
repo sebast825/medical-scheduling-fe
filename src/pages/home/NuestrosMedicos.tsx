@@ -25,7 +25,7 @@ function NuestrosMedicos() {
 
 
   return (
-    <>
+    <div className="pb-5">
     
       <Opening title="Nuestros Medicos" smallOpening={false} />
       <Table
@@ -50,8 +50,8 @@ function NuestrosMedicos() {
           ))}
         </tbody>
       </Table>
-      <BackLink variant="primary" />
-    </>
+      <BackLink  />
+    </div>
   );
 }
 
