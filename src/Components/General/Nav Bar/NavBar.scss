@@ -1,0 +1,22 @@
+
+.showNavBar{
+   opacity: 1;
+}
+
+.hideNavBar{
+   opacity: 0;
+
+}
+
+.navBar {
+   position: fixed; /* Fija el NavBar */
+   top: 0; /* Se queda en la parte superior */
+   left: 0; /* Alineado al borde izquierdo */
+   width: 100%; /* Ocupa todo el ancho */
+   z-index: 1000; /* Asegura que esté por encima de otros elementos */
+   background-color: #fff; /* Ajusta el color de fondo si es necesario */
+   transition: opacity 0.3s ease-in-out;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra sutil */
+
+
+ }
