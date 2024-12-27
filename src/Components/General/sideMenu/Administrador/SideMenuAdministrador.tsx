@@ -7,8 +7,7 @@ function SideMenuAdministrador(props: ISideMenuGeneric) {
   const {
     redirectToNuevoTurnoFilterMedico,
     redirectToNuevoTurnoFilterEspecialidad,
-    redirectToInformacionPersonal,
-  } = useRedirects();
+    redirectTablePacienteAdministrador  } = useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
   function closeModalAndCallFunction(fn: () => void) {
@@ -58,7 +57,7 @@ function SideMenuAdministrador(props: ISideMenuGeneric) {
 
       <Nav.Link
         onClick={() => {
-          closeModalAndCallFunction(redirectToInformacionPersonal);
+          closeModalAndCallFunction(redirectTablePacienteAdministrador);
         }}
       >
         Pacientes{" "}

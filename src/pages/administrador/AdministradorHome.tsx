@@ -36,7 +36,6 @@ function AdministradorHome() {
         onClickButton2={showHorariosMedicos}
       />
       {btnToggle ? <TableMedico /> : <ListaHorariosMedicos />}
-      <TablePaciente/>
     </>
   );
 }
