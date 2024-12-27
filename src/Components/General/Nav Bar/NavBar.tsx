@@ -36,10 +36,10 @@ function NavBar() {
     
     
 
-    <Nav fill variant="tabs" activeKey={activeKey} onSelect={handleSelect}>
+    <Nav fill variant="tabs" activeKey={activeKey} onSelect={handleSelect} className='d-flex  align-items-center'>
       <Nav.Item>
         <Nav.Link onClick={rhandleRedirectHome} >
-          <img src="/images/logo.png" alt="Logo" style={{ height: '30px', marginRight: '10px', background:'transparent' }} />
+          <img src="/images/logo.png" alt="Logo"  style={{ height: '40px'}} />
         </Nav.Link>
       </Nav.Item>
       
