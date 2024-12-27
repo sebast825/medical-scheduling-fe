@@ -54,6 +54,10 @@
   height: 12vh;
   padding: 10vh;
   .overlay {
-    background-color: darkgreen;
+    background: rgba(12,130,12,1);
+  //  background: radial-gradient(circle, rgba(0,100,0,1) 15%, rgba(12,154,12,1) 47%, rgba(26,126,26,1) 74%);  
+    background: radial-gradient(circle, rgba(12,130,12,1) 34%, rgba(12,154,12,1) 77%, rgba(26,126,26,1) 100%);
+    //background: radial-gradient(circle, rgba(12,154,12,1)  34%,  rgba(26,126,26,1)  77%,rgba(12,154,12,1)  100%);
+
   }
 }
