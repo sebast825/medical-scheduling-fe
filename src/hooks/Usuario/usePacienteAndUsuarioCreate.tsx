@@ -116,7 +116,7 @@ function usePacienteAndUsuarioCreate() {
       personaInfo: true,
     }));
   }
-  function mergePacienteAndUsuarioInCreateDto() {
+  function mergePacienteAndUsuarioInCreateDto() : CreateUsuarioAndPacienteRequestDto {
     const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
       Paciente: {
         telefonoEmergencia:
@@ -144,27 +144,26 @@ function usePacienteAndUsuarioCreate() {
         Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
       },
     };
-
-const usuarioAndPacient2 : CreateUsuarioAndPacienteRequestDto = {
-  Paciente: {
-    telefonoEmergencia: '9876543210',
-    nombreEmergencia: 'Ana Rodríguez',
-    nombre: 'Luis',
-    apellido: 'Martínez',
-    numeroDocumento: '1987654321',
-    telefono: '1956789012',
-    sexoId: 2, // Mujer
-    fechaNacimiento: '1985-05-10',
-  },
-  Usuario: {
-    UserName: 'lmartinez',
-    Password: 'password123',
-    Email: 'lmartinez@example.com',
-  },
-};
-    console.log(usuarioAndPacient2);
-    setUsuarioAndPaciente(usuarioAndPacient2);
-    createUsuarioAndPaciente(usuarioAndPacient2);
+    const updatedUsuarioAndPaciente2: CreateUsuarioAndPacienteRequestDto = {
+      Paciente: {
+        telefonoEmergencia: '1122334455',
+        nombreEmergencia: 'Maria Lopez',
+        nombre: 'Juan',
+        apellido: 'Perez',
+        numeroDocumento: '123456789',
+        telefono: '987654321',
+        sexoId: 1, // 1: Masculino
+        fechaNacimiento: '1990-01-01',
+      },
+      Usuario: {
+        UserName: 'mabel',
+        Password: 'mabel',
+        Email: 'juan.perez@email.com',
+      },
+    };
+    
+//console.log(updatedUsuarioAndPaciente2)
+    return updatedUsuarioAndPaciente2;
   }
   function validarFormularios(): string | undefined {
     if (!checkBoxForms.pacienteInfo)
@@ -175,14 +174,15 @@ const usuarioAndPacient2 : CreateUsuarioAndPacienteRequestDto = {
       return "Es necesario completar la informacion del usuario.";
   }
   function handleCreateUsuarioAndPaciente() {
-    console.log("entra");
+    console.log("entra");    
     /*
     let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
       return;
     }*/
-    mergePacienteAndUsuarioInCreateDto();
+    var usuarioAndPaciente = mergePacienteAndUsuarioInCreateDto();
+    createUsuarioAndPaciente(usuarioAndPaciente)
   }
 
   const createUsuarioAndPaciente = useCallback(
@@ -193,12 +193,15 @@ const usuarioAndPacient2 : CreateUsuarioAndPacienteRequestDto = {
         console.log(response);
         return response;
       } catch (err: any) {
-        console.log(err);
-        if (err.response && err.response.status === 401) {
-          SetErrorUsuario(err.response.data.message || "Error desconocido");
-        } else {
-          SetErrorUsuario("Error desconocido");
-        }
+        
+        console.log(err.response.data.message.Message);
+           // Verificamos si existe el mensaje de error en la respuesta
+           if (err.response) {
+            const errorMessage = err.response.data.message || "Error desconocido";
+            SetErrorUsuario(errorMessage);
+          } else {
+            SetErrorUsuario("Error de conexión con el servidor");
+          }
       }
     },
     []
@@ -232,6 +235,7 @@ const usuarioAndPacient2 : CreateUsuarioAndPacienteRequestDto = {
     handlePacienteCreate,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente,
+    errorUsuario
   };
 }
 

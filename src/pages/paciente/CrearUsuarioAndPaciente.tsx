@@ -6,6 +6,7 @@ import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/Pers
 import Opening from "../../Components/General/Opening/Opening";
 import CreatePacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/CreatePacienteInfoCard";
 import OneButton from "../../Components/buttons/oneButton/OneButton";
+import useToastit from "../../hooks/useToastit";
 
 
 function CrearUsuarioAndPaciente() {
@@ -17,7 +18,7 @@ function CrearUsuarioAndPaciente() {
     pacienteInfo,       
     handlePacienteCreate,
     handlePersonaUpdate,
-    handleCreateUsuarioAndPaciente
+    handleCreateUsuarioAndPaciente,errorUsuario
   } = usePacienteAndUsuarioCreate();
 
  
@@ -26,8 +27,12 @@ function CrearUsuarioAndPaciente() {
     showCreateModal();
   }, []);
 
-  useEffect(() => {}, [createUserInfo]);
-
+  const { error } = useToastit();
+  
+  useEffect(() => {
+    if (errorUsuario == null) return;
+    error(errorUsuario);
+  }, [errorUsuario]);
 
   return (
     <>
