@@ -67,7 +67,7 @@ function RedirectBuscarPorEspecialidad(){
       textButton2="Buscar por Especialidad"
       onClickButton1={RedirectBuscarPorMedico}
       onClickButton2={RedirectBuscarPorEspecialidad}
-      layout="mobileWrap gap-3"
+      layout="mobileWrap gap-3 maxWidthContainer"
     />
   </div>
 )}

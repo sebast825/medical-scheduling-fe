@@ -46,7 +46,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
           variant={variantButton1 != undefined ? variantButton1 : "primary"}
           onClick={activeBtnPrimary}
           size="lg"
-          className={`w-100 w-lg-20 ${colorSelected === "primary" ? "active" : ""} p-md-3`}
+          className={`w-100 w-md-50 ${colorSelected === "primary" ? "active" : ""} p-md-3`}
         >
           {textButton1}
         </Button>
@@ -54,7 +54,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
           variant={variantButton2 != undefined ? variantButton2 : "secondary"}
           onClick={activeBtnSecondary}
           size="lg"
-          className={`w-100 w-lg-20 ${colorSelected === "secondary" ? "active" : ""}`}
+          className={`w-100 w-md-50 ${colorSelected === "secondary" ? "active" : ""} p-md-3`}
         >
           {textButton2}
         </Button>
