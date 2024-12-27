@@ -37,7 +37,9 @@ function CrearUsuarioAndPaciente() {
   return (
     <>
       <Opening title={"Crear Usuario"} />
-      <div className="container d-flex p-5 justify-content-center align-items-start">
+      <div className="container d-flex p-5 flex-column gap-3 flex-md-row justify-content-center align-items-start"
+      style={{maxWidth:"1100px"}}
+      >
         {createUserInfo && (
           <UsuarioCard
             usuarioInfo={createUserInfo}
@@ -52,7 +54,9 @@ function CrearUsuarioAndPaciente() {
           />
         )}
       </div>
-        <OneButton handleSubmit={handleCreateUsuarioAndPaciente }/>
+      <div className="pb-5 ">
+        <OneButton text="Crear Cuenta" variant="warning"handleSubmit={handleCreateUsuarioAndPaciente } />
+        </div>
       {/* <Button onClick={()=>handleCreateUsuarioAndPaciente()}>asd</Button> */}
     </>
   );

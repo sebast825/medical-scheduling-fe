@@ -193,11 +193,11 @@ function usePacienteAndUsuarioCreate() {
         console.log(response);
         return response;
       } catch (err: any) {
-        
-        console.log(err.response.data.message.Message);
+        console.log(err);
+
            // Verificamos si existe el mensaje de error en la respuesta
            if (err.response) {
-            const errorMessage = err.response.data.message || "Error desconocido";
+            const errorMessage = err.response.data.message.Message|| "Error desconocido";
             SetErrorUsuario(errorMessage);
           } else {
             SetErrorUsuario("Error de conexión con el servidor");
