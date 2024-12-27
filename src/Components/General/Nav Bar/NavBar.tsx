@@ -3,11 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import { useUserInfo } from '../../../context/authContext';
 import useRedicrects from '../../../hooks/useRedicrects';
 import SideMenu from '../sideMenu/SideMenu';
+import useRediectHomeByRole from '../../../hooks/roles/useRediectHomeByRole';
 
 function NavBar() {
    const [activeKey, setActiveKey] = useState<string>('link');
    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
    const user = useUserInfo();
+   const rhandleRedirectHome = useRediectHomeByRole()
 
   const {redirectToNuestrosMedicos,redirectToLogin,redirectToHome} = useRedicrects();
 
@@ -36,7 +38,7 @@ function NavBar() {
 
     <Nav fill variant="tabs" activeKey={activeKey} onSelect={handleSelect}>
       <Nav.Item>
-        <Nav.Link onClick={redirectToHome} >
+        <Nav.Link onClick={rhandleRedirectHome} >
           <img src="/logo192.png" alt="Logo" style={{ height: '30px', marginRight: '10px', background:'transparent' }} />
         </Nav.Link>
       </Nav.Item>
