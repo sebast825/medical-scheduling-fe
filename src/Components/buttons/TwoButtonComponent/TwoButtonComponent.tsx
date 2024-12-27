@@ -20,7 +20,7 @@ const TwoButtonComponent: React.FC<ITwoButtonComponent> = ({
   onClickButton1,
   onClickButton2,
   layout,
-  setShadowDefault
+  setShadowDefault = true
 
 }) => {
   const [colorSelected, setColorSelected] = useState<string>("");
