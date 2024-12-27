@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-
 import "./TableMedico.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
-
 import InputRegex from "../../General/InputRegex/InputRegex";
-import useIsSecretario from "../../../hooks/roles/useIsSecretario";
-import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
-import OneButton from "../../buttons/oneButton/OneButton";
-import useModal from "../../../hooks/useModal";
 import useMedicos from "../../../hooks/medicos/useMedicos";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import MedicoDropdown from "../../Dropdown/Admin/MedicoDropdown";

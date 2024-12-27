@@ -6,6 +6,7 @@ interface IOneButton {
   handleSubmit: () => void;
   text?: string;
   customClass?: string;
+  sizeClass ? : string
 }
 
 function OneButton({
@@ -13,22 +14,22 @@ function OneButton({
   handleSubmit,
   text = "Aceptar",
   customClass,
+  sizeClass = "sm" // btn-lg | btn-sm
 }: IOneButton) {
   return (
     <div
-      className={`container justify-content-center d-flex p-md-4  noPaddingMarginTop p-2  OneButton ${customClass}`}
+      className={`container justify-content-center d-flex p-md-4   p-2  OneButton ${customClass}`}
     >
-      <ButtonGroup>
         <Button
           variant={variant != undefined ? variant : "primary"}
           onClick={handleSubmit}
-          size="lg"
-          className="button"
+          //size={size != undefined ? undefined : "lg"}
+          className={`button ${sizeClass}`}
+          style={{maxWidth:"max-content"}}
         >
           {" "}
           {text}
         </Button>
-      </ButtonGroup>
     </div>
   );
 }

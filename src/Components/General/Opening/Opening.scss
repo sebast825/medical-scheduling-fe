@@ -12,6 +12,9 @@
   @include respond(tab-land) {
     height: 30vh;
   }
+  @include respond (mobile){
+    width: 100%;
+ }
 }
 
 .overlay {

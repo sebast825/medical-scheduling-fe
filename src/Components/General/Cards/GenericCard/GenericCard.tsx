@@ -30,7 +30,7 @@ function GenericCard({
               {" "}
               <hr />
               <div>
-                <OneButton text={btnText} handleSubmit={handleEvent} />
+                <OneButton customClass="noPaddingMarginTop"  text={btnText} handleSubmit={handleEvent} />
               </div>{" "}
             </>
           )}
