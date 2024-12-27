@@ -55,7 +55,7 @@ function CrearUsuarioAndPaciente() {
         )}
       </div>
       <div className="pb-5 ">
-        <OneButton text="Crear Cuenta" sizeClass="btn-lg"  customClass="noPaddingMarginTop" variant="warning" handleSubmit={handleCreateUsuarioAndPaciente } />
+        <OneButton text="Crear Cuenta" sizeClass="btn-lg"   variant="warning" handleSubmit={handleCreateUsuarioAndPaciente } />
 
         </div>
     </>

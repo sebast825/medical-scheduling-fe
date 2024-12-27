@@ -18,7 +18,7 @@ function OneButton({
 }: IOneButton) {
   return (
     <div
-      className={`container justify-content-center d-flex p-md-4   p-2  OneButton ${customClass}`}
+      className={`container justify-content-center d-flex p-md-4 noPaddingMarginTop  p-2  OneButton ${customClass}`}
     >
         <Button
           variant={variant != undefined ? variant : "primary"}
