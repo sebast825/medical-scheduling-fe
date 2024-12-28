@@ -100,7 +100,6 @@ function TablePaciente() {
                   {isAdmin && (
                     <OneButton
                       handleSubmit={() => {
-                        console.log("anda");
                         showModal();
                       }}
                       text="Editar"

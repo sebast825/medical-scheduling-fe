@@ -22,19 +22,19 @@ function InformacionMedicoAdministrador() {
   const { handlePersonaUpdate } = usePersonas();
 
   return (
-    <>
+    <div className="mb-5">
       <Opening
         title={`Información de ${medicoInfo?.nombre} ${medicoInfo?.apellido}`}
       ></Opening>
       <div
-        className="d-flex  informacionPersonal justify-content-start flex-md-row flex-column gap-5 mt-5 mb-5"
+        className="d-flex  informacionPersonal justify-content-start flex-md-row flex-column gap-5 mt-5 mb-4 mb-md-5"
         style={{ width: "min-content", margin: "auto" }}
       >
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
         <MedicoInfoCard />
       </div>
       <BackLink/>
-    </>
+    </div>
   );
 }
 
