@@ -32,33 +32,36 @@ function NavBar() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [lastScrollY, setLastScrollY] = useState<number>(0);
+  //const [lastScrollY, setLastScrollY] = useState<number>(0);
   const lastExecution = useRef<number>(0);
+  const lastScrollY = useRef<number>(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      let now = Date.now();
-      let mayorATimeOut = now - lastExecution.current;
-      if (mayorATimeOut > 500) {
-        lastExecution.current = now;
-        handleVisibility();
-      }
-    };
-    const handleVisibility = () => {
-      let escrollDown: boolean = lastScrollY < window.scrollY;
-      if (escrollDown) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
+  const handleScroll = () => {
+    let now = Date.now();
+    let mayorATimeOut = now - lastExecution.current;
+    if (mayorATimeOut > 500) {
+      lastExecution.current = now;
+      handleVisibility();
+    }
+  };
+  const handleVisibility = () => {
+    let escrollDown: boolean = lastScrollY.current < window.scrollY;
+    if (escrollDown) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+    lastScrollY.current = window.scrollY;
+  };
+  
+  useEffect(() => {  
+ 
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <Nav
