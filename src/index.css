@@ -12,8 +12,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
- 
 }
 
 code {
@@ -33,9 +31,14 @@ p{
 }
 
 button.btn{
-  font-family: -apple-system, BlinkMacSystemFont,"Montserrat",Arial, Helvetica, sans-serif, 'Helvetica Neue';
+  font-family: -apple-system, BlinkMacSystemFont,Helvetica,"Montserrat",Arial, sans-serif;
   font-weight: 400;  
   letter-spacing: 1px;
   line-height: 1.7rem;
 
 }
+table{
+  font-family: -apple-system, BlinkMacSystemFont,"Montserrat",Arial, Helvetica, sans-serif, 'Helvetica Neue';
+  
+}
+
