@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { useUserInfo, useUserToggleContext } from "../../../context/authContext";
+import {
+  useUserInfo,
+  useUserToggleContext,
+} from "../../../context/authContext";
 import useRedicrects from "../../../hooks/useRedicrects";
 import SideMenu from "../sideMenu/SideMenu";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./NavBar.scss";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
+import useWindowSize from "../../../hooks/ScreenSize";
 
 function NavBar() {
   const [activeKey, setActiveKey] = useState<string>("link");
@@ -15,7 +19,7 @@ function NavBar() {
 
   const { redirectToNuestrosMedicos, redirectToLogin, redirectToHome } =
     useRedicrects();
-    const login = useUserToggleContext();
+  const login = useUserToggleContext();
 
   useEffect(() => {
     if (user != null) {
@@ -40,7 +44,7 @@ function NavBar() {
   //const [lastScrollY, setLastScrollY] = useState<number>(0);
   const lastExecution = useRef<number>(0);
   const lastScrollY = useRef<number>(0);
-
+  const screenSize = useWindowSize();
   const handleScroll = () => {
     let now = Date.now();
     let mayorATimeOut = now - lastExecution.current;
@@ -58,16 +62,15 @@ function NavBar() {
     }
     lastScrollY.current = window.scrollY;
   };
-  
-  useEffect(() => {  
- 
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const isSecretario = useIsSecretario()
+  const isSecretario = useIsSecretario();
 
   return (
     <Nav
@@ -75,21 +78,25 @@ function NavBar() {
       variant="tabs"
       activeKey={activeKey}
       onSelect={handleSelect}
-      className={`d-flex  align-items-center navBar ${
+      className={`d-flex  align-items-center   navBar ${
         isVisible ? "showNavBar" : "hideNavBar"
       }`}
     >
       <Nav.Item>
-        <Nav.Link onClick={rhandleRedirectHome}>
+        <Nav.Link onClick={rhandleRedirectHome} className="logo" >
           <img src="/images/logo.png" alt="Logo" style={{ height: "40px" }} />
         </Nav.Link>
       </Nav.Item>
 
-      <Nav.Item>
-        <Nav.Link onClick={redirectToNuestrosMedicos} eventKey="a">
-          Nuestros Medicos
-        </Nav.Link>
-      </Nav.Item>
+      {screenSize.width > 400 && (
+        <Nav.Item>
+          {" "}
+          <Nav.Link onClick={redirectToNuestrosMedicos} eventKey="a" >
+            Nuestros Medicos
+          </Nav.Link>
+        </Nav.Item>
+      )}
+
       {!isAuthenticated ? (
         <>
           <Nav.Item>
@@ -98,26 +105,29 @@ function NavBar() {
             </Nav.Link>
           </Nav.Item>
         </>
-      ) : isSecretario ? <>
-       <Nav.Item>
-          <Nav.Link eventKey="c"  onClick={()=>{  login(null);redirectToHome();}}>
-            Salir
-          </Nav.Link>
-        </Nav.Item>
-      </> : (
-
+      ) : isSecretario ? (
         <>
-           <Nav.Item>
-          <Nav.Link eventKey="c" onClick={handleShow}>
-            Mi Perfil
-          </Nav.Link>
-        </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              eventKey="c"
+              onClick={() => {
+                login(null);
+                redirectToHome();
+              }}
+            >
+              Salir
+            </Nav.Link>
+          </Nav.Item>
         </>
-      )
-      
-      
-      
-      }
+      ) : (
+        <>
+          <Nav.Item>
+            <Nav.Link eventKey="c" onClick={handleShow}>
+              Mi Perfil
+            </Nav.Link>
+          </Nav.Item>
+        </>
+      )}
       <SideMenu show={show} handleClose={handleClose} />
     </Nav>
   );

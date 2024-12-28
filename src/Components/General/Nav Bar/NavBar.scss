@@ -1,31 +1,39 @@
 @import "/src/styles/variables.scss";
+@import "/src/styles/mixin.scss";
 
-.showNavBar{
-   opacity: 1;
+.showNavBar {
+  opacity: 1;
 }
 
-.hideNavBar{
-   opacity: 0;
-
+.hideNavBar {
+  opacity: 0;
 }
 
 .navBar {
-   position: fixed; /* Fija el NavBar */
-   top: 0; /* Se queda en la parte superior */
-   left: 0; /* Alineado al borde izquierdo */
-   width: 100%; /* Ocupa todo el ancho */
-   z-index: 1000; /* Asegura que esté por encima de otros elementos */
-   background-color: #fff; /* Ajusta el color de fondo si es necesario */
-   transition: opacity 0.2s ease-in-out;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra sutil */
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  z-index: 1000; 
+  background-color: #fff;
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
 
+.nav-item a {
+  color: $color-grey;
+  text-transform: uppercase;
+  &:hover {
+    color: $color-green;
+  }
+  @include respond(mobile) {
+    font-size: $size-small-mobile;
+    text-align: end;
+  }
+}
 
- }
-
- .nav-item a{
-   color: $color-grey;
-   text-transform: uppercase;
-   &:hover{
-      color: $color-green;
-   }
- }
+.nav-item .logo {
+  @include respond(mobile) {
+    text-align: start;
+  }
+}
