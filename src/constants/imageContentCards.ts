@@ -45,7 +45,7 @@ export const saludMentalCard: IImageTextCard = {
      proteger tu piel del sol con protector solar es esencial para prevenir daños 
      a largo plazo. Por último, reducir o eliminar el consumo de tabaco y moderar el alcohol 
      son hábitos que disminuyen significativamente el riesgo de desarrollar enfermedades crónicas.`,
-   imageUrl: "/images/womenRun.jpg",
+   imageUrl: "/images/doctor.jpg",
    altImg: "Prevención Médica",
  };
  
@@ -58,6 +58,6 @@ export const saludMentalCard: IImageTextCard = {
      al sentarte para evitar dolores de espalda y procura reducir el tiempo frente a las pantallas, 
      especialmente antes de dormir. Incorporar estas rutinas de manera constante te ayudará a 
      sentirte mejor física y mentalmente.`,
-   imageUrl: "/images/doctor.jpg",
+   imageUrl: "/images/womenRun.jpg",
    altImg: "Hábitos Saludables",
  };
