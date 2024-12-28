@@ -18,27 +18,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-h1,h2,h3,h4,h5{
-  font-family: -apple-system,BlinkMacSystemFont,"Judson",serif,"Montserrat";
-  letter-spacing: 1px;
-}
 
 
-p{
-  font-family: -apple-system, BlinkMacSystemFont,"Glory",Arial, Helvetica, sans-serif, 'Helvetica Neue';
-  font-size: 1.1rem;
-  line-height: 1.5rem;
-}
 
-button.btn{
-  font-family: -apple-system, BlinkMacSystemFont,Helvetica,"Montserrat",Arial, sans-serif;
-  font-weight: 400;  
-  letter-spacing: 1px;
-  line-height: 1.7rem;
 
-}
-table{
-  font-family: -apple-system, BlinkMacSystemFont,"Montserrat",Arial, Helvetica, sans-serif, 'Helvetica Neue';
-  
-}
+
 

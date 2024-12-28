@@ -1,0 +1,29 @@
+@import "./variables.scss";
+
+table {
+  font-family: $font-table-serif;
+}
+h5,
+h6,
+button.btn {
+  font-family: $font-title-small;
+  letter-spacing: 1px;
+}
+
+h1,h2,h3,h4{
+  font-family: $font-title-big;
+  letter-spacing: 1px;
+}
+
+p{
+  font-family: $font-text;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
+}
+
+
+button.btn{
+  font-weight: 400;  
+  letter-spacing: 1px;
+  line-height: 1.7rem;
+}

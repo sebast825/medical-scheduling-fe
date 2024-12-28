@@ -1,5 +1,4 @@
 @import "./variables.scss";
-
 // Sobrescribe las variables de color antes de importar Bootstrap
 $primary: #0D6EFD; // Color principal
 $secondary: $color-green; // Color secundario
@@ -11,7 +10,7 @@ $light: #f8f9fa; // Color claro
 $dark: $color-grey; // Color oscuro
 
 
-$font-family-sans-serif: $table-serif;
+$font-family-sans-serif: $font-table-serif;
 
 // Importa Bootstrap después de sobrescribir las variables
 @import "~bootstrap/scss/bootstrap";

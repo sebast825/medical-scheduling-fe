@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import Footer from "../Components/General/Footer/Footer";
 import AppRouter from "../routes/Router";
 import NavBar from "../Components/General/Nav Bar/NavBar";
-
+import "../styles/fonts.scss"
 // Componente principal con verificación de ruta
 function AppContent() {
    
