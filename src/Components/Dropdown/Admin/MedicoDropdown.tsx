@@ -70,7 +70,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
           </Dropdown.Item>
 
           <Dropdown.Item onClick={handleMedicoInfo}>
-            Mas Información
+            Información
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
