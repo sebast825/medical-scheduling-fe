@@ -58,15 +58,15 @@
   @include respond(mobile) {
     height: 25vh;
   }
-  .overlay {
+   .overlay {
     padding: 15vh 0px 10vh 0rem;
     @include respond(mobile) {
       padding: 17vh 0px 8vh 0rem;
     }
 
-    background: $color-green;
+   // background: $color-green;
   //  background: radial-gradient(circle, rgba(0,100,0,1) 15%, rgba(12,154,12,1) 47%, rgba(26,126,26,1) 74%);  
-    background: radial-gradient(circle, rgba(12,130,12,1) 34%, rgba(12,154,12,1) 77%, rgba(26,126,26,1) 100%);
+    //background: radial-gradient(circle, rgba(12,130,12,1) 34%, rgba(12,154,12,1) 77%, rgba(26,126,26,1) 100%);
     //background: radial-gradient(circle, rgba(12,154,12,1)  34%,  rgba(26,126,26,1)  77%,rgba(12,154,12,1)  100%);
 
   }

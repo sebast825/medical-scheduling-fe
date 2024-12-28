@@ -12,7 +12,7 @@ function BackLink({variant}:IBackLink) {
   return (
    <div className="container justify-content-center d-flex backLink">
       <Button
-         variant={variant != undefined ? variant : "secondary"}
+         variant={variant != undefined ? variant : "dark"}
          onClick={() => navigate(-1)}
          size="lg"
          className='btn-back'
