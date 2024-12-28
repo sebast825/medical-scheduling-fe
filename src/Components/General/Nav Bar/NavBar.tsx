@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { useUserInfo } from "../../../context/authContext";
+import { useUserInfo, useUserToggleContext } from "../../../context/authContext";
 import useRedicrects from "../../../hooks/useRedicrects";
 import SideMenu from "../sideMenu/SideMenu";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./NavBar.scss";
+import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 
 function NavBar() {
   const [activeKey, setActiveKey] = useState<string>("link");
@@ -14,10 +15,14 @@ function NavBar() {
 
   const { redirectToNuestrosMedicos, redirectToLogin, redirectToHome } =
     useRedicrects();
+    const login = useUserToggleContext();
 
   useEffect(() => {
     if (user != null) {
       setIsAuthenticated(true);
+    } else {
+      //en caso de que se desloguee un secretario desde el nav bar se actualiza correctamente
+      setIsAuthenticated(false);
     }
   }, [user]);
 
@@ -62,6 +67,7 @@ function NavBar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  const isSecretario = useIsSecretario()
 
   return (
     <Nav
@@ -92,13 +98,26 @@ function NavBar() {
             </Nav.Link>
           </Nav.Item>
         </>
-      ) : (
-        <Nav.Item>
+      ) : isSecretario ? <>
+       <Nav.Item>
+          <Nav.Link eventKey="c"  onClick={()=>{  login(null);redirectToHome();}}>
+            Salir
+          </Nav.Link>
+        </Nav.Item>
+      </> : (
+
+        <>
+           <Nav.Item>
           <Nav.Link eventKey="c" onClick={handleShow}>
             Mi Perfil
           </Nav.Link>
         </Nav.Item>
-      )}
+        </>
+      )
+      
+      
+      
+      }
       <SideMenu show={show} handleClose={handleClose} />
     </Nav>
   );

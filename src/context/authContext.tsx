@@ -43,6 +43,7 @@ export function useUserInfo() {
   return context.user;
 }
 export function useUserToggleContext() {
+
   const context = useUserContext();
   return context.cambiaLogin;
 }
@@ -102,6 +103,7 @@ export function UserProvider({ children }: UserProviderProps) {
   );
   const [administrativoInfo, setAdministrativoInfo] = useState<PersonaInfo>("");
   const [createUserInfo, setCreateUserInfo] = useState<CreateUsuarioRequest | null>(null);
+  
   const cambiaLogin = (jwt: string | null) => {
     if (user) {
       setUser(null);
