@@ -6,6 +6,7 @@ import usePacientes from "../../../hooks/pacientes/usePacientes";
 import SideMenuAdministrador from "./Administrador/SideMenuAdministrador";
 import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 import useIsPaciente from "../../../hooks/roles/useIsPaciente";
+import "./SideMenu.scss";
 
 interface ISideMenu {
   show: boolean;
@@ -26,9 +27,16 @@ function SideMenu({ show, handleClose }: ISideMenu) {
   return (
     <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }}>
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title>Menu</Offcanvas.Title>
+        <Offcanvas.Title>
+
+        <Nav.Item className="d-flex align-items-center justify-content-center">
+    
+        <img src="/images/logo.png" alt="Logo" style={{ height: "40px" }} /> Menu
+     
+      </Nav.Item>
+        </Offcanvas.Title>
       </Offcanvas.Header>
-      <Offcanvas.Body className="offcanvas-body">
+      <Offcanvas.Body className="offcanvas-body design">
         <Nav className="flex-column">
         
           {isPaciente && <SideMenuPaciente handleClose={() => handleClose()} />}
