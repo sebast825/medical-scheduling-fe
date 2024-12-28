@@ -27,7 +27,7 @@ function AdministradorHome() {
   }
 
   return (
-    <>
+    <div className="mb-2 mb-md-5">
       <Opening title={`Bienvenido ${administrativoInfo.nombre}`} />
       <TwoButtonComponent
         textButton1="Listado Medicos"
@@ -36,7 +36,7 @@ function AdministradorHome() {
         onClickButton2={showHorariosMedicos}
       />
       {btnToggle ? <TableMedico /> : <ListaHorariosMedicos />}
-    </>
+    </div>
   );
 }
 
