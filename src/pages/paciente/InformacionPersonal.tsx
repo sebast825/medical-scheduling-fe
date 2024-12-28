@@ -22,10 +22,11 @@ function InformaciónPersonal() {
   }, []);
 
   return (
-    <>
+    <div className="mb-5">
+
       <Opening title="Mi Información" />
       <div
-        className="d-flex  informacionPersonal justify-content-center flex-md-row flex-column gap-5 mt-5 mb-5"
+        className="d-flex  informacionPersonal justify-content-center flex-md-row flex-column gap-5 mt-5  mb-4 mb-md-5"
         style={{ width: "min-content", margin: "auto" }}
       >
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
@@ -34,7 +35,7 @@ function InformaciónPersonal() {
       </div>
 
       <BackLink/>
-    </>
+    </div>
   );
 }
 

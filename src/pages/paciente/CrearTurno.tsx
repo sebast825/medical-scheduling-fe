@@ -185,7 +185,7 @@ const {redirectToSecretarioHome} = useRedirects()
   return (
     <>
          <Opening title={titleOening} subTitle= {subtitleOening} />
-         <div className="d-flex flex-column flex-wrap justify-content-center pt-4 pt-sm-5 ">
+         <div className="d-flex flex-column flex-wrap justify-content-center pt-4 pt-sm-5 pb-4 pb-sm-5 ">
 
       {medicoSelect && (
         <CreatTurnoModal
