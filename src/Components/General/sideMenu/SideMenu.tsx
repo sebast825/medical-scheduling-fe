@@ -25,8 +25,9 @@ function SideMenu({ show, handleClose }: ISideMenu) {
     handleClose();
   }
   return (
-    <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }}>
-      <Offcanvas.Header closeButton>
+    <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }} >
+
+      <Offcanvas.Header closeButton  >
         <Offcanvas.Title>
 
         <Nav.Item className="d-flex align-items-center justify-content-center">
@@ -36,8 +37,8 @@ function SideMenu({ show, handleClose }: ISideMenu) {
       </Nav.Item>
         </Offcanvas.Title>
       </Offcanvas.Header>
-      <Offcanvas.Body className="offcanvas-body design">
-        <Nav className="flex-column">
+      <Offcanvas.Body className="offcanvas-body design pt-5 ">
+        <Nav className="flex-column" >
         
           {isPaciente && <SideMenuPaciente handleClose={() => handleClose()} />}
           {isAdmin && 
