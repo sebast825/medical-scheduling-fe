@@ -45,20 +45,32 @@ function NavBar() {
   const lastExecution = useRef<number>(0);
   const lastScrollY = useRef<number>(0);
   const screenSize = useWindowSize();
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null); // Referencia para el timeout
+
   const handleScroll = () => {
     let now = Date.now();
-    let mayorATimeOut = now - lastExecution.current;
-    if (mayorATimeOut > 500) {
+    let timeSinceLastExecution = now - lastExecution.current;
+    //cada cuanto tiempo se puede ejecutar la funcion
+    if (timeSinceLastExecution > 500) {
       lastExecution.current = now;
-      handleVisibility();
+
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+      //se uasa para que tome el ultimo scroll y no el del comienzo, si no a veces no se muestra
+      scrollTimeout.current = setTimeout(() => {
+        handleVisibility();
+      }, 100);
     }
   };
+
   const handleVisibility = () => {
-    let escrollDown: boolean = lastScrollY.current < window.scrollY;
-    if (escrollDown) {
-      setIsVisible(false);
-    } else {
+    let scrollY = window.scrollY;
+    let escrollDown: boolean = lastScrollY.current < scrollY;
+    if (!escrollDown || scrollY < 200) {
       setIsVisible(true);
+    } else {
+      setIsVisible(false);
     }
     lastScrollY.current = window.scrollY;
   };
@@ -68,6 +80,9 @@ function NavBar() {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
     };
   }, []);
   const isSecretario = useIsSecretario();
@@ -83,7 +98,7 @@ function NavBar() {
       }`}
     >
       <Nav.Item>
-        <Nav.Link onClick={rhandleRedirectHome} className="logo" >
+        <Nav.Link onClick={rhandleRedirectHome} className="logo">
           <img src="/images/logo.png" alt="Logo" style={{ height: "40px" }} />
         </Nav.Link>
       </Nav.Item>
@@ -91,7 +106,7 @@ function NavBar() {
       {screenSize.width > 400 && (
         <Nav.Item>
           {" "}
-          <Nav.Link onClick={redirectToNuestrosMedicos} eventKey="a" >
+          <Nav.Link onClick={redirectToNuestrosMedicos} eventKey="a">
             Nuestros Medicos
           </Nav.Link>
         </Nav.Item>
