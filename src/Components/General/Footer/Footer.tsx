@@ -25,7 +25,7 @@ function Footer() {
       <LineTitle/>
 
       <div >
-      <h5>Desarrollado por <span style={{fontStyle: "italic",fontFamily: "serif"}}>Sebastián Molina</span></h5>
+      <h5 className="firma ">Desarrollado por <span style={{fontStyle: "italic",fontFamily: "serif"}}>Sebastián Molina</span></h5>
       <h6 >
           <a 
             href="https://www.linkedin.com/in/sebastian-molina97/"
