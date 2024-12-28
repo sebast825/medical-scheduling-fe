@@ -2,9 +2,21 @@
 
 .design .nav-link{
    font-size: 2rem!important;
+   text-transform: capitalize;
    color: $color-black;
    &:hover{
       color: $color-green;
+   }
+   &:focus {
+      color: $color-black; /* Evita que el color del elemento padre cambie cuando el link hijo está activo */
+   }
+   
+}
+
+/*al hacer click no cambia de color*/
+.design  .nav-item{
+   &:active .dropdown-item{
+      background-color: transparent!important;
    }
 }
 
