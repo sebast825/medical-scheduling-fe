@@ -1,3 +1,4 @@
+@import "/src/styles/variables.scss";
 
 .showNavBar{
    opacity: 1;
@@ -19,4 +20,12 @@
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: sombra sutil */
 
 
+ }
+
+ .nav-item a{
+   color: $color-grey;
+   text-transform: uppercase;
+   &:hover{
+      color: $color-green;
+   }
  }
