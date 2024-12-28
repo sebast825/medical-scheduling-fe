@@ -37,7 +37,7 @@
 .title {
   font-size: $size-large;
   margin: 0;
-  
+  letter-spacing: 3px;
   @include respond(mobile) {
     font-size: $size-large-mobile;
   }

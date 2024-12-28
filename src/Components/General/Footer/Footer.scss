@@ -1,14 +1,20 @@
+@import "./src/styles/variables.scss";
+
+
 .footer {
    width: 100%;
    padding: 4vh;
-   background-color: #006400;
-   color: #fff;
+   background-color: $color-green;
+   color: $color-white;
   
  }
  
  .link{
    text-transform: none;
-   color:  #fff;
+   text-decoration: none;
+   border-bottom: 1px solid $color-white;
+   color: $color-white;
+   font-size: 1.1rem;
    
  }
 
