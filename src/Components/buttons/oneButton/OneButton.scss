@@ -1,6 +1,7 @@
 @import "/src/styles/mixin.scss";
 
 .button{
+   font-family: -apple-system, BlinkMacSystemFont,"Glory",Arial, Helvetica, sans-serif 'Helvetica Neue';
 
    @include respond (mobile){
       width: 100%;

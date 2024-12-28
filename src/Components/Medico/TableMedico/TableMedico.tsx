@@ -76,7 +76,7 @@ function TableMedico() {
         <tbody>
           {showMedicos &&
             showMedicos.map((medico, index) => (
-              <tr key={medico.id}>
+              <tr key={medico.id} className="fontTable">
                 <td className="index">{index}</td>
 
                 <td>{medico.nombre}</td>
