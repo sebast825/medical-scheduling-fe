@@ -1,7 +1,9 @@
 @import "./src/styles/variables.scss";
 
 
-
+html{
+  background-color: $color-green;
+}
 
 body{
   background-color: #F8F9FA!important;
