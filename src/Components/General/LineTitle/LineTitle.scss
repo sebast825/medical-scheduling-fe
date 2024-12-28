@@ -2,6 +2,7 @@
 
 .line{
    width: 40%;
+   border:1px solid rgba(12,130,12,.3);
 
    @include respond (mobile){
       width: 60%;
