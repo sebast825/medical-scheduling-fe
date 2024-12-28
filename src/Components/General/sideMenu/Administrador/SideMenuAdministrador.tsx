@@ -4,63 +4,30 @@ import { ISideMenuGeneric } from "../ISideMenuGeneric";
 
 function SideMenuAdministrador(props: ISideMenuGeneric) {
   const { handleClose } = props;
-  const {
-    redirectToNuevoTurnoFilterMedico,
-    redirectToNuevoTurnoFilterEspecialidad,
-    redirectTablePacienteAdministrador  } = useRedirects();
+  const { redirectToAdministradorHome, redirectTablePacienteAdministrador } =
+    useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
   function closeModalAndCallFunction(fn: () => void) {
     fn();
     handleClose();
   }
-  
+
   return (
     <>
-      <NavDropdown title="Crear" id="nav-dropdown">
-        <NavDropdown.Item
-          onClick={() => {
-            closeModalAndCallFunction(redirectToNuevoTurnoFilterMedico);
-          }}
-          eventKey="4.1"
-        >
-          Medico
-        </NavDropdown.Item>
-        <NavDropdown.Item
-          onClick={() => {
-            closeModalAndCallFunction(redirectToNuevoTurnoFilterEspecialidad);
-          }}
-          eventKey="4.2"
-        >
-          Secretario
-        </NavDropdown.Item>
-      </NavDropdown>
-
-      <NavDropdown title="Medicos" id="nav-dropdown">
-        <NavDropdown.Item
-          onClick={() => {
-            closeModalAndCallFunction(redirectToNuevoTurnoFilterMedico);
-          }}
-          eventKey="4.1"
-        >
-          Listado Medicos
-        </NavDropdown.Item>
-        <NavDropdown.Item
-          onClick={() => {
-            closeModalAndCallFunction(redirectToNuevoTurnoFilterEspecialidad);
-          }}
-          eventKey="4.2"
-        >
-          Horarios
-        </NavDropdown.Item>
-      </NavDropdown>
-
+      <Nav.Link
+        onClick={() => {
+          closeModalAndCallFunction(redirectToAdministradorHome);
+        }}
+      >
+        Home
+      </Nav.Link>
       <Nav.Link
         onClick={() => {
           closeModalAndCallFunction(redirectTablePacienteAdministrador);
         }}
       >
-        Pacientes{" "}
+        Pacientes
       </Nav.Link>
     </>
   );
