@@ -21,6 +21,7 @@
 
 .firma{
   font-size: $size-medium;
+  font-family: $font-title-big;
   @include respond (mobile){
     font-size: $size-medium-mobile;
 
