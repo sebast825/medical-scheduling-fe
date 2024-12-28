@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import { useUserInfo } from "../../../context/authContext";
 import useRedicrects from "../../../hooks/useRedicrects";
 import SideMenu from "../sideMenu/SideMenu";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
-import "./NavBar.scss"
+import "./NavBar.scss";
 
 function NavBar() {
   const [activeKey, setActiveKey] = useState<string>("link");
@@ -21,8 +21,6 @@ function NavBar() {
     }
   }, [user]);
 
- 
-
   const handleSelect = (selectedKey: string | null) => {
     if (selectedKey) {
       setActiveKey(selectedKey);
@@ -33,33 +31,34 @@ function NavBar() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [isVisible,setIsVisible] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
+  const lastExecution = useRef<number>(0);
+
   useEffect(() => {
-
     const handleScroll = () => {
-
-      const handleScroll = () =>{
-  
+      let now = Date.now();
+      let mayorATimeOut = now - lastExecution.current;
+      if (mayorATimeOut > 500) {
+        lastExecution.current = now;
+        handleVisibility();
       }
-      let escrollDown : boolean = lastScrollY < window.scrollY;
-
-      if(escrollDown){
-        setIsVisible(false)
-      }else{
-        setIsVisible(true)
+    };
+    const handleVisibility = () => {
+      let escrollDown: boolean = lastScrollY < window.scrollY;
+      if (escrollDown) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
       }
-      console.log(escrollDown,lastScrollY)
-      setLastScrollY(window.scrollY)
+      setLastScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
 
-    }
-    window.addEventListener("scroll", handleScroll)
-    
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [lastScrollY]);
-
 
   return (
     <Nav
@@ -67,7 +66,9 @@ function NavBar() {
       variant="tabs"
       activeKey={activeKey}
       onSelect={handleSelect}
-      className={`d-flex  align-items-center navBar ${isVisible ? "showNavBar" : "hideNavBar"}`}
+      className={`d-flex  align-items-center navBar ${
+        isVisible ? "showNavBar" : "hideNavBar"
+      }`}
     >
       <Nav.Item>
         <Nav.Link onClick={rhandleRedirectHome}>
