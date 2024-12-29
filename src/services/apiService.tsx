@@ -9,6 +9,7 @@ import { IMedicoResponse } from "../types/Medico/MedicoResponse.type";
 import { MedicoUpdateRequestDTO } from "../types/Medico/MedicoUpdateRequest.type";
 import { CreateUsuarioAndPacienteRequestDto } from "../types/usuario/CreateUsuarioAndPacienteReques";
 import axios from "axios";
+import { RecuperarClaveRequest } from "../types/usuario/RecuperarClaveRequest";
 
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
@@ -219,6 +220,21 @@ export const fecthCreateUsuarioAndPaciente = async (dto : CreateUsuarioAndPacien
   const api = createApiInstance();
   const response = await api.post(
     `/api/usuario/paciente`, dto
+
+  );
+  console.log(response)
+  return response.data;
+
+}
+
+
+
+export const fecthRecuperarClaveRequest= async (email: RecuperarClaveRequest)=>{
+  const source = axios.CancelToken.source();
+
+  const api = createApiInstance();
+  const response = await api.post(
+    `/api/usuario/RecuperarClave`, email
 
   );
   console.log(response)
