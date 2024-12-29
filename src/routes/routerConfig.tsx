@@ -77,7 +77,7 @@ export const routes = [
     element: <TablePacienteAdministrador />,
   },
   {
-    path: "/home/recuperarClave",
+    path: "/recuperarClave",
     element: <RecuperarClave />,
   }
 
