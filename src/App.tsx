@@ -4,7 +4,6 @@ import { Suspense } from 'react';
 import { Spinner } from './Components/statics/Spinner';
 import './App.scss';
 import { UserProvider } from './context/authContext';
-import Footer from './Components/General/Footer/Footer';
 import AppContent from './pages/AppContent';
 
 
