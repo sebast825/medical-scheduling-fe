@@ -10,6 +10,7 @@ import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./NavBar.scss";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 import useWindowSize from "../../../hooks/ScreenSize";
+import useIsMedico from "../../../hooks/roles/useIsMedico";
 
 function NavBar() {
   const [activeKey, setActiveKey] = useState<string>("link");
@@ -20,6 +21,8 @@ function NavBar() {
   const { redirectToNuestrosMedicos, redirectToLogin, redirectToHome } =
     useRedicrects();
   const login = useUserToggleContext();
+  const isSecretario = useIsSecretario();
+  const isMedico = useIsMedico();
 
   useEffect(() => {
     if (user != null) {
@@ -41,11 +44,10 @@ function NavBar() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isVisible, setIsVisible] = useState<boolean>(true);
-  //const [lastScrollY, setLastScrollY] = useState<number>(0);
   const lastExecution = useRef<number>(0);
   const lastScrollY = useRef<number>(0);
   const screenSize = useWindowSize();
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null); // Referencia para el timeout
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null); 
 
   const handleScroll = () => {
     let now = Date.now();
@@ -85,7 +87,6 @@ function NavBar() {
       }
     };
   }, []);
-  const isSecretario = useIsSecretario();
 
   return (
     <Nav
@@ -120,7 +121,7 @@ function NavBar() {
             </Nav.Link>
           </Nav.Item>
         </>
-      ) : isSecretario ? (
+      ) : isSecretario || isMedico ? (
         <>
           <Nav.Item>
             <Nav.Link
