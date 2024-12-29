@@ -28,14 +28,13 @@ interface iLoginForm {
   e: () => void;
 }
 const LoginForm = ({ e }: iLoginForm) => {
-  const navigate = useNavigate();
   const cambiaLogin = useUserToggleContext();
   const user = useUserInfo();
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setPacienteInfo } = usePacienteContext();
-  const { setMedicoInfo, medicoInfo } = useMedicoInfoContext();
+  const { setMedicoInfo } = useMedicoInfoContext();
 
   const redirectByRol = useRediectHomeByRole();
   const { redirectToCreatePaciente } = useRedirects();
@@ -53,7 +52,6 @@ const LoginForm = ({ e }: iLoginForm) => {
 
   const { setAdministrativoInfo } = useAdministrativoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
-  const windowSize = useWindowSize();
 
   //busca la info de la persona, hay que reorganizarla
   const getUserInfo = async () => {
@@ -90,7 +88,6 @@ const LoginForm = ({ e }: iLoginForm) => {
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);
-      console.log(token);
       cambiaLogin(token);
     } catch (error: any) {
       setError(handleHttpError(error));
