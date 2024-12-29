@@ -3,8 +3,13 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import "../RecuperarClave.scss"
 import { fecthRecuperarClaveRequest } from "../../../../services/apiService";
 import { RecuperarClaveRequest } from "../../../../types/usuario/RecuperarClaveRequest";
+import BackLink from "../../../buttons/BackLink/BackLink";
 
-function EnviarEmail() {
+
+interface IEnviarEmail{
+  e: ()=>void;
+}
+function EnviarEmail({e}:IEnviarEmail) {
   const [email, setEmail] = useState<string>("");
 
 
@@ -43,7 +48,18 @@ function EnviarEmail() {
               Enviar Solicitud
             </Button>
           </div>
+          
         </Form>
+        <div className="mt-4 d-flex flex-column align-items-end">
+                  <Button
+                    variant="link"
+                    onClick={e}
+                    className="text-decoration-underline p-0"
+                  >
+                    Volver
+                  </Button>
+                </div>
+             
       </Col>
     </Row>
   );

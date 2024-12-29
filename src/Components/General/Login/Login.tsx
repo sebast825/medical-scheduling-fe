@@ -24,7 +24,10 @@ import "./Login.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
 import useRedirects from "../../../hooks/useRedicrects";
 
-const LoginForm = () => {
+interface iLoginForm {
+  e: () => void;
+}
+const LoginForm = ({ e }: iLoginForm) => {
   const navigate = useNavigate();
   const cambiaLogin = useUserToggleContext();
   const user = useUserInfo();
@@ -35,7 +38,7 @@ const LoginForm = () => {
   const { setMedicoInfo, medicoInfo } = useMedicoInfoContext();
 
   const redirectByRol = useRediectHomeByRole();
-  const {redirectToCreatePaciente} = useRedirects();
+  const { redirectToCreatePaciente } = useRedirects();
   useEffect(() => {
     if (typeof user == "string") {
       //espera a traer la info del usuario para realizar el redirect
@@ -127,14 +130,26 @@ const LoginForm = () => {
             <Button className="" variant="primary" type="submit">
               Iniciar sesión
             </Button>
-            
           </div>
         </Form>
-        <div className="mt-2 d-flex flex-column"><Button onClick={
-            redirectToCreatePaciente        } variant="secondary" type="submit">
-        Crear Usuario
-            </Button></div>
-        <Link to={"./create/paciente"} >Crear</Link>
+        <div className="mt-2 d-flex flex-column">
+          <Button
+            onClick={redirectToCreatePaciente}
+            variant="secondary"
+            type="submit"
+          >
+            Crear Usuario
+          </Button>
+        </div>
+        <div className="mt-4 d-flex flex-column align-items-end">
+          <Button
+            variant="link"
+            onClick={e}
+            className="text-decoration-underline p-0"
+          >
+            Recuperar Clave
+          </Button>
+        </div>
       </Col>
     </Row>
   );
