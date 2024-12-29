@@ -27,7 +27,7 @@ function SideMenuPaciente(props: ISideMenuGeneric) {
           >
             Mis Turnos
           </Nav.Link>
-      <NavDropdown title="Nuevo Turno" id="nav-dropdown">
+      <NavDropdown title="Nuevo Turno" id="nav-dropdown" className="d-flex align-items-start">
         <NavDropdown.Item
           onClick={() => {
             closeModalAndCallFunction(redirectToNuevoTurnoFilterMedico);

@@ -17,7 +17,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
   const login = useUserToggleContext();
   const isPaciente = useIsPaciente();
   const isAdmin = useIsAdministrador();
-  const { redirectToPacienteHome } = useRedirects();
+
 
   //como no puedo pasar un hook en on click uso una función
   function closeModalAndCallFunction(fn: () => void) {
