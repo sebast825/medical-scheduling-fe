@@ -62,11 +62,11 @@ function InformacionPersonaModal({
   }
 
   function createPersonaUpdateObject(): IPersonaUpdate {
-    var getSexoId = valores.indexOf(sexo) + 1; //arranca en 0 los id son 1,2,3
+    var getSexoId : number = claves.indexOf(sexo) + 1; //arranca en 0 los id son 1,2,3
     var date = getDate(fechaNacimiento);
     var hour = getHour(fechaNacimiento);
     var fechaNacFormated = date + "T" + hour;
-
+    console.log(sexo,getSexoId)
     var persona: IPersonaUpdate = {
       nombre: nombre,
       apellido: apellido,
