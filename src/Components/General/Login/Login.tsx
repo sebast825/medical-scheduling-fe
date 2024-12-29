@@ -22,6 +22,7 @@ import { handleHttpError } from "../../../utils/errorHandler";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
+import useRedirects from "../../../hooks/useRedicrects";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const LoginForm = () => {
   const { setMedicoInfo, medicoInfo } = useMedicoInfoContext();
 
   const redirectByRol = useRediectHomeByRole();
-
+  const {redirectToCreatePaciente} = useRedirects();
   useEffect(() => {
     if (typeof user == "string") {
       //espera a traer la info del usuario para realizar el redirect
@@ -97,7 +98,7 @@ const LoginForm = () => {
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
       <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
-        <h2 className="text-center mb-2 text-primary">Login</h2>
+        <h2 className="text-center mb-2 text-primary">Iniciar sesión</h2>
         <Form onSubmit={handleSubmit} className="d-flex flex-column ">
           <Form.Group controlId="formBasicNombre">
             <Form.Label className="fw-bold"></Form.Label>
@@ -126,8 +127,13 @@ const LoginForm = () => {
             <Button className="" variant="primary" type="submit">
               Iniciar sesión
             </Button>
+            
           </div>
         </Form>
+        <div className="mt-2 d-flex flex-column"><Button onClick={
+            redirectToCreatePaciente        } variant="secondary" type="submit">
+        Crear Usuario
+            </Button></div>
         <Link to={"./create/paciente"} >Crear</Link>
       </Col>
     </Row>
