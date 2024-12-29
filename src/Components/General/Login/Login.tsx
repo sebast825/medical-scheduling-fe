@@ -98,7 +98,7 @@ const LoginForm = ({ e }: iLoginForm) => {
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
       <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
-        <h2 className="text-center mb-2 text-primary">Iniciar sesión</h2>
+        <h2 className="text-center mb-2 text-primary">Iniciar Sesión</h2>
         <Form onSubmit={handleSubmit} className="d-flex flex-column ">
           <Form.Group controlId="formBasicNombre">
             <Form.Label className="fw-bold"></Form.Label>
@@ -125,7 +125,7 @@ const LoginForm = ({ e }: iLoginForm) => {
             {error && <p className="text-danger text-center ">{error}</p>}
 
             <Button className="" variant="primary" type="submit">
-              Iniciar sesión
+              Iniciar Sesión
             </Button>
           </div>
         </Form>

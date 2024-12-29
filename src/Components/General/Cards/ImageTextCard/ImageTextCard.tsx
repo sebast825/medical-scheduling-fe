@@ -31,6 +31,7 @@ function ImageTextCard(props: IImageTextCard) {
                 src={imageUrl}
                 className="img-fluid rounded"
                 alt={altImg}
+                loading="lazy"
                 style={{
                   width: "100%",
                   maxWidth: "500px",
