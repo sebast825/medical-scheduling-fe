@@ -8,16 +8,18 @@ import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoB
 import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
+import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 
 function SecreatarioHome() {
   const isSecretario : Boolean = useIsSecretario()
   const redirectToLogin = useRedirectToLogin();
   const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
-
+ const [preTitle, setPreTitle] = useState<string>("");
 
   useEffect(() => {
     if(!isSecretario) redirectToLogin() 
+      setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
 
   }, []);
 
@@ -34,7 +36,7 @@ function SecreatarioHome() {
 
   return (
     <>
-      <Opening title={`Bienvenido Secretario ${administrativoInfo.nombre}`}  />
+      <Opening title={`${preTitle} ${administrativoInfo.nombre}`}  />
       <TwoButtonComponent
         textButton1="Listado Pacientes"
         textButton2="Horarios Medicos"
