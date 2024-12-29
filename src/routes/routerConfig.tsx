@@ -12,7 +12,8 @@ import {
   AdministradorHome,
   InformacionMedicoAdministrador,
   PacienteAndUsuarioCreate,
-  TablePacienteAdministrador
+  TablePacienteAdministrador,
+  RecuperarClave
 } from "../pages/index";
 
 export const routes = [
@@ -75,6 +76,11 @@ export const routes = [
     path: "/administrador/pacientes",
     element: <TablePacienteAdministrador />,
   },
+  {
+    path: "/home/recuperarClave",
+    element: <RecuperarClave />,
+  }
+
 
 
   

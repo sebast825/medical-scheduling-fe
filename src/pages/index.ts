@@ -4,6 +4,9 @@ import Home from './home/Home';
 export {Home}
 
 export const Login = React.lazy(() => import('./home/Login'));
+export const RecuperarClave = React.lazy(()=> import ('./home/RecuperarClave'))
+
+
 export const NuestrosMedicos = React.lazy(() => import('./home/NuestrosMedicos'));
 
 export const PacienteHome = React.lazy(()=>import('./paciente/PacienteHome'))

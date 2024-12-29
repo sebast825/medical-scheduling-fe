@@ -1,0 +1,16 @@
+@import "/src/styles/mixin.scss";
+
+.contenedor{
+   width: 90vw;
+   height: 80vh;
+   @include respond (mobile){
+      width: 80vw;
+   }
+}
+
+.paddingCol{
+   padding: 5%;
+   @include respond (mobile){
+      padding: 15% 10%;
+   }
+}
