@@ -23,8 +23,10 @@
 .nav-item a {
   color: $color-grey;
   text-transform: uppercase;
+  border: 0px solid transparent!important;
   &:hover {
     color: $color-green;
+    border-color: transparent!important;
   }
   @include respond(mobile) {
     font-size: $size-small-mobile;
