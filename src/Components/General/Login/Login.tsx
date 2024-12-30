@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Form, Button,  Row, Col } from "react-bootstrap";
 import {
   fetchLogin,
   fetchMedicoInfo,
@@ -14,14 +14,12 @@ import {
   useMedicoInfoContext,
   usePersonaInfoContext,
 } from "../../../context/authContext";
-import { Link, useNavigate } from "react-router-dom";
 import GetJwtContent, { DecodedToken } from "../../../utils/jwtUtils";
 import { ILogin } from "../../../types/Login.types";
 import { Roles } from "../../../types/Roles.type";
 import { handleHttpError } from "../../../utils/errorHandler";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
-import useWindowSize from "../../../hooks/ScreenSize";
 import useRedirects from "../../../hooks/useRedicrects";
 
 interface iLoginForm {
@@ -81,7 +79,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "secretario";
+    let UserName = "medico";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
