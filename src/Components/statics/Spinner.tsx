@@ -1,8 +1,8 @@
-import "./Spinner.scss";
+import "./Spinner.module.scss";
 
 export function Spinner() {
   return (
-    <div className="contenedor d-flex justify-content-center align-items-center flex-column">
+    <div className="contenedorSpinner d-flex justify-content-center align-items-center flex-column">
       <div className=" spinner-wrapper">
 
       <img src="/images/logoWhite.png" className="spinner-bounce  " alt="Logo" style={{ height: "100px" }} />
