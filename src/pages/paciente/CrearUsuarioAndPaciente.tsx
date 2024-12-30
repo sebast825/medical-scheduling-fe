@@ -18,7 +18,7 @@ function CrearUsuarioAndPaciente() {
     pacienteInfo,       
     handlePacienteCreate,
     handlePersonaUpdate,
-    handleCreateUsuarioAndPaciente,errorUsuario
+    handleCreateUsuarioAndPaciente
   } = usePacienteAndUsuarioCreate();
 
  
@@ -29,10 +29,7 @@ function CrearUsuarioAndPaciente() {
 
   const { error } = useToastit();
   
-  useEffect(() => {
-    if (errorUsuario == null) return;
-    error(errorUsuario);
-  }, [errorUsuario]);
+ 
 
   return (
     <>

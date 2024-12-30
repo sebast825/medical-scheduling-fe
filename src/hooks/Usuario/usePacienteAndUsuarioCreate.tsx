@@ -3,7 +3,6 @@ import { fecthCreateUsuarioAndPaciente } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { CreateUsuarioAndPacienteRequestDto } from "../../types/usuario/CreateUsuarioAndPacienteReques";
 import useToastit from "../useToastit";
-import { PacienteAndUsuarioCreate } from "../../pages";
 import PacienteCreateRequest from "../../types/Paciente/PacienteCreateRequest.type copy";
 import { CreateUsuarioRequest } from "../../types/usuario/CreateUsuarioRequest";
 import {
@@ -15,11 +14,13 @@ import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 import { Sexo } from "../../types/Sexo.type";
-import { validarPersona } from "../../utils/validarPersona";
-import { validarPaciente } from "../../utils/validatePaciente";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
+import { successMessagges } from "../../constants/successMessages";
+import { handleHttpError } from "../../utils/errorHandler";
 
 function usePacienteAndUsuarioCreate() {
+
+
   let unPaciente: IPacienteResponse = {
     telefonoEmergencia: "",
     nombreEmergencia: "",
@@ -51,7 +52,6 @@ function usePacienteAndUsuarioCreate() {
     Paciente: unPacienteCreate,
     Usuario: unUsuario,
   };
-  const [errorUsuario, SetErrorUsuario] = useState<ErrorTypeAny>(null);
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [usuarioAndPaciente, setUsuarioAndPaciente] =
     useState<CreateUsuarioAndPacienteRequestDto>(unUsuarioAndPaciente);
@@ -60,6 +60,8 @@ function usePacienteAndUsuarioCreate() {
   const { pacienteInfo, setPacienteInfo } = usePacienteContext();
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
+
+  const { error, success } = useToastit();
 
   interface ICheckBoxFrom {
     personaInfo: boolean;
@@ -174,7 +176,6 @@ function usePacienteAndUsuarioCreate() {
       return "Es necesario completar la informacion del usuario.";
   }
   function handleCreateUsuarioAndPaciente() {
-    console.log("entra");    
     /*
     let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
@@ -190,18 +191,12 @@ function usePacienteAndUsuarioCreate() {
       try {
         const response = await fecthCreateUsuarioAndPaciente(dto);
 
-        console.log(response);
+        success(successMessagges.crearUsuario);
         return response;
       } catch (err: any) {
-        console.log(err);
-
-           // Verificamos si existe el mensaje de error en la respuesta
-           if (err.response) {
-            const errorMessage = err.response.data.message.Message|| "Error desconocido";
-            SetErrorUsuario(errorMessage);
-          } else {
-            SetErrorUsuario("Error de conexión con el servidor");
-          }
+        console.log(err)
+             error(err.response.data.Message);
+       
       }
     },
     []
@@ -215,11 +210,6 @@ function usePacienteAndUsuarioCreate() {
     }));
   }
 
-  const { error } = useToastit();
-  useEffect(() => {
-    if (errorUsuario == null) return;
-    error(errorUsuario);
-  }, [errorUsuario]);
 
   return {
     createUsuarioAndPaciente,
@@ -234,8 +224,7 @@ function usePacienteAndUsuarioCreate() {
     pacienteCreate,
     handlePacienteCreate,
     handlePersonaUpdate,
-    handleCreateUsuarioAndPaciente,
-    errorUsuario
+    handleCreateUsuarioAndPaciente
   };
 }
 
