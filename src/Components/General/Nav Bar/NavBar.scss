@@ -25,7 +25,7 @@
   text-transform: uppercase;
   border: 0px solid transparent!important;
   &:hover {
-    color: $color-green;
+    color: $color-green!important;
     border-color: transparent!important;
   }
   @include respond(mobile) {
