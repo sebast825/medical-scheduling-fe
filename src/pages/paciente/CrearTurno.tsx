@@ -96,7 +96,8 @@ const {redirectToSecretarioHome} = useRedirects()
   const { showModal, toggleModal, closeModal} =
     useModal();
 
-
+   
+    
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -156,6 +157,7 @@ const {redirectToSecretarioHome} = useRedirects()
       MedicoId: 0,
       PacienteId:0
     }));
+    
     //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
     if(user)
     var params: DecodedToken | undefined = GetJwtContent(user);

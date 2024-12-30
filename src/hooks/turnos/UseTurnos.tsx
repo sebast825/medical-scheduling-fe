@@ -17,7 +17,7 @@ const useTurnos = () => {
   const [turnosDisponibles, setTurnosDisponibles] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
-
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const getTurnosDisponiblesByMedico = useCallback(async (id: string) => {
     try {
       if(user == null)return;
@@ -62,6 +62,7 @@ const useTurnos = () => {
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
         console.log(response);  
+        setSuccessMessage("Turno agendado exitosamente.");
         return true;
       } catch (error: any) { 
         console.log(handleHttpError(error));
@@ -73,13 +74,19 @@ const useTurnos = () => {
     []
   );
 
-  const {error} = useToastit();
+  const {error, success} = useToastit();
   useEffect(()=>{
    if(errorTurno == null) return
      error(errorTurno);
   },[errorTurno])
+
+  useEffect(()=>{
+    if(successMessage == null) return
+      success(successMessage);
+   },[successMessage])
   
   return {
+    successMessage,
     getTurnosDisponiblesByMedico,
     crearTurno,
     turnosDisponibles,
