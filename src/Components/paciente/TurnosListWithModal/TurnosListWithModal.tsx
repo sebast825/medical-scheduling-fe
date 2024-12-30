@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
-import { getDate, getHour } from "../../../utils/formatDate";
+import { formatDateFromResponseDto, getDate, getHour, IDateFormated } from "../../../utils/formatDate";
 import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
@@ -30,8 +30,10 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
 
   const handleOpenModal = (turno: TurnoResponse): void => {
     setTurnoACancelar(turno);
-    const date = getDate(turno.fecha);
-    const hour = getHour(turno.fecha);
+      let formatFecha : IDateFormated = formatDateFromResponseDto(turno.fecha);
+    
+    const date = formatFecha.date;
+    const hour = formatFecha.time;
     var body: string = `¿Estás seguro de que deseas cancelar el turno con el medico ${turno.medico}, para la fecha ${date} a las ${hour}?`;
     setBodyConfirmModal(body);
     setShowModal(true);

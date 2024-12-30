@@ -6,7 +6,7 @@ import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import useWindowSize from "../../../hooks/ScreenSize";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
-import { getDate, getHour } from "../../../utils/formatDate";
+import { formatDateFromResponseDto, getDate, getHour, IDateFormated } from "../../../utils/formatDate";
 
 type ICardTurno = {
  turno: TurnoResponse
@@ -20,10 +20,12 @@ function CardTurno({
 
   const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
 
+  let formatFecha : IDateFormated = formatDateFromResponseDto(turno.fecha);
+
   var id = turno.id
   var nombre = turno.medico;
   var especialidad = turno.especialidad;
-  var fecha = getDate(turno.fecha) + " " + getHour(turno.fecha);
+  var fecha = formatFecha.dateTime;
   
   function IsMobile(): boolean {
     return screenSize < 600;
@@ -39,7 +41,7 @@ function CardTurno({
               <Col xs={8}  className="col-8 flex-column">
               <h2>{nombre}</h2>
               <h6>{especialidad}</h6>
-              <h6>{fecha}</h6>
+              <h6>{fecha}Hs</h6>
             </Col>
             ) : (
               <Col md={10} className="row justify-content-center align-items-center">
@@ -48,7 +50,7 @@ function CardTurno({
                   <h6>{especialidad}</h6>
                 </Col>
                 <Col md={6}>
-                  <h6>{fecha}</h6>
+                  <h6>{fecha}Hs</h6>
                 </Col>
               </Col>
             )}

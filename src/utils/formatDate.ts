@@ -59,3 +59,31 @@ export function crearFecha(horaDia: string, date : string) :string{
     // Convertir la fecha ajustada a un string en formato ISO
     return fecha.toISOString();
 }
+
+
+export interface IDateFormated{
+    date : string,
+    time : string,
+    dateTime : string
+}
+export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
+    const dividirFechaHora = fechaHora.split(" ");
+
+    let fecha = dividirFechaHora[0].split("/");
+    let fechaFormated =   fecha[2] + "-" + fecha[1]+ "-" + fecha[0];
+
+    const date = new Date(fechaFormated + " " + dividirFechaHora[1]);
+
+    const getDate = date.toLocaleDateString().split("/")
+    const getTime =  date.toLocaleTimeString().split(":")
+    const formatedTime = getTime[0] + ":" + getTime[1]; 
+    const formatedDate = getDate[0]  + "-" + getDate[1] + "-" + getDate[2];
+    // Formatear la fecha como "YYYY-MM-DD HH:mm"
+    const formatedDateTime = `${getDate[0]}-${getDate[1]}-${getDate[2]} ${getTime[0]}:${getTime[1]}`;  
+    let rsta : IDateFormated ={
+        date : formatedDate,
+        time: formatedTime,
+        dateTime : formatedDateTime
+    }
+    return rsta;
+}

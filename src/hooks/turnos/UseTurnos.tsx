@@ -45,9 +45,10 @@ const useTurnos = () => {
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByEspecialdiad(user, id);
       setTurnosDisponibles(response);
-      console.log(response);
       return response;
     } catch (error: any) {
+      console.log(handleHttpError(error));
+
       SetErrorTurno(handleHttpError(error));
 
     }
@@ -63,6 +64,8 @@ const useTurnos = () => {
         console.log(response);  
         return true;
       } catch (error: any) { 
+        console.log(handleHttpError(error));
+
         SetErrorTurno(handleHttpError(error));
         return false;
       }
