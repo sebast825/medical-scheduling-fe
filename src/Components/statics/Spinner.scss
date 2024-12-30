@@ -1,0 +1,55 @@
+@import "/src/styles/variables.scss";
+
+.contenedor {
+  height: 100vh;
+  background-color: $color-green-dark;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.text {
+  color: $color-white !important;
+  
+}
+.title{
+   font-family: $font-title-big;
+   
+}
+.subTitle{
+   font-family: $font-title-small;
+
+}
+// Envoltorio para la animación de rebote
+.spinner-wrapper {
+  animation: bounce 1.5s ease-in-out infinite;
+  display: inline-block; 
+}
+
+// Imagen que gira sobre su propio eje
+.spinner-bounce {
+  animation: spin 3s linear infinite;
+  transform-origin: center;
+  height: 100px;
+}
+
+// Rotación sobre su propio eje
+@keyframes spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+// Rebote hacia arriba y abajo
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
