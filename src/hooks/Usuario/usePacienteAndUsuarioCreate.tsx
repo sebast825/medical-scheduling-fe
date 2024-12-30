@@ -195,7 +195,8 @@ function usePacienteAndUsuarioCreate() {
         return response;
       } catch (err: any) {
         console.log(err)
-             error(err.response.data.Message);
+        //.response.data.Message
+             error(handleHttpError(err));
        
       }
     },

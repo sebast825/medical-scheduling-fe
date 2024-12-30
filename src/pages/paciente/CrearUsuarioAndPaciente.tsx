@@ -27,7 +27,6 @@ function CrearUsuarioAndPaciente() {
     showCreateModal();
   }, []);
 
-  const { error } = useToastit();
   
  
 
