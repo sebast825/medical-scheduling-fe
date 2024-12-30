@@ -5,13 +5,14 @@ import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMe
 import useToastit from "../useToastit";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
+import { handleHttpError } from "../../utils/errorHandler";
 
 
 
 function useDisponibilidadMedicosApi(){
 
    const user = useUserInfo();
-const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
+   const { error, success } = useToastit();
 
 
    const fetchUpdateDisponibilidadMedico = useCallback(
@@ -25,12 +26,8 @@ const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
            return response;
 
          } catch (err: any) {
-           console.log(err);
-           if (err.response && err.response.status === 401) {
-            setErrorDisponibilidadMedico(err.response.data || "Error desconocido");
-           } else {
-            setErrorDisponibilidadMedico(err.response.data);
-           }
+                error(handleHttpError(err));
+        
          }
        },
        [user]
@@ -43,16 +40,13 @@ const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
           const response: DisponibilidadMedico = await SetCreateDisponibilidadMedico(
             user,
             dto
-          );                 
+          );               
+          success("Horario Agregado exitosamete.");  
           return response;
 
         } catch (err: any) {
-          console.log(err);
-          if (err.response && err.response.status === 401) {
-           setErrorDisponibilidadMedico(err.response.data || "Error desconocido");
-          } else {
-           setErrorDisponibilidadMedico(err.response.data);
-          }
+          error(handleHttpError(err));
+
         }
       },
       [user]
@@ -65,25 +59,18 @@ const [errorDisponibilidadMedico, setErrorDisponibilidadMedico] = useState()
           const response: DisponibilidadMedico = await DeleteDisponibilidadMedico(
             user,
             id
-          );                 
+          );            
+          success("Horario eliminado exitosamente.")     
           return response;
 
         } catch (err: any) {
-          console.log(err);
-          if (err.response && err.response.status === 401) {
-           setErrorDisponibilidadMedico(err.response.data || "Error desconocido");
-          } else {
-           setErrorDisponibilidadMedico(err.response.data);
-          }
+          error(handleHttpError(err));
+
         }
       },
       [user]
     );
-     const { error } = useToastit();
-     useEffect(() => {
-       if (errorDisponibilidadMedico == null) return;
-       error(errorDisponibilidadMedico);
-     }, [errorDisponibilidadMedico]);
+
 
      return {fetchUpdateDisponibilidadMedico,fetchCreateDisponibilidadMedico,fetchDeleteDisponibilidadMedico}
 }
