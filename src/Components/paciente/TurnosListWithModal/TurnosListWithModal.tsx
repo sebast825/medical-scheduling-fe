@@ -5,27 +5,25 @@ import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
 import ConfirmModal from "../../modals/ConfirmModal";
-import TurnosList from "../TurnosList/TurnosList";
+//import turnosListList from "../turnosListList/turnosListList";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
+import TurnosList from "../TurnosList/TurnosList";
 
 
 interface ITurnosListWithModal {
   turnosList: TurnoResponse[];
+  setTurnos : (e:TurnoResponse[])=> void;
 }
 
 function TurnosListWithModal(props: ITurnosListWithModal) {
-  const { turnosList } = props;
+  const { turnosList,setTurnos} = props;
 
   const user = useUserInfo();
 
-  const [turnos, setTurnos] = useState<TurnoResponse[]>(turnosList);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bodyConfirmModal, setBodyConfirmModal] = useState("");
   const [turnoACancelar, setTurnoACancelar] = useState<TurnoResponse>();
 
-  useEffect(() => {
-    setTurnos(turnosList);
-  }, [turnosList]);
 
 
   const handleOpenModal = (turno: TurnoResponse): void => {
@@ -41,9 +39,10 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
 
   //una vez que se elimina el turno desde la card, lo remueve del FE
   async function removerTurnoCancelado(e: number): Promise<void> {
-   if(!turnos)return;
-    var removeTurnoCancelado = turnos.filter((turno) => turno.id != e);
-    setTurnos(removeTurnoCancelado);
+   if(!turnosList)return;
+    var removeTurnoCancelado = turnosList.filter((turno) => turno.id != e);
+  //  setTurnos(removeTurnoCancelado);
+    setTurnos(removeTurnoCancelado)
   }
   const handleCloseModal = () => setShowModal(false);
 
@@ -78,7 +77,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
         body={bodyConfirmModal}
       />
       
-      <TurnosList turnos={turnos} handleOpenModal={handleOpenModal} />
+      <TurnosList turnos={turnosList} handleOpenModal={handleOpenModal} />
      
     </>
   );

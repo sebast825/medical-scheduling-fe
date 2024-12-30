@@ -10,7 +10,7 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 function TurnosDePaciente(){
    const isSecretario : Boolean = useIsSecretario()
    const { pacienteInfo } = usePacienteContext();
-   const {getPacinteTurnos,turnos} = useGetTurnos();
+   const {getPacinteTurnos,turnos,setTurnos} = useGetTurnos();
    const user = useUserInfo();
    const {redirectToLogin} = useRedirects();
 
@@ -22,7 +22,7 @@ function TurnosDePaciente(){
    return(<>
    
    <Opening title={`Turnos de ${pacienteInfo?.nombre}`} />
-   <TurnosListWithModal turnosList={turnos} />
+   <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos} />
 
   
    

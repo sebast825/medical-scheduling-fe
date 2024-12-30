@@ -3,7 +3,7 @@ import Opening from "../../Components/General/Opening/Opening";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
@@ -11,13 +11,11 @@ import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 
 function PacienteHome() {
   const user = useUserInfo();
-  //const [error, setError] = useState<ErrorTypeAny>(null);
   const { pacienteInfo } = usePacienteContext();
   const { redirectToLogin } = useRedirects();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
 
-  const { getPacinteTurnos, turnos } = useGetTurnos();
-  const location = useLocation();
+  const { getPacinteTurnos, turnos ,setTurnos} = useGetTurnos();
   const [preTitle, setPreTitle] = useState<string>("");
 
   const navigate = useNavigate();
@@ -30,11 +28,7 @@ function PacienteHome() {
   useEffect(() => {
     turnos.forEach((elem) => console.log(elem));
   }, [turnos]);
-  useEffect(() => {
-    if (location.state?.refreshTurnos) {
-      getPacinteTurnos();
-    }
-  }, [location.state]);
+
 
   function ShowTurnos() {
     setBtnToggle(true);
@@ -67,7 +61,7 @@ function PacienteHome() {
           {turnos.length != 0 ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
-              <TurnosListWithModal turnosList={turnos} />
+              <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos}/>
             </>
           ) : (
             <TitleContent title="No tenés turnos agendados" pading={true} />
