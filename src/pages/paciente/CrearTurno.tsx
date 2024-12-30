@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import {  usePacienteContext, usePersonaInfoContext, useUserInfo } from "../../context/authContext";
+import {
+  usePacienteContext,
+  usePersonaInfoContext,
+  useUserInfo,
+} from "../../context/authContext";
 
 import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
@@ -20,14 +24,14 @@ import useModal from "../../hooks/useModal";
 import { userInfo } from "os";
 import { Roles } from "../../types/Roles.type";
 import useRedirects from "../../hooks/useRedicrects";
-
-
+import useIsSecretario from "../../hooks/roles/useIsSecretario";
+import useIsPaciente from "../../hooks/roles/useIsPaciente";
 
 interface ICrearTurno {
   filterBy?: string; // Hacer que filterBy sea opcional
 }
 
-function CrearTurno({filterBy = "1"}:ICrearTurno) {
+function CrearTurno({ filterBy = "1" }: ICrearTurno) {
   const user = useUserInfo();
 
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
@@ -40,41 +44,43 @@ function CrearTurno({filterBy = "1"}:ICrearTurno) {
       PacienteId: 0,
       Fecha: "",
     });
-    const [titleOening,setTitleOening] = useState <string>("");
-    const [subtitleOening,setSubtitleOening] = useState <string>("")
-    const {pacienteInfo} = usePacienteContext();
-    
-    // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
-    //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
-    useEffect(()=>{
-      setComponenteActivo(filterBy)
-    },[filterBy])
-     useEffect(()=>{
-      setSubtitleOening("");
-      switch (componenteActivo){
-        case "0":
-            setTitleOening("Seleccionar Medico");
-            break;
-        case "1":
-          setTitleOening("Seleccionar Especialidad");
-          break;
-        
-          case "2":
-            setTitleOening("Seleccionar Fecha");
-    
-            break;
-            case "3":
-              setTitleOening("Seleccionar Horario");
-              var str = getDate(
-                showTurnosDisponibles ? showTurnosDisponibles[0]?.fecha.toString() : ""
-              );
-              setSubtitleOening("Fecha: " + str);
-              break;
-      }
-    },[componenteActivo])
+  const [titleOening, setTitleOening] = useState<string>("");
+  const [subtitleOening, setSubtitleOening] = useState<string>("");
+  const { pacienteInfo } = usePacienteContext();
+
+  // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
+  //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
+  useEffect(() => {
+    setComponenteActivo(filterBy);
+  }, [filterBy]);
+  useEffect(() => {
+    setSubtitleOening("");
+    switch (componenteActivo) {
+      case "0":
+        setTitleOening("Seleccionar Medico");
+        break;
+      case "1":
+        setTitleOening("Seleccionar Especialidad");
+        break;
+
+      case "2":
+        setTitleOening("Seleccionar Fecha");
+
+        break;
+      case "3":
+        setTitleOening("Seleccionar Horario");
+        var str = getDate(
+          showTurnosDisponibles
+            ? showTurnosDisponibles[0]?.fecha.toString()
+            : ""
+        );
+        setSubtitleOening("Fecha: " + str);
+        break;
+    }
+  }, [componenteActivo]);
 
   const navigate = useNavigate();
-const {redirectToSecretarioHome} = useRedirects()
+  const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
   /*
     0- getMedicos trae un listado con todos los medicos
     2- al seleccionar el medico hace un pedido a getTurnosDisponiblesByMedico y trae sus turnos disponibles  
@@ -85,19 +91,15 @@ const {redirectToSecretarioHome} = useRedirects()
     6 - handleHorarioSelect -> llama al hook para crear un turno
   */
 
-  const { medicos, getMedicos, findMedicoById } =
-    useMedicos();
+  const { medicos, getMedicos, findMedicoById } = useMedicos();
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useTurnos();
-  const { showModal, toggleModal, closeModal} =
-    useModal();
+  const { showModal, toggleModal, closeModal } = useModal();
 
-   
-    
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -131,10 +133,10 @@ const {redirectToSecretarioHome} = useRedirects()
   }, [showTurnosDisponibles]);
 
   function handleHorarioSelect(horario: string, medicoId: number) {
-    if(user == null)return;
+    if (user == null) return;
     var params: any = GetJwtContent(user);
     // console.log(params)
-    var pacienteId: number =  Number(pacienteInfo?.id);
+    var pacienteId: number = Number(pacienteInfo?.id);
     setCreateTurnoRequest({
       MedicoId: medicoId,
       Fecha: horario,
@@ -143,42 +145,36 @@ const {redirectToSecretarioHome} = useRedirects()
     setMedicoSelect(findMedicoById(medicoId));
     showModal();
   }
-  useEffect(()=>{
-    console.log(createTurnoRequest)
 
-  },[createTurnoRequest])
+
+  const isSecretario = useIsSecretario();
+  const isPaciente = useIsPaciente();
   async function handleConfirmCreateTurnoModal() {
-    
-    var response : boolean = await crearTurno(createTurnoRequest);
-    if(!response) return;
+    var response: boolean = await crearTurno(createTurnoRequest);
+    if (!response) return;
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
       MedicoId: 0,
-      PacienteId:0
+      PacienteId: 0,
     }));
-    
-    //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
-    if(user)
-    var params: DecodedToken | undefined = GetJwtContent(user);
-   
-    if(params?.role == Roles.Paciente.toString()){
-      navigate("/pacientes", { state: { refreshTurnos: true } });
-
-    }
-    if(params?.role == Roles.Secretario.toString()){
-      redirectToSecretarioHome()
-    }
-    closeModal()    
-
-    
+    setTimeout(() => {
+      //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
+      if (isPaciente) {
+        navigate("/pacientes");
+        redirectToPacienteHome();
+      }
+      if (isSecretario) {
+        redirectToSecretarioHome();
+      }
+      closeModal();
+    }, 100);
   }
 
   function showDiasDisponiblesEspecialidad(
     listaMedicos: IMedicoResponse[],
     especiliadSelect: string
   ): void {
-
     getTurnosDisponiblesByEspecialidad(especiliadSelect);
 
     setComponenteActivo("2");
@@ -186,71 +182,60 @@ const {redirectToSecretarioHome} = useRedirects()
 
   return (
     <>
-         <Opening title="Nuevo Turno"  />
-         <div className="d-flex flex-column flex-wrap justify-content-center pt-4 pt-sm-5 pb-4 pb-sm-5 ">
-
-      {medicoSelect && (
-        <CreatTurnoModal
-          show={toggleModal}
-          handleClose={closeModal}
-          handleConfirm={handleConfirmCreateTurnoModal}
-          medico={medicoSelect}
-          fecha={createTurnoRequest.Fecha}
-      
-        />
-    
-        
-      )}
-      {componenteActivo == "0" && medicos && (
-        <div>
-        
-        <h2 className="text-center">Seleccionar Medico</h2>
-        <ListMedicos listMedicos={medicos} handleSelect={showDiasDisponibles}/>
-       </div>
-      )}
-      {
-        
-          componenteActivo == "1" && medicos &&
-          
+      <Opening title="Nuevo Turno" />
+      <div className="d-flex flex-column flex-wrap justify-content-center pt-4 pt-sm-5 pb-4 pb-sm-5 ">
+        {medicoSelect && (
+          <CreatTurnoModal
+            show={toggleModal}
+            handleClose={closeModal}
+            handleConfirm={handleConfirmCreateTurnoModal}
+            medico={medicoSelect}
+            fecha={createTurnoRequest.Fecha}
+          />
+        )}
+        {componenteActivo == "0" && medicos && (
           <div>
-        
-          <h2 className="text-center">Seleccionar Especialidad</h2><ListEspecialidades
-           listMedicos={medicos}
-           getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
-         />
-         </div>
-      }
-      {componenteActivo == "2" && turnosDisponibles && (
-               <div>
-        
-               <h2 className="text-center">Seleccionar Fecha</h2>
-        <CalendarioTurnoDisponible
-          diasDisponible={turnosDisponibles}
-          handleSelect={handleDiaSelect}
-        />
-        </div>
-      )}
-      {componenteActivo == "3" && (
-        <>
-          {
-            showTurnosDisponibles && medicos && (
+            <h2 className="text-center">Seleccionar Medico</h2>
+            <ListMedicos
+              listMedicos={medicos}
+              handleSelect={showDiasDisponibles}
+            />
+          </div>
+        )}
+        {componenteActivo == "1" && medicos && (
+          <div>
+            <h2 className="text-center">Seleccionar Especialidad</h2>
+            <ListEspecialidades
+              listMedicos={medicos}
+              getMedicosByEspecialidadSelected={showDiasDisponiblesEspecialidad}
+            />
+          </div>
+        )}
+        {componenteActivo == "2" && turnosDisponibles && (
+          <div>
+            <h2 className="text-center">Seleccionar Fecha</h2>
+            <CalendarioTurnoDisponible
+              diasDisponible={turnosDisponibles}
+              handleSelect={handleDiaSelect}
+            />
+          </div>
+        )}
+        {componenteActivo == "3" && (
+          <>
+            {showTurnosDisponibles && medicos && (
               <div>
-        
-               <h2 className="text-center">Seleccionar Horario</h2>
-               <h5 className="text-center">{subtitleOening}</h5>
-              <ListHorariosPorMedico
-                horariosPorMedico={showTurnosDisponibles}
-                handleSelect={handleHorarioSelect}
-                medicos={medicos}
-              />
+                <h2 className="text-center">Seleccionar Horario</h2>
+                <h5 className="text-center">{subtitleOening}</h5>
+                <ListHorariosPorMedico
+                  horariosPorMedico={showTurnosDisponibles}
+                  handleSelect={handleHorarioSelect}
+                  medicos={medicos}
+                />
               </div>
-            )
-
-        
-          }
-        </>
-      )}
-    </div>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }
