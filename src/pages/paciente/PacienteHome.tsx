@@ -25,10 +25,6 @@ function PacienteHome() {
     if (pacienteInfo != undefined)
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
   }, []);
-  useEffect(() => {
-    turnos.forEach((elem) => console.log(elem));
-  }, [turnos]);
-
 
   function ShowTurnos() {
     setBtnToggle(true);

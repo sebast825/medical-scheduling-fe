@@ -1,9 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   fetchFilterTurnosMedicoHoy,
   fetchTurnosPaciente,
 } from "../../services/apiService";
-import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
@@ -32,7 +31,6 @@ const useGetTurnos = () => {
 
       var paramId: any = pacienteInfo?.id;
 
-      console.log(user);
       const response: TurnoResponse[] = await fetchTurnosPaciente(
         user,
         pacienteId ? pacienteId : paramId
@@ -44,11 +42,8 @@ const useGetTurnos = () => {
       setTurnos(orderTurnosByDate(turnosProgramados));
     } catch (err: any) {
       error(handleHttpError(err));
-
     }
   }, []);
-
-
 
   function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
     var sortTurnosByPrioridad = array.sort((a, b) => {
@@ -68,24 +63,24 @@ const useGetTurnos = () => {
     async (userId: string) => {
       try {
         if (user == null) return;
-        const now = new Date()
+        const now = new Date();
         const fechaLocal = new Date(now).toLocaleString().split(",")[0];
- 
-          let fechaDividida = fechaLocal.split("/");
-          let concat = fechaDividida[2] + "-" + fechaDividida[1]+ "-" + fechaDividida[0];
-          
-       const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
+
+        let fechaDividida = fechaLocal.split("/");
+        let concat =
+          fechaDividida[2] + "-" + fechaDividida[1] + "-" + fechaDividida[0];
+
+        const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
           user,
           concat,
           userId
         );
-        
+
         let orderByDate = orderTurnosByDate(response);
         setTurnos(sortTurnosByPrioridad(orderByDate));
         return response;
       } catch (err: any) {
         error(handleHttpError(err));
-
       }
     },
     [user]
@@ -104,8 +99,6 @@ const useGetTurnos = () => {
 
   // Actualiza el turno modificado en el array de turnos.
   function updateStatusTurno(turnoModificado: TurnoResponse) {
-    console.log("Turno modificado:", turnoModificado);
-
     const updateTurnos = turnos.map((turno) => {
       if (turno.id === turnoModificado.id) {
         turno.estado = turnoModificado.estado;

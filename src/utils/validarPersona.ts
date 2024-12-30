@@ -14,7 +14,6 @@ export  function validarPersona(dto: IPersonaUpdate) {
 
     const fechaNac = new Date(dto.fechaNacimiento);
     const fechaActual = new Date();
-    console.log(fechaNac)
     if (fechaNac >= fechaActual) {
       return "La fecha de nacimiento debe ser anterior a la fecha actual.";
     }else if (isNaN(fechaNac.getTime())) {
