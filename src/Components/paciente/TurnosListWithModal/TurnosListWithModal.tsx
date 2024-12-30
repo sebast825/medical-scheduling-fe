@@ -30,7 +30,6 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
 
   const handleOpenModal = (turno: TurnoResponse): void => {
     setTurnoACancelar(turno);
-
     const date = getDate(turno.fecha);
     const hour = getHour(turno.fecha);
     var body: string = `¿Estás seguro de que deseas cancelar el turno con el medico ${turno.medico}, para la fecha ${date} a las ${hour}?`;
@@ -50,17 +49,16 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
     // Acción que deseas confirmar
     if (turnoACancelar) {
       cancelarTurno(turnoACancelar.id);
-      console.log("Acción confirmada");
     }
 
     handleCloseModal();
   };
 
   async function cancelarTurno(e: number): Promise<void> {
-    if(user == null)return;
+    if(user == null || turnoACancelar == null)return;
 
     var params: any = GetJwtContent(user);
-    var cancelarTurno = await fetchCancelarTurno(user, params.PersonaId);
+    var cancelarTurno = await fetchCancelarTurno(user, turnoACancelar.id);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
       console.log("turno cancelado");
       if (turnoACancelar) {

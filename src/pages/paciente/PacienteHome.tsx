@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
+import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 
 function PacienteHome() {
   const user = useUserInfo();
@@ -26,7 +27,9 @@ function PacienteHome() {
     if (pacienteInfo != undefined)
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
   }, []);
-
+  useEffect(() => {
+    turnos.forEach((elem) => console.log(elem));
+  }, [turnos]);
   useEffect(() => {
     if (location.state?.refreshTurnos) {
       getPacinteTurnos();
@@ -60,12 +63,21 @@ function PacienteHome() {
         onClickButton2={ShowNuevoTurno}
       />
       {btnToggle ? (
-        <div className="container p-4 pt-md-0">
-          <h2 className="text-center  mb-4 border-bottom pb-2">Mis Turnos</h2>
-          <TurnosListWithModal turnosList={turnos} />
+        <div className="container p-4 pt-0  pt-md-0">
+          {/* <h2 className="text-center  mb-4 border-bottom pb-2">Mis Turnos</h2> */}
+
+          {turnos.length != 0 ? (
+            <>
+              <TitleContent title="Mis Turnos" pading={false} />
+
+              <TurnosListWithModal turnosList={turnos} />
+            </>
+          ) : (
+            <TitleContent title="No tenés turnos agendados" pading={true} />
+          )}
         </div>
       ) : (
-        <div className="container p-4 pt-md-0">
+        <div className="container p-4 pt-0 pt-md-0">
           <h2 className="text-center mb-4 border-bottom pb-2">Nuevo Turno</h2>
           <TwoButtonComponent
             textButton1="Buscar por Medico"
