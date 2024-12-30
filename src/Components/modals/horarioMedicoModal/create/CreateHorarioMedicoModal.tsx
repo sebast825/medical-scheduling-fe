@@ -68,7 +68,7 @@ useEffect(()=>{
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group key="6">
-            <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
+            <Form.Label style={{ textAlign: "left" }}>Día</Form.Label>
             <Form.Select
               onChange={(e) => {setDiaSemana(parseInt(e.target.value))}}
               value={diaSemana}
