@@ -16,10 +16,10 @@ import useToastit from "../useToastit";
 import GetJwtContent from "../../utils/jwtUtils";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { handleHttpError } from "../../utils/errorHandler";
+import { successMessagges } from "../../constants/successMessages";
 
 function usePersonas() {
   const user = useUserInfo();
-  const [errorPersona, setError] = useState<ErrorTypeAny>(null);
   const { personaInfo } = usePersonaInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
   const { error, success } = useToastit();
@@ -34,7 +34,7 @@ function usePersonas() {
         dto,
         personaInfo.id.toString()
       );
-      success("Informacion actualizada exitosamente.");
+      success(successMessagges.exito);
       return response;
     } catch (err: any) {
       error(handleHttpError(err));
@@ -59,7 +59,7 @@ function usePersonas() {
         if (user == null) return;
         const response: IPersonaResponse =
           await fecthUpdateEstadoUsuarioYPersona(user, id, estadoId);
-        success("Estado actualizado exitosamente");
+        success(successMessagges.actualizarEstado);
 
         return response;
       } catch (err: any) {

@@ -12,6 +12,7 @@ import { EspecialidadResponse } from "../../types/Especialidad/EspecialidadRespo
 import { convertCompilerOptionsFromJson } from "typescript";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
+import { successMessagges } from "../../constants/successMessages";
 
 const useMedicos = () => {
   const [medicos, setMedicos] = useState<IMedicoResponse[] | undefined>(
@@ -23,7 +24,7 @@ const useMedicos = () => {
   const { setMedicoInfo } = useMedicoInfoContext();
   const [especialidadesMedico, setEspecialidadesMedico] =
     useState<EspecialidadResponse[]>();
-    
+
   const getMedicos = useCallback(async () => {
     try {
       const response: IMedicoResponse[] = await fetchMedicos();
@@ -53,7 +54,7 @@ const useMedicos = () => {
           id,
           dto
         );
-        success("Medico Actualizado exitosamente");
+        success(successMessagges.actualizarInformacion);
         await setMedicoInfo(response);
       } catch (err: any) {
         error(handleHttpError(err));

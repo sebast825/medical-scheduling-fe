@@ -6,6 +6,7 @@ import useToastit from "../useToastit";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import { handleHttpError } from "../../utils/errorHandler";
+import { successMessagges } from "../../constants/successMessages";
 
 
 
@@ -41,7 +42,7 @@ function useDisponibilidadMedicosApi(){
             user,
             dto
           );               
-          success("Horario Agregado exitosamete.");  
+          success(successMessagges.agregarHorario);  
           return response;
 
         } catch (err: any) {
@@ -60,7 +61,7 @@ function useDisponibilidadMedicosApi(){
             user,
             id
           );            
-          success("Horario eliminado exitosamente.")     
+          success(successMessagges.exito)     
           return response;
 
         } catch (err: any) {
