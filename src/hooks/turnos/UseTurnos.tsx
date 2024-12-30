@@ -49,8 +49,7 @@ const useTurnos = () => {
         if (user == null) return;
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
-        //setSuccessMessage("Turno agendado exitosamente.");
-        success("successMessage");
+        success("Turno agendado exitosamente.");
       } catch (err: any) {
         error(handleHttpError(err));
       }
