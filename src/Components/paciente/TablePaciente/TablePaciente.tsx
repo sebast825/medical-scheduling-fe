@@ -15,38 +15,38 @@ import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPe
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
-function TablePaciente() {
-  const { getAllPacientes, pacienteList, RemovePacienteNotActive } =
-    usePacientes();
+interface ITablePersonas{
+  personaList : IPersonaResponse[] | IPacienteResponse[],
+  handleAction ? : (e : IPersonaResponse)=>void;
+}
+
+function TablePersonas(props : ITablePersonas) {
+
+  const {personaList,handleAction} = props;
+ 
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
-  const [showPacientes, setShowPacientes] = useState<IPacienteResponse[]>();
+  const [showPersonas, setShowPersonas] = useState<IPacienteResponse[] | IPersonaResponse[]>();
   const isSecretario = useIsSecretario();
   const isAdmin = useIsAdministrador();
-  const [selectedPaciente, setSelectedPaciente] = useState<IPacienteResponse | null>(null);
+  const [selectedPersona, setSelectedPersona] = useState<IPacienteResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
 
-  useEffect(() => {
-    if (pacienteList != undefined) return;
-
-    getPacientes();
-  }, [pacienteList]);
-
-  async function getPacientes() {
-    await getAllPacientes();
-    pacienteList?.forEach((elem) => console.log(elem));
+  function isPacienteResponse(persona: IPersonaResponse | IPacienteResponse): persona is IPacienteResponse {
+    return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
+  
 
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
-    const filteredItems = pacienteList?.filter((paciente) => {
+    const filteredItems = personaList?.filter((paciente) => {
       return regEx.test(paciente.numeroDocumento);
     });
-    setShowPacientes(filteredItems);
-  }, [pacienteList, fraseRegex]);
+    setShowPersonas(filteredItems);
+  }, [personaList, fraseRegex]);
 
   return (
     <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
@@ -79,8 +79,8 @@ function TablePaciente() {
           </tr>
         </thead>
         <tbody>
-          {showPacientes &&
-            showPacientes.map((paciente, index) => (
+          {showPersonas &&
+            showPersonas.map((paciente, index) => (
               <tr key={paciente.id}>
                 <td className="index">{index}</td>
 
@@ -94,24 +94,24 @@ function TablePaciente() {
                   </>
                 )}
                 <td className="dropdown ">
-                  {isSecretario && <PacienteDropdown paciente={paciente} />}
-                  {isAdmin && (
+                  {isSecretario && isPacienteResponse(paciente) &&<PacienteDropdown paciente={paciente} />}
+                  {isAdmin && isPacienteResponse(paciente) && (
                     <OneButton
                       handleSubmit={() => {
-                        setSelectedPaciente(paciente)
+                        setSelectedPersona(paciente)
                         showModal();
                       }}
                       text="Editar"
                       variant="danger"
                     />
                   )}
-                  {selectedPaciente && (
+                  {selectedPersona && handleAction && (
                     <ChangeStatusPersona
-                      modalField={selectedPaciente}
+                      modalField={selectedPersona}
                       show={toggleModal}
                       handleClose={closeModal}
                       handleConfirm={(e: IPersonaResponse) =>
-                        RemovePacienteNotActive(e)
+                        handleAction(e)
                       }
                     />
                   )}
@@ -124,4 +124,4 @@ function TablePaciente() {
   );
 }
 
-export default TablePaciente;
+export default TablePersonas;

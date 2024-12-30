@@ -17,7 +17,7 @@ function TablePacienteAdministrador() {
     <>
       <Opening title="Informacion de pacientes" />
       <div className="pt-4 pb-5">
-        <TablePaciente />
+        {/* <TablePaciente /> */}
         <BackLink />
       </div>
     </>

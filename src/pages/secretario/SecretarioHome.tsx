@@ -9,6 +9,7 @@ import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
+import usePacientes from "../../hooks/pacientes/usePacientes";
 
 function SecreatarioHome() {
   const isSecretario : Boolean = useIsSecretario()
@@ -16,11 +17,11 @@ function SecreatarioHome() {
   const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
  const [preTitle, setPreTitle] = useState<string>("");
-
+  const { getAllPacientes, pacienteList } = usePacientes();
   useEffect(() => {
     if(!isSecretario) redirectToLogin() 
       setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
-
+      getAllPacientes()
   }, []);
 
   function ShowPacientes() {
@@ -43,7 +44,7 @@ function SecreatarioHome() {
         onClickButton1={ShowPacientes}
         onClickButton2={ShowHorariosMedicos}
       />
-      {btnToggle ? <TablePaciente /> : <ListaHorariosMedicos />}
+      {btnToggle ? <TablePaciente personaList={pacienteList!} /> : <ListaHorariosMedicos />}
     </>
   );
 }
