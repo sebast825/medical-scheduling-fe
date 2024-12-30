@@ -63,12 +63,16 @@ function usePersonas() {
 
     }
   }, []);
-  function RemovePersonaNotActive(dto: IPersonaResponse) {
-
-    if (dto.estadoUsuario != EstadoUsuario[EstadoUsuario.Eliminado]) return;
+  function RemovePersona(dto: IPersonaResponse) {
+    console.log("llega",EstadoUsuario[EstadoUsuario.Eliminado])
+    console.log(dto)
+    //if (dto.estadoUsuario != EstadoUsuario[2]) return;
+    console.log(personasList?.length)
     let removePaciente: IPersonaResponse[] | undefined = personasList?.filter(
       (elem) => elem.id != dto.id
     );
+    console.log(removePaciente?.length)
+
     setPersonasList(removePaciente);
   }
   function actualizarPacienteFe(updatedPersona: IPersonaResponse) {
@@ -95,7 +99,7 @@ function usePersonas() {
   return {
     handlePersonaUpdate,
     updateEstadoPersonaYUsuario,
-    RemovePersonaNotActive,
+    RemovePersona,
     getAllPersonasIncludeInactive,
     personasList
   };

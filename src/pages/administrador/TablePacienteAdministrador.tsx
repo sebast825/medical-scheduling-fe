@@ -9,22 +9,31 @@ import usePersonas from "../../hooks/personas/usePersonas";
 function TablePacienteAdministrador() {
   const isAdministrador = useIsAdministrador();
   const redirectToLogin = useRedirectToLogin();
-  const { getAllPersonasIncludeInactive, personasList, RemovePersonaNotActive } = usePersonas();
+  const {
+    getAllPersonasIncludeInactive,
+    personasList,
+    RemovePersona,
+  } = usePersonas();
 
   useEffect(() => {
     if (!isAdministrador) redirectToLogin();
-    getPersonas()
+    getPersonas();
   }, []);
 
-  async function getPersonas(){
-await     getAllPersonasIncludeInactive()
-
+  async function getPersonas() {
+    await getAllPersonasIncludeInactive();
   }
+  useEffect(()=>{},[personasList])
   return (
     <>
       <Opening title="Informacion de pacientes" />
       <div className="pt-4 pb-5">
-      {personasList&&  <TablePaciente personaList={personasList} handleAction={RemovePersonaNotActive} />}
+        {personasList && (
+          <TablePaciente
+            personaList={personasList}
+            handleAction={RemovePersona}
+          />
+        )}
         <BackLink />
       </div>
     </>

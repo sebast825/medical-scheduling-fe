@@ -32,7 +32,9 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
       estadoUsuarioId
     );
     if(personaUpdated == undefined)return;
-    handleConfirm(personaUpdated)
+      
+    if(estado ==  EstadoUsuario[2]){
+    handleConfirm(personaUpdated)}
   }
 
   const claves = Object.keys(EstadoUsuario).filter((key) => isNaN(Number(key)));
