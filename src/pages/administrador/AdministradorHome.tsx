@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import {
-  useAdministrativoInfoContext,
-  usePersonaInfoContext,
-  useUserContext,
-  useUserInfo,
-} from "../../context/authContext";
+  useAdministrativoInfoContext,} from "../../context/authContext";
 import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TableMedico from "../../Components/Medico/TableMedico/TableMedico";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
-import { Sexo } from "../../types/Sexo.type";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 
 function AdministradorHome() {
@@ -21,10 +15,12 @@ function AdministradorHome() {
   const redirectToLogin = useRedirectToLogin();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
   const [preTitle, setPreTitle] = useState<string>("");
+
   useEffect(() => {
     if (!isAdministrador) redirectToLogin();
 
     setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
+    
   }, []);
 
   function showMedicoslist() {

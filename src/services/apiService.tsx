@@ -259,7 +259,7 @@ export const fetchGetPersonasIncludeInactive= async ()=>{
   const source = axios.CancelToken.source();
 
   const api = createApiInstance();
-  const response = await api.post(
+  const response = await api.get(
     `/api/personas`
 
   );

@@ -31,7 +31,7 @@ function TablePersonas(props : ITablePersonas) {
   const [showPersonas, setShowPersonas] = useState<IPacienteResponse[] | IPersonaResponse[]>();
   const isSecretario = useIsSecretario();
   const isAdmin = useIsAdministrador();
-  const [selectedPersona, setSelectedPersona] = useState<IPacienteResponse | null>(null);
+  const [selectedPersona, setSelectedPersona] = useState<IPersonaResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
 
@@ -95,7 +95,7 @@ function TablePersonas(props : ITablePersonas) {
                 )}
                 <td className="dropdown ">
                   {isSecretario && isPacienteResponse(paciente) &&<PacienteDropdown paciente={paciente} />}
-                  {isAdmin && isPacienteResponse(paciente) && (
+                  {isAdmin && !isPacienteResponse(paciente) && (
                     <OneButton
                       handleSubmit={() => {
                         setSelectedPersona(paciente)
