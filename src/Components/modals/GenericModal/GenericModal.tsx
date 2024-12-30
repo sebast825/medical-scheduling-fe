@@ -46,18 +46,20 @@ function GenericModal({
           </Form.Group>
         ))} */}
       </Modal.Body>
+   
       <Modal.Footer>
+      {
+          handleThirdButton &&  <Button variant="danger" onClick={handleThirdButton}>
+          {textThirdButton}
+        </Button>
+        }
         <Button variant="dark" onClick={handleClose}>
           Cancelar
         </Button>
         <Button variant="primary" onClick={handleConfirm}>
           Confirmar
         </Button>
-        {
-          handleThirdButton &&  <Button variant="danger" onClick={handleThirdButton}>
-          {textThirdButton}
-        </Button>
-        }
+      
       </Modal.Footer>
     </Modal>
   );
