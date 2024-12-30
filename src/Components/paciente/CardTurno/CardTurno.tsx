@@ -41,7 +41,7 @@ function CardTurno({
               <Col xs={8}  className="col-8 flex-column">
               <h2>{nombre}</h2>
               <h6>{especialidad}</h6>
-              <h6>{fecha}Hs</h6>
+              <h6>{fecha} Hs</h6>
             </Col>
             ) : (
               <Col md={10} className="row justify-content-center align-items-center">
@@ -50,7 +50,7 @@ function CardTurno({
                   <h6>{especialidad}</h6>
                 </Col>
                 <Col md={6}>
-                  <h6>{fecha}Hs</h6>
+                  <h6>{fecha} Hs</h6>
                 </Col>
               </Col>
             )}
