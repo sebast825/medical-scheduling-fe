@@ -1,17 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
+import { useCallback, useState } from "react";
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import { useUserInfo } from "../../context/authContext";
-import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
-import { ErrorTypeAny } from "../../types/Error.type";
 import {
   fetchAllPacientes,
   fetchPacienteById,
   fetchUpdatePaciente,
-  fetchUpdatePersona,
 } from "../../services/apiService";
 import useToastit from "../useToastit";
-import GetJwtContent from "../../utils/jwtUtils";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
@@ -19,7 +14,6 @@ import { handleHttpError } from "../../utils/errorHandler";
 
 function usePacientes() {
   const user = useUserInfo();
-  const [paciente, setPaciente] = useState<IPacienteResponse>();
   const [pacienteList, setPacientesList] = useState<IPacienteResponse[]>();
 
   const { error, success } = useToastit();
@@ -40,7 +34,6 @@ function usePacientes() {
           userId
         );
         success("Informacion actualizada exitosamente.");
-        setPaciente(response);
         return response;
       } catch (err: any) {
         error(handleHttpError(err));
