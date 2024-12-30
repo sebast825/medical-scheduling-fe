@@ -15,13 +15,14 @@ import GetJwtContent from "../../utils/jwtUtils";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
+import { handleHttpError } from "../../utils/errorHandler";
 
 function usePacientes() {
   const user = useUserInfo();
   const [paciente, setPaciente] = useState<IPacienteResponse>();
   const [pacienteList, setPacientesList] = useState<IPacienteResponse[]>();
 
-  const [errorPaciente, setError] = useState<ErrorTypeAny>(null);
+  const { error, success } = useToastit();
 
   const putPaciente = useCallback(
     async (dto: IPacienteUpdate, userId: string) => {
@@ -38,17 +39,12 @@ function usePacientes() {
           dto,
           userId
         );
-
+        success("Informacion actualizada exitosamente.");
         setPaciente(response);
-        console.log(response);
         return response;
       } catch (err: any) {
-        console.log(err);
-        if (err.response && err.response.status === 401) {
-          setError(err.response.data || "Error desconocido");
-        } else {
-          setError(err.response.data);
-        }
+        error(handleHttpError(err));
+      
       }
     },
     []
@@ -71,15 +67,10 @@ function usePacientes() {
       const response: IPacienteResponse[] = await fetchAllPacientes(user);
 
       setPacientesList(response);
-      console.log(response);
       return response;
     } catch (err: any) {
-      console.log(err);
-      if (err.response && err.response.status === 401) {
-        setError(err.response.data || "Error desconocido");
-      } else {
-        setError(err.response.data);
-      }
+      error(handleHttpError(err));
+
     }
   }, []);
 
@@ -87,15 +78,10 @@ function usePacientes() {
     try {
       if (user == null) return;
       const response: IPacienteResponse = await fetchPacienteById(user, id);
-      console.log(response);
       return response;
     } catch (err: any) {
-      console.log(err);
-      if (err.response && err.response.status === 401) {
-        setError(err.response.data || "Error desconocido");
-      } else {
-        setError(err.response.data);
-      }
+      error(handleHttpError(err));
+
     }
   }, []);
 
@@ -108,12 +94,7 @@ function usePacientes() {
     setPacientesList(removePaciente);
   }
 
-  const { error } = useToastit();
 
-  useEffect(() => {
-    if (errorPaciente == null) return;
-    error(errorPaciente);
-  }, [errorPaciente]);
 
   return {
     putPaciente,
