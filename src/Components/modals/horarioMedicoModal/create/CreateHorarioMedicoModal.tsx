@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import { DisponibilidadMedico } from "../../../../types/DisponibilidadMedico/DisponibilidadMedico";
 import GenericModal from "../../GenericModal/GenericModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DisponibilidadMedicoCreate } from "../../../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import useToastit from "../../../../hooks/useToastit";
 import { diasSemana } from "../../../../utils/diasSemana";
@@ -44,19 +44,12 @@ function CreateHorarioMedicoModal({
       StartTime: horarioInicio,
       EndTime: horarioFin,
     };
-    console.log(disponibilidadUpdated)
     handleConfirm(disponibilidadUpdated);
   }
   function formatHour(hora: string): boolean {
     const regex = /^\d+\d+:\d+\d+$/;
     return regex.test(hora);
   }
-
-
-
-useEffect(()=>{
-  console.log(diaSemana)
-},[diaSemana])
 
   return (
     <>

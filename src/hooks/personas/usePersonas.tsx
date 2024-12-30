@@ -25,7 +25,9 @@ function usePersonas() {
   const { personaInfo } = usePersonaInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
   const { error, success } = useToastit();
-  const [personasList, setPersonasList ] = useState<IPersonaResponse[] | undefined>(undefined);
+  const [personasList, setPersonasList] = useState<
+    IPersonaResponse[] | undefined
+  >(undefined);
 
   const putPersona = useCallback(async (dto: IPersonaUpdate) => {
     if (personaInfo == null) return undefined;
@@ -54,24 +56,18 @@ function usePersonas() {
   const getAllPersonasIncludeInactive = useCallback(async () => {
     try {
       if (user == null) return;
-      const response: IPersonaResponse[] = await fetchGetPersonasIncludeInactive();
-      response.forEach(elem => console.log(elem))
+      const response: IPersonaResponse[] =
+        await fetchGetPersonasIncludeInactive();
       setPersonasList(response);
       return response;
     } catch (err: any) {
       error(handleHttpError(err));
-
     }
   }, []);
   function RemovePersona(dto: IPersonaResponse) {
-    console.log("llega",EstadoUsuario[EstadoUsuario.Eliminado])
-    console.log(dto)
-    //if (dto.estadoUsuario != EstadoUsuario[2]) return;
-    console.log(personasList?.length)
     let removePaciente: IPersonaResponse[] | undefined = personasList?.filter(
       (elem) => elem.id != dto.id
     );
-    console.log(removePaciente?.length)
 
     setPersonasList(removePaciente);
   }
@@ -89,7 +85,6 @@ function usePersonas() {
 
         return response;
       } catch (err: any) {
-
         error(handleHttpError(err));
       }
     },
@@ -101,7 +96,7 @@ function usePersonas() {
     updateEstadoPersonaYUsuario,
     RemovePersona,
     getAllPersonasIncludeInactive,
-    personasList
+    personasList,
   };
 }
 

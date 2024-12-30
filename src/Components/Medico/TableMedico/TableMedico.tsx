@@ -22,11 +22,9 @@ function TableMedico() {
     getMedicos();
   }, [medicos]);
 
-
   useEffect(() => {
     var removeAcentos = removeAccents(fraseRegex);
 
-    console.log(removeAcentos);
     const regEx = new RegExp(`^${removeAcentos}`, "i");
     const filteredItems = medicos?.filter((medico) => {
       return (
@@ -66,7 +64,6 @@ function TableMedico() {
                 <th>Documento</th>
                 <th>Teléfono</th>
                 <th>Especialidad</th>
-
               </>
             )}
 
@@ -91,7 +88,6 @@ function TableMedico() {
                 )}
                 <td className="dropdown ">
                   <MedicoDropdown medico={medico} />
-               
                 </td>
               </tr>
             ))}
