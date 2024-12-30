@@ -22,6 +22,7 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
   const [estado, setEstado] = useState<string>(modalField.estadoUsuario);
   const { updateEstadoPersonaYUsuario } = usePersonas();
 
+ 
   async function handleConfirmModal() {
     closeModal();
     var estadoUsuarioId = claves.indexOf(estado);
@@ -40,9 +41,8 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
     showModal();
     handleClose();
   }
-  useEffect(() => {
-    console.log(estado);
-  }, [estado]);
+
+
   return (
     <>
       <ConfirmModal

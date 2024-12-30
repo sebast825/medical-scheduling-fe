@@ -58,7 +58,7 @@ function usePacientes() {
     try {
       if (user == null) return;
       const response: IPacienteResponse[] = await fetchAllPacientes(user);
-
+      response.forEach(elem => console.log(elem))
       setPacientesList(response);
       return response;
     } catch (err: any) {
@@ -80,7 +80,7 @@ function usePacientes() {
 
   function RemovePacienteNotActive(dto: IPersonaResponse) {
 
-    if (dto.estadoUsuario == EstadoUsuario[0]) return;
+    if (dto.estadoUsuario != EstadoUsuario[EstadoUsuario.Eliminado]) return;
     let removePaciente: IPacienteResponse[] | undefined = pacienteList?.filter(
       (elem) => elem.id != dto.id
     );

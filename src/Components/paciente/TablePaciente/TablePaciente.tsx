@@ -16,7 +16,8 @@ import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 
 function TablePaciente() {
-  const { getAllPacientes, pacienteList,RemovePacienteNotActive } = usePacientes();
+  const { getAllPacientes, pacienteList, RemovePacienteNotActive } =
+    usePacientes();
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
@@ -24,21 +25,19 @@ function TablePaciente() {
   const [showPacientes, setShowPacientes] = useState<IPacienteResponse[]>();
   const isSecretario = useIsSecretario();
   const isAdmin = useIsAdministrador();
+  const [selectedPaciente, setSelectedPaciente] = useState<IPacienteResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
 
   useEffect(() => {
-   
-    if(pacienteList != undefined)return;
-    
+    if (pacienteList != undefined) return;
+
     getPacientes();
   }, [pacienteList]);
 
   async function getPacientes() {
-    
     await getAllPacientes();
     pacienteList?.forEach((elem) => console.log(elem));
-
   }
 
   useEffect(() => {
@@ -49,7 +48,6 @@ function TablePaciente() {
     setShowPacientes(filteredItems);
   }, [pacienteList, fraseRegex]);
 
-  
   return (
     <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
@@ -100,18 +98,23 @@ function TablePaciente() {
                   {isAdmin && (
                     <OneButton
                       handleSubmit={() => {
+                        setSelectedPaciente(paciente)
                         showModal();
                       }}
                       text="Editar"
                       variant="danger"
                     />
                   )}
-                  <ChangeStatusPersona
-                    modalField={paciente}
-                    show={toggleModal}
-                    handleClose={closeModal}
-                    handleConfirm={(e:IPersonaResponse)=>RemovePacienteNotActive(e)}
-                  />
+                  {selectedPaciente && (
+                    <ChangeStatusPersona
+                      modalField={selectedPaciente}
+                      show={toggleModal}
+                      handleClose={closeModal}
+                      handleConfirm={(e: IPersonaResponse) =>
+                        RemovePacienteNotActive(e)
+                      }
+                    />
+                  )}
                 </td>
               </tr>
             ))}
