@@ -58,9 +58,7 @@ function usePacientes() {
     try {
       if (user == null) return;
       const response: IPacienteResponse[] = await fetchAllPacientes(user);
-      response.forEach(elem => console.log(elem))
       setPacientesList(response);
-      return response;
     } catch (err: any) {
       error(handleHttpError(err));
 

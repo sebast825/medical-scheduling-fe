@@ -5,7 +5,6 @@ import GetJwtContent from "../../../utils/jwtUtils";
 import { fetchCancelarTurno } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
 import ConfirmModal from "../../modals/ConfirmModal";
-import TurnosList from "../TurnosList/TurnosListMedico";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 
 
@@ -51,21 +50,18 @@ function TurnosListWithModalMedico(props: ITurnosListWithModalMedico) {
     // Acción que deseas confirmar
     if (turnoACancelar) {
       removerTurnoCancelado(turnoACancelar.id);
-      console.log("Acción confirmada");
     }
 
     handleCloseModal();
   };
 
   async function cancelarTurno(e: number): Promise<void> {
-    console.log("turno cancelado");
 
     if(user == null)return;
 
     var params: any = GetJwtContent(user);
     var cancelarTurno = await fetchCancelarTurno(user, e);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
-      console.log("turno cancelado");
       if (turnoACancelar) {
         removerTurnoCancelado(turnoACancelar.id);
       }
