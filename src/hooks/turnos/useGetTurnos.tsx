@@ -74,13 +74,15 @@ const useGetTurnos = () => {
     async (userId: string) => {
       try {
         if (user == null) return;
-        const now = new Date().toString()
-
-        let dateConcat = `${getDate(now)}`; 
-        
-        const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
+        const now = new Date()
+        const fechaLocal = new Date(now).toLocaleString().split(",")[0];
+ 
+          let fechaDividida = fechaLocal.split("/");
+          let concat = fechaDividida[2] + "-" + fechaDividida[1]+ "-" + fechaDividida[0];
+          
+       const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
           user,
-          dateConcat,
+          concat,
           userId
         );
         
