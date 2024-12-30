@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import GenericModal from "../GenericModal/GenericModal";
-import {
-  usePacienteContext,
-  usePersonaInfoContext,
-} from "../../../context/authContext";
+import { usePacienteContext } from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
-import usePersonas from "../../../hooks/personas/usePersonas";
 import { Sexo } from "../../../types/Sexo.type";
 import useToastit from "../../../hooks/useToastit";
 import { getDate, getHour } from "../../../utils/formatDate";
-import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { validarPersona } from "../../../utils/validarPersona";
 
@@ -27,7 +22,6 @@ function InformacionPersonaModal({
   handleClose,
   handleConfirm,
 }: IInformacionPersonaModal) {
-
   const [nombre, setNombre] = useState<string>(modalField.nombre);
   const [apellido, setApellido] = useState<string>(modalField.apellido);
   const [fechaNacimiento, setFechaNacimiento] = useState<string>(
@@ -38,7 +32,9 @@ function InformacionPersonaModal({
     modalField.numeroDocumento
   );
   //cuando se usa para crear es 0 (hombre), si se usa para editar trae el valor existente
-  const [sexo, setSexo] = useState<string>(modalField.sexo ? modalField.sexo : "0");
+  const [sexo, setSexo] = useState<string>(
+    modalField.sexo ? modalField.sexo : "0"
+  );
   const { pacienteInfo } = usePacienteContext();
   const { error } = useToastit();
 
@@ -50,23 +46,21 @@ function InformacionPersonaModal({
 
   async function handlePersonaUpdate() {
     var persona = createPersonaUpdateObject();
-    console.log(persona)
     let validate = validarPersona(persona);
-    if(validate != null) {
+    if (validate != null) {
       error(validate);
       return;
     }
     handleConfirm(persona);
-   
+
     handleClose();
   }
 
   function createPersonaUpdateObject(): IPersonaUpdate {
-    var getSexoId : number = claves.indexOf(sexo) + 1; //arranca en 0 los id son 1,2,3
+    var getSexoId: number = claves.indexOf(sexo) + 1; //arranca en 0 los id son 1,2,3
     var date = getDate(fechaNacimiento);
     var hour = getHour(fechaNacimiento);
     var fechaNacFormated = date + "T" + hour;
-    console.log(sexo,getSexoId)
     var persona: IPersonaUpdate = {
       nombre: nombre,
       apellido: apellido,
@@ -77,9 +71,6 @@ function InformacionPersonaModal({
     };
     return persona;
   }
-
-  
- 
 
   return (
     <>
@@ -92,7 +83,8 @@ function InformacionPersonaModal({
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group controlId="formBasicnombre">
             <Form.Label style={{ textAlign: "left" }}>Nombre</Form.Label>
-            <Form.Control key="1"
+            <Form.Control
+              key="1"
               type="text"
               placeholder="Ingresar nombre"
               onChange={(e) => setNombre(e.target.value)}
