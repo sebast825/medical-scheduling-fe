@@ -64,12 +64,9 @@ function PacienteHome() {
       />
       {btnToggle ? (
         <div className="container p-4 pt-0  pt-md-0">
-          {/* <h2 className="text-center  mb-4 border-bottom pb-2">Mis Turnos</h2> */}
-
           {turnos.length != 0 ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
-
               <TurnosListWithModal turnosList={turnos} />
             </>
           ) : (
@@ -78,7 +75,7 @@ function PacienteHome() {
         </div>
       ) : (
         <div className="container p-4 pt-0 pt-md-0">
-          <h2 className="text-center mb-4 border-bottom pb-2">Nuevo Turno</h2>
+          <TitleContent title="Nuevo Turno" pading={false} />
           <TwoButtonComponent
             textButton1="Buscar por Medico"
             textButton2="Buscar por Especialidad"
