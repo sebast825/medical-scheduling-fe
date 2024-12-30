@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
@@ -10,7 +11,6 @@ const useToastit = () => {
    closeButton: true,
    // ... otras opciones
 };
-
 function success(message : string) {
    toastr.success(message);
 }
