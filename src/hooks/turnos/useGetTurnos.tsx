@@ -1,21 +1,19 @@
 import { useState, useCallback, useEffect } from "react";
 import {
   fetchFilterTurnosMedicoHoy,
-  fetchTurnosByMedicoId,
   fetchTurnosPaciente,
 } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { ESTADOS_TURNO } from "../../utils/estadoTurno";
-import GetJwtContent from "../../utils/jwtUtils";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
-import { getDate, getHour } from "../../utils/formatDate";
+import { handleHttpError } from "../../utils/errorHandler";
 
 const useGetTurnos = () => {
   const user = useUserInfo();
 
-  const [errorTurno, SetErrorTurno] = useState<ErrorTypeAny>(null);
+  const { error } = useToastit();
   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
   const { pacienteInfo } = usePacienteContext();
 
@@ -45,16 +43,12 @@ const useGetTurnos = () => {
       );
       setTurnos(orderTurnosByDate(turnosProgramados));
     } catch (err: any) {
-      console.log(err);
-      SetErrorTurno(err.response.data || "Error desconocido");
+      error(handleHttpError(err));
+
     }
   }, []);
 
-  const { error } = useToastit();
-  useEffect(() => {
-    if (errorTurno == null) return;
-    error(errorTurno);
-  }, [errorTurno]);
+
 
   function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
     var sortTurnosByPrioridad = array.sort((a, b) => {
@@ -90,12 +84,8 @@ const useGetTurnos = () => {
         setTurnos(sortTurnosByPrioridad(orderByDate));
         return response;
       } catch (err: any) {
-        console.log(err);
-        if (err.response && err.response.status === 401) {
-          SetErrorTurno(err.response.data || "Error desconocido");
-        } else {
-          SetErrorTurno(err.response.data);
-        }
+        error(handleHttpError(err));
+
       }
     },
     [user]
