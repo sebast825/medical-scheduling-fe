@@ -10,21 +10,26 @@ import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../types/Medico/MedicoUpdateRequest.type";
 import { EspecialidadResponse } from "../../types/Especialidad/EspecialidadResponse.type";
 import { convertCompilerOptionsFromJson } from "typescript";
+import useToastit from "../useToastit";
+import { handleHttpError } from "../../utils/errorHandler";
 
 const useMedicos = () => {
-  const [medicos, setMedicos] = useState<IMedicoResponse[] | undefined>(undefined);
-  const [medicosError, setError] = useState<ErrorTypeAny>(null);
+  const [medicos, setMedicos] = useState<IMedicoResponse[] | undefined>(
+    undefined
+  );
+  const { error, success } = useToastit();
+
   const user = useUserInfo();
   const { setMedicoInfo } = useMedicoInfoContext();
   const [especialidadesMedico, setEspecialidadesMedico] =
     useState<EspecialidadResponse[]>();
+    
   const getMedicos = useCallback(async () => {
     try {
       const response: IMedicoResponse[] = await fetchMedicos();
       setMedicos(response);
     } catch (err: any) {
-      console.log(err);
-      setError("Error desconocido");
+      error(handleHttpError(err));
     }
   }, []);
 
@@ -48,12 +53,10 @@ const useMedicos = () => {
           id,
           dto
         );
-        console.log(response)
-        //  setMedicos(response);
+        success("Medico Actualizado exitosamente");
         await setMedicoInfo(response);
       } catch (err: any) {
-        console.log(err);
-        setError("Error desconocido");
+        error(handleHttpError(err));
       }
     },
     []
@@ -63,30 +66,28 @@ const useMedicos = () => {
       if (user == null) return;
       const response: EspecialidadResponse[] =
         await fecthGetEspecialidadesMedico(user);
-      //  setMedicos(response);
       await setEspecialidadesMedico(response);
     } catch (err: any) {
-      console.log(err);
-      setError("Error desconocido");
+      error(handleHttpError(err));
     }
   }, []);
 
   function getIdEspecialidad(especialdiad: string): number {
     if (!especialidadesMedico) return -1;
-    let especialdiadObject: EspecialidadResponse | undefined = especialidadesMedico.find((elem) => elem.nombre == especialdiad);
+    let especialdiadObject: EspecialidadResponse | undefined =
+      especialidadesMedico.find((elem) => elem.nombre == especialdiad);
 
     return especialdiadObject == undefined ? -1 : especialdiadObject?.id;
   }
   return {
     medicos,
-    medicosError,
     getMedicos,
     findMedicoById,
     getMedicoNombre,
     updateMedicos,
     getEspecialidadesMedicos,
     especialidadesMedico,
-    getIdEspecialidad
+    getIdEspecialidad,
   };
 };
 
