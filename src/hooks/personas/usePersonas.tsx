@@ -10,6 +10,7 @@ import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { ErrorTypeAny } from "../../types/Error.type";
 import {
   fecthUpdateEstadoUsuarioYPersona,
+  fetchGetPersonasIncludeInactive,
   fetchUpdatePersona,
 } from "../../services/apiService";
 import useToastit from "../useToastit";
@@ -17,12 +18,14 @@ import GetJwtContent from "../../utils/jwtUtils";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { handleHttpError } from "../../utils/errorHandler";
 import { successMessagges } from "../../constants/successMessages";
+import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 
 function usePersonas() {
   const user = useUserInfo();
   const { personaInfo } = usePersonaInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
   const { error, success } = useToastit();
+  const [personasList, setPersonasList ] = useState<IPersonaResponse[] | undefined>(undefined);
 
   const putPersona = useCallback(async (dto: IPersonaUpdate) => {
     if (personaInfo == null) return undefined;
@@ -48,7 +51,26 @@ function usePersonas() {
       actualizarPacienteFe(updatedPersona);
     }
   }
+  const getAllPersonasIncludeInactive = useCallback(async () => {
+    try {
+      if (user == null) return;
+      const response: IPersonaResponse[] = await fetchGetPersonasIncludeInactive();
+      response.forEach(elem => console.log(elem))
+      setPersonasList(response);
+      return response;
+    } catch (err: any) {
+      error(handleHttpError(err));
 
+    }
+  }, []);
+  function RemovePersonaNotActive(dto: IPersonaResponse) {
+
+    if (dto.estadoUsuario != EstadoUsuario[EstadoUsuario.Eliminado]) return;
+    let removePaciente: IPersonaResponse[] | undefined = personasList?.filter(
+      (elem) => elem.id != dto.id
+    );
+    setPersonasList(removePaciente);
+  }
   function actualizarPacienteFe(updatedPersona: IPersonaResponse) {
     setPersonaInfo(updatedPersona);
   }
@@ -73,6 +95,9 @@ function usePersonas() {
   return {
     handlePersonaUpdate,
     updateEstadoPersonaYUsuario,
+    RemovePersonaNotActive,
+    getAllPersonasIncludeInactive,
+    personasList
   };
 }
 

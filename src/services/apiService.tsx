@@ -254,3 +254,15 @@ export const fecthActualizarClave= async (dto: NuevaClaveRequest)=>{
   return response.data;
 
 }
+
+export const fetchGetPersonasIncludeInactive= async ()=>{
+  const source = axios.CancelToken.source();
+
+  const api = createApiInstance();
+  const response = await api.post(
+    `/api/personas`
+
+  );
+  return response.data;
+
+}
