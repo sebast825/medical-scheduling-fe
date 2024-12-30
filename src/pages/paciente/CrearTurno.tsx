@@ -150,8 +150,7 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
   async function handleConfirmCreateTurnoModal() {
-    var response: boolean = await crearTurno(createTurnoRequest);
-    if (!response) return;
+    var response = await crearTurno(createTurnoRequest);
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,
