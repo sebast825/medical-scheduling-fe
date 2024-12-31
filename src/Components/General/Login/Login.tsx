@@ -81,7 +81,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "medico";
+    let UserName = "paciente";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 

@@ -26,6 +26,7 @@ const useGetTurnos = () => {
   };
 
   const getPacinteTurnos = useCallback(async (pacienteId?: string) => {
+    console.log("entra y llama")
     try {
       if (user == null) return;
 
@@ -40,6 +41,7 @@ const useGetTurnos = () => {
         (turno) => turno.estado == ESTADOS_TURNO.PROGRAMADO
       );
       setTurnos(orderTurnosByDate(turnosProgramados));
+      return turnosProgramados;
     } catch (err: any) {
       error(handleHttpError(err));
     }
@@ -99,6 +101,7 @@ const useGetTurnos = () => {
 
   // Actualiza el turno modificado en el array de turnos.
   function updateStatusTurno(turnoModificado: TurnoResponse) {
+   
     const updateTurnos = turnos.map((turno) => {
       if (turno.id === turnoModificado.id) {
         turno.estado = turnoModificado.estado;

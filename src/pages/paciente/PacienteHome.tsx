@@ -8,24 +8,31 @@ import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
+import { useQuery } from "@tanstack/react-query";
 
 function PacienteHome() {
   const user = useUserInfo();
   const { pacienteInfo } = usePacienteContext();
   const { redirectToLogin } = useRedirects();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
-
-  const { getPacinteTurnos, turnos ,setTurnos} = useGetTurnos();
+  const { getPacinteTurnos ,setTurnos} = useGetTurnos();
   const [preTitle, setPreTitle] = useState<string>("");
-
   const navigate = useNavigate();
 
+
+  const {data: turnos, isLoading} = useQuery({
+    queryFn: () => getPacinteTurnos(),
+    queryKey: ["pacienteTurnos"],
+    staleTime:Infinity
+  })
+
+
   useEffect(() => {
-    user == null ? redirectToLogin() : getPacinteTurnos();
+    if(user == null) redirectToLogin()
     if (pacienteInfo != undefined)
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
   }, []);
-
+  if(isLoading)return <div>aloja</div>
   function ShowTurnos() {
     setBtnToggle(true);
   }
@@ -54,7 +61,7 @@ function PacienteHome() {
       />
       {btnToggle ? (
         <div className="container p-4 pt-0  pt-md-0">
-          {turnos.length != 0 ? (
+          {turnos != undefined ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
               <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos}/>
