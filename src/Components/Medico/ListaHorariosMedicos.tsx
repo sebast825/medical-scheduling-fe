@@ -5,11 +5,12 @@ import "./ListaHorariosMedicos.scss";
 import CreateHorarioMedicoModal from "../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import DisponibilidadHorarioCard from "./DisponibilidadHorarioCard/DisponibilidadHorarioCard";
 import useDisponibilidadMedicosLogic from "../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
+import { Spinner } from "../statics/Spinner";
 
 function ListaHorariosMedicos() {
   const {
     handleInputRegex,
-    sortDisponibildaidMedicos,
+  
     horariosMedicos,
     buscarItem,
     setbuscarItem,
@@ -25,14 +26,16 @@ function ListaHorariosMedicos() {
     closeCreateModal,
     showEditModal,
     showCreateModal,
+    isLoading
   } = useDisponibilidadMedicosLogic();
 
-    
+
 
   //filtra los medicos
   useEffect(() => {
     handleInputRegex();
   }, [buscarItem, horariosMedicos]);
+  if(isLoading) return <Spinner/>
 
   return (
     <div className="container d-flex  flex-column justify-content-center gap-3 p-2">

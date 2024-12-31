@@ -34,7 +34,7 @@ function useDisponibilidadMedicosLogic() {
    fetchDeleteDisponibilidadMedico,
  } = useDisponibilidadMedicosApi();
 
- const {disponibilidadMedico,handleReloadDisponibilidadMedicos} = useDisponibilidadMedicosCacheQuery()
+ const {disponibilidadMedico,handleReloadDisponibilidadMedicos,isLoading} = useDisponibilidadMedicosCacheQuery()
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -155,6 +155,7 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
     closeCreateModal,
     showEditModal,
     showCreateModal,
+    isLoading
   };
 }
 
