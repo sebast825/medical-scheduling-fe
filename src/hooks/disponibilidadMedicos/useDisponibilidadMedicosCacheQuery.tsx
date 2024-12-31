@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserInfo } from "../../context/authContext";
 import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
 import { getDisponibilidadMedicos } from "../../services/apiService";
+import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 
 function useDisponibilidadMedicosCacheQuery() {
   const user = useUserInfo();
+  const queryClient = useQueryClient();
 
   const {} = useDisponibilidadMedicosApi();
   const {
@@ -22,7 +24,12 @@ function useDisponibilidadMedicosCacheQuery() {
     queryKey: ["disponibilidadMedico"],
     staleTime: Infinity,
   });
-  return { disponibilidadMedico, isLoading };
+  const handleDeleteCache = (id: number) => {
+    queryClient.setQueryData(["disponibilidadMedico"], (oldData : DisponibilidadMedico[]) => {
+      return oldData.filter(item => item.id !== id);
+    });
+  };
+  return { disponibilidadMedico, isLoading ,handleDeleteCache};
 }
 
 export default useDisponibilidadMedicosCacheQuery;

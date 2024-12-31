@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
 import { useUserInfo } from "../../context/authContext";
@@ -34,7 +34,7 @@ function useDisponibilidadMedicosLogic() {
    fetchDeleteDisponibilidadMedico,
  } = useDisponibilidadMedicosApi();
 
- const {disponibilidadMedico} = useDisponibilidadMedicosCacheQuery()
+ const {disponibilidadMedico,handleDeleteCache} = useDisponibilidadMedicosCacheQuery()
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -50,7 +50,6 @@ function useDisponibilidadMedicosLogic() {
   function showCreateModal() {
     setToggleCreateModal(true);
   }
-
 
   function handleInputRegex() {
     const regEx = new RegExp(`^${buscarItem}`, "i");
@@ -134,6 +133,7 @@ function useDisponibilidadMedicosLogic() {
     await closeEditModal();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
+    handleDeleteCache(id);
   }
 
   return {
