@@ -8,7 +8,8 @@ import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
-import { useQuery } from "@tanstack/react-query";
+import useTurnosCacheQuery from "../../hooks/turnos/useTurnosCacheQuery";
+import { Spinner } from "../../Components/statics/Spinner";
 
 function PacienteHome() {
   const user = useUserInfo();
@@ -19,20 +20,15 @@ function PacienteHome() {
   const [preTitle, setPreTitle] = useState<string>("");
   const navigate = useNavigate();
 
-
-  const {data: turnos, isLoading} = useQuery({
-    queryFn: () => getPacinteTurnos(),
-    queryKey: ["pacienteTurnos"],
-    staleTime:Infinity
-  })
-
+  const {turnos, isLoading} = useTurnosCacheQuery()
+ 
 
   useEffect(() => {
     if(user == null) redirectToLogin()
     if (pacienteInfo != undefined)
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
   }, []);
-  if(isLoading)return <div>aloja</div>
+  
   function ShowTurnos() {
     setBtnToggle(true);
   }
@@ -45,7 +41,7 @@ function PacienteHome() {
   function RedirectBuscarPorEspecialidad() {
     navigate("/crearTurno/listEspecialidades");
   }
-
+  if(isLoading)return <Spinner/>
   return (
     <div>
       <Opening

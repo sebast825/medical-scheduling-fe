@@ -28,6 +28,7 @@ const useGetTurnos = () => {
 
   const getPacinteTurnos = useCallback(async (pacienteId?: string) => {
     console.log("entra y llama")
+   
     try {
       if (user == null) return;
 
@@ -43,6 +44,8 @@ const useGetTurnos = () => {
       );
       let sort : TurnoResponse[]= orderTurnosByDate(turnosProgramados)
       setTurnos(sort);
+
+      
       return sort;
     } catch (err: any) {
       error(handleHttpError(err));

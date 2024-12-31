@@ -1,12 +1,17 @@
 @import "/src/styles/variables.scss";
 
 .contenedorSpinner {
+  width: 100vw;
   height: 100vh;
   background-color: $color-green-dark;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 200000;
 }
 
 .text {
