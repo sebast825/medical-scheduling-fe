@@ -27,11 +27,7 @@ function ListaHorariosMedicos() {
     showCreateModal,
   } = useDisponibilidadMedicosLogic();
 
-  useEffect(() => {
-    console.log("ordena")
-      sortDisponibildaidMedicos();    
-   
-  }, []);
+    
 
   //filtra los medicos
   useEffect(() => {

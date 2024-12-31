@@ -35,7 +35,11 @@ function useDisponibilidadMedicosCacheQuery() {
       return oldData.filter(item => item.id !== id);
     });
   };
-  return { disponibilidadMedico, isLoading ,handleDeleteCache,addTurnoCache};
+
+  const handleReloadDisponibilidadMedicos = () => {
+    refetch(); 
+  };
+  return { disponibilidadMedico, isLoading ,handleReloadDisponibilidadMedicos};
 }
 
 export default useDisponibilidadMedicosCacheQuery;

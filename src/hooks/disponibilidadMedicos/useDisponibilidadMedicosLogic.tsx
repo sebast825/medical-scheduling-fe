@@ -34,7 +34,7 @@ function useDisponibilidadMedicosLogic() {
    fetchDeleteDisponibilidadMedico,
  } = useDisponibilidadMedicosApi();
 
- const {disponibilidadMedico,handleDeleteCache,addTurnoCache} = useDisponibilidadMedicosCacheQuery()
+ const {disponibilidadMedico,handleReloadDisponibilidadMedicos} = useDisponibilidadMedicosCacheQuery()
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -50,7 +50,7 @@ function useDisponibilidadMedicosLogic() {
   function showCreateModal() {
     setToggleCreateModal(true);
   }
-
+useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
   function handleInputRegex() {
     const regEx = new RegExp(`^${buscarItem}`, "i");
     const filteredItems = Object.entries(horariosMedicos).filter(
@@ -125,9 +125,7 @@ function useDisponibilidadMedicosLogic() {
   ) {
     var newDisponibilidad = await fetchCreateDisponibilidadMedico(disponibilidadMedico);
      closeCreateModal();
-     if(!Array.isArray(newDisponibilidad)){
-      
-     addTurnoCache(newDisponibilidad)}
+     handleReloadDisponibilidadMedicos()
    // await getMedicos();
   }
 
@@ -136,7 +134,7 @@ function useDisponibilidadMedicosLogic() {
      closeEditModal();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
-    handleDeleteCache(id);
+    handleReloadDisponibilidadMedicos()
   }
 
   return {
