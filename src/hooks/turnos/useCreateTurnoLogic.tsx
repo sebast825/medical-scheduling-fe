@@ -16,8 +16,17 @@ import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
 
 function useCreateTurnoLogic(filterBy: string) {
-  const user = useUserInfo();
+  /*
+    0- getMedicos trae un listado con todos los medicos
+    2- al seleccionar el medico hace un pedido a getTurnosDisponiblesByMedico y trae sus turnos disponibles  
+    2-  se activa useffect[turnosDisponibles] y llama a filtrarTurnos (se puede psar a componente filtrarTurnos)
+    3- filtrarTurnos indica los dias disponibles que el medico puede tomar turnos
+    4- handleDiaSelect busca  los horarios disponibles para la fecha seleccionada // checkiar si hace falta convertirlo
+    5 - se activa useffect[showTurnosDisponibles], muestra el listado de horarios
+    6 - handleHorarioSelect -> llama al hook para crear un turno
+  */
 
+  const user = useUserInfo();
   const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
@@ -31,6 +40,15 @@ function useCreateTurnoLogic(filterBy: string) {
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
+
+  const navigate = useNavigate();
+  const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
+  const { medicos, getMedicos, findMedicoById } = useMedicos();
+  const { showModal, toggleModal, closeModal } = useModal();
+  const isSecretario = useIsSecretario();
+  const isPaciente = useIsPaciente();
+  const queryClient = useQueryClient();
+
   const {
     orderTurnosByDate,
     getTurnosDisponiblesByMedico,
@@ -38,11 +56,20 @@ function useCreateTurnoLogic(filterBy: string) {
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useGetTurnos();
-  // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      getMedicos();
+    }
+  }, []);
+
   //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
   useEffect(() => {
     setComponenteActivo(filterBy);
   }, [filterBy]);
+
   useEffect(() => {
     setSubtitleOening("");
     switch (componenteActivo) {
@@ -69,29 +96,12 @@ function useCreateTurnoLogic(filterBy: string) {
     }
   }, [componenteActivo]);
 
-  const navigate = useNavigate();
-  const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
-  /*
-    0- getMedicos trae un listado con todos los medicos
-    2- al seleccionar el medico hace un pedido a getTurnosDisponiblesByMedico y trae sus turnos disponibles  
-    2-  se activa useffect[turnosDisponibles] y llama a filtrarTurnos (se puede psar a componente filtrarTurnos)
-    3- filtrarTurnos indica los dias disponibles que el medico puede tomar turnos
-    4- handleDiaSelect busca  los horarios disponibles para la fecha seleccionada // checkiar si hace falta convertirlo
-    5 - se activa useffect[showTurnosDisponibles], muestra el listado de horarios
-    6 - handleHorarioSelect -> llama al hook para crear un turno
-  */
-
-  const { medicos, getMedicos, findMedicoById } = useMedicos();
-
-  const { showModal, toggleModal, closeModal } = useModal();
-
+  //al seleccionar una fecha en el calendario llama aca - viene de handleDiaSelect
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      getMedicos();
+    if (showTurnosDisponibles) {
+      setComponenteActivo("3");
     }
-  }, []);
+  }, [showTurnosDisponibles]);
 
   function showDiasDisponibles(e: number) {
     getTurnosDisponiblesByMedico(e.toString());
@@ -110,13 +120,6 @@ function useCreateTurnoLogic(filterBy: string) {
     }
   }
 
-  //al seleccionar una fecha en el calendario llama aca - viene de handleDiaSelect
-  useEffect(() => {
-    if (showTurnosDisponibles) {
-      setComponenteActivo("3");
-    }
-  }, [showTurnosDisponibles]);
-
   function handleHorarioSelect(horario: string, medicoId: number) {
     if (user == null) return;
     var params: any = GetJwtContent(user);
@@ -130,10 +133,6 @@ function useCreateTurnoLogic(filterBy: string) {
     setMedicoSelect(findMedicoById(medicoId));
     showModal();
   }
-
-  const isSecretario = useIsSecretario();
-  const isPaciente = useIsPaciente();
-  const queryClient = useQueryClient();
 
   const addTurnoCache = (newTurno: TurnoResponse) => {
     queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
@@ -188,7 +187,7 @@ function useCreateTurnoLogic(filterBy: string) {
     turnosDisponibles,
     subtitleOening,
     handleHorarioSelect,
-    showTurnosDisponibles
+    showTurnosDisponibles,
   };
 }
 
