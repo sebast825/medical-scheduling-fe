@@ -21,6 +21,7 @@ import { handleHttpError } from "../../../utils/errorHandler";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
 import useRedirects from "../../../hooks/useRedicrects";
+import AviableAccountsDemo from "../../modals/AviableAccountsDemo/AviableAccountsDemoModal";
 
 interface iLoginForm {
   e: () => void;
@@ -33,6 +34,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   const [error, setError] = useState("");
   const { setPacienteInfo } = usePacienteContext();
   const { setMedicoInfo } = useMedicoInfoContext();
+  const [showDemoModal, setShowDemoModal] = useState<boolean>(true);
 
   const redirectByRol = useRediectHomeByRole();
   const { redirectToCreatePaciente } = useRedirects();
@@ -91,8 +93,9 @@ const LoginForm = ({ e }: iLoginForm) => {
       setError(handleHttpError(error));
     }
   };
-
   return (
+    <>
+    <AviableAccountsDemo showModal={showDemoModal} handleClose={()=>setShowDemoModal(false)} />
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
       <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
@@ -147,6 +150,7 @@ const LoginForm = ({ e }: iLoginForm) => {
         </div>
       </Col>
     </Row>
+    </>
   );
 };
 
