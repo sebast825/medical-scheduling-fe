@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useMedicos from "../../../hooks/medicos/useMedicos";
 import { useMedicoInfoContext } from "../../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateRequest.type";
+import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 
 interface IInformacionMedicoModal {
   show: boolean;
@@ -19,7 +20,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   const { updateMedicos, getEspecialidadesMedicos, especialidadesMedico,getIdEspecialidad } =
     useMedicos();
   const [especialidad, setEspecialidad] = useState<string>("");
-
+  const {handleReloadMedicos}= useMedicosCacheQuery();
 
   useEffect(() => {
     if (medicoInfo == undefined) return;
@@ -35,6 +36,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       numeroLicencia : numLicencia
     }
     await updateMedicos(medicoInfo?.id,medicoUpdate)
+    handleReloadMedicos()
     handleClose()
   }
 
