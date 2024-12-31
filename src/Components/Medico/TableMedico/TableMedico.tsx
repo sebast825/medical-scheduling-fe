@@ -50,8 +50,8 @@ function TableMedico() {
         striped
         bordered
         hover
-        table-responsive
-        className="text-center align-middle table"
+      
+        className="text-center align-middle table   table-responsive"
       >
         <thead>
           <tr>
