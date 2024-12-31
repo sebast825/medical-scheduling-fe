@@ -5,16 +5,15 @@ import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
-import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { getDate } from "../../utils/formatDate";
 import GetJwtContent from "../../utils/jwtUtils";
-import useMedicos from "../medicos/useMedicos";
 import useIsPaciente from "../roles/useIsPaciente";
 import useIsSecretario from "../roles/useIsSecretario";
 import useModal from "../useModal";
 import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
 import useTurnosCacheQuery from "./useTurnosCacheQuery";
+import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
 
 function useCreateTurnoLogic(filterBy: string) {
   /*
@@ -44,12 +43,12 @@ function useCreateTurnoLogic(filterBy: string) {
 
   const navigate = useNavigate();
   const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
-  const { medicos, getMedicos, findMedicoById } = useMedicos();
+  const { medicos } = useMedicosCacheQuery();
   const { showModal, toggleModal, closeModal } = useModal();
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
   const queryClient = useQueryClient();
-    const{addTurnoCache} = useTurnosCacheQuery();
+  const { addTurnoCache } = useTurnosCacheQuery();
   const {
     orderTurnosByDate,
     getTurnosDisponiblesByMedico,
@@ -61,8 +60,6 @@ function useCreateTurnoLogic(filterBy: string) {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    } else {
-      getMedicos();
     }
   }, []);
 
@@ -123,19 +120,21 @@ function useCreateTurnoLogic(filterBy: string) {
 
   function handleHorarioSelect(horario: string, medicoId: number) {
     if (user == null) return;
-    var params: any = GetJwtContent(user);
-    // console.log(params)
     var pacienteId: number = Number(pacienteInfo?.id);
     setCreateTurnoRequest({
       MedicoId: medicoId,
       Fecha: horario,
       PacienteId: pacienteId,
     });
+    //muestra en el modal al medico
     setMedicoSelect(findMedicoById(medicoId));
     showModal();
   }
+  function findMedicoById(id: number): IMedicoResponse | undefined {
+    var medicoSelected = medicos?.find((elem) => elem.id == id);
+    return medicoSelected ? medicoSelected : undefined;
+  }
 
-  
   async function handleConfirmCreateTurnoModal() {
     var response = await crearTurno(createTurnoRequest);
     if (response != undefined) {

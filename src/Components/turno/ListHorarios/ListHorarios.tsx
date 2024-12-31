@@ -22,7 +22,7 @@ function ListHorarios({ listHorarios, handleSelect,date }: IListHorarios) {
       {horarios?.map((elem) => {
            const timeString = elem;
            const formattedTime = timeString.substring(0, 5);
-
+          
         return (
           <Button key={elem} variant="primary" onClick={() => handleSelect(crearFecha(elem,date),idMedico)}>
             {formattedTime}

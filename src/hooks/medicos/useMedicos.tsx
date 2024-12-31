@@ -25,10 +25,12 @@ const useMedicos = () => {
   const [especialidadesMedico, setEspecialidadesMedico] =
     useState<EspecialidadResponse[]>();
 
-  const getMedicos = useCallback(async () => {
+  const getMedicos = useCallback(async () : Promise<IMedicoResponse[] | undefined>=> {
+    console.log("api medico get")
     try {
       const response: IMedicoResponse[] = await fetchMedicos();
       setMedicos(response);
+      return response;  
     } catch (err: any) {
       error(handleHttpError(err));
     }
