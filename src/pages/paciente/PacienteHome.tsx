@@ -4,7 +4,6 @@ import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
 import { useNavigate } from "react-router-dom";
-import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
@@ -16,11 +15,10 @@ function PacienteHome() {
   const { pacienteInfo } = usePacienteContext();
   const { redirectToLogin } = useRedirects();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
-  const { getPacinteTurnos ,setTurnos} = useGetTurnos();
   const [preTitle, setPreTitle] = useState<string>("");
   const navigate = useNavigate();
 
-  const {turnos, isLoading} = useTurnosCacheQuery()
+  const {turnos, isLoading,handleDeleteCache} = useTurnosCacheQuery()
  
 
   useEffect(() => {
@@ -60,7 +58,7 @@ function PacienteHome() {
           {turnos != undefined ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
-              {/* <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos}/> */}
+              <TurnosListWithModal turnosList={turnos} handleDelete={handleDeleteCache}/>
             </>
           ) : (
             <TitleContent title="No tenés turnos agendados" pading={true} />
