@@ -11,7 +11,7 @@ import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
-import { parseDateFromResponse } from "../../utils/formatDate";
+import { parseDateFromResponseStringToDate } from "../../utils/formatDate";
 import { success } from "toastr";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
@@ -107,8 +107,8 @@ const useGetTurnos = () => {
 
   function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
     return [...array].sort((a: TurnoResponse, b: TurnoResponse) => {
-      const fecha1: Date | null = parseDateFromResponse(a.fecha);
-      const fecha2: Date | null = parseDateFromResponse(b.fecha);
+      const fecha1: Date | null = parseDateFromResponseStringToDate(a.fecha);
+      const fecha2: Date | null = parseDateFromResponseStringToDate(b.fecha);
       if (fecha1 != null && fecha2 != null) {
         return fecha2.getTime() - fecha1.getTime();
       }

@@ -82,7 +82,7 @@ export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
   return rsta;
 }
 
-export function parseDateFromResponse(dateString: string): Date | null {
+export function parseDateFromResponseStringToDate(dateString: string): Date | null {
   const parts = dateString.split(/[\/\s:]/); // Separa por /, espacio y :
 
   if (parts.length !== 6) {
