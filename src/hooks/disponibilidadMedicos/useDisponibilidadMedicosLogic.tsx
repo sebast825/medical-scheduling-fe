@@ -34,7 +34,7 @@ function useDisponibilidadMedicosLogic() {
    fetchDeleteDisponibilidadMedico,
  } = useDisponibilidadMedicosApi();
 
- const {disponibilidadMedico,handleDeleteCache} = useDisponibilidadMedicosCacheQuery()
+ const {disponibilidadMedico,handleDeleteCache,addTurnoCache} = useDisponibilidadMedicosCacheQuery()
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -114,7 +114,7 @@ function useDisponibilidadMedicosLogic() {
     var rsta = await fetchUpdateDisponibilidadMedico(
       disponibilidadMedicoUpdated
     );
-    await closeEditModal();
+     closeEditModal();
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     setHorariosMedicos(updatedList);
@@ -123,14 +123,16 @@ function useDisponibilidadMedicosLogic() {
   async function handleCreate(
     disponibilidadMedico: DisponibilidadMedicoCreate
   ) {
-    await fetchCreateDisponibilidadMedico(disponibilidadMedico);
-    await closeCreateModal();
-    await getMedicos();
+    var newDisponibilidad = await fetchCreateDisponibilidadMedico(disponibilidadMedico);
+     closeCreateModal();
+     if(!Array.isArray(newDisponibilidad)){
+     addTurnoCache(newDisponibilidad)}
+   // await getMedicos();
   }
 
   async function handleDelete(id: number) {
     await fetchDeleteDisponibilidadMedico(id);
-    await closeEditModal();
+     closeEditModal();
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
     handleDeleteCache(id);

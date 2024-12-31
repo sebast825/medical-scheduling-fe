@@ -24,12 +24,18 @@ function useDisponibilidadMedicosCacheQuery() {
     queryKey: ["disponibilidadMedico"],
     staleTime: Infinity,
   });
+    const addTurnoCache = (disponibilidad: DisponibilidadMedico) => {
+     queryClient.setQueryData(["disponibilidadMedico"], (oldData: DisponibilidadMedico[]) => {
+       const updatedData  = [...oldData, disponibilidad];
+         return updatedData;
+     });
+   };
   const handleDeleteCache = (id: number) => {
     queryClient.setQueryData(["disponibilidadMedico"], (oldData : DisponibilidadMedico[]) => {
       return oldData.filter(item => item.id !== id);
     });
   };
-  return { disponibilidadMedico, isLoading ,handleDeleteCache};
+  return { disponibilidadMedico, isLoading ,handleDeleteCache,addTurnoCache};
 }
 
 export default useDisponibilidadMedicosCacheQuery;

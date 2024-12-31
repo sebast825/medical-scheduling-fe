@@ -35,19 +35,19 @@ function useDisponibilidadMedicosApi(){
      );
 
      const fetchCreateDisponibilidadMedico = useCallback(
-      async (dto : DisponibilidadMedicoCreate) => {
+      async (dto : DisponibilidadMedicoCreate): Promise<DisponibilidadMedico | []>  => {
         try {
-          if (user == null) return;           
+          if (user == null) return [];           
           const response: DisponibilidadMedico = await SetCreateDisponibilidadMedico(
             user,
             dto
           );               
           success(successMessagges.agregarHorario);  
-          return response;
+          return response || [];
 
         } catch (err: any) {
           error(handleHttpError(err));
-
+            return [];
         }
       },
       [user]
