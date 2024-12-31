@@ -8,7 +8,7 @@ import ConfirmModal from "../../modals/ConfirmModal";
 //import turnosListList from "../turnosListList/turnosListList";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import TurnosList from "../TurnosList/TurnosList";
-
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ITurnosListWithModal {
   turnosList: TurnoResponse[];
@@ -23,6 +23,15 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bodyConfirmModal, setBodyConfirmModal] = useState("");
   const [turnoACancelar, setTurnoACancelar] = useState<TurnoResponse>();
+
+    const queryClient = useQueryClient();
+
+    const handleDeleteCache = (id : number) =>{
+      queryClient.setQueryData(['pacienteTurnos'],(prevTurnos:TurnoResponse[])=>{
+        return prevTurnos.filter(elem => elem.id != id   )
+      })
+    } 
+
 
 
 
@@ -40,6 +49,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   //una vez que se elimina el turno desde la card, lo remueve del FE
   async function removerTurnoCancelado(e: number): Promise<void> {
    if(!turnosList)return;
+   handleDeleteCache(e);
     var removeTurnoCancelado = turnosList.filter((turno) => turno.id != e);
   //  setTurnos(removeTurnoCancelado);
     setTurnos(removeTurnoCancelado)
