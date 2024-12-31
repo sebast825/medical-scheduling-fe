@@ -43,14 +43,12 @@ function useCreateTurnoLogic(filterBy: string) {
 
   const navigate = useNavigate();
   const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
-  const { medicos } = useMedicosCacheQuery();
+  const { medicos ,isLoading} = useMedicosCacheQuery();
   const { showModal, toggleModal, closeModal } = useModal();
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
-  const queryClient = useQueryClient();
   const { addTurnoCache } = useTurnosCacheQuery();
   const {
-    orderTurnosByDate,
     getTurnosDisponiblesByMedico,
     crearTurno,
     turnosDisponibles,
@@ -182,6 +180,7 @@ function useCreateTurnoLogic(filterBy: string) {
     subtitleOening,
     handleHorarioSelect,
     showTurnosDisponibles,
+    isLoading
   };
 }
 

@@ -21,7 +21,6 @@ import { handleHttpError } from "../../../utils/errorHandler";
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
 import useRedirects from "../../../hooks/useRedicrects";
-import AviableAccountsDemo from "../../modals/AviableAccountsDemo/AviableAccountsDemoModal";
 
 interface iLoginForm {
   e: () => void;

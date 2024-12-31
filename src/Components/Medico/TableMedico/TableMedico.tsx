@@ -6,9 +6,10 @@ import InputRegex from "../../General/InputRegex/InputRegex";
 import useMedicos from "../../../hooks/medicos/useMedicos";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import MedicoDropdown from "../../Dropdown/Admin/MedicoDropdown";
+import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
+import { Spinner } from "../../statics/Spinner";
 
 function TableMedico() {
-  const { getMedicos, medicos } = useMedicos();
 
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
@@ -16,11 +17,8 @@ function TableMedico() {
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showMedicos, setShowMedicos] = useState<IMedicoResponse[]>();
 
-  useEffect(() => {
-    if (medicos != undefined) return;
+  const {medicos, isLoading} = useMedicosCacheQuery()
 
-    getMedicos();
-  }, [medicos]);
 
   useEffect(() => {
     var removeAcentos = removeAccents(fraseRegex);
@@ -39,6 +37,7 @@ function TableMedico() {
   function removeAccents(str: string) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
+  if(isLoading) return <Spinner/>
 
   return (
     <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">

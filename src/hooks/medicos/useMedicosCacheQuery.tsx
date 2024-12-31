@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useMedicos from "./useMedicos";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
+import { Spinner } from "../../Components/statics/Spinner";
 
 
 function useMedicosCacheQuery(){

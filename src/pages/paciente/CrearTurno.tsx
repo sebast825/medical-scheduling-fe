@@ -5,6 +5,7 @@ import ListHorariosPorMedico from "../../Components/turno/listHorariosPorMedico/
 import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import Opening from "../../Components/General/Opening/Opening";
 import useCreateTurnoLogic from "../../hooks/turnos/useCreateTurnoLogic";
+import { Spinner } from "react-bootstrap";
 
 interface ICrearTurno {
   filterBy?: string; 
@@ -26,7 +27,10 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
     subtitleOening,
     handleHorarioSelect,
     showTurnosDisponibles,
+    isLoading
   } = useCreateTurnoLogic(filterBy);
+
+  if(isLoading) return <Spinner/>
 
   return (
     <>
