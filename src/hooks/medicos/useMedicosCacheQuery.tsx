@@ -5,7 +5,7 @@ import { Spinner } from "../../Components/statics/Spinner";
 
 function useMedicosCacheQuery() {
   const queryClient = useQueryClient();
-  const { getMedicos, findMedicoById } = useMedicos();
+  const { getMedicos } = useMedicos();
 
   const {
     data: medicos,

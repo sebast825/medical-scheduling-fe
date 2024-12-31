@@ -2,12 +2,11 @@ import { useState } from "react";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
 import { useUserInfo } from "../../context/authContext";
-import { getDisponibilidadMedicos } from "../../services/apiService";
 import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
-import useModal from "../useModal";
+import useDisponibilidadMedicosCacheQuery from "./useDisponibilidadMedicosCacheQuery";
 
 function useDisponibilidadMedicosLogic() {
   const user = useUserInfo();
@@ -34,6 +33,8 @@ function useDisponibilidadMedicosLogic() {
    fetchCreateDisponibilidadMedico,
    fetchDeleteDisponibilidadMedico,
  } = useDisponibilidadMedicosApi();
+
+ const {disponibilidadMedico} = useDisponibilidadMedicosCacheQuery()
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -63,11 +64,9 @@ function useDisponibilidadMedicosLogic() {
   }
   async function getMedicos() {
     if (user != null) {
-      var horariosAtencionMedicos: DisponibilidadMedico[] =
-        await getDisponibilidadMedicos(user);
-
+      if(!disponibilidadMedico)return;
       var agruparHorariosPorMedico = await agruparObjetosPorClave(
-        horariosAtencionMedicos,
+        disponibilidadMedico,
         "medico",
         "especialidad"
       );
