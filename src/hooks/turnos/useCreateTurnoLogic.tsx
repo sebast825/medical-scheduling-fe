@@ -14,6 +14,7 @@ import useIsSecretario from "../roles/useIsSecretario";
 import useModal from "../useModal";
 import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
+import useTurnosCacheQuery from "./useTurnosCacheQuery";
 
 function useCreateTurnoLogic(filterBy: string) {
   /*
@@ -48,7 +49,7 @@ function useCreateTurnoLogic(filterBy: string) {
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
   const queryClient = useQueryClient();
-
+    const{addTurnoCache} = useTurnosCacheQuery();
   const {
     orderTurnosByDate,
     getTurnosDisponiblesByMedico,
@@ -134,16 +135,10 @@ function useCreateTurnoLogic(filterBy: string) {
     showModal();
   }
 
-  const addTurnoCache = (newTurno: TurnoResponse) => {
-    queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
-      const updatedData = [...oldData, newTurno];
-      return orderTurnosByDate(updatedData);
-    });
-  };
+  
   async function handleConfirmCreateTurnoModal() {
     var response = await crearTurno(createTurnoRequest);
     if (response != undefined) {
-      console.log(response);
       addTurnoCache(response);
     }
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
