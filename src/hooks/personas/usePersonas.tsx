@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import {
+  useMedicoInfoContext,
   usePacienteContext,
   usePersonaInfoContext,
   useUserInfo,
@@ -19,6 +20,7 @@ import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { handleHttpError } from "../../utils/errorHandler";
 import { successMessagges } from "../../constants/successMessages";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
+import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
 
 function usePersonas() {
   const user = useUserInfo();
@@ -28,7 +30,7 @@ function usePersonas() {
   const [personasList, setPersonasList] = useState<
     IPersonaResponse[] | undefined
   >(undefined);
-
+  const {handleReloadMedicos}= useMedicosCacheQuery();
   const putPersona = useCallback(async (dto: IPersonaUpdate) => {
     if (personaInfo == null) return undefined;
 
@@ -40,6 +42,7 @@ function usePersonas() {
         personaInfo.id.toString()
       );
       success(successMessagges.exito);
+      handleReloadMedicos()
       return response;
     } catch (err: any) {
       error(handleHttpError(err));
