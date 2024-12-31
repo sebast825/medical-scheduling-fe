@@ -77,11 +77,11 @@ const useGetTurnos = () => {
     },
     []
   );
-  const getPacinteTurnos = useCallback(async (pacienteId?: string) => {
+  const getPacinteTurnos = useCallback(async (pacienteId?: string) : Promise<TurnoResponse[] | []>=> {
     console.log("entra y llama");
 
     try {
-      if (user == null) return;
+      if (user == null) return [];
 
       var paramId: any = pacienteInfo?.id;
 
@@ -98,9 +98,10 @@ const useGetTurnos = () => {
       //comentado para resolver todo en cache
       //setTurnos(sort);
 
-      return sort;
+      return sort || [];
     } catch (err: any) {
       error(handleHttpError(err));
+      return [];
     }
   }, []);
 

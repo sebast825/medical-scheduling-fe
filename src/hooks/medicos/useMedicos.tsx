@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
 import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
-import { ErrorTypeAny } from "../../types/Error.type";
 import {
   fecthGetEspecialidadesMedico,
   fecthUpdateMedico,
@@ -9,7 +8,6 @@ import {
 import { useMedicoInfoContext, useUserInfo } from "../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../types/Medico/MedicoUpdateRequest.type";
 import { EspecialidadResponse } from "../../types/Especialidad/EspecialidadResponse.type";
-import { convertCompilerOptionsFromJson } from "typescript";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
 import { successMessagges } from "../../constants/successMessages";
