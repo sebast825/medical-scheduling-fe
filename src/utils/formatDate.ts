@@ -87,3 +87,29 @@ export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
     }
     return rsta;
 }
+
+
+
+export function parseDateFromResponse(dateString: string): Date | null {
+    const parts = dateString.split(/[\/\s:]/); // Separa por /, espacio y :
+  
+    if (parts.length !== 6) {
+      return null; // Formato inválido
+    }
+  
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Meses en JavaScript son 0-indexed
+    const year = parseInt(parts[2], 10);
+    const hours = parseInt(parts[3], 10);
+    const minutes = parseInt(parts[4], 10);
+    const seconds = parseInt(parts[5], 10);
+  
+    //Verificación de validez de la fecha (opcional pero recomendado)
+    const date = new Date(year, month, day, hours, minutes, seconds);
+    if (date.getDate() !== day || date.getMonth() !== month || date.getFullYear() !== year) {
+      return null; // Fecha inválida
+    }
+  
+    return date;
+  }
+  

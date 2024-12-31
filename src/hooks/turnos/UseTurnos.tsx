@@ -9,6 +9,7 @@ import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorari
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
+import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 
 const useTurnos = () => {
   const user = useUserInfo();
@@ -43,13 +44,14 @@ const useTurnos = () => {
   }, []);
   const crearTurno = useCallback(
     //devuelve un bool para que en caso de que no pueda hacer la consulta maneje el error y no actue el redirect en la función
-    async (turnoRequest: ITurnoCreateRequestDTO): Promise<void> => {
+    async (turnoRequest: ITurnoCreateRequestDTO): Promise<TurnoResponse| undefined> => {
       //consigue la info del usuario
       try {
         if (user == null) return;
         //const dtoString = JSON.stringify(createTurnoRequest);
         const response: any = await fetchCrearTurnos(user, turnoRequest);
         success("Turno agendado exitosamente.");
+        return response;
       } catch (err: any) {
         error(handleHttpError(err));
       }

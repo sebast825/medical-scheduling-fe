@@ -26,6 +26,13 @@ import { Roles } from "../../types/Roles.type";
 import useRedirects from "../../hooks/useRedicrects";
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import useIsPaciente from "../../hooks/roles/useIsPaciente";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
+import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 
 interface ICrearTurno {
   filterBy?: string; // Hacer que filterBy sea opcional
@@ -47,7 +54,7 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
-
+  const {orderTurnosByDate}=useGetTurnos() 
   // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
   //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
   useEffect(() => {
@@ -146,11 +153,22 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
     showModal();
   }
 
-
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
+  const queryClient = useQueryClient();
+
+  const addTurnoCache = (newTurno: TurnoResponse) => {
+    queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
+      const updatedData  = [...oldData, newTurno];
+        return orderTurnosByDate(updatedData);
+    });
+  };
   async function handleConfirmCreateTurnoModal() {
     var response = await crearTurno(createTurnoRequest);
+    if (response != undefined) {
+      console.log(response);
+      addTurnoCache(response);
+    }
     //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
     setCreateTurnoRequest((prevState) => ({
       ...prevState,

@@ -8,6 +8,7 @@ import { ESTADOS_TURNO } from "../../utils/estadoTurno";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
+import { parseDateFromResponse } from "../../utils/formatDate";
 
 const useGetTurnos = () => {
   const user = useUserInfo();
@@ -48,17 +49,17 @@ const useGetTurnos = () => {
   }, []);
 
   function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
-    var sortTurnosByPrioridad = array.sort((a, b) => {
-      var fecha1 = new Date(a.fecha);
-      var fecha2 = new Date(b.fecha);
-
-      if (fecha1 > fecha2) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-    return sortTurnosByPrioridad;
+      return [...array].sort((a: TurnoResponse, b: TurnoResponse) => {
+        const fecha1: Date | null = parseDateFromResponse(a.fecha);
+        const fecha2: Date | null = parseDateFromResponse(b.fecha);
+        if (fecha1 != null && fecha2 != null) {
+          return fecha2.getTime() - fecha1.getTime();
+        }
+        //Si parseISO falla, se retorna 0 para evitar errores.
+  
+        return 0;
+      })
+      
   }
 
   const getTurnosHoyMedicoById = useCallback(
@@ -119,6 +120,7 @@ const useGetTurnos = () => {
     getTurnosHoyMedicoById,
     sortTurnosByPrioridad,
     updateStatusTurno,
+    orderTurnosByDate
   };
 };
 
