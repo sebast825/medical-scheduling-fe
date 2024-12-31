@@ -44,7 +44,7 @@ function SecreatarioHome() {
         onClickButton1={ShowPacientes}
         onClickButton2={ShowHorariosMedicos}
       />
-      {btnToggle ? <TablePaciente personaList={pacienteList!} /> : <ListaHorariosMedicos />}
+      {btnToggle ? <TablePaciente personaList={pacienteList!}  /> : <ListaHorariosMedicos />}
     </>
   );
 }

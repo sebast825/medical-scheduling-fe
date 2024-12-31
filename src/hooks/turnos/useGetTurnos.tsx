@@ -43,9 +43,10 @@ const useGetTurnos = () => {
         (turno) => turno.estado == ESTADOS_TURNO.PROGRAMADO
       );
       let sort : TurnoResponse[]= orderTurnosByDate(turnosProgramados)
-      setTurnos(sort);
-
       
+      //comentado para resolver todo en cache
+      //setTurnos(sort);
+     
       return sort;
     } catch (err: any) {
       error(handleHttpError(err));

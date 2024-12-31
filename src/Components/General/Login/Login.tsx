@@ -81,7 +81,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     // Lógica para manejar el login
-    let UserName = "paciente";
+    let UserName = "secretario";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
@@ -95,7 +95,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   };
   return (
     <>
-    <AviableAccountsDemo showModal={showDemoModal} handleClose={()=>setShowDemoModal(false)} />
+    {/* <AviableAccountsDemo showModal={showDemoModal} handleClose={()=>setShowDemoModal(false)} /> */}
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
       <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
