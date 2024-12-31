@@ -60,7 +60,7 @@ function PacienteHome() {
           {turnos != undefined ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
-              <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos}/>
+              {/* <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos}/> */}
             </>
           ) : (
             <TitleContent title="No tenés turnos agendados" pading={true} />

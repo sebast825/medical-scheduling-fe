@@ -12,11 +12,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface ITurnosListWithModal {
   turnosList: TurnoResponse[];
-  setTurnos : (e:TurnoResponse[])=> void;
+  handleDelete : (e : number)=> void;
 }
 
 function TurnosListWithModal(props: ITurnosListWithModal) {
-  const { turnosList,setTurnos} = props;
+  const { turnosList,handleDelete} = props;
 
   const user = useUserInfo();
 
@@ -26,12 +26,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
 
     const queryClient = useQueryClient();
 
-    const handleDeleteCache = (id : number) =>{
-      queryClient.setQueryData(['pacienteTurnos'],(prevTurnos:TurnoResponse[])=>{
-        return prevTurnos.filter(elem => elem.id != id   )
-      })
-    } 
-
+ 
 
 
 
@@ -49,10 +44,10 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   //una vez que se elimina el turno desde la card, lo remueve del FE
   async function removerTurnoCancelado(e: number): Promise<void> {
    if(!turnosList)return;
-   handleDeleteCache(e);
+   handleDelete(e);
     var removeTurnoCancelado = turnosList.filter((turno) => turno.id != e);
-  //  setTurnos(removeTurnoCancelado);
-    setTurnos(removeTurnoCancelado)
+  //  handleDelete(removeTurnoCancelado);
+    handleDelete(e)
   }
   const handleCloseModal = () => setShowModal(false);
 

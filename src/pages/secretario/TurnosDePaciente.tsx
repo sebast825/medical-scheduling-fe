@@ -8,24 +8,28 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
 import { genericMessages } from "../../constants/genericMessages";
+import useTurnosCacheQuery from "../../hooks/turnos/useTurnosCacheQuery";
+import { Spinner } from "../../Components/statics/Spinner";
 
 function TurnosDePaciente() {
   const isSecretario: Boolean = useIsSecretario();
   const { pacienteInfo } = usePacienteContext();
-  const { getPacinteTurnos, turnos, setTurnos } = useGetTurnos();
+  const { setTurnos } = useGetTurnos();
   const user = useUserInfo();
   const { redirectToLogin } = useRedirects();
 
+  const {turnos,isLoading,handleDeleteCache} = useTurnosCacheQuery()
   useEffect(() => {
-    isSecretario ? getPacinteTurnos() : redirectToLogin();
+    if(!isSecretario) redirectToLogin();
   }, []);
 
+  if(isLoading) return <Spinner/>;
   return (
     <>
       <Opening title={`Turnos de ${pacienteInfo?.nombre}`} />
       <div className="pt-4 pb-5 mt-md-4 ">
-        {turnos.length != 0 ? (
-          <TurnosListWithModal turnosList={turnos} setTurnos={setTurnos} />
+        {turnos != undefined && turnos.length != 0  ? (
+          <TurnosListWithModal turnosList={turnos} handleDelete={handleDeleteCache} />
         ) : (
           <TitleContent title={genericMessages.turnosVacio} pading={false}/>
        
