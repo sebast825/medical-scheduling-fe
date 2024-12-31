@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   usePacienteContext,
-  usePersonaInfoContext,
   useUserInfo,
 } from "../../context/authContext";
 
@@ -12,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
 import useMedicos from "../../hooks/medicos/useMedicos";
-import useTurnos from "../../hooks/turnos/UseTurnos";
 import ListMedicos from "../../Components/turno/listMedicos/ListMedicos";
 import CalendarioTurnoDisponible from "../../Components/turno/calendarioTurnoDisponible/CalendarioTurnoDisponible";
 import ListEspecialidades from "../../Components/turno/listEspecialdiad/ListEspecialidad";
@@ -21,8 +19,7 @@ import CreatTurnoModal from "../../Components/modals/CreateTurnoModal";
 import useCreateTurnoModal from "../../hooks/useModal";
 import Opening from "../../Components/General/Opening/Opening";
 import useModal from "../../hooks/useModal";
-import { userInfo } from "os";
-import { Roles } from "../../types/Roles.type";
+
 import useRedirects from "../../hooks/useRedicrects";
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import useIsPaciente from "../../hooks/roles/useIsPaciente";
@@ -54,7 +51,13 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
-  const {orderTurnosByDate}=useGetTurnos() 
+  const {
+    orderTurnosByDate,
+    getTurnosDisponiblesByMedico,
+    crearTurno,
+    turnosDisponibles,
+    getTurnosDisponiblesByEspecialidad,
+  } = useGetTurnos();
   // <Opening title="Seleccionar Fecha Disponible" customOpen="miniOpening"/>
   //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
   useEffect(() => {
@@ -99,12 +102,7 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
   */
 
   const { medicos, getMedicos, findMedicoById } = useMedicos();
-  const {
-    getTurnosDisponiblesByMedico,
-    crearTurno,
-    turnosDisponibles,
-    getTurnosDisponiblesByEspecialidad,
-  } = useTurnos();
+
   const { showModal, toggleModal, closeModal } = useModal();
 
   useEffect(() => {
@@ -159,8 +157,8 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
 
   const addTurnoCache = (newTurno: TurnoResponse) => {
     queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
-      const updatedData  = [...oldData, newTurno];
-        return orderTurnosByDate(updatedData);
+      const updatedData = [...oldData, newTurno];
+      return orderTurnosByDate(updatedData);
     });
   };
   async function handleConfirmCreateTurnoModal() {

@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
 import {
+  fetchCrearTurnos,
   fetchFilterTurnosMedicoHoy,
+  fetchTurnosDisponiblesByEspecialdiad,
+  fetchTurnosDisponiblesByMedico,
   fetchTurnosPaciente,
 } from "../../services/apiService";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
@@ -9,11 +12,16 @@ import { usePacienteContext, useUserInfo } from "../../context/authContext";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
 import { parseDateFromResponse } from "../../utils/formatDate";
+import { success } from "toastr";
+import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
+import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 
 const useGetTurnos = () => {
   const user = useUserInfo();
 
-  const { error } = useToastit();
+  const { error, success } = useToastit();
+  const [turnosDisponibles, setTurnosDisponibles] =
+    useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
   const { pacienteInfo } = usePacienteContext();
 
@@ -26,9 +34,52 @@ const useGetTurnos = () => {
     [ESTADOS_TURNO.CANCELADO]: 6,
   };
 
+  const getTurnosDisponiblesByMedico = useCallback(async (id: string) => {
+    try {
+      if (user == null) return;
+      const response: TurnoHorarioDisponibleResponseDTO[] =
+        await fetchTurnosDisponiblesByMedico(user, id);
+
+      setTurnosDisponibles(response);
+      return response;
+    } catch (err: any) {
+      error(handleHttpError(err));
+    }
+  }, []);
+
+  const getTurnosDisponiblesByEspecialidad = useCallback(async (id: string) => {
+    try {
+      if (user == null) return;
+
+      const response: TurnoHorarioDisponibleResponseDTO[] =
+        await fetchTurnosDisponiblesByEspecialdiad(user, id);
+      setTurnosDisponibles(response);
+      return response;
+    } catch (err: any) {
+      error(handleHttpError(err));
+    }
+  }, []);
+  const crearTurno = useCallback(
+    //devuelve un bool para que en caso de que no pueda hacer la consulta maneje el error y no actue el redirect en la función
+    async (
+      turnoRequest: ITurnoCreateRequestDTO
+    ): Promise<TurnoResponse | undefined> => {
+      //consigue la info del usuario
+      try {
+        if (user == null) return;
+        //const dtoString = JSON.stringify(createTurnoRequest);
+        const response: any = await fetchCrearTurnos(user, turnoRequest);
+        success("Turno agendado exitosamente.");
+        return response;
+      } catch (err: any) {
+        error(handleHttpError(err));
+      }
+    },
+    []
+  );
   const getPacinteTurnos = useCallback(async (pacienteId?: string) => {
-    console.log("entra y llama")
-   
+    console.log("entra y llama");
+
     try {
       if (user == null) return;
 
@@ -42,11 +93,11 @@ const useGetTurnos = () => {
       const turnosProgramados = response.filter(
         (turno) => turno.estado == ESTADOS_TURNO.PROGRAMADO
       );
-      let sort : TurnoResponse[]= orderTurnosByDate(turnosProgramados)
-      
+      let sort: TurnoResponse[] = orderTurnosByDate(turnosProgramados);
+
       //comentado para resolver todo en cache
       //setTurnos(sort);
-     
+
       return sort;
     } catch (err: any) {
       error(handleHttpError(err));
@@ -54,17 +105,16 @@ const useGetTurnos = () => {
   }, []);
 
   function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
-      return [...array].sort((a: TurnoResponse, b: TurnoResponse) => {
-        const fecha1: Date | null = parseDateFromResponse(a.fecha);
-        const fecha2: Date | null = parseDateFromResponse(b.fecha);
-        if (fecha1 != null && fecha2 != null) {
-          return fecha2.getTime() - fecha1.getTime();
-        }
-        //Si parseISO falla, se retorna 0 para evitar errores.
-  
-        return 0;
-      })
-      
+    return [...array].sort((a: TurnoResponse, b: TurnoResponse) => {
+      const fecha1: Date | null = parseDateFromResponse(a.fecha);
+      const fecha2: Date | null = parseDateFromResponse(b.fecha);
+      if (fecha1 != null && fecha2 != null) {
+        return fecha2.getTime() - fecha1.getTime();
+      }
+      //Si parseISO falla, se retorna 0 para evitar errores.
+
+      return 0;
+    });
   }
 
   const getTurnosHoyMedicoById = useCallback(
@@ -107,7 +157,6 @@ const useGetTurnos = () => {
 
   // Actualiza el turno modificado en el array de turnos.
   function updateStatusTurno(turnoModificado: TurnoResponse) {
-   
     const updateTurnos = turnos.map((turno) => {
       if (turno.id === turnoModificado.id) {
         turno.estado = turnoModificado.estado;
@@ -125,7 +174,11 @@ const useGetTurnos = () => {
     getTurnosHoyMedicoById,
     sortTurnosByPrioridad,
     updateStatusTurno,
-    orderTurnosByDate
+    orderTurnosByDate,
+    getTurnosDisponiblesByMedico,
+    crearTurno,
+    turnosDisponibles,
+    getTurnosDisponiblesByEspecialidad,
   };
 };
 
