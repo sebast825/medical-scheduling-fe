@@ -61,10 +61,10 @@ function useDisponibilidadMedicosLogic() {
     );
     setHorariosMedicosFiltrados(filteredItems);
   }
-  async function getMedicos() {
+   function sortDisponibildaidMedicos() {
     if (user != null) {
       if(!disponibilidadMedico)return;
-      var agruparHorariosPorMedico = await agruparObjetosPorClave(
+      var agruparHorariosPorMedico =  agruparObjetosPorClave(
         disponibilidadMedico,
         "medico",
         "especialidad"
@@ -126,6 +126,7 @@ function useDisponibilidadMedicosLogic() {
     var newDisponibilidad = await fetchCreateDisponibilidadMedico(disponibilidadMedico);
      closeCreateModal();
      if(!Array.isArray(newDisponibilidad)){
+      
      addTurnoCache(newDisponibilidad)}
    // await getMedicos();
   }
@@ -140,7 +141,7 @@ function useDisponibilidadMedicosLogic() {
 
   return {
     handleInputRegex,
-    getMedicos,
+    sortDisponibildaidMedicos,
     horariosMedicos,
     buscarItem,
     setbuscarItem,

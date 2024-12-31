@@ -9,7 +9,7 @@ import useDisponibilidadMedicosLogic from "../../hooks/disponibilidadMedicos/use
 function ListaHorariosMedicos() {
   const {
     handleInputRegex,
-    getMedicos,
+    sortDisponibildaidMedicos,
     horariosMedicos,
     buscarItem,
     setbuscarItem,
@@ -28,10 +28,9 @@ function ListaHorariosMedicos() {
   } = useDisponibilidadMedicosLogic();
 
   useEffect(() => {
-    const executeAsyncTask = async () => {
-      await getMedicos();
-    };
-    executeAsyncTask();
+    console.log("ordena")
+      sortDisponibildaidMedicos();    
+   
   }, []);
 
   //filtra los medicos
