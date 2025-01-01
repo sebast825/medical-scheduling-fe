@@ -9,6 +9,8 @@ import ConfirmModal from "../../modals/ConfirmModal";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import TurnosList from "../TurnosList/TurnosList";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import useToastit from "../../../hooks/useToastit";
+import { successMessagges } from "../../../constants/successMessages";
 
 interface ITurnosListWithModal {
   turnosList: TurnoResponse[];
@@ -23,12 +25,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [bodyConfirmModal, setBodyConfirmModal] = useState("");
   const [turnoACancelar, setTurnoACancelar] = useState<TurnoResponse>();
-
-    const queryClient = useQueryClient();
-
- 
-
-
+  
 
   const handleOpenModal = (turno: TurnoResponse): void => {
     setTurnoACancelar(turno);
@@ -46,8 +43,7 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
    if(!turnosList)return;
    handleDelete(e);
     var removeTurnoCancelado = turnosList.filter((turno) => turno.id != e);
-  //  handleDelete(removeTurnoCancelado);
-    handleDelete(e)
+
   }
   const handleCloseModal = () => setShowModal(false);
 
@@ -60,16 +56,15 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
     handleCloseModal();
   };
 
+  const {success} = useToastit()
   async function cancelarTurno(e: number): Promise<void> {
     if(user == null || turnoACancelar == null)return;
 
-    var params: any = GetJwtContent(user);
     var cancelarTurno = await fetchCancelarTurno(user, turnoACancelar.id);
     if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
-      console.log("turno cancelado");
-      if (turnoACancelar) {
+
         removerTurnoCancelado(turnoACancelar.id);
-      }
+        success(successMessagges.turnoEliminado);
     }
   }
 
