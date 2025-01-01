@@ -124,12 +124,6 @@ export const fetchMedicoInfo = async (jwt: string, id: string) => {
   return response.data;
 };
 
-export const fetchTurnosByMedicoId = async (jwt: string, id: string) => {
-  const api = createApiInstance(jwt);
-
-  const response = await api.get(`/FilterByDoctor/?id=${id}`);
-  return response.data;
-};
 
 export const fetchActualizarEstadoTurno = async (
   jwt: string,
@@ -155,8 +149,6 @@ export const fetchFilterTurnosMedicoHoy = async (
   );
   return response.data;
 };
-
-
 
 
 export const PutUpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
