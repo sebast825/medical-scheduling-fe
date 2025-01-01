@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useRedirects from "../../hooks/useRedicrects";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
-import useTurnosCacheQuery from "../../hooks/turnos/useTurnosCacheQuery";
+import useTurnosCacheQuery from "../../hooks/turnos/useTurnosPacienteCacheQuery";
 import { Spinner } from "../../Components/statics/Spinner";
 
 function PacienteHome() {

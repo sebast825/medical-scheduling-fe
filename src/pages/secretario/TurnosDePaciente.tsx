@@ -8,7 +8,7 @@ import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
 import { genericMessages } from "../../constants/genericMessages";
-import useTurnosCacheQuery from "../../hooks/turnos/useTurnosCacheQuery";
+import useTurnosCacheQuery from "../../hooks/turnos/useTurnosPacienteCacheQuery";
 import { Spinner } from "../../Components/statics/Spinner";
 
 function TurnosDePaciente() {

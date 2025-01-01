@@ -4,7 +4,7 @@ import useGetTurnos from "./useGetTurnos";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 
 
-function useTurnosCacheQuery(){
+function useTurnosPacienteCacheQuery(){
 
    const {getPacinteTurnos,orderTurnosByDate} = useGetTurnos()
    const queryClient = useQueryClient();
@@ -38,4 +38,4 @@ function useTurnosCacheQuery(){
 }
 
 
-export default useTurnosCacheQuery;
+export default useTurnosPacienteCacheQuery;

@@ -12,8 +12,8 @@ import useIsSecretario from "../roles/useIsSecretario";
 import useModal from "../useModal";
 import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
-import useTurnosCacheQuery from "./useTurnosCacheQuery";
 import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
+import useTurnosPacienteCacheQuery from "./useTurnosPacienteCacheQuery";
 
 function useCreateTurnoLogic(filterBy: string) {
   /*
@@ -47,7 +47,7 @@ function useCreateTurnoLogic(filterBy: string) {
   const { showModal, toggleModal, closeModal } = useModal();
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
-  const { addTurnoCache } = useTurnosCacheQuery();
+  const { addTurnoCache } = useTurnosPacienteCacheQuery();
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,
