@@ -8,6 +8,7 @@ import {
 import useGetTurnos from "../../../hooks/turnos/useGetTurnos";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import TitleContent from "../../General/TitlteContent/TitleContent";
+import useTurnosMedicoCacheQuery from "../../../hooks/turnos/useTurnosMedicoCacheQuery";
 
 interface ITurnosListMedico {
   //turnos :TurnoResponse[],
@@ -16,12 +17,10 @@ interface ITurnosListMedico {
 
 function TurnosListMedico() {
   const { medicoInfo } = useMedicoInfoContext();
-  const { getTurnosHoyMedicoById, turnos, updateStatusTurno } = useGetTurnos();
+  const { getTurnosHoyMedicoById, updateStatusTurno } = useGetTurnos();
 
-  useEffect(() => {
-    if (medicoInfo == undefined) return;
-    getTurnosHoyMedicoById(medicoInfo?.id.toString());
-  }, []);
+  const {turnos} = useTurnosMedicoCacheQuery()
+ 
 
   return (
     <>

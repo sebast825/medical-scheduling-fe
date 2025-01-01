@@ -119,9 +119,9 @@ const useGetTurnos = () => {
   }
 
   const getTurnosHoyMedicoById = useCallback(
-    async (userId: string) => {
+    async (userId: string) :Promise<TurnoResponse[] | []> => {
       try {
-        if (user == null) return;
+        if (user == null) return [];
         const now = new Date();
         const fechaLocal = new Date(now).toLocaleString().split(",")[0];
 
@@ -136,10 +136,13 @@ const useGetTurnos = () => {
         );
 
         let orderByDate = orderTurnosByDate(response);
-        setTurnos(sortTurnosByPrioridad(orderByDate));
-        return response;
+        let orderByPrio = sortTurnosByPrioridad(orderByDate)
+        //setTurnos(orderByPrio);
+        return orderByPrio;
+  
       } catch (err: any) {
         error(handleHttpError(err));
+        return []
       }
     },
     [user]
