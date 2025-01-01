@@ -25,6 +25,7 @@ const useMedicos = () => {
 
   const getMedicos = useCallback(async () : Promise<IMedicoResponse[] | []>=> {
     try {
+      console.log("llama")
       const response: IMedicoResponse[] = await fetchMedicos();
       setMedicos(response);
       return response || [] ;  

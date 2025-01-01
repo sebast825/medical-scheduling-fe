@@ -3,27 +3,23 @@ import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { Table } from "react-bootstrap";
 import Opening from "../../Components/General/Opening/Opening";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
-import useMedicos from "../../hooks/medicos/useMedicos";
+import useMedicosCacheQuery from "../../hooks/medicos/useMedicosCacheQuery";
+import { Spinner } from "../../Components/statics/Spinner";
 
 function NuestrosMedicos() {
   const [listaMedicos, setListaMedicos] = useState<IMedicoResponse[]>([]);
-  const { getMedicos, medicos } = useMedicos();
 
+  const {medicos,isLoading}= useMedicosCacheQuery();
 
   useEffect(() => {
-    if (medicos == undefined) {
-      getMedicos();
-
-    }else{
+    if (medicos != undefined) 
       setListaMedicos(medicos)
-    }
+    
   }, [medicos]);
 
 
 
-  useEffect(()=>{},[listaMedicos])
-
-
+  if(isLoading) return <Spinner/>
   return (
     <div className="pb-5">
     
@@ -42,7 +38,7 @@ function NuestrosMedicos() {
           </tr>
         </thead>
         <tbody>
-          {listaMedicos.map((item, index) => (
+          {listaMedicos && listaMedicos.map((item, index) => (
             <tr className="text-center " key={index}>
               <td>{item.apellido + " " + item.nombre}</td>
               <td>{item.especialidad}</td>
