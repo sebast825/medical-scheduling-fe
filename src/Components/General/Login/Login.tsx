@@ -35,7 +35,7 @@ const LoginForm = ({ e }: iLoginForm) => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    handleLogin("a", "b");
+    await handleLogin("a", "b");
   };
   return (
     <>

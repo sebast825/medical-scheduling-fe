@@ -1,3 +1,4 @@
+import { genericMessages } from "../../constants/genericMessages";
 import { useAdministrativoInfoContext, useMedicoInfoContext, usePacienteContext, usePersonaInfoContext, useUserInfo, useUserToggleContext } from "../../context/authContext";
 import { fetchLogin, fetchMedicoInfo, fetchPacienteInfo, fetchPersonaInfo } from "../../services/apiService";
 import { ILogin } from "../../types/Login.types";
@@ -13,11 +14,11 @@ function useLogin() {
   const { setAdministrativoInfo } = useAdministrativoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
   const user = useUserInfo();
-  const { error, success } = useToastit();
+  const { error } = useToastit();
 
   
   async function handleLogin(userName: string, password: string) {
-    let UserName = "medico";
+    let UserName = "pacieante";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 
@@ -26,7 +27,7 @@ function useLogin() {
       const token: string = await fetchLogin(loginData);
       cambiaLogin(token);
     } catch (err: any) {
-   
+      console.log(err)
       error(handleHttpError(err));
     }
   }
@@ -34,7 +35,6 @@ function useLogin() {
     //busca la info de la persona, hay que reorganizarla
     const getUserInfo = async () => {
       if (user == null) return;
-      error("Ha ocurrido un error inesperado");
 
       var params: DecodedToken = GetJwtContent(user);
       var userRole = params.role;
@@ -53,7 +53,7 @@ function useLogin() {
         const administradorInfo = await fetchPersonaInfo(user, params.PersonaId);
         await setAdministrativoInfo(administradorInfo);
       } else {
-        // error("Ha ocurrido un error inesperado");
+         error(genericMessages.standardError);
       }
     };
   return { handleLogin ,getUserInfo};
