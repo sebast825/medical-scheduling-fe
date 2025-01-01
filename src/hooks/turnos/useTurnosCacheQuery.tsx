@@ -9,7 +9,7 @@ function useTurnosCacheQuery(){
    const {getPacinteTurnos,orderTurnosByDate} = useGetTurnos()
    const queryClient = useQueryClient();
 
-     const {data: turnos, isLoading} = useQuery({
+     const {data: turnos, isFetching,refetch} = useQuery({
        queryFn: () => getPacinteTurnos(),
        queryKey: ["pacienteTurnos"],
        staleTime:Infinity
@@ -25,12 +25,15 @@ function useTurnosCacheQuery(){
         return prevTurnos.filter(elem => elem.id != id   )
       })
     } 
-
+    const handleReloadTurnos = () => {
+      refetch(); 
+    };
    return{
       turnos,
-      isLoading,
+      isFetching,
       addTurnoCache,
-      handleDeleteCache
+      handleDeleteCache,
+      handleReloadTurnos
    }
 }
 

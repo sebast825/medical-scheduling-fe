@@ -18,12 +18,13 @@ function TurnosDePaciente() {
   const user = useUserInfo();
   const { redirectToLogin } = useRedirects();
 
-  const {turnos,isLoading,handleDeleteCache} = useTurnosCacheQuery()
+  const {turnos,isFetching,handleDeleteCache,handleReloadTurnos,} = useTurnosCacheQuery()
   useEffect(() => {
     if(!isSecretario) redirectToLogin();
+    handleReloadTurnos()
   }, []);
 
-  if(isLoading) return <Spinner/>;
+  if(isFetching) return <Spinner/>;
   return (
     <>
       <Opening title={`Turnos de ${pacienteInfo?.nombre}`} />

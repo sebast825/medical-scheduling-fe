@@ -18,7 +18,7 @@ function PacienteHome() {
   const [preTitle, setPreTitle] = useState<string>("");
   const navigate = useNavigate();
 
-  const {turnos, isLoading,handleDeleteCache} = useTurnosCacheQuery()
+  const {turnos, isFetching,handleDeleteCache} = useTurnosCacheQuery()
  
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function PacienteHome() {
   function RedirectBuscarPorEspecialidad() {
     navigate("/crearTurno/listEspecialidades");
   }
-  if(isLoading)return <Spinner/>
+  if(isFetching)return <Spinner/>
   return (
     <div>
       <Opening

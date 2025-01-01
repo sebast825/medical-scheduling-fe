@@ -8,7 +8,6 @@ function useDisponibilidadMedicosCacheQuery() {
   const user = useUserInfo();
   const queryClient = useQueryClient();
 
-  const {} = useDisponibilidadMedicosApi();
   const {
     data: disponibilidadMedico,
     isLoading,
@@ -24,17 +23,7 @@ function useDisponibilidadMedicosCacheQuery() {
     queryKey: ["disponibilidadMedico"],
     staleTime: Infinity,
   });
-    const addTurnoCache = (disponibilidad: DisponibilidadMedico) => {
-     queryClient.setQueryData(["disponibilidadMedico"], (oldData: DisponibilidadMedico[]) => {
-       const updatedData  = [...oldData, disponibilidad];
-         return updatedData;
-     });
-   };
-  const handleDeleteCache = (id: number) => {
-    queryClient.setQueryData(["disponibilidadMedico"], (oldData : DisponibilidadMedico[]) => {
-      return oldData.filter(item => item.id !== id);
-    });
-  };
+
 
   const handleReloadDisponibilidadMedicos = () => {
     refetch(); 
