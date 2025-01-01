@@ -15,9 +15,8 @@ function ImageTextCard(props: IImageTextCard) {
   // width:"max-content"
   return (
     <div className="container " style={{maxWidth:windowsSize.width > 1100 ?"1100px":"max-content"}}>
-      <div className="row justify-content-center">
-        {/* Card 1 */}
-        <div className="col-12 d-flex justify-content-center">
+      
+    
           <div
             className={`col-12  gap-1  d-flex flex-column flex-md-row justify-content-center 
           ${imageLeft ? "flex-md-row-reverse" : ""}`}
@@ -49,8 +48,8 @@ function ImageTextCard(props: IImageTextCard) {
               <p className="card-text mt-2">{content}</p>
             </div>
           </div>
-        </div>
-      </div>
+       
+   
     </div>
   );
 }
