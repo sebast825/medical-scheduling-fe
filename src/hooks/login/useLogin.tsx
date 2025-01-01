@@ -17,7 +17,7 @@ function useLogin() {
 
   
   async function handleLogin(userName: string, password: string) {
-    let UserName = "mediaco";
+    let UserName = "medico";
     let Password = "a";
     const loginData: ILogin = { UserName, Password };
 

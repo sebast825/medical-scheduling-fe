@@ -12,7 +12,7 @@ function Opening({ title, subTitle,smallOpening = true  } :IOpening) : React.Rea
   return (
     <div className={`opening-container ${smallOpening == true ? "miniOpening": "" }`}style={{ backgroundImage: `url(/images/hospital.jpg)` }}>
       <div className="overlay">
-        <div className="text-content">
+        <div className=  {`text-content ${smallOpening == true ? "": "marginTop"  }`}>
           <h1 className="title">{title}</h1>
           <h2 className="subtitle">{subTitle}</h2>
         </div>
