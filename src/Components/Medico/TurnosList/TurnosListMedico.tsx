@@ -19,8 +19,11 @@ function TurnosListMedico() {
   const { medicoInfo } = useMedicoInfoContext();
   const { getTurnosHoyMedicoById, updateStatusTurno } = useGetTurnos();
 
-  const {turnos} = useTurnosMedicoCacheQuery()
+  const {turnos,updateTurnoCache} = useTurnosMedicoCacheQuery()
  
+  function hadleUpdateStatus (turoUpdated : TurnoResponse){
+    updateTurnoCache(turoUpdated)
+  }
 
   return (
     <>
@@ -36,7 +39,7 @@ function TurnosListMedico() {
               <CardTurnoMedico
                 key={turno.id}
                 turno={turno}
-                btnEvent={(e) => updateStatusTurno(e)}
+                btnEvent={(e) => updateTurnoCache(e)}
               />
             ))}
           </>

@@ -37,13 +37,7 @@ function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
     return screenSize < 600;
   }
 
-  async function cancelarTurno(): Promise<void> {
-    if (user == null) return;
-    var cancelarTurno = await fetchCancelarTurno(user, turno.id);
-    if (cancelarTurno.estado == ESTADOS_TURNO.CANCELADO) {
-      btnEvent(cancelarTurno);
-    }
-  }
+
   async function updateStatusTurno(nuevoEstado: string): Promise<void> {
     if (user == null) return;
     var updateStatus = await fetchActualizarEstadoTurno(
