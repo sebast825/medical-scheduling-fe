@@ -23,7 +23,7 @@ function ImageTextCard(props: IImageTextCard) {
           ${imageLeft ? "flex-md-row-reverse" : ""}`}
           >
             <div
-              className={`col-12 col-md-6  d-flex justify-content-left 
+              className={`col-12 col-md-6 d-flex justify-content-center ${windowsSize.width < 750 ? "m-auto" : ""}
               ${imageLeft ? "flex-md-row-reverse" : ""}
          `} 
             >
@@ -42,7 +42,6 @@ function ImageTextCard(props: IImageTextCard) {
             <div
               className="col-12 col-md-6 mt-3 mt-md-0 d-flex justify-content-center flex-column"
               style={{
-                width: "100%",
                 maxWidth: "500px",
               }}
             >
