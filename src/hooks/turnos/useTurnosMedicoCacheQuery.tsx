@@ -28,14 +28,7 @@ function useTurnosMedicoCacheQuery() {
       return orderTurnosByDate(updatedData);
     });
   };
-  const handleDeleteCache = (id: number) => {
-    queryClient.setQueryData(
-      ["medicoTurnos"],
-      (prevTurnos: TurnoResponse[]) => {
-        return prevTurnos.filter((elem) => elem.id != id);
-      }
-    );
-  };
+
   const updateTurnoCache = (updatedTurno: TurnoResponse) => {
     queryClient.setQueryData(
       ["medicoTurnos"],
@@ -55,7 +48,6 @@ function useTurnosMedicoCacheQuery() {
     turnos,
     isFetching,
     addTurnoCache,
-    handleDeleteCache,
     handleReloadTurnos,
     updateTurnoCache,
   };

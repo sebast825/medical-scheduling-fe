@@ -9,6 +9,7 @@ import useGetTurnos from "../../../hooks/turnos/useGetTurnos";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import TitleContent from "../../General/TitlteContent/TitleContent";
 import useTurnosMedicoCacheQuery from "../../../hooks/turnos/useTurnosMedicoCacheQuery";
+import { Spinner } from "../../statics/Spinner";
 
 interface ITurnosListMedico {
   //turnos :TurnoResponse[],
@@ -16,15 +17,10 @@ interface ITurnosListMedico {
 }
 
 function TurnosListMedico() {
-  const { medicoInfo } = useMedicoInfoContext();
-  const { getTurnosHoyMedicoById, updateStatusTurno } = useGetTurnos();
 
-  const {turnos,updateTurnoCache} = useTurnosMedicoCacheQuery()
+  const {turnos,updateTurnoCache,isFetching} = useTurnosMedicoCacheQuery()
  
-  function hadleUpdateStatus (turoUpdated : TurnoResponse){
-    updateTurnoCache(turoUpdated)
-  }
-
+  if(isFetching) return <Spinner/>
   return (
     <>
       <div
