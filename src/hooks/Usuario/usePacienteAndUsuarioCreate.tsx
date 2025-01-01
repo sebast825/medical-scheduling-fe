@@ -17,6 +17,7 @@ import { Sexo } from "../../types/Sexo.type";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import { successMessagges } from "../../constants/successMessages";
 import { handleHttpError } from "../../utils/errorHandler";
+import useRedirects from "../useRedicrects";
 
 function usePacienteAndUsuarioCreate() {
 
@@ -60,7 +61,7 @@ function usePacienteAndUsuarioCreate() {
   const { pacienteInfo, setPacienteInfo } = usePacienteContext();
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
   const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
-
+  const {redirectToLogin}= useRedirects()
   const { error, success } = useToastit();
 
   interface ICheckBoxFrom {
@@ -158,7 +159,7 @@ function usePacienteAndUsuarioCreate() {
         fechaNacimiento: '1990-01-01',
       },
       Usuario: {
-        UserName: 'mabel',
+        UserName: 'mabel32',
         Password: 'mabel',
         Email: 'juan.perez@email.com',
       },
@@ -183,11 +184,16 @@ function usePacienteAndUsuarioCreate() {
       return;
     }*/
     var usuarioAndPaciente = mergePacienteAndUsuarioInCreateDto();
-    createUsuarioAndPaciente(usuarioAndPaciente)
+    var rsta = createUsuarioAndPaciente(usuarioAndPaciente);
+    if(rsta != undefined){
+        setTimeout(() => {
+          redirectToLogin();
+        }, 100);
+    }
   }
 
   const createUsuarioAndPaciente = useCallback(
-    async (dto: CreateUsuarioAndPacienteRequestDto) => {
+    async (dto: CreateUsuarioAndPacienteRequestDto) :Promise<string | undefined> => {
       try {
         const response = await fecthCreateUsuarioAndPaciente(dto);
 
@@ -197,6 +203,7 @@ function usePacienteAndUsuarioCreate() {
         console.log(err)
         //.response.data.Message
              error(handleHttpError(err));
+          
        
       }
     },
