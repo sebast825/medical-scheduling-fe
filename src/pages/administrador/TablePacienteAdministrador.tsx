@@ -26,7 +26,7 @@ function TablePacienteAdministrador() {
   useEffect(()=>{},[personasList])
   return (
     <>
-      <Opening title="Informacion de pacientes" />
+      <Opening title="Informacion de usuarios" />
       <div className="pt-4 pb-5">
         {personasList && (
           <TablePaciente

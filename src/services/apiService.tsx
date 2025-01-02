@@ -1,4 +1,4 @@
-import { createApiInstance } from "./api";
+import api, { setAuthToken } from "./api";
 import { ILogin } from "../types/Login.types";
 import { ITurnoCreateRequestDTO } from "../types/turno/TurnoCreateRequest.DTO.type";
 import { IPersonaUpdate } from "../types/Persona/PersonaUpdate.type";
@@ -14,45 +14,45 @@ import { NuevaClaveRequest } from "../types/usuario/NuevaClaveRequest";
 
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get("/api/pacientes");
   return response.data;
 };
 
 export const fetchLogin = async (loginData: ILogin) => {
-  const api = createApiInstance("");
+  setAuthToken("");
   const response = await api.post("api/Login", loginData);
   return response.data;
 };
 
 export const fetchPersonaInfo = async (jwt: string, id: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
 
   const response = await api.get(`api/personas/${id}`);
   return response.data;
 };
 
 export const fetchPacienteInfo = async (jwt: string, id: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
 
   const response = await api.get(`api/pacientes/${id}`);
   return response.data;
 };
 
 export const fetchMedicos = async () => {
-  const api = createApiInstance();
+ 
   const response = await api.get(`api/medicos`);
   return response.data;
 };
 
 export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(`api/pacientes/${idPaciente}/turnos`);
   return response.data;
 };
 
 export const fetchCancelarTurno = async (jwt: string, idTurno: number) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.patch(`api/pacientes/turnos/${idTurno}/cancelar`);
   return response.data;
 };
@@ -61,7 +61,7 @@ export const fetchTurnosDisponiblesByMedico = async (
   jwt: string,
   idMedico: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(`api/medicos/${idMedico}/turnosdisponible`);
   return response.data;
 };
@@ -70,7 +70,7 @@ export const fetchTurnosDisponiblesByEspecialdiad = async (
   jwt: string,
   especialidad: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(
     `api/especialidad/${especialidad}/turnosdisponible`
   );
@@ -80,7 +80,7 @@ export const fetchCrearTurnos = async (
   jwt: string,
   dto: ITurnoCreateRequestDTO
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.post(`api/turnos/`, dto);
   return response.data;
 };
@@ -90,7 +90,7 @@ export const fetchUpdatePersona = async (
   dto: IPersonaUpdate,
   id: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.put(`api/personas/${id}`, dto);
   return response.data;
 };
@@ -100,25 +100,25 @@ export const fetchUpdatePaciente = async (
   dto: IPacienteUpdate,
   id: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.put(`api/pacientes/${id}`, dto);
   return response.data;
 };
 
 export const getDisponibilidadMedicos = async (jwt: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(`api/disponibilidadMedicos/GetAll`);
   return response.data;
 };
 
 export const fetchPacienteById = async (jwt: string, id: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(`api/pacientes/${id}`);
   return response.data;
 };
 
 export const fetchMedicoInfo = async (jwt: string, id: string) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
 
   const response = await api.get(`api/medicos/${id}`);
   return response.data;
@@ -130,7 +130,7 @@ export const fetchActualizarEstadoTurno = async (
   turnoId: string,
   estadoTurno: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
 
   const response = await api.patch(
     `api/pacientes/turnos/${turnoId}/${estadoTurno}`
@@ -143,7 +143,7 @@ export const fetchFilterTurnosMedicoHoy = async (
   howa:string,
   idDoctor: string
 ) => {
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(
     `/medico/${idDoctor}/turnosHoy/${howa}`
   );
@@ -152,7 +152,7 @@ export const fetchFilterTurnosMedicoHoy = async (
 
 
 export const PutUpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.put(
     `api/DisponibilidadMedicos`,dto
   );
@@ -160,7 +160,7 @@ export const PutUpdateDisponibilidadMedico = async (jwt: string, dto : IDisponib
 }
 
 export const SetCreateDisponibilidadMedico = async (jwt: string, dto : DisponibilidadMedicoCreate)=>{
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.post(
     `api/DisponibilidadMedicos`,dto
   );
@@ -168,7 +168,7 @@ export const SetCreateDisponibilidadMedico = async (jwt: string, dto : Disponibi
 }
 
 export const DeleteDisponibilidadMedico = async (jwt: string, id : number)=>{
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.delete(
     `api/DisponibilidadMedicos/${id}`
   );
@@ -177,7 +177,7 @@ export const DeleteDisponibilidadMedico = async (jwt: string, id : number)=>{
 
 export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number, estado: number)=>{
  
-    const api = createApiInstance(jwt);
+    setAuthToken(jwt);
     const response = await api.patch(
       `/api/usuario/${id}/estado/${estado}`
     );
@@ -187,7 +187,7 @@ export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number,
 
 export const fecthUpdateMedico = async (jwt: string, id : number, dto: MedicoUpdateRequestDTO)=>{
  
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.put(
     `/api/medicos/${id}`,dto
   );
@@ -197,7 +197,7 @@ export const fecthUpdateMedico = async (jwt: string, id : number, dto: MedicoUpd
 
 export const fecthGetEspecialidadesMedico = async (jwt: string)=>{
  
-  const api = createApiInstance(jwt);
+  setAuthToken(jwt);
   const response = await api.get(
     `/api/medicos/especialidad/getAll`
 
@@ -210,12 +210,11 @@ export const fecthGetEspecialidadesMedico = async (jwt: string)=>{
 export const fecthCreateUsuarioAndPaciente = async (dto : CreateUsuarioAndPacienteRequestDto)=>{
   const source = axios.CancelToken.source();
 
-  const api = createApiInstance();
+  
   const response = await api.post(
     `/api/usuario/paciente`, dto
 
   );
-  console.log(response)
   return response.data;
 
 }
@@ -223,9 +222,6 @@ export const fecthCreateUsuarioAndPaciente = async (dto : CreateUsuarioAndPacien
 
 
 export const fecthRecuperarClaveRequest= async (email: RecuperarClaveRequest)=>{
-  const source = axios.CancelToken.source();
-
-  const api = createApiInstance();
   const response = await api.post(
     `/api/usuario/requestUpdatePassword`, email
 
@@ -236,9 +232,7 @@ export const fecthRecuperarClaveRequest= async (email: RecuperarClaveRequest)=>{
 }
 
 export const fecthActualizarClave= async (dto: NuevaClaveRequest)=>{
-  const source = axios.CancelToken.source();
 
-  const api = createApiInstance();
   const response = await api.post(
     `/api/usuario/updatePassword`, dto
 
@@ -248,9 +242,7 @@ export const fecthActualizarClave= async (dto: NuevaClaveRequest)=>{
 }
 
 export const fetchGetPersonasIncludeInactive= async ()=>{
-  const source = axios.CancelToken.source();
 
-  const api = createApiInstance();
   const response = await api.get(
     `/api/personas`
 
