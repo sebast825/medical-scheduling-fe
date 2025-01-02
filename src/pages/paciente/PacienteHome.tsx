@@ -55,7 +55,7 @@ function PacienteHome() {
       />
       {btnToggle ? (
         <div className="container p-4 pt-0  pt-md-0">
-          {turnos != undefined ? (
+          {turnos != undefined && turnos.length != 0 ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
               <TurnosListWithModal turnosList={turnos} handleDelete={handleDeleteCache}/>
