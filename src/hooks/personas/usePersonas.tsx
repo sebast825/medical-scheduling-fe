@@ -34,7 +34,6 @@ function usePersonas() {
 
 
   const putPersona = useCallback(async (dto: IPersonaUpdate) : Promise<IPersonaResponse | undefined> => {
-    console.log("llega")
     if (personaInfo == null) return undefined;
 
     try {
