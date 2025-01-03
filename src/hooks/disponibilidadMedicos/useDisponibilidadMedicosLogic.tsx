@@ -7,6 +7,8 @@ import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/Dis
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
 import useDisponibilidadMedicosCacheQuery from "./useDisponibilidadMedicosCacheQuery";
+import { success } from "toastr";
+import { successMessagges } from "../../constants/successMessages";
 
 function useDisponibilidadMedicosLogic() {
   const user = useUserInfo();
@@ -117,6 +119,7 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
      closeEditModal();
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
+    success(successMessagges.exito);
     setHorariosMedicos(updatedList);
   }
 
