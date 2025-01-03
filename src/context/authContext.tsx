@@ -38,7 +38,7 @@ export function useUserContext() {
   return context;
 }
 
-export function useUserInfo() {
+export function useUserInfo() :string | null{
   const context = useUserContext();
   return context.user;
 }

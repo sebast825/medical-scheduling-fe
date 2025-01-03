@@ -17,8 +17,8 @@ function TurnosDePaciente() {
   const { setTurnos } = useGetTurnos();
   const user = useUserInfo();
   const { redirectToLogin } = useRedirects();
-
-  const {turnos,isFetching,handleDeleteCache,handleReloadTurnos,} = useTurnosCacheQuery()
+ const {turnos,isFetching,handleDeleteCache,handleReloadTurnos,} = useTurnosCacheQuery(user)
+  
   useEffect(() => {
     if(!isSecretario) redirectToLogin();
     handleReloadTurnos()

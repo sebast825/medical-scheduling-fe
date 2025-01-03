@@ -17,16 +17,15 @@ function PacienteHome() {
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
   const [preTitle, setPreTitle] = useState<string>("");
   const navigate = useNavigate();
+  const {turnos, isFetching,handleDeleteCache,handleReloadTurnos} = useTurnosCacheQuery(user)
 
-  const {turnos, isFetching,handleDeleteCache} = useTurnosCacheQuery()
  
-
   useEffect(() => {
     if(user == null) redirectToLogin()
     if (pacienteInfo != undefined)
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
   }, []);
-  
+
   function ShowTurnos() {
     setBtnToggle(true);
   }
