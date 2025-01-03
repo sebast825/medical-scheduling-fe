@@ -110,7 +110,7 @@ const useGetTurnos = () => {
       const fecha1: Date | null = parseDateFromResponseStringToDate(a.fecha);
       const fecha2: Date | null = parseDateFromResponseStringToDate(b.fecha);
       if (fecha1 != null && fecha2 != null) {
-        return fecha2.getTime() - fecha1.getTime();
+        return fecha1.getTime() - fecha2.getTime();
       }
       //Si parseISO falla, se retorna 0 para evitar errores.
 
