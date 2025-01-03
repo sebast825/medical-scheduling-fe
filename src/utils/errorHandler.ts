@@ -9,7 +9,10 @@ export function handleHttpError(error: any): string {
     errorCode = error.response.status;
   }
   if(errorCode = 500){
-    errorMessage = genericMessages.serverError;
+    if (error.response?.data) {
+      errorMessage = error.response.data;}else{
+        errorMessage = genericMessages.serverError;
+      }
   }
 
   return errorMessage;
