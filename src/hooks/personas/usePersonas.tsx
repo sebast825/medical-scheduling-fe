@@ -27,14 +27,15 @@ function usePersonas() {
   const user = useUserInfo();
   const { personaInfo } = usePersonaInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
+  const { setPacienteInfo } = usePacienteContext();
   const { error, success } = useToastit();
   const [personasList, setPersonasList] = useState<
     IPersonaResponse[] | undefined
   >(undefined);
 
-  const isAdmin = useIsAdministrador()
-  
-  const {handleReloadMedicos}= useMedicosCacheQuery();
+  const isAdmin = useIsAdministrador();
+
+  const { handleReloadMedicos } = useMedicosCacheQuery();
   const putPersona = useCallback(async (dto: IPersonaUpdate) => {
     if (personaInfo == null) return undefined;
 
@@ -47,19 +48,23 @@ function usePersonas() {
       );
       success(successMessagges.exito);
 
-      if(isAdmin)handleReloadMedicos();
+      if (isAdmin) handleReloadMedicos();
       return response;
     } catch (err: any) {
       error(handleHttpError(err));
     }
   }, []);
-  async function handlePersonaUpdate(persona: IPersonaUpdate) {
-    var updatedPersona: IPersonaResponse | undefined = await putPersona(
+  async function handlePersonaUpdate(persona: IPersonaUpdate) : Promise<IPersonaResponse | undefined> {
+    console.log("llega update");
+    var rsta: IPersonaResponse | undefined = await putPersona(
       persona
     );
-    if (updatedPersona != null) {
-      actualizarPacienteFe(updatedPersona);
+    if(rsta){
+      actualizarPacienteFe(rsta)
+
     }
+    return rsta;
+ 
   }
   const getAllPersonasIncludeInactive = useCallback(async () => {
     try {
@@ -81,6 +86,7 @@ function usePersonas() {
   }
   function actualizarPacienteFe(updatedPersona: IPersonaResponse) {
     setPersonaInfo(updatedPersona);
+  
   }
 
   const updateEstadoPersonaYUsuario = useCallback(
