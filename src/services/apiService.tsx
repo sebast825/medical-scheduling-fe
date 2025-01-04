@@ -40,7 +40,6 @@ export const fetchPacienteInfo = async (jwt: string, id: string) => {
 };
 
 export const fetchMedicos = async () => {
- 
   const response = await api.get(`api/medicos`);
   return response.data;
 };
@@ -124,7 +123,6 @@ export const fetchMedicoInfo = async (jwt: string, id: string) => {
   return response.data;
 };
 
-
 export const fetchActualizarEstadoTurno = async (
   jwt: string,
   turnoId: string,
@@ -140,113 +138,97 @@ export const fetchActualizarEstadoTurno = async (
 
 export const fetchFilterTurnosMedicoHoy = async (
   jwt: string,
-  howa:string,
+  howa: string,
   idDoctor: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(
-    `/medico/${idDoctor}/turnosHoy/${howa}`
-  );
+  const response = await api.get(`/medico/${idDoctor}/turnosHoy/${howa}`);
   return response.data;
 };
 
-
-export const PutUpdateDisponibilidadMedico = async (jwt: string, dto : IDisponibilidadMedicoUpdateRequest)=>{
+export const PutUpdateDisponibilidadMedico = async (
+  jwt: string,
+  dto: IDisponibilidadMedicoUpdateRequest
+) => {
   setAuthToken(jwt);
-  const response = await api.put(
-    `api/DisponibilidadMedicos`,dto
-  );
+  const response = await api.put(`api/DisponibilidadMedicos`, dto);
   return response.data;
-}
+};
 
-export const SetCreateDisponibilidadMedico = async (jwt: string, dto : DisponibilidadMedicoCreate)=>{
+export const SetCreateDisponibilidadMedico = async (
+  jwt: string,
+  dto: DisponibilidadMedicoCreate
+) => {
   setAuthToken(jwt);
-  const response = await api.post(
-    `api/DisponibilidadMedicos`,dto
-  );
+  const response = await api.post(`api/DisponibilidadMedicos`, dto);
   return response.data;
-}
+};
 
-export const DeleteDisponibilidadMedico = async (jwt: string, id : number)=>{
+export const DeleteDisponibilidadMedico = async (jwt: string, id: number) => {
   setAuthToken(jwt);
-  const response = await api.delete(
-    `api/DisponibilidadMedicos/${id}`
-  );
+  const response = await api.delete(`api/DisponibilidadMedicos/${id}`);
   return response.data;
-}
+};
 
-export const fecthUpdateEstadoUsuarioYPersona = async (jwt: string, id : number, estado: number)=>{
- 
-    setAuthToken(jwt);
-    const response = await api.patch(
-      `/api/usuario/${id}/estado/${estado}`
-    );
-    return response.data;
- 
-}
-
-export const fecthUpdateMedico = async (jwt: string, id : number, dto: MedicoUpdateRequestDTO)=>{
- 
+export const fecthUpdateEstadoUsuarioYPersona = async (
+  jwt: string,
+  id: number,
+  estado: number
+) => {
   setAuthToken(jwt);
-  const response = await api.put(
-    `/api/medicos/${id}`,dto
-  );
+  const response = await api.patch(`/api/usuario/${id}/estado/${estado}`);
   return response.data;
+};
 
-}
-
-export const fecthGetEspecialidadesMedico = async (jwt: string)=>{
- 
+export const fecthUpdateMedico = async (
+  jwt: string,
+  id: number,
+  dto: MedicoUpdateRequestDTO
+) => {
   setAuthToken(jwt);
-  const response = await api.get(
-    `/api/medicos/especialidad/getAll`
-
-  );
+  const response = await api.put(`/api/medicos/${id}`, dto);
   return response.data;
+};
 
-}
+export const fecthGetEspecialidadesMedico = async (jwt: string) => {
+  setAuthToken(jwt);
+  const response = await api.get(`/api/medicos/especialidad/getAll`);
+  return response.data;
+};
 
-
-export const fecthCreateUsuarioAndPaciente = async (dto : CreateUsuarioAndPacienteRequestDto)=>{
+export const fecthCreateUsuarioAndPaciente = async (
+  dto: CreateUsuarioAndPacienteRequestDto
+) => {
   const source = axios.CancelToken.source();
 
+  const response = await api.post(`/api/usuario/paciente`, dto);
+  return response.data;
+};
+
+export const fecthRecuperarClaveRequest = async (
+  email: RecuperarClaveRequest
+) => {
+  try {
+    const response = await api.post(
+      `/api/usuario/requestUpdatePassword`,
+      email
+    );
+
+    // Si el código HTTP es 200-299, retornamos la respuesta
+    return response.status;
+  } catch (error: any) {
   
-  const response = await api.post(
-    `/api/usuario/paciente`, dto
+    return error;
+  }
+};
 
-  );
+
+export const fecthActualizarClave = async (dto: NuevaClaveRequest) => {
+  const response = await api.post(`/api/usuario/updatePassword`, dto);
   return response.data;
+};
 
-}
-
-
-
-export const fecthRecuperarClaveRequest= async (email: RecuperarClaveRequest)=>{
-  const response = await api.post(
-    `/api/usuario/requestUpdatePassword`, email
-
-  );
-
+export const fetchGetPersonasIncludeInactive = async () => {
+  const response = await api.get(`/api/personas`);
   return response.data;
-
-}
-
-export const fecthActualizarClave= async (dto: NuevaClaveRequest)=>{
-
-  const response = await api.post(
-    `/api/usuario/updatePassword`, dto
-
-  );
-  return response.data;
-
-}
-
-export const fetchGetPersonasIncludeInactive= async ()=>{
-
-  const response = await api.get(
-    `/api/personas`
-
-  );
-  return response.data;
-
-}
+};

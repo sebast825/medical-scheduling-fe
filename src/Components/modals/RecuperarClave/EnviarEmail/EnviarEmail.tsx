@@ -3,7 +3,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import "../RecuperarClave.scss"
 import { fecthRecuperarClaveRequest } from "../../../../services/apiService";
 import { RecuperarClaveRequest } from "../../../../types/usuario/RecuperarClaveRequest";
-import BackLink from "../../../buttons/BackLink/BackLink";
+import useToastit from "../../../../hooks/useToastit";
 
 
 interface IEnviarEmail{
@@ -12,15 +12,22 @@ interface IEnviarEmail{
 function EnviarEmail({e}:IEnviarEmail) {
   const [email, setEmail] = useState<string>("");
 
-
+const{success,error} = useToastit();
   async function handelSubmit (e : any){
 
    let asd : RecuperarClaveRequest = {
       email : email
    }
    e.preventDefault();
+  
+
       let rsta = await fecthRecuperarClaveRequest(asd); 
-      console.log(rsta)
+      if(rsta == 200){
+        success("Se ha enviado un email a tu correo.");
+      }else{
+        error("Ha ocurrido un error")
+      }
+    
   }
 
   return (
