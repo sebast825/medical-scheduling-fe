@@ -2,5 +2,6 @@
 export const genericMessages = {
    turnosVacio : "Actualmente no hay turnos agendados",
    standardError : "Ah ocurrido un error inesperado.",
-   serverError : "Error del servidor, intentá más tarde."
+   serverError : "Error del servidor, intentá más tarde.",
+   camposIncompletos : "Debes completar todos los campos."
 }

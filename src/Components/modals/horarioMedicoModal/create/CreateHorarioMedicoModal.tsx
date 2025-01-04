@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DisponibilidadMedicoCreate } from "../../../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import useToastit from "../../../../hooks/useToastit";
 import { diasSemana } from "../../../../utils/diasSemana";
+import { genericMessages } from "../../../../constants/genericMessages";
 
 interface ICreateHorarioMedicoModal {
   modalField: DisponibilidadMedico;
@@ -33,6 +34,8 @@ function CreateHorarioMedicoModal({
       horarioInicio == "" ||
       getDiaSemana === undefined
     ) {
+      error(genericMessages.camposIncompletos);
+
       return;
     }else if (!formatHour(horarioInicio) || !formatHour(horarioFin)) {
       error("El formato de la hora es invalido");

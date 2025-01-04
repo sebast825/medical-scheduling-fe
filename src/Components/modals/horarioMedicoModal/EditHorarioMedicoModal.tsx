@@ -4,6 +4,8 @@ import GenericModal from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
 import { IDisponibilidadMedicoUpdateRequest } from "../../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import { start } from "repl";
+import useToastit from "../../../hooks/useToastit";
+import { genericMessages } from "../../../constants/genericMessages";
 
 interface IHorarioMedicoModal {
   modalField: DisponibilidadMedico;
@@ -26,7 +28,7 @@ function EditHorarioMedicoModal({
 
   const [horarioInicio,setHorarioInicio] = useState<string>();
   const [horarioFin,setHorarioFin] = useState<string>();
-
+const {error} = useToastit();
   useEffect(() => {
    setHorarioInicio(modalField.startTime.toString())
    setHorarioFin(modalField.endTime.toString())
@@ -35,7 +37,10 @@ function EditHorarioMedicoModal({
 
 
   function confirmar() {
-    if(horarioFin == undefined || horarioInicio == undefined) return;
+    if(horarioFin == undefined || horarioInicio == undefined || horarioFin == '' || horarioInicio == '') {
+      error(genericMessages.camposIncompletos);
+
+      return};
     let disponibilidadUpdated : IDisponibilidadMedicoUpdateRequest ={
       id : modalField.id,
       StartTime : horarioInicio,
