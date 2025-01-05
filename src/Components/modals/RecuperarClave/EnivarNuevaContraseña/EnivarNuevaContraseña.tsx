@@ -8,12 +8,14 @@ import { useLocation } from "react-router-dom";
 import { Spinner } from "../../../statics/Spinner";
 import useRedicrects from "../../../../hooks/useRedicrects";
 import useUpdatePasswordCacheQuery from "../../../../hooks/recuperarContraseña/useUpdatePasswordCacheQuery copy";
+import useToastit from "../../../../hooks/useToastit";
+import { genericMessages } from "../../../../constants/genericMessages";
 
 function EnivarNuevaContraseña() {
   const [password, setPassword] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const location = useLocation();
-
+const { error} = useToastit();
   
   const  {isLoading,newPassword,setDtoRecoverPassword} = useUpdatePasswordCacheQuery();
 const {redirectToLogin}= useRedicrects();
@@ -23,7 +25,10 @@ const {redirectToLogin}= useRedicrects();
     const token = queryParams.get("token");
     return token;
   }
-
+  function passwordMatch(): boolean {
+    return password == password2;
+  }
+  
   useEffect(()=>{
     if(newPassword){
 
@@ -35,7 +40,9 @@ const {redirectToLogin}= useRedicrects();
 
   async function handelSubmit(e: any) {
     e.preventDefault();
-
+    if(!passwordMatch()){
+        error(genericMessages.passwordDontMatch);
+    }
     let token = getUrlToken();
     if(token == null)return;
     let dto: NuevaClaveRequest = {
@@ -63,7 +70,7 @@ const {redirectToLogin}= useRedicrects();
           <Form.Group controlId="formBasicNombre">
             <Form.Label className="fw-bold"></Form.Label>
             <Form.Control
-              type="text"
+              type="password"
               placeholder="Nueva Contraseña"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -73,7 +80,7 @@ const {redirectToLogin}= useRedicrects();
           <Form.Group controlId="formBasicNombre">
             <Form.Label className="fw-bold"></Form.Label>
             <Form.Control
-              type="text"
+              type="password"
               placeholder="Repetir Contraseña"
               onChange={(e) => setPassword2(e.target.value)}
               value={password2}
