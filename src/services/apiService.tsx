@@ -208,18 +208,13 @@ export const fecthCreateUsuarioAndPaciente = async (
 export const fecthRecuperarClaveRequest = async (
   email: RecuperarClaveRequest
 ) => {
-  try {
+
     const response = await api.post(
       `/api/usuario/requestUpdatePassword`,
       email
     );
-
-    // Si el código HTTP es 200-299, retornamos la respuesta
     return response.status;
-  } catch (error: any) {
-  
-    return error;
-  }
+
 };
 
 

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import "../RecuperarClave.scss"
-import { fecthRecuperarClaveRequest } from "../../../../services/apiService";
 import { RecuperarClaveRequest } from "../../../../types/usuario/RecuperarClaveRequest";
-import useToastit from "../../../../hooks/useToastit";
-
+import { Spinner } from "../../../statics/Spinner";
+import useRequestRecoverPasswordCacheQuery from "../../../../hooks/recuperarContraseña/useRequestRecoverPasswordCacheQuery";
 
 interface IEnviarEmail{
   e: ()=>void;
@@ -12,24 +11,24 @@ interface IEnviarEmail{
 function EnviarEmail({e}:IEnviarEmail) {
   const [email, setEmail] = useState<string>("");
 
-const{success,error} = useToastit();
+
+
+const { isLoading, setSendEmail} = useRequestRecoverPasswordCacheQuery()
+
+
   async function handelSubmit (e : any){
 
-   let asd : RecuperarClaveRequest = {
+   let dto : RecuperarClaveRequest = {
       email : email
    }
    e.preventDefault();
-  
+   setSendEmail(dto)
 
-      let rsta = await fecthRecuperarClaveRequest(asd); 
-      if(rsta == 200){
-        success("Se ha enviado un email a tu correo.");
-      }else{
-        error("Ha ocurrido un error")
-      }
-    
   }
-
+  if(isLoading) {
+    console.log("cargandoo")
+    return <Spinner/>
+  }
   return (
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}

@@ -1,22 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import "../RecuperarClave.scss";
 import { fecthActualizarClave, fecthRecuperarClaveRequest } from "../../../../services/apiService";
 import { RecuperarClaveRequest } from "../../../../types/usuario/RecuperarClaveRequest";
 import { NuevaClaveRequest } from "../../../../types/usuario/NuevaClaveRequest";
 import { useLocation } from "react-router-dom";
+import { Spinner } from "../../../statics/Spinner";
+import useRedicrects from "../../../../hooks/useRedicrects";
+import useUpdatePasswordCacheQuery from "../../../../hooks/recuperarContraseña/useUpdatePasswordCacheQuery copy";
 
 function EnivarNuevaContraseña() {
   const [password, setPassword] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const location = useLocation();
 
+  
+  const  {isLoading,newPassword,setDtoRecoverPassword} = useUpdatePasswordCacheQuery();
+const {redirectToLogin}= useRedicrects();
   function getUrlToken() : string | null {
     // Obtén el valor del parámetro token de la URL
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get("token");
     return token;
   }
+
+  useEffect(()=>{
+    if(newPassword){
+
+     setTimeout(() => {
+      redirectToLogin()
+     }, 100);
+    }
+  },[newPassword])
 
   async function handelSubmit(e: any) {
     e.preventDefault();
@@ -30,9 +45,12 @@ function EnivarNuevaContraseña() {
       //  email : email
     };
     console.log(dto)
-    let rsta = await fecthActualizarClave(dto);
-    console.log(rsta);
+    setDtoRecoverPassword(dto)
+    //let rsta = await fecthActualizarClave(dto);
+    //console.log(rsta);
   }
+  if(isLoading) return <Spinner/>;
+
   return (
     <Row className="contenedor justify-content-center align-items-center ">
       {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}

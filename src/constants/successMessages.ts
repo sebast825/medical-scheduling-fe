@@ -4,6 +4,7 @@ export const successMessagges = {
    actualizarInformacion : "Informacion actualizada exitosamente!",
    turnoEliminado : "Turno cancelado exitosamente!",
    agregarHorario: "¡Horario agregado exitosamente!",
-   crearUsuario : "Usuario creado exitosamente!"
+   crearUsuario : "Usuario creado exitosamente!",
+   recuperarClave : "Recuperaste la contraseña exitosamente!"
 
 }

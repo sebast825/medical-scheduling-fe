@@ -1,5 +1,4 @@
 import EnivarNuevaContraseña from "../../Components/modals/RecuperarClave/EnivarNuevaContraseña/EnivarNuevaContraseña";
-import EnviarEmail from "../../Components/modals/RecuperarClave/EnviarEmail/EnviarEmail";
 
 function RecuperarClave() {
   return (<>
