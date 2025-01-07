@@ -63,7 +63,7 @@ export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
   const dividirFechaHora = fechaHora.split(" ");
 
   let fecha = dividirFechaHora[0].split("/");
-  let fechaFormated = fecha[2] + "-" + fecha[1] + "-" + fecha[0];
+  let fechaFormated = `${fecha[2]}-${fecha[0]}-${fecha[1]}`;
 
   const date = new Date(fechaFormated + " " + dividirFechaHora[1]);
   //mantiene la fecha en formato de 24 hs
