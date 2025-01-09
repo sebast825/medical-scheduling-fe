@@ -59,28 +59,72 @@ export interface IDateFormated {
   time: string;
   dateTime: string;
 }
-export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
+
+
+function dividirFechaHora(fechaHora : string) : Date{
+  // Dividir la fecha y hora
   const dividirFechaHora = fechaHora.split(" ");
+  if (dividirFechaHora.length !== 2) {
+    throw new Error('Fecha y hora no tienen el formato esperado');
+  }
 
+  // Dividir la fecha en día, mes y año (usando el formato DD/MM/YYYY)
   let fecha = dividirFechaHora[0].split("/");
-  let fechaFormated = `${fecha[2]}-${fecha[0]}-${fecha[1]}`;
+  if (fecha.length !== 3) {
+    throw new Error('Fecha no tiene el formato esperado');
+  }
 
-  const date = new Date(fechaFormated + " " + dividirFechaHora[1]);
-  //mantiene la fecha en formato de 24 hs
-  const getDate = date.toLocaleDateString([], { hour12: false }).split("/");
-  const getTime = date.toLocaleTimeString([], { hour12: false }).split(":");
-  const formatedTime = getTime[0] + ":" + getTime[1];
-  const formatedDate = getDate[0] + "-" + getDate[1] + "-" + getDate[2];
-  // Formatear la fecha como "YYYY-MM-DD HH:mm"
-  const formatedDateTime = `${getDate[0]}-${getDate[1]}-${getDate[2]} ${getTime[0]}:${getTime[1]}`;
+  // Asegurarse de que la fecha sea válida y que se pueda formatear correctamente
+  // El formato para JavaScript debe ser YYYY-MM-DD
+  let fechaFormated = `${fecha[2]}-${fecha[1]}-${fecha[0]}`;
 
-  let rsta: IDateFormated = {
-    date: formatedDate,
-    time: formatedTime,
-    dateTime: formatedDateTime,
-  };
-  return rsta;
+  // Asegurarse de que la hora tenga dos dígitos
+  let hora = dividirFechaHora[1].split(":");
+  if (hora[0].length === 1) {
+    hora[0] = "0" + hora[0]; // Agregar un 0 si la hora tiene un solo dígito
+  }
+  let horaFormateada = hora.join(":");
+  // Crear un objeto Date usando el formato ISO 8601 para garantizar la correcta interpretación
+  const date = new Date(fechaFormated + "T" + horaFormateada);
+
+  // Verificar si la fecha es válida
+  if (isNaN(date.getTime())) {
+    throw new Error('Fecha inválida');
+  }
+  return date;
 }
+
+export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
+  try {
+  
+    let date : Date = dividirFechaHora(fechaHora);
+    // Obtener la fecha y hora en el formato deseado
+    const getDate = date.toLocaleDateString([], { hour12: false }).split("/");
+    const getTime = date.toLocaleTimeString([], { hour12: false }).split(":");
+
+    // Formatear la fecha y hora
+    const formatedTime = getTime[0] + ":" + getTime[1];
+    const formatedDate = getDate[0] + "-" + getDate[1] + "-" + getDate[2];
+    const formatedDateTime = `${getDate[0]}-${getDate[1]}-${getDate[2]} ${getTime[0]}:${getTime[1]}`;
+
+    // Devolver el objeto con la fecha formateada
+    let rsta: IDateFormated = {
+      date: formatedDate,
+      time: formatedTime,
+      dateTime: formatedDateTime,
+    };
+    return rsta;
+  } catch (error) {
+    console.error('Error al formatear la fecha:', error);
+    return {
+      date: 'Invalid Date',
+      time: 'Invalid Time',
+      dateTime: 'Invalid DateTime'
+    };
+  }
+}
+
+
 
 export function parseDateFromResponseStringToDate(dateString: string): Date | null {
   const parts = dateString.split(/[\/\s:]/); // Separa por /, espacio y :
