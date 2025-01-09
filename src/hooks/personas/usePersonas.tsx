@@ -60,15 +60,19 @@ function usePersonas() {
     }
     return rsta; 
   }
-  const getAllPersonasIncludeInactive = useCallback(async () => {
+  const getAllPersonasIncludeInactive = useCallback(async ()  => {
     try {
-      if (user == null) return;
+
+      if (user == null) return [];
       const response: IPersonaResponse[] =
         await fetchGetPersonasIncludeInactive();
       setPersonasList(response);
+
       return response;
     } catch (err: any) {
       error(handleHttpError(err));
+
+      return []
     }
   }, []);
   function RemovePersona(dto: IPersonaResponse) {

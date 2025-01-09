@@ -8,6 +8,7 @@ import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import MedicoDropdown from "../../Dropdown/Admin/MedicoDropdown";
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 import { Spinner } from "../../statics/Spinner";
+import { spinnerMessages } from "../../../constants/spinnerMessages";
 
 function TableMedico() {
 
@@ -37,7 +38,7 @@ function TableMedico() {
   function removeAccents(str: string) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
-  if(isLoading) return <Spinner/>
+  if(isLoading) return <Spinner msge={spinnerMessages.cargarMedicos}/>
 
   return (
     <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
