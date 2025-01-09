@@ -14,6 +14,7 @@ import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
 import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
 import useTurnosPacienteCacheQuery from "./useTurnosPacienteCacheQuery";
+import { spinnerMessages } from "../../constants/spinnerMessages";
 
 function useCreateTurnoLogic(filterBy: string) {
   /*
@@ -40,6 +41,7 @@ function useCreateTurnoLogic(filterBy: string) {
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
+  const [msgeSpinner, setMsgeSpinner]=useState<string>("");
 
   const navigate = useNavigate();
   const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
@@ -70,17 +72,23 @@ function useCreateTurnoLogic(filterBy: string) {
     setSubtitleOening("");
     switch (componenteActivo) {
       case "0":
+        setMsgeSpinner(spinnerMessages.cargarMedicos)
         setTitleOening("Seleccionar Medico");
         break;
       case "1":
+        setMsgeSpinner(spinnerMessages.cargarMedicos)
+
         setTitleOening("Seleccionar Especialidad");
         break;
 
       case "2":
+        setMsgeSpinner(spinnerMessages.cargarFechas)
+
         setTitleOening("Seleccionar Fecha");
 
         break;
       case "3":
+
         setTitleOening("Seleccionar Horario");
         var str = getDate(
           showTurnosDisponibles
@@ -180,7 +188,8 @@ function useCreateTurnoLogic(filterBy: string) {
     subtitleOening,
     handleHorarioSelect,
     showTurnosDisponibles,
-    isLoading
+    isLoading,
+    msgeSpinner
   };
 }
 
