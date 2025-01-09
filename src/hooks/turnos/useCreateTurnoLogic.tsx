@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
@@ -41,11 +41,11 @@ function useCreateTurnoLogic(filterBy: string) {
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
-  const [msgeSpinner, setMsgeSpinner]=useState<string>("");
+  const [msgeSpinner, setMsgeSpinner] = useState<string>("");
 
   const navigate = useNavigate();
   const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
-  const { medicos ,isLoading} = useMedicosCacheQuery();
+  const { medicos, isLoading } = useMedicosCacheQuery();
   const { showModal, toggleModal, closeModal } = useModal();
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
@@ -56,6 +56,8 @@ function useCreateTurnoLogic(filterBy: string) {
     turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useGetTurnos();
+  const [loadingDisponibilidades, setLoadingDisponibilidades] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (!user) {
@@ -72,23 +74,22 @@ function useCreateTurnoLogic(filterBy: string) {
     setSubtitleOening("");
     switch (componenteActivo) {
       case "0":
-        setMsgeSpinner(spinnerMessages.cargarMedicos)
+        setMsgeSpinner(spinnerMessages.cargarMedicos);
         setTitleOening("Seleccionar Medico");
         break;
       case "1":
-        setMsgeSpinner(spinnerMessages.cargarMedicos)
+        setMsgeSpinner(spinnerMessages.cargarMedicos);
 
         setTitleOening("Seleccionar Especialidad");
         break;
 
       case "2":
-        setMsgeSpinner(spinnerMessages.cargarFechas)
+        setMsgeSpinner(spinnerMessages.cargarFechas);
 
         setTitleOening("Seleccionar Fecha");
 
         break;
       case "3":
-
         setTitleOening("Seleccionar Horario");
         var str = getDate(
           showTurnosDisponibles
@@ -107,12 +108,14 @@ function useCreateTurnoLogic(filterBy: string) {
     }
   }, [showTurnosDisponibles]);
 
-  function showDiasDisponibles(e: number) {
-    getTurnosDisponiblesByMedico(e.toString());
+
+
+   async function showDiasDisponibles(e: number) {
+    setLoadingDisponibilidades(true);
+    await getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
-    //setMedicoSelect(nombreMedico?.nombre + " " + nombreMedico?.apellido);
-    //setCreateTurnoRequest((prevState) => ({ ...prevState, MedicoId: e }));
     setComponenteActivo("2");
+    setLoadingDisponibilidades(false);
   }
 
   function handleDiaSelect(e: string) {
@@ -165,13 +168,16 @@ function useCreateTurnoLogic(filterBy: string) {
     }, 100);
   }
 
-  function showDiasDisponiblesEspecialidad(
+  async function showDiasDisponiblesEspecialidad(
     listaMedicos: IMedicoResponse[],
     especiliadSelect: string
-  ): void {
-    getTurnosDisponiblesByEspecialidad(especiliadSelect);
+  ): Promise<void> {
+    setLoadingDisponibilidades(true);
+
+    await getTurnosDisponiblesByEspecialidad(especiliadSelect);
 
     setComponenteActivo("2");
+    setLoadingDisponibilidades(false);
   }
   return {
     medicoSelect,
@@ -189,7 +195,8 @@ function useCreateTurnoLogic(filterBy: string) {
     handleHorarioSelect,
     showTurnosDisponibles,
     isLoading,
-    msgeSpinner
+    msgeSpinner,
+    loadingDisponibilidades,
   };
 }
 

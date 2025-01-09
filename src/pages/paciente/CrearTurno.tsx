@@ -29,10 +29,11 @@ function CrearTurno({ filterBy = "1" }: ICrearTurno) {
     handleHorarioSelect,
     showTurnosDisponibles,
     isLoading,
-    msgeSpinner
+    msgeSpinner,
+    loadingDisponibilidades
   } = useCreateTurnoLogic(filterBy);
   
-  if(isLoading) return <Spinner msge={msgeSpinner}/>
+  if(isLoading || loadingDisponibilidades) return <Spinner msge={msgeSpinner}/>
 
   return (
     <>

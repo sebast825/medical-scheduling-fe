@@ -34,16 +34,16 @@ const useGetTurnos = () => {
     [ESTADOS_TURNO.CANCELADO]: 6,
   };
 
-  const getTurnosDisponiblesByMedico = useCallback(async (id: string) => {
+  const getTurnosDisponiblesByMedico = useCallback(async (id: string) : Promise<TurnoHorarioDisponibleResponseDTO[] | []>=> {
     try {
-      if (user == null) return;
+      if (user == null) return [];
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByMedico(user, id);
-
       setTurnosDisponibles(response);
-      return response;
+      return response
     } catch (err: any) {
       error(handleHttpError(err));
+      return []
     }
   }, []);
 
@@ -53,6 +53,7 @@ const useGetTurnos = () => {
 
       const response: TurnoHorarioDisponibleResponseDTO[] =
         await fetchTurnosDisponiblesByEspecialdiad(user, id);
+      
       setTurnosDisponibles(response);
       return response;
     } catch (err: any) {

@@ -3,6 +3,6 @@ export const spinnerMessages = {
    getUserInfo : "Estamos obteniendo la información de tu cuenta...",
    cargarTurnos : "Estamos obteniendo tus turnos...",
    cargarMedicos : "Estamos obteniendo nuestros medicos disponibles...",
-   cargarFechas :"Estamos obteniendo los turnos disponibles..."
+   cargarFechas :"Estamos obteniendo los días disponibles..."
 }
 
