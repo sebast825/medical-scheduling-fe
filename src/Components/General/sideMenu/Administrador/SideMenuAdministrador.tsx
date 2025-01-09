@@ -27,7 +27,7 @@ function SideMenuAdministrador(props: ISideMenuGeneric) {
           closeModalAndCallFunction(redirectTablePacienteAdministrador);
         }}
       >
-        Pacientes
+        Usuarios
       </Nav.Link>
     </>
   );

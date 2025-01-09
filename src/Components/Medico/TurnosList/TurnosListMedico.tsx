@@ -10,6 +10,7 @@ import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import TitleContent from "../../General/TitlteContent/TitleContent";
 import useTurnosMedicoCacheQuery from "../../../hooks/turnos/useTurnosMedicoCacheQuery";
 import { Spinner } from "../../statics/Spinner";
+import { spinnerMessages } from "../../../constants/spinnerMessages";
 
 interface ITurnosListMedico {
   //turnos :TurnoResponse[],
@@ -20,7 +21,7 @@ function TurnosListMedico() {
 
   const {turnos,updateTurnoCache,isFetching} = useTurnosMedicoCacheQuery()
  
-  if(isFetching) return <Spinner/>
+  if(isFetching) return <Spinner msge={spinnerMessages.cargarTurnos}/>
   return (
     <>
       <div
