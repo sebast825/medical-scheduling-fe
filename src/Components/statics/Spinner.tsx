@@ -1,6 +1,10 @@
 import "./Spinner.scss";
 
-export function Spinner() {
+interface ISpinner {
+  msge ?: string
+}
+export function Spinner(props : ISpinner) {
+  const {msge} = props;
   return (
     <div className="contenedorSpinner d-flex justify-content-center align-items-center flex-column">
       <div className=" spinner-wrapper">
@@ -11,6 +15,7 @@ export function Spinner() {
 
       <h2 className="text title">Clinica Horizonte</h2>
       <h4 className="text subTitle">Cargando</h4>
+      {msge != "" && <h6 className="text subTitle">{msge}</h6>}
     </div>
   );
 }

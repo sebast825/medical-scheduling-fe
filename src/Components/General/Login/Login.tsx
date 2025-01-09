@@ -7,6 +7,7 @@ import useRedirects from "../../../hooks/useRedicrects";
 import useLogin from "../../../hooks/login/useLogin";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "../../statics/Spinner";
+import { spinnerMessages } from "../../../constants/spinnerMessages";
 
 interface iLoginForm {
   e: () => void;
@@ -17,7 +18,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   const { handleLogin, getUserInfo } = useLogin();
   const redirectByRol = useRediectHomeByRole();
   const { redirectToCreatePaciente } = useRedirects();
-
+  const [msgeSpinner, setMsgeSpinner]=useState<string>("");
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
   const {
@@ -35,6 +36,8 @@ const LoginForm = ({ e }: iLoginForm) => {
   const {} = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
+      setMsgeSpinner(spinnerMessages.getUserInfo);
+
       await getUserInfo();
       redirectByRol();
       setLoadingLogin(false) // saca el Spinner
@@ -46,6 +49,7 @@ const LoginForm = ({ e }: iLoginForm) => {
  
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    setMsgeSpinner(spinnerMessages.login);
     setLoadingLogin(true);
   };
 
@@ -55,7 +59,7 @@ const LoginForm = ({ e }: iLoginForm) => {
   return (
     <>
     {loadingLogin ? (
-      <Spinner />
+      <Spinner msge={msgeSpinner}/>
     ) : (
       <Row className="contenedor justify-content-center align-items-center">
         <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>

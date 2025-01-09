@@ -9,6 +9,7 @@ import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 import useTurnosCacheQuery from "../../hooks/turnos/useTurnosPacienteCacheQuery";
 import { Spinner } from "../../Components/statics/Spinner";
+import { spinnerMessages } from "../../constants/spinnerMessages";
 
 function PacienteHome() {
   const user = useUserInfo();
@@ -38,7 +39,7 @@ function PacienteHome() {
   function RedirectBuscarPorEspecialidad() {
     navigate("/crearTurno/listEspecialidades");
   }
-  if(isFetching)return <Spinner/>
+  if(isFetching)return <Spinner msge={spinnerMessages.cargarTurnos}/>
   return (
     <div>
       <Opening
