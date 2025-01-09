@@ -5,7 +5,6 @@ import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
 import useRedirects from "../../../hooks/useRedicrects";
 import useLogin from "../../../hooks/login/useLogin";
-import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "../../statics/Spinner";
 import { spinnerMessages } from "../../../constants/spinnerMessages";
 import { useUserInfo } from "../../../context/authContext";
