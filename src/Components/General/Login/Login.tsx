@@ -18,31 +18,26 @@ const LoginForm = ({ e }: iLoginForm) => {
   const redirectByRol = useRediectHomeByRole();
   const { redirectToCreatePaciente } = useRedirects();
 
-  const [callFun, setCallFun] = useState<boolean>(false);
+  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
   const {
-    data: handle,
-    isLoading: isLoadingHandleLogin,
-    error: handleError,
+    data: handle
   } = useQuery({
     queryKey: ["handleLogin"],
     queryFn: async () => {
-      await handleLogin("a", "b");
+      await handleLogin("a", "b");      
       return [];
     },
     staleTime: Infinity,
-    enabled: callFun, // Habilitar la primera consulta
+    enabled: loadingLogin, // Habilitar la primera consulta
   });
 
-  const {
-    data: userInfo,
-    isLoading: isLoadingUserInfo,
-    error: userInfoError,
-  } = useQuery({
+  const {} = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
       await getUserInfo();
       redirectByRol();
+      setLoadingLogin(false) // saca el Spinner
       return [];
     },
     staleTime: Infinity,
@@ -51,18 +46,18 @@ const LoginForm = ({ e }: iLoginForm) => {
  
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setCallFun(true);
+    setLoadingLogin(true);
   };
 
-  // Mostrar el estado de carga y los errores
-  if (isLoadingUserInfo || isLoadingHandleLogin) {
-    return <Spinner />;
-  }
+
+
+
   return (
     <>
-      {/* <AviableAccountsDemo showModal={showDemoModal} handleClose={()=>setShowDemoModal(false)} /> */}
-      <Row className="contenedor justify-content-center align-items-center ">
-        {/* ${windowSize.width > 600 ? "p-5" : "p-3"} */}
+    {loadingLogin ? (
+      <Spinner />
+    ) : (
+      <Row className="contenedor justify-content-center align-items-center">
         <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
           <h2 className="text-center mb-2 text-primary">Iniciar Sesión</h2>
           <Form onSubmit={handleSubmit} className="d-flex flex-column ">
@@ -76,7 +71,7 @@ const LoginForm = ({ e }: iLoginForm) => {
                 className="p-2"
               />
             </Form.Group>
-
+  
             <Form.Group controlId="formBasicPassword">
               <Form.Label className=""></Form.Label>
               <Form.Control
@@ -88,33 +83,26 @@ const LoginForm = ({ e }: iLoginForm) => {
               />
             </Form.Group>
             <div className="mt-4 d-flex flex-column">
-
               <Button className="" variant="primary" type="submit">
                 Iniciar Sesión
               </Button>
             </div>
           </Form>
           <div className="mt-2 d-flex flex-column">
-            <Button
-              onClick={redirectToCreatePaciente}
-              variant="secondary"
-              type="submit"
-            >
+            <Button onClick={redirectToCreatePaciente} variant="secondary" type="submit">
               Crear Usuario
             </Button>
           </div>
           <div className="mt-4 d-flex flex-column align-items-end">
-            <Button
-              variant="link"
-              onClick={e}
-              className="text-decoration-underline p-0"
-            >
+            <Button variant="link" onClick={e} className="text-decoration-underline p-0">
               Recuperar Clave
             </Button>
           </div>
         </Col>
       </Row>
-    </>
+    )}
+  </>
+  
   );
 };
 
