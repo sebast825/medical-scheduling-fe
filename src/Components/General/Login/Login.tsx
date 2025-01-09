@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-
-import { useUserInfo } from "../../../context/authContext";
 
 import useRediectHomeByRole from "../../../hooks/roles/useRediectHomeByRole";
 import "./Login.scss";
 import useRedirects from "../../../hooks/useRedicrects";
 import useLogin from "../../../hooks/login/useLogin";
+import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "../../statics/Spinner";
 
 interface iLoginForm {
   e: () => void;
@@ -14,29 +14,50 @@ interface iLoginForm {
 const LoginForm = ({ e }: iLoginForm) => {
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const user = useUserInfo();
   const { handleLogin, getUserInfo } = useLogin();
-  const [showDemoModal, setShowDemoModal] = useState<boolean>(true);
   const redirectByRol = useRediectHomeByRole();
   const { redirectToCreatePaciente } = useRedirects();
 
-  useEffect(() => {
-    if (typeof user == "string") {
-      //espera a traer la info del usuario para realizar el redirect
-      const executeAsyncTasks = async () => {
-        await getUserInfo();
-        await redirectByRol();
-      };
+  const [callFun, setCallFun] = useState<boolean>(false);
 
-      executeAsyncTasks();
-    }
-  }, [user]);
+  const {
+    data: handle,
+    isLoading: isLoadingHandleLogin,
+    error: handleError,
+  } = useQuery({
+    queryKey: ["handleLogin"],
+    queryFn: async () => {
+      await handleLogin("a", "b");
+      return [];
+    },
+    staleTime: Infinity,
+    enabled: callFun, // Habilitar la primera consulta
+  });
 
-  const handleSubmit =  (event: any) => {
+  const {
+    data: userInfo,
+    isLoading: isLoadingUserInfo,
+    error: userInfoError,
+  } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: async () => {
+      await getUserInfo();
+      redirectByRol();
+      return [];
+    },
+    staleTime: Infinity,
+    enabled: !!handle, // Habilitar solo si handleLogin se completó
+  });
+ 
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    handleLogin("a", "b");
+    setCallFun(true);
   };
+
+  // Mostrar el estado de carga y los errores
+  if (isLoadingUserInfo || isLoadingHandleLogin) {
+    return <Spinner />;
+  }
   return (
     <>
       {/* <AviableAccountsDemo showModal={showDemoModal} handleClose={()=>setShowDemoModal(false)} /> */}
@@ -67,7 +88,6 @@ const LoginForm = ({ e }: iLoginForm) => {
               />
             </Form.Group>
             <div className="mt-4 d-flex flex-column">
-              {error && <p className="text-danger text-center ">{error}</p>}
 
               <Button className="" variant="primary" type="submit">
                 Iniciar Sesión
