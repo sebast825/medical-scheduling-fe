@@ -79,11 +79,9 @@ const useGetTurnos = () => {
     []
   );
   const getPacinteTurnos = useCallback(async (pacienteId?: string) : Promise<TurnoResponse[] | []>=> {
-    console.log("entra y llama");
 
     try {
       if (user == null) return [];
-
       var paramId: any = pacienteInfo?.id;
 
       const response: TurnoResponse[] = await fetchTurnosPaciente(

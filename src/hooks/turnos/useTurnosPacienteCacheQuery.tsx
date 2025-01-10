@@ -2,19 +2,19 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useGetTurnos from "./useGetTurnos";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
-import { useUserInfo } from "../../context/authContext";
+import { usePacienteContext } from "../../context/authContext";
 
 
-function useTurnosPacienteCacheQuery(user : string | null){
+function useTurnosPacienteCacheQuery(pacienteInfoId ?: string | undefined){
 
    const {getPacinteTurnos,orderTurnosByDate} = useGetTurnos()
    const queryClient = useQueryClient();
    
      const {data: turnos, isFetching,refetch} = useQuery({
-       queryFn: () => getPacinteTurnos(),
+       queryFn: () =>getPacinteTurnos(pacienteInfoId),
        queryKey: ["pacienteTurnos"],
        staleTime:Infinity,
-       enabled: !!user
+       enabled: pacienteInfoId != undefined
      })
      const addTurnoCache = (newTurno: TurnoResponse) => {
       queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {

@@ -18,8 +18,8 @@ function useLogin() {
 
   
   async function handleLogin(userName: string, password: string) {
-    let UserName = "Administrador";
-    let Password = "Administrador";
+    let UserName = "Paciente";
+    let Password = "Paciente";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario

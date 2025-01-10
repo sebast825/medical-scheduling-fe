@@ -49,7 +49,7 @@ function useCreateTurnoLogic(filterBy: string) {
   const { showModal, toggleModal, closeModal } = useModal();
   const isSecretario = useIsSecretario();
   const isPaciente = useIsPaciente();
-  const { addTurnoCache } = useTurnosPacienteCacheQuery(user);
+  const { addTurnoCache } = useTurnosPacienteCacheQuery();
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,

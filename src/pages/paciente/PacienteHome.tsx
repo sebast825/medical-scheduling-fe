@@ -10,6 +10,7 @@ import TitleContent from "../../Components/General/TitlteContent/TitleContent";
 import useTurnosCacheQuery from "../../hooks/turnos/useTurnosPacienteCacheQuery";
 import { Spinner } from "../../Components/statics/Spinner";
 import { spinnerMessages } from "../../constants/spinnerMessages";
+import { Console } from "console";
 
 function PacienteHome() {
   const user = useUserInfo();
@@ -18,14 +19,22 @@ function PacienteHome() {
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
   const [preTitle, setPreTitle] = useState<string>("");
   const navigate = useNavigate();
-  const {turnos, isFetching,handleDeleteCache,handleReloadTurnos} = useTurnosCacheQuery(user)
+  const { turnos, isFetching, handleDeleteCache, handleReloadTurnos } =
+    useTurnosCacheQuery(pacienteInfo?.id.toString());
 
- 
   useEffect(() => {
-    if(user == null) redirectToLogin()
-    if (pacienteInfo != undefined)
+    if (user == null) redirectToLogin();
+    if (pacienteInfo != undefined) {
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
+    }
   }, []);
+  useEffect(() => {
+    //tarda en cargar pacienteInfo y hay que recargar
+    if (pacienteInfo != null) {
+      handleReloadTurnos();
+    }
+  }, [pacienteInfo]);
+
 
   function ShowTurnos() {
     setBtnToggle(true);
@@ -39,7 +48,7 @@ function PacienteHome() {
   function RedirectBuscarPorEspecialidad() {
     navigate("/crearTurno/listEspecialidades");
   }
-  if(isFetching)return <Spinner msge={spinnerMessages.cargarTurnos}/>
+  if (isFetching) return <Spinner msge={spinnerMessages.cargarTurnos} />;
   return (
     <div>
       <Opening
@@ -58,7 +67,10 @@ function PacienteHome() {
           {turnos != undefined && turnos.length != 0 ? (
             <>
               <TitleContent title="Mis Turnos" pading={false} />
-              <TurnosListWithModal turnosList={turnos} handleDelete={handleDeleteCache}/>
+              <TurnosListWithModal
+                turnosList={turnos}
+                handleDelete={handleDeleteCache}
+              />
             </>
           ) : (
             <TitleContent title="No tenés turnos agendados" pading={true} />
