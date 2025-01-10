@@ -17,9 +17,10 @@ function useLogin() {
   const { error } = useToastit();
 
   
-  async function handleLogin(userName: string, password: string) {
-    let UserName = "Administrador";
-    let Password = "Administrador";
+  async function handleLogin(userName: string, password: string) {      
+
+    let UserName = "Paciente";
+    let Password = "Paciente";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario

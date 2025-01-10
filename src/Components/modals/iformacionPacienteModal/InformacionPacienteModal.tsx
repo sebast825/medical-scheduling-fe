@@ -71,6 +71,7 @@ function InformacionPacienteModal({
         handleClose={handleClose}
         handleConfirm={handleUpdatePaciente}
         title="Editar Contacto de Emergencia"
+        useDisableConfirmBtn={true}
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
    
