@@ -10,6 +10,7 @@ import useRedicrects from "../../../../hooks/useRedicrects";
 import useUpdatePasswordCacheQuery from "../../../../hooks/recuperarContraseña/useUpdatePasswordCacheQuery copy";
 import useToastit from "../../../../hooks/useToastit";
 import { genericMessages } from "../../../../constants/genericMessages";
+import ConfirmButton from "../../../buttons/confirmButton/ConfirmButton";
 
 function EnivarNuevaContraseña() {
   const [password, setPassword] = useState<string>("");
@@ -38,8 +39,8 @@ const {redirectToLogin}= useRedicrects();
     }
   },[newPassword])
 
-  async function handelSubmit(e: any) {
-    e.preventDefault();
+  async function handelSubmit() {
+    //e.preventDefault();
     if(!passwordMatch()){
         error(genericMessages.passwordDontMatch);
     }
@@ -66,7 +67,7 @@ const {redirectToLogin}= useRedicrects();
           Ingresar nueva Contraseña
         </h2>
         {/* onSubmit={} */}
-        <Form onSubmit={handelSubmit} className="d-flex flex-column ">
+        <Form  className="d-flex flex-column ">
           <Form.Group controlId="formBasicNombre">
             <Form.Label className="fw-bold"></Form.Label>
             <Form.Control
@@ -89,10 +90,8 @@ const {redirectToLogin}= useRedicrects();
           </Form.Group>
           <div className="mt-4 d-flex flex-column">
             {/* {error && <p className="text-danger text-center ">{error}</p>} */}
-
-            <Button className="" variant="primary" type="submit">
-              Enviar Solicitud
-            </Button>
+          <ConfirmButton text="Enviar Solicitud"  handleConfirm={handelSubmit}/>
+           
           </div>
         </Form>
       </Col>

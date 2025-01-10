@@ -176,7 +176,7 @@ function usePacienteAndUsuarioCreate() {
     if (!checkBoxForms.usuarioInfo)
       return "Es necesario completar la informacion del usuario.";
   }
-  function handleCreateUsuarioAndPaciente() {
+  async function handleCreateUsuarioAndPaciente() {
     /*
     let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
@@ -184,7 +184,7 @@ function usePacienteAndUsuarioCreate() {
       return;
     }*/
     var usuarioAndPaciente = mergePacienteAndUsuarioInCreateDto();
-    var rsta = createUsuarioAndPaciente(usuarioAndPaciente);
+    var rsta = await createUsuarioAndPaciente(usuarioAndPaciente);
     if(rsta != undefined){
         setTimeout(() => {
           redirectToLogin();
@@ -203,7 +203,7 @@ function usePacienteAndUsuarioCreate() {
         console.log(err)
         //.response.data.Message
              error(handleHttpError(err));
-          
+          return undefined;
        
       }
     },
