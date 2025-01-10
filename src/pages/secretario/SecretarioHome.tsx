@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  useAdministrativoInfoContext
-} from "../../context/authContext";
+import { useAdministrativoInfoContext } from "../../context/authContext";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
@@ -12,39 +10,42 @@ import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
 import usePacientes from "../../hooks/pacientes/usePacientes";
 
 function SecreatarioHome() {
-  const isSecretario : Boolean = useIsSecretario()
+  const isSecretario: Boolean = useIsSecretario();
   const redirectToLogin = useRedirectToLogin();
   const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
- const [preTitle, setPreTitle] = useState<string>("");
+  const [preTitle, setPreTitle] = useState<string>("");
   const { getAllPacientes, pacienteList } = usePacientes();
   useEffect(() => {
-    if(!isSecretario) redirectToLogin() 
-      setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
-      getAllPacientes()
+    if (!isSecretario) redirectToLogin();
+    getAllPacientes();
   }, []);
-
+  useEffect(() => {
+    setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
+  }, [administrativoInfo]);
+  
   function ShowPacientes() {
     setBtnToggle(true);
   }
 
   async function ShowHorariosMedicos() {
- 
     setBtnToggle(false);
   }
 
- 
-
   return (
     <>
-      <Opening title={`${preTitle} ${administrativoInfo.nombre}`}  />
+      <Opening title={`${preTitle} ${administrativoInfo.nombre}`} />
       <TwoButtonComponent
         textButton1="Listado Pacientes"
         textButton2="Horarios Medicos"
         onClickButton1={ShowPacientes}
         onClickButton2={ShowHorariosMedicos}
       />
-      {btnToggle ? <TablePaciente personaList={pacienteList!}  /> : <ListaHorariosMedicos />}
+      {btnToggle ? (
+        <TablePaciente personaList={pacienteList!} />
+      ) : (
+        <ListaHorariosMedicos />
+      )}
     </>
   );
 }
