@@ -1,4 +1,5 @@
 import { Modal, Button} from "react-bootstrap";
+import ConfirmButton from "../../buttons/confirmButton/ConfirmButton";
 
 type IGenericModal = {
   show: boolean;
@@ -56,9 +57,7 @@ function GenericModal({
         <Button variant="dark" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
-          Confirmar
-        </Button>
+        <ConfirmButton handleConfirm ={handleConfirm}/>
       
       </Modal.Footer>
     </Modal>

@@ -6,6 +6,7 @@ import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { usePacienteContext } from "../../context/authContext";
 import useToastit from "../../hooks/useToastit";
 import { genericMessages } from "../../constants/genericMessages";
+import ConfirmButton from "../buttons/confirmButton/ConfirmButton";
 
 interface IConfirmModal {
   show: boolean;
@@ -28,20 +29,6 @@ function CreatTurnoModal({
 }: IConfirmModal) {
   const medicoNombre = medico.nombre + " " + medico.apellido;
   const {pacienteInfo}= usePacienteContext();
-  const {info} = useToastit();
-
-  const [isButtonDisabel, setIsButtonDisabel] = useState<boolean>(false);
-
-  useEffect(()=>{
-    if(isButtonDisabel){
-      info(genericMessages.procesadoSolicutd);
-    }
-  },[isButtonDisabel])
-
-    function handleBtnConfirm() {
-      handleConfirm();
-      setIsButtonDisabel(true);
-    }    
 
     
   return (
@@ -80,9 +67,9 @@ function CreatTurnoModal({
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={() => handleBtnConfirm()} disabled={isButtonDisabel}>
-          Confirmar
-        </Button>
+
+        <ConfirmButton handleConfirm={handleConfirm}/>
+        
       </Modal.Footer>
     </Modal>
   );

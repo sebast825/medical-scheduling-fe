@@ -1,4 +1,5 @@
 import { Alert, Button, ListGroup, Modal } from "react-bootstrap";
+import ConfirmButton from "../../buttons/confirmButton/ConfirmButton";
 
 interface IAviableAccountsDemo {
   showModal: boolean;
@@ -38,9 +39,8 @@ function AviableAccountsDemo(props: IAviableAccountsDemo) {
         </ListGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={handleClose}>
-          Aceptar
-        </Button>
+      <ConfirmButton handleConfirm ={handleClose} text= "Aceptar"/>
+       
       </Modal.Footer>
     </Modal>
   );

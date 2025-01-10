@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import ConfirmButton from '../buttons/confirmButton/ConfirmButton';
 
 type IConfirmModal = {
    show: boolean,
@@ -20,9 +21,9 @@ function ConfirmModal ({ show, handleClose, handleConfirm, title="Confirmar Acci
         <Button variant="dark" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
-          Confirmar
-        </Button>
+
+        <ConfirmButton handleConfirm ={handleConfirm}/>
+      
       </Modal.Footer>
     </Modal>
   );
