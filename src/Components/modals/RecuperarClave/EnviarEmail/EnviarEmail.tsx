@@ -4,7 +4,6 @@ import "../RecuperarClave.scss";
 import { RecuperarClaveRequest } from "../../../../types/usuario/RecuperarClaveRequest";
 import { Spinner } from "../../../statics/Spinner";
 import useRequestRecoverPasswordCacheQuery from "../../../../hooks/recuperarContraseña/useRequestRecoverPasswordCacheQuery";
-import ConfirmButton from "../../../buttons/confirmButton/ConfirmButton";
 import useToastit from "../../../../hooks/useToastit";
 import { genericMessages } from "../../../../constants/genericMessages";
 import useRedirects from "../../../../hooks/useRedicrects";
@@ -17,7 +16,7 @@ function EnviarEmail({ e }: IEnviarEmail) {
   const {error} = useToastit();
     const { isLoading, setSendEmail, isSuccess } =
     useRequestRecoverPasswordCacheQuery();
-const {redirectToLogin} = useRedirects();
+
 
 async function handelSubmit() {
     let dto: RecuperarClaveRequest = {
@@ -37,8 +36,8 @@ async function handelSubmit() {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
- 
-  
+
+   
 
   return (
 
