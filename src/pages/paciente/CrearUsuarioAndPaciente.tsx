@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePacienteAndUsuarioCreate from "../../hooks/Usuario/usePacienteAndUsuarioCreate";
 import { Button } from "react-bootstrap";
 import UsuarioCard from "../../Components/General/Cards/UsuarioCard/UsuarioCard";
@@ -7,6 +7,7 @@ import Opening from "../../Components/General/Opening/Opening";
 import CreatePacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/CreatePacienteInfoCard";
 import OneButton from "../../Components/buttons/oneButton/OneButton";
 import useToastit from "../../hooks/useToastit";
+import useRedirects from "../../hooks/useRedicrects";
 
 
 function CrearUsuarioAndPaciente() {
@@ -27,8 +28,27 @@ function CrearUsuarioAndPaciente() {
     showCreateModal();
   }, []);
 
-  
- 
+     const [isButtonDisabel, setIsButtonDisabel] = useState<boolean>(false);
+     useEffect(()=>{
+      if(isButtonDisabel){
+        //info(genericMessages.procesadoSolicutd);
+      }
+    },[isButtonDisabel])
+  const { redirectToLogin} = useRedirects();
+      async function handleBtnConfirm() {
+       setIsButtonDisabel(true);
+      var rsta =  await handleCreateUsuarioAndPaciente()
+      if(rsta){
+        redirectToLogin();
+      }else{
+        setIsButtonDisabel(false);
+
+      }
+       setTimeout(() => {
+       }, 1000);
+       
+      }   
+ useEffect(()=>{},[isButtonDisabel])
 
   return (
     <>
@@ -50,8 +70,11 @@ function CrearUsuarioAndPaciente() {
           />
         )}
       </div>
-      <div className="pb-5 ">
-        <OneButton text="Crear Cuenta" sizeClass="btn-lg"   variant="warning" handleSubmit={handleCreateUsuarioAndPaciente } />
+      <div className="pb-5 d-flex justify-content-center">
+        <Button variant="warning" className="btn-lg"  onClick={() => handleBtnConfirm()} disabled={isButtonDisabel}>
+          {isButtonDisabel ? "Solicitud Enviada" : "Crear Cuenta"}
+        </Button>
+        {/* <OneButton text="Crear Cuenta" sizeClass="btn-lg"  disabled={isButtonDisabel} variant="warning" handleSubmit={handleCreateUsuarioAndPaciente } /> */}
 
         </div>
     </>

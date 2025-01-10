@@ -120,6 +120,9 @@ function usePacienteAndUsuarioCreate() {
     }));
   }
   function mergePacienteAndUsuarioInCreateDto() : CreateUsuarioAndPacienteRequestDto {
+    const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
+    var getSexoId: number = claves.indexOf(personaInfo?.sexo) + 1; //arranca en 0 los id son 1,2,3
+  
     const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
       Paciente: {
         telefonoEmergencia:
@@ -134,7 +137,7 @@ function usePacienteAndUsuarioCreate() {
           personaInfo?.numeroDocumento ||
           usuarioAndPaciente.Paciente.numeroDocumento,
         telefono: personaInfo?.telefono || usuarioAndPaciente.Paciente.telefono,
-        sexoId: personaInfo?.sexo + 1,
+        sexoId: getSexoId,
         fechaNacimiento:
           personaInfo?.fechaNacimiento ||
           usuarioAndPaciente.Paciente.fechaNacimiento,
@@ -147,6 +150,8 @@ function usePacienteAndUsuarioCreate() {
         Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
       },
     };
+    
+    /*
     const updatedUsuarioAndPaciente2: CreateUsuarioAndPacienteRequestDto = {
       Paciente: {
         telefonoEmergencia: '1122334455',
@@ -159,14 +164,14 @@ function usePacienteAndUsuarioCreate() {
         fechaNacimiento: '1990-01-01',
       },
       Usuario: {
-        UserName: 'mabel32',
+        UserName: 'mabel3235',
         Password: 'mabel',
-        Email: 'juan.perez@email.com',
+        Email: 'juan.peraezz@email.com',
       },
-    };
-    
-//console.log(updatedUsuarioAndPaciente2)
-    return updatedUsuarioAndPaciente2;
+    };*/   
+
+
+    return updatedUsuarioAndPaciente;
   }
   function validarFormularios(): string | undefined {
     if (!checkBoxForms.pacienteInfo)
@@ -176,19 +181,22 @@ function usePacienteAndUsuarioCreate() {
     if (!checkBoxForms.usuarioInfo)
       return "Es necesario completar la informacion del usuario.";
   }
-  async function handleCreateUsuarioAndPaciente() {
-    /*
+  async function handleCreateUsuarioAndPaciente() : Promise<boolean> {
+    
     let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
-      return;
-    }*/
+      return false;
+    }
     var usuarioAndPaciente = mergePacienteAndUsuarioInCreateDto();
     var rsta = await createUsuarioAndPaciente(usuarioAndPaciente);
     if(rsta != undefined){
         setTimeout(() => {
-          redirectToLogin();
-        }, 100);
+          return true;
+        }, 100)
+        return true;
+    }else{
+      return false;
     }
   }
 
