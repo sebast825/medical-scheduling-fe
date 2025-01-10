@@ -10,12 +10,14 @@ import usePersonas from "../../hooks/personas/usePersonas";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import useMedicosCacheQuery from "../../hooks/medicos/useMedicosCacheQuery";
+import useToastit from "../../hooks/useToastit";
+import { genericMessages } from "../../constants/genericMessages";
 
 function InformacionMedicoAdministrador() {
   const isAdmin = useIsAdministrador();
   const { redirectToLogin } = useRedicrects();
   const { handleReloadMedicos } = useMedicosCacheQuery();
-
+  const {warning} = useToastit()
   useEffect(() => {
     if (!isAdmin) redirectToLogin();
   }, []);
@@ -25,6 +27,8 @@ function InformacionMedicoAdministrador() {
   const { handlePersonaUpdate } = usePersonas();
   
   async function handleUpdate(e: IPersonaUpdate) {
+    warning(genericMessages.funcionalidadAdministradorRestringido)
+return;
     var rsta = await handlePersonaUpdate(e);
     if(rsta){
       handleReloadMedicos();

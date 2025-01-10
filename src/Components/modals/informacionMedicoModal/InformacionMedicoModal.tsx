@@ -6,6 +6,8 @@ import useMedicos from "../../../hooks/medicos/useMedicos";
 import { useMedicoInfoContext } from "../../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateRequest.type";
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
+import { genericMessages } from "../../../constants/genericMessages";
+import useToastit from "../../../hooks/useToastit";
 
 interface IInformacionMedicoModal {
   show: boolean;
@@ -17,10 +19,15 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   const { show, handleClose, handleConfirm } = props;
   const [numLicencia, setNumLicencia] = useState<string>("");
   const { medicoInfo } = useMedicoInfoContext();
-  const { updateMedicos, getEspecialidadesMedicos, especialidadesMedico,getIdEspecialidad } =
-    useMedicos();
+  const {
+    updateMedicos,
+    getEspecialidadesMedicos,
+    especialidadesMedico,
+    getIdEspecialidad,
+  } = useMedicos();
   const [especialidad, setEspecialidad] = useState<string>("");
-  const {handleReloadMedicos}= useMedicosCacheQuery();
+  const { handleReloadMedicos } = useMedicosCacheQuery();
+  const { warning } = useToastit();
 
   useEffect(() => {
     if (medicoInfo == undefined) return;
@@ -30,14 +37,16 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   }, []);
 
   async function confirmar() {
-    if(medicoInfo == undefined) return;
-    let medicoUpdate : MedicoUpdateRequestDTO={
-      especialidadId : getIdEspecialidad(especialidad),
-      numeroLicencia : numLicencia
-    }
-    await updateMedicos(medicoInfo?.id,medicoUpdate)
-    handleReloadMedicos()
-    handleClose()
+    warning(genericMessages.funcionalidadAdministradorRestringido);
+ 
+  /*  if (medicoInfo == undefined) return;
+    let medicoUpdate: MedicoUpdateRequestDTO = {
+      especialidadId: getIdEspecialidad(especialidad),
+      numeroLicencia: numLicencia,
+    };
+    await updateMedicos(medicoInfo?.id, medicoUpdate);
+    handleReloadMedicos();*/
+    handleClose();
   }
 
   return (

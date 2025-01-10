@@ -9,6 +9,8 @@ import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
 import useDisponibilidadMedicosCacheQuery from "./useDisponibilidadMedicosCacheQuery";
 import { success } from "toastr";
 import { successMessagges } from "../../constants/successMessages";
+import useToastit from "../useToastit";
+import { genericMessages } from "../../constants/genericMessages";
 
 function useDisponibilidadMedicosLogic() {
   const user = useUserInfo();
@@ -30,6 +32,7 @@ function useDisponibilidadMedicosLogic() {
     startTime: "",
     endTime: "",
   });
+  const {warning} =useToastit();
   const {
    fetchUpdateDisponibilidadMedico,
    fetchCreateDisponibilidadMedico,
@@ -113,28 +116,35 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
   async function handleUpdate(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
   ) {
-    var rsta = await fetchUpdateDisponibilidadMedico(
+    warning(genericMessages.funcionalidadAdministradorRestringido)
+    closeEditModal();
+    return;
+  /*  var rsta = await fetchUpdateDisponibilidadMedico(
       disponibilidadMedicoUpdated
     );
-     closeEditModal();
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     success(successMessagges.exito);
-    setHorariosMedicos(updatedList);
+    setHorariosMedicos(updatedList);*/
   }
 
   async function handleCreate(
     disponibilidadMedico: DisponibilidadMedicoCreate
   ) {
+    warning(genericMessages.funcionalidadAdministradorRestringido)
+    closeCreateModal();
+    return;
     var newDisponibilidad = await fetchCreateDisponibilidadMedico(disponibilidadMedico);
-     closeCreateModal();
      handleReloadDisponibilidadMedicos()
    // await getMedicos();
   }
 
   async function handleDelete(id: number) {
+    warning(genericMessages.funcionalidadAdministradorRestringido)
+    closeEditModal();
+    return;
     await fetchDeleteDisponibilidadMedico(id);
-     closeEditModal();
+
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
     handleReloadDisponibilidadMedicos()

@@ -5,5 +5,6 @@ export const genericMessages = {
    serverError : "Error del servidor, intentá más tarde.",
    camposIncompletos : "Debes completar todos los campos.",
    passwordDontMatch : "Las contraseñas o coinciden.",
-   procesadoSolicutd : "Estamos procesando tu solicitud."
+   procesadoSolicutd : "Estamos procesando tu solicitud.",
+   funcionalidadAdministradorRestringido : "Las acciones de administrador están bloqueadas en la versión demo."
 }

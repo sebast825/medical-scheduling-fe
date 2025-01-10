@@ -2,14 +2,10 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
 import {
   useMedicoInfoContext,
-  useMedicosContext,
-  usePacienteContext,
-  usePersonaInfoContext,
+  usePersonaInfoContext
 } from "../../../context/authContext";
-import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
-import useModal from "../../../hooks/useModal";
 import useDisponibilidadMedicosLogic from "../../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
 
 interface IMedicoDropdown {
@@ -20,6 +16,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
   const { redirectInformacionMedicoAdministrador } = useRedirects();
   const { setMedicoInfo } = useMedicoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
+
 
   function handleMedicoInfo() {
     setMedicoInfo(medico);
