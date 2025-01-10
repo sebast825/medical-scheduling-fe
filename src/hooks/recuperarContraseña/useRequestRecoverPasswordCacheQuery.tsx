@@ -9,7 +9,7 @@ function useRequestRecoverPasswordCacheQuery() {
   
   const { requestRecuperarContraseña } = useRecuperarContraseña();
 
-  const { data: requestRecoverPassword, isLoading ,refetch} = useQuery({
+  const { data: requestRecoverPassword, isLoading ,refetch,isSuccess} = useQuery({
     queryKey: ["requestRecoverPassword"],
     queryFn: () => {
       return sendEmail != null
@@ -23,7 +23,7 @@ function useRequestRecoverPasswordCacheQuery() {
     refetch(); 
   };
 
-  return { requestRecoverPassword, isLoading, setSendEmail,handleReloadRecuperarContraseña};
+  return { requestRecoverPassword, isLoading, setSendEmail,handleReloadRecuperarContraseña,isSuccess};
 }
 
 export default useRequestRecoverPasswordCacheQuery;

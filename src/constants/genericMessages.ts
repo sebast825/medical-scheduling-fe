@@ -6,5 +6,6 @@ export const genericMessages = {
    camposIncompletos : "Debes completar todos los campos.",
    passwordDontMatch : "Las contraseñas o coinciden.",
    procesadoSolicutd : "Estamos procesando tu solicitud.",
-   funcionalidadAdministradorRestringido : "Las acciones de administrador están bloqueadas en la versión demo."
+   funcionalidadAdministradorRestringido : "Las acciones de administrador están bloqueadas en la versión demo.",
+   errorEmail : "El email no es valido."
 }
