@@ -21,6 +21,7 @@ function TurnosListMedico() {
 
   const {turnos,updateTurnoCache,isFetching} = useTurnosMedicoCacheQuery()
  
+  useEffect(()=>{console.log(turnos)},[turnos])
   if(isFetching) return <Spinner msge={spinnerMessages.cargarTurnos}/>
   return (
     <>

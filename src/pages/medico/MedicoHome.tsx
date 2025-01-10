@@ -20,7 +20,7 @@ function MedicoHome() {
   useEffect(() => {
     if (medicoInfo) setPreTitle(mensajeBienvenidaPorSexo(medicoInfo.sexo));
   }, [medicoInfo]);
-
+  
   return (
     <>
       {medicoInfo && <Opening title={`${preTitle} ${medicoInfo?.nombre}`} />}
