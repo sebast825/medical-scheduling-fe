@@ -7,6 +7,8 @@ import useModal from "../../../hooks/useModal";
 import ConfirmModal from "../ConfirmModal";
 import { useUserInfo } from "../../../context/authContext";
 import usePersonas from "../../../hooks/personas/usePersonas";
+import useToastit from "../../../hooks/useToastit";
+import { genericMessages } from "../../../constants/genericMessages";
 
 interface IChangeStatusPersona {
   modalField: IPersonaResponse;
@@ -22,9 +24,12 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
   const [estado, setEstado] = useState<string>(modalField.estadoUsuario);
   const { updateEstadoPersonaYUsuario } = usePersonas();
 
- 
+ const {warning} = useToastit();
   async function handleConfirmModal() {
+    warning(genericMessages.funcionalidadAdministradorRestringido);
     closeModal();
+    return;
+    /*
     var estadoUsuarioId = claves.indexOf(estado);
     if (user == null) return;
     var personaUpdated = await updateEstadoPersonaYUsuario(
@@ -34,7 +39,7 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
     if(personaUpdated == undefined)return;
       
     if(estado ==  EstadoUsuario[2]){
-    handleConfirm(personaUpdated)}
+    handleConfirm(personaUpdated)}*/
   }
 
   const claves = Object.keys(EstadoUsuario).filter((key) => isNaN(Number(key)));
