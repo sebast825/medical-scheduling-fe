@@ -61,6 +61,7 @@ function CreateHorarioMedicoModal({
         handleClose={handleClose}
         handleConfirm={confirmar}
         title={`Crear Horario para el medico ${modalField.medico}`}
+        useDisableConfirmBtn= {true}
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group key="6">

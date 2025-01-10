@@ -5,10 +5,11 @@ import useToastit from "../../../hooks/useToastit";
 
 interface IConfirmButton{
    handleConfirm : () => void;
-   text ?: string
+   text ?: string,
+   variant ?: string
 }
 function ConfirmButton (props : IConfirmButton){
-   const { handleConfirm,text = "Confirmar"} = props;
+   const { handleConfirm,text = "Confirmar",variant ="primary"} = props;
    const {info} = useToastit();
 
    const [isButtonDisabel, setIsButtonDisabel] = useState<boolean>(false);
@@ -29,7 +30,7 @@ function ConfirmButton (props : IConfirmButton){
      }    
  
    return(
-      <Button variant="primary" onClick={() => handleBtnConfirm()} disabled={isButtonDisabel}>
+      <Button variant={variant} onClick={() => handleBtnConfirm()} disabled={isButtonDisabel}>
           {isButtonDisabel ? "Solicitud Enviada" : text}
         </Button>
    )

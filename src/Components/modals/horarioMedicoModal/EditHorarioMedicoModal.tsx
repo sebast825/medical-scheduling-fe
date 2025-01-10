@@ -61,7 +61,8 @@ const {error} = useToastit();
         title={`Editar Horario del medico ${modalField.medico}, dia ${modalField.diaSemana}`}
         handleThirdButton = {eliminar}
         textThirdButton="Eliminar"
-      
+        useDisableConfirmBtn={true}
+
        >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
     

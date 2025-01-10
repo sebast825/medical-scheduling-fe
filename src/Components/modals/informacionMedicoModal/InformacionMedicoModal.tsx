@@ -55,6 +55,8 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       handleClose={handleClose}
       handleConfirm={confirmar}
       title="Editar Información Personal"
+      useDisableConfirmBtn={true}
+
     >
       <Form className="d-flex flex-column" style={{ gap: "10px" }}>
         <Form.Group controlId="formBasicnumLicencia">

@@ -1,4 +1,4 @@
-import { Modal, Button} from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import ConfirmButton from "../../buttons/confirmButton/ConfirmButton";
 
 type IGenericModal = {
@@ -9,7 +9,8 @@ type IGenericModal = {
   // body: any;
   children: React.ReactNode;
   handleThirdButton?: () => void;
-  textThirdButton ?: string
+  textThirdButton?: string;
+  useDisableConfirmBtn?: boolean;
 };
 
 function GenericModal({
@@ -19,19 +20,15 @@ function GenericModal({
   title,
   children,
   handleThirdButton,
-  textThirdButton
-  
-
+  textThirdButton,
+  useDisableConfirmBtn,
 }: IGenericModal) {
-
-
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
         {children}
         {/* {inputValues.map((elem) => (
           <Form.Group key={elem.key} controlId="formBasicInput">
@@ -47,18 +44,24 @@ function GenericModal({
           </Form.Group>
         ))} */}
       </Modal.Body>
-   
+
       <Modal.Footer>
-      {
-          handleThirdButton &&  <Button variant="danger" onClick={handleThirdButton}>
-          {textThirdButton}
-        </Button>
-        }
+        {handleThirdButton && (
+            <ConfirmButton variant="danger"  handleConfirm={handleThirdButton} text={textThirdButton}/>
+      
+        )}
+                
+
         <Button variant="dark" onClick={handleClose}>
           Cancelar
         </Button>
-        <ConfirmButton handleConfirm ={handleConfirm}/>
-      
+        {useDisableConfirmBtn ? (
+          <ConfirmButton handleConfirm={handleConfirm} />
+        ) : (
+          <Button variant="primary" onClick={handleConfirm}>
+            Confirmar
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

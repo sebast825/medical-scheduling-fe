@@ -51,6 +51,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
         handleConfirm={(e) => {
           handleCreate(e);
         }}
+        
       />
       <Dropdown as={ButtonGroup}>
         <Dropdown.Toggle

@@ -79,6 +79,8 @@ function InformacionPersonaModal({
         handleClose={handleClose}
         handleConfirm={handlePersonaUpdate}
         title="Editar Información Personal"
+        useDisableConfirmBtn={true}
+
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group controlId="formBasicnombre">
