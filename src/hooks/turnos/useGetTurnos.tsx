@@ -78,7 +78,7 @@ const useGetTurnos = () => {
     },
     []
   );
-  const getPacinteTurnos = useCallback(async (pacienteId?: string) : Promise<TurnoResponse[] | []>=> {
+  const getPacinteTurnos = useCallback(async (pacienteId: string) : Promise<TurnoResponse[] | []>=> {
 
     try {
       if (user == null) return [];
