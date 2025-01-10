@@ -22,19 +22,16 @@ function PacienteHome() {
   const { turnos, isFetching, handleDeleteCache, handleReloadTurnos } =
     useTurnosCacheQuery(pacienteInfo?.id.toString());
 
+
   useEffect(() => {
     if (user == null) redirectToLogin();
-    if (pacienteInfo != undefined) {
-      setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
-    }
-  }, []);
-  useEffect(() => {
+
     //tarda en cargar pacienteInfo y hay que recargar
     if (pacienteInfo != null) {
       handleReloadTurnos();
+      setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
     }
   }, [pacienteInfo]);
-
 
   function ShowTurnos() {
     setBtnToggle(true);

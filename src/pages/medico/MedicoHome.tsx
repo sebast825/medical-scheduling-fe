@@ -13,13 +13,13 @@ function MedicoHome() {
   const { medicoInfo } = useMedicoInfoContext();
   const isMedico: Boolean = useIsMedico();
   const redirectToLogin = useRedirectToLogin();
-const [preTitle,setPreTitle] = useState<string>();
+  const [preTitle, setPreTitle] = useState<string>();
   useEffect(() => {
     if (!isMedico) redirectToLogin();
-    if(medicoInfo)
-    setPreTitle(mensajeBienvenidaPorSexo(medicoInfo.sexo));
-
   }, []);
+  useEffect(() => {
+    if (medicoInfo) setPreTitle(mensajeBienvenidaPorSexo(medicoInfo.sexo));
+  }, [medicoInfo]);
 
   return (
     <>
