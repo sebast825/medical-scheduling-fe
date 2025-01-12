@@ -52,7 +52,7 @@ export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
 
 export const fetchCancelarTurno = async (jwt: string, idTurno: number) => {
   setAuthToken(jwt);
-  const response = await api.patch(`api/pacientes/turnos/${idTurno}/cancelar`);
+  const response = await api.patch(`api/turnos/${idTurno}/cancelar`);
   return response.data;
 };
 
@@ -61,7 +61,7 @@ export const fetchTurnosDisponiblesByMedico = async (
   idMedico: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/medicos/${idMedico}/turnosdisponible`);
+  const response = await api.get(`api/medicos/${idMedico}/turnos-disponibles`);
   return response.data;
 };
 
@@ -71,7 +71,7 @@ export const fetchTurnosDisponiblesByEspecialdiad = async (
 ) => {
   setAuthToken(jwt);
   const response = await api.get(
-    `api/especialidad/${especialidad}/turnosdisponible`
+    `api/especialidades/${especialidad}/turnos-disponibles`
   );
   return response.data;
 };
@@ -131,18 +131,18 @@ export const fetchActualizarEstadoTurno = async (
   setAuthToken(jwt);
 
   const response = await api.patch(
-    `api/pacientes/turnos/${turnoId}/${estadoTurno}`
+    `api/turnos/${turnoId}/estado/${estadoTurno}`
   );
   return response.data;
 };
 
 export const fetchFilterTurnosMedicoHoy = async (
   jwt: string,
-  howa: string,
+  fecha: string,
   idDoctor: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(`/medico/${idDoctor}/turnosHoy/${howa}`);
+  const response = await api.get(`api/medicos/${idDoctor}/turnos/${fecha}`);
   return response.data;
 };
 
