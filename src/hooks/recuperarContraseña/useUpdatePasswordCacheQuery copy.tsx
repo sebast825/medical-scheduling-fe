@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserInfo } from "../../context/authContext";
-import { fecthActualizarClave, getDisponibilidadMedicos } from "../../services/apiService";
-import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
+
 import { useState } from "react";
 import { NuevaClaveRequest } from "../../types/usuario/NuevaClaveRequest";
 import useToastit from "../useToastit";

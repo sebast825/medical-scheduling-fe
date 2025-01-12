@@ -106,7 +106,7 @@ export const fetchUpdatePaciente = async (
 
 export const getDisponibilidadMedicos = async (jwt: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/disponibilidadMedicos/GetAll`);
+  const response = await api.get(`api/disponibilidadMedicos`);
   return response.data;
 };
 
