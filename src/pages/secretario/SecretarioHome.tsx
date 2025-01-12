@@ -33,7 +33,6 @@ const user = useUserInfo()
   async function ShowHorariosMedicos() {
     setBtnToggle(false);
   }
-  useEffect(()=>{},[pacienteList])
 
   if(isLoading)return <Spinner/>
   return (
