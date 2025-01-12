@@ -18,10 +18,9 @@ function CardTurno({
   btnEvent
 }: ICardTurno) {
 
-  const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
+  const [screenSize] = useState<number>(useWindowSize().width);
 
   let formatFecha : IDateFormated = formatDateFromResponseDto(turno.fecha);
-  console.log(formatFecha,turno.fecha)
   var id = turno.id
   var nombre = turno.medico;
   var especialidad = turno.especialidad;

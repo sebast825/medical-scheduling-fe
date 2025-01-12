@@ -7,7 +7,8 @@ import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
-import usePacientes from "../../hooks/pacientes/usePacientes";
+import usePacientesCacheQuery from "../../hooks/pacientes/usePacientesCacheQuery";
+import { Spinner } from "../../Components/statics/Spinner";
 
 function SecreatarioHome() {
   const isSecretario: Boolean = useIsSecretario();
@@ -15,15 +16,16 @@ function SecreatarioHome() {
   const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
   const [preTitle, setPreTitle] = useState<string>("");
-  const { getAllPacientes, pacienteList } = usePacientes();
+
+  const {pacienteList,isLoading} = usePacientesCacheQuery();
   useEffect(() => {
     if (!isSecretario) redirectToLogin();
-    getAllPacientes();
+  
   }, []);
   useEffect(() => {
     setPreTitle(mensajeBienvenidaPorSexo(administrativoInfo.sexo));
   }, [administrativoInfo]);
-  
+
   function ShowPacientes() {
     setBtnToggle(true);
   }
@@ -32,6 +34,7 @@ function SecreatarioHome() {
     setBtnToggle(false);
   }
 
+  if(isLoading)return <Spinner/>
   return (
     <>
       <Opening title={`${preTitle} ${administrativoInfo.nombre}`} />
