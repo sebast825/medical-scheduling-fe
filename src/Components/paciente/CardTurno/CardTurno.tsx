@@ -3,7 +3,7 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import ConfirmModal from "../../modals/ConfirmModal";
 import { useUserContext } from "../../../context/authContext";
 import GetJwtContent from "../../../utils/jwtUtils";
-import { fetchCancelarTurno } from "../../../services/apiService";
+import { fetchCancelarTurno, fetchPersonaInfo } from "../../../services/apiService";
 import useWindowSize from "../../../hooks/ScreenSize";
 import { TurnoResponse } from "../../../types/turno/TurnoResponse.type";
 import { formatDateFromResponseDto, getDate, getHour, IDateFormated } from "../../../utils/formatDate";
@@ -21,7 +21,7 @@ function CardTurno({
   const [screenSize, setScreenSize] = useState<number>(useWindowSize().width);
 
   let formatFecha : IDateFormated = formatDateFromResponseDto(turno.fecha);
-
+  console.log(formatFecha,turno.fecha)
   var id = turno.id
   var nombre = turno.medico;
   var especialidad = turno.especialidad;
