@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import usePacientes from "./usePacientes";
 
-function usePacientesCacheQuery (){
+function usePacientesCacheQuery (user:string|null){
    const {getAllPacientes}=usePacientes()
    const {
       data: pacienteList,
@@ -9,9 +9,13 @@ function usePacientesCacheQuery (){
       
     } = useQuery({
       queryFn:  () => {
-        return getAllPacientes() || []; 
+         if(user){
+            return getAllPacientes(user)
+         }else{
+            return  []; 
+         }
       },
-      queryKey: ['pacienteList'], 
+      queryKey: ['pacienteList',user], 
       staleTime: Infinity,
     });
 

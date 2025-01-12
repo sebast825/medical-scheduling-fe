@@ -11,6 +11,7 @@ import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 import { handleHttpError } from "../../utils/errorHandler";
+import useIsPaciente from "../roles/useIsPaciente";
 
 function usePacientes() {
   const user = useUserInfo();
@@ -54,13 +55,16 @@ function usePacientes() {
       return "El nombre debe tener entre 2 caracteres y 150 caracteres.";
   }
 
-  const getAllPacientes = useCallback(async () => {
+  const getAllPacientes = useCallback(async (user :string) : Promise<IPacienteResponse[]|[]> => {
+  
     try {
-      if (user == null) return;
+      if (user == null) return [];
       const response: IPacienteResponse[] = await fetchAllPacientes(user);
       setPacientesList(response);
+      return response;
     } catch (err: any) {
       error(handleHttpError(err));
+      return []
 
     }
   }, []);

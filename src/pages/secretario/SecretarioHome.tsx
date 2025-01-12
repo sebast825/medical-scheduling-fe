@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAdministrativoInfoContext } from "../../context/authContext";
+import { useAdministrativoInfoContext, useUserInfo } from "../../context/authContext";
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
@@ -16,8 +16,8 @@ function SecreatarioHome() {
   const { administrativoInfo } = useAdministrativoInfoContext();
   const [btnToggle, setBtnToggle] = useState<boolean>(true);
   const [preTitle, setPreTitle] = useState<string>("");
-
-  const {pacienteList,isLoading} = usePacientesCacheQuery();
+const user = useUserInfo()
+  const {pacienteList,isLoading} = usePacientesCacheQuery(user);
   useEffect(() => {
     if (!isSecretario) redirectToLogin();
   
@@ -33,6 +33,7 @@ function SecreatarioHome() {
   async function ShowHorariosMedicos() {
     setBtnToggle(false);
   }
+  useEffect(()=>{},[pacienteList])
 
   if(isLoading)return <Spinner/>
   return (
