@@ -46,7 +46,7 @@ export const fetchMedicos = async () => {
 
 export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/pacientes/${idPaciente}/turnos`);
+  const response = await api.get(`api/turnos/pacientes/${idPaciente}`);
   return response.data;
 };
 
@@ -61,7 +61,7 @@ export const fetchTurnosDisponiblesByMedico = async (
   idMedico: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/medicos/${idMedico}/turnos-disponibles`);
+  const response = await api.get(`api/turnos-disponibles/medicos/${idMedico}`);
   return response.data;
 };
 
@@ -71,7 +71,7 @@ export const fetchTurnosDisponiblesByEspecialdiad = async (
 ) => {
   setAuthToken(jwt);
   const response = await api.get(
-    `api/especialidades/${especialidad}/turnos-disponibles`
+    `api/turnos-disponibles/especialidades/${especialidad}`
   );
   return response.data;
 };
@@ -192,7 +192,7 @@ export const fecthUpdateMedico = async (
 
 export const fecthGetEspecialidadesMedico = async (jwt: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`/api/medicos/especialidad/getAll`);
+  const response = await api.get(`/api/especialidades-medicos`);
   return response.data;
 };
 
@@ -210,7 +210,7 @@ export const fecthRecuperarClaveRequest = async (
 ) => {
 
     const response = await api.post(
-      `/api/usuario/requestUpdatePassword`,
+      `/api/usuario/request-update-password`,
       email
     );
     return response.status;
@@ -219,7 +219,7 @@ export const fecthRecuperarClaveRequest = async (
 
 
 export const fecthActualizarClave = async (dto: NuevaClaveRequest) => {
-  const response = await api.post(`/api/usuario/updatePassword`, dto);
+  const response = await api.post(`/api/usuario/update-password`, dto);
   return response.data;
 };
 
