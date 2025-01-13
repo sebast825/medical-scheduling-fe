@@ -47,7 +47,7 @@ export const fetchMedicos = async () => {
 
 export const fetchTurnosPaciente = async (jwt: string, idPaciente: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/turnos/pacientes/${idPaciente}`);
+  const response = await api.get(`api/pacientes/${idPaciente}/turnos`);
   return response.data;
 };
 
@@ -207,7 +207,7 @@ export const fecthCreateUsuarioAndPaciente = async (
 ) => {
   const source = axios.CancelToken.source();
 
-  const response = await api.post(`/api/usuario/paciente`, dto);
+  const response = await api.post(`/api/pacientes`, dto);
   return response.data;
 };
 
