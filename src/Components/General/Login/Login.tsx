@@ -24,12 +24,15 @@ const LoginForm = ({ e }: iLoginForm) => {
 
   useEffect(() => {
     if (user != null) {
-      getUserInfo();
-      redirectByRol();
-      setLoadingLogin(false);
+      initializeUserSession()
     }
   }, [user]);
 
+  async function initializeUserSession(){
+     await getUserInfo();
+     await redirectByRol();
+    setLoadingLogin(false);
+  }
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setMsgeSpinner(spinnerMessages.login);

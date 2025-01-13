@@ -19,8 +19,8 @@ function useLogin() {
   
   async function handleLogin(userName: string, password: string) {      
 
-    let UserName = "Paciente";
-    let Password = "Paciente";
+    let UserName = "Administrador";
+    let Password = "Administrador";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario
@@ -28,7 +28,6 @@ function useLogin() {
       const token: string = await fetchLogin(loginData);
       cambiaLogin(token);
     } catch (err: any) {
-      console.log(err)
       error(handleHttpError(err));
     }
   }
