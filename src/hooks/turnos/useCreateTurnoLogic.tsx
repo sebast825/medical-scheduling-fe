@@ -71,6 +71,7 @@ function useCreateTurnoLogic(filterBy: string) {
   }, [filterBy]);
 
   useEffect(() => {
+
     setSubtitleOening("");
     switch (componenteActivo) {
       case "0":
@@ -84,7 +85,6 @@ function useCreateTurnoLogic(filterBy: string) {
         break;
 
       case "2":
-        setMsgeSpinner(spinnerMessages.cargarFechas);
 
         setTitleOening("Seleccionar Fecha");
 
@@ -111,7 +111,8 @@ function useCreateTurnoLogic(filterBy: string) {
 
 
    async function showDiasDisponibles(e: number) {
-    setLoadingDisponibilidades(true);
+    setMsgeSpinner(spinnerMessages.cargarFechas);
+    setLoadingDisponibilidades(true);    
     await getTurnosDisponiblesByMedico(e.toString());
     var nombreMedico = medicos?.find((elem) => elem.id === e);
     setComponenteActivo("2");
@@ -172,10 +173,10 @@ function useCreateTurnoLogic(filterBy: string) {
     listaMedicos: IMedicoResponse[],
     especiliadSelect: string
   ): Promise<void> {
+    setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
-
+  
     await getTurnosDisponiblesByEspecialidad(especiliadSelect);
-
     setComponenteActivo("2");
     setLoadingDisponibilidades(false);
   }
