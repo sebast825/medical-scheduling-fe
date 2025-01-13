@@ -106,7 +106,7 @@ export const fetchUpdatePaciente = async (
 
 export const getDisponibilidadMedicos = async (jwt: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/disponibilidadMedicos`);
+  const response = await api.get(`api/disponibilidad`);
   return response.data;
 };
 
@@ -151,7 +151,7 @@ export const PutUpdateDisponibilidadMedico = async (
   dto: IDisponibilidadMedicoUpdateRequest
 ) => {
   setAuthToken(jwt);
-  const response = await api.put(`api/DisponibilidadMedicos`, dto);
+  const response = await api.put(`api/Disponibilidad`, dto);
   return response.data;
 };
 
@@ -160,13 +160,13 @@ export const SetCreateDisponibilidadMedico = async (
   dto: DisponibilidadMedicoCreate
 ) => {
   setAuthToken(jwt);
-  const response = await api.post(`api/DisponibilidadMedicos`, dto);
+  const response = await api.post(`api/Disponibilidad`, dto);
   return response.data;
 };
 
 export const DeleteDisponibilidadMedico = async (jwt: string, id: number) => {
   setAuthToken(jwt);
-  const response = await api.delete(`api/DisponibilidadMedicos/${id}`);
+  const response = await api.delete(`api/Disponibilidad/${id}`);
   return response.data;
 };
 
