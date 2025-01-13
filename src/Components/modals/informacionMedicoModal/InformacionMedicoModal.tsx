@@ -69,7 +69,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
           />
         </Form.Group>
         <Form.Group key="6">
-          <Form.Label style={{ textAlign: "left" }}>Sexo</Form.Label>
+          <Form.Label style={{ textAlign: "left" }}>Especialdiad</Form.Label>
           <Form.Select
             onChange={(e) => setEspecialidad(e.target.value)}
             value={especialidad}
