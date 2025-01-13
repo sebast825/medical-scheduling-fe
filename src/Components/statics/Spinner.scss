@@ -12,24 +12,23 @@
   top: 0;
   left: 0;
   z-index: 200000;
+  text-align: center;
 }
 
 .text {
   color: $color-white !important;
-  
 }
-.title{
-   font-family: $font-title-big;
-   
+.title {
+  font-family: $font-title-big;
 }
-.subTitle{
-   font-family: $font-title-small;
-
+.subTitle {
+  font-family: $font-title-small;
+  padding: 0 20px;
 }
 // Envoltorio para la animación de rebote
 .spinner-wrapper {
   animation: bounce 1.5s ease-in-out infinite;
-  display: inline-block; 
+  display: inline-block;
 }
 
 // Imagen que gira sobre su propio eje
@@ -51,7 +50,8 @@
 
 // Rebote hacia arriba y abajo
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
