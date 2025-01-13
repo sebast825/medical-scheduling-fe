@@ -12,6 +12,7 @@ import axios from "axios";
 import { RecuperarClaveRequest } from "../types/usuario/RecuperarClaveRequest";
 import { NuevaClaveRequest } from "../types/usuario/NuevaClaveRequest";
 
+
 // Ejemplo de una solicitud GET
 export const fetchAllPacientes = async (jwt: string) => {
   setAuthToken(jwt);
@@ -61,7 +62,7 @@ export const fetchTurnosDisponiblesByMedico = async (
   idMedico: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/turnos-disponibles/medicos/${idMedico}`);
+  const response = await api.get(`api/medicos/${idMedico}/turnos-disponibles`);
   return response.data;
 };
 
@@ -71,7 +72,10 @@ export const fetchTurnosDisponiblesByEspecialdiad = async (
 ) => {
   setAuthToken(jwt);
   const response = await api.get(
-    `api/turnos-disponibles/especialidades/${especialidad}`
+    `api/turnos-disponibles/especialidades`,{
+      params : {especialidad : especialidad}
+    }
+
   );
   return response.data;
 };
@@ -143,7 +147,7 @@ export const fetchFilterTurnosMedicoHoy = async (
 ) => {
   setAuthToken(jwt);
   const response = await api.get(`api/medicos/${idDoctor}/turnos`, {
-    params: { dateTime: fecha }, 
+    params: { dateTime: fecha }
   });
   return response.data;
 };
