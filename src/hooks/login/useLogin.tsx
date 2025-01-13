@@ -19,8 +19,8 @@ function useLogin() {
   
   async function handleLogin(userName: string, password: string) {      
 
-    let UserName = "Administrador";
-    let Password = "Administrador";
+    let UserName = "Medico";
+    let Password = "Medico";
     const loginData: ILogin = { UserName, Password };
 
     //consigue la info del usuario
@@ -48,6 +48,7 @@ function useLogin() {
         await setPacienteInfo(pacienteInfo);
         await setPersonaInfo(pacienteInfo);
       } else if (userRole == Roles[Roles.Medico]) {
+        console.log(user,params)
         const medicoInfo = await fetchMedicoInfo(user, params.PersonaId);
         await setMedicoInfo(medicoInfo);
       } else if (userRole == Roles[Roles.Admin]) {

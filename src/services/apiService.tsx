@@ -142,7 +142,9 @@ export const fetchFilterTurnosMedicoHoy = async (
   idDoctor: string
 ) => {
   setAuthToken(jwt);
-  const response = await api.get(`api/medicos/${idDoctor}/turnos/${fecha}`);
+  const response = await api.get(`api/medicos/${idDoctor}/turnos`, {
+    params: { dateTime: fecha }, 
+  });
   return response.data;
 };
 
@@ -192,7 +194,7 @@ export const fecthUpdateMedico = async (
 
 export const fecthGetEspecialidadesMedico = async (jwt: string) => {
   setAuthToken(jwt);
-  const response = await api.get(`/api/especialidades-medicos`);
+  const response = await api.get(`/api/especialidades`);
   return response.data;
 };
 
