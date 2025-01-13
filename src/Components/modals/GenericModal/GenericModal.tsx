@@ -1,5 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import ConfirmButton from "../../buttons/confirmButton/ConfirmButton";
+import useConfirmBtnAviability from "../../../hooks/confirmBtnAviability/useConfirmBtnAviability";
+import { useEffect } from "react";
 
 type IGenericModal = {
   show: boolean;
@@ -23,40 +25,33 @@ function GenericModal({
   textThirdButton,
   useDisableConfirmBtn,
 }: IGenericModal) {
+  const { btnStatus, handleFunctionnAndButton } = useConfirmBtnAviability();
+  useEffect(() => {}, [btnStatus]);
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        {children}
-        {/* {inputValues.map((elem) => (
-          <Form.Group key={elem.key} controlId="formBasicInput">
-            <Form.Label>{elem.label}</Form.Label>
-            <Form.Control
-              type="text"
-              value={elem.value || ""}
-              onChange={(e) => {
-                handleChange(elem.key, e.target.value);
-                // console.log(elem);
-              }}
-            />
-          </Form.Group>
-        ))} */}
-      </Modal.Body>
+      <Modal.Body>{children}</Modal.Body>
 
       <Modal.Footer>
         {handleThirdButton && (
-            <ConfirmButton variant="danger"  handleConfirm={handleThirdButton} text={textThirdButton}/>
-      
+          <ConfirmButton
+            variant="danger"
+            handleConfirm={() => handleFunctionnAndButton(handleThirdButton)}
+            setButtonStatus={btnStatus}
+            text={textThirdButton}
+          />
         )}
-                
 
         <Button variant="dark" onClick={handleClose}>
           Cancelar
         </Button>
         {useDisableConfirmBtn ? (
-          <ConfirmButton handleConfirm={handleConfirm} />
+          <ConfirmButton
+            handleConfirm={() => handleFunctionnAndButton(handleConfirm)}
+            setButtonStatus={btnStatus}
+          />
         ) : (
           <Button variant="primary" onClick={handleConfirm}>
             Confirmar
