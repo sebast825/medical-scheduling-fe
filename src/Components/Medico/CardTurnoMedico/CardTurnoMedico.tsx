@@ -17,6 +17,7 @@ import {
 } from "../../../utils/formatDate";
 import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
 import "./CardTurnoMedico.scss";
+import useConfirmBtnAviability from "../../../hooks/confirmBtnAviability/useConfirmBtnAviability";
 
 type ICardTurnoMedico = {
   turno: TurnoResponse;
@@ -25,6 +26,8 @@ type ICardTurnoMedico = {
 
 function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
   const [screenSize] = useState<number>(useWindowSize().width);
+  const [btnStatus, setBtnStatus] = useState<boolean>(false);
+
   const user = useUserInfo();
   var id = turno.id;
   var paciente = turno.paciente;
@@ -39,6 +42,7 @@ function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
 
 
   async function updateStatusTurno(nuevoEstado: string): Promise<void> {
+    setBtnStatus(true)
     if (user == null) return;
     var updateStatus = await fetchActualizarEstadoTurno(
       user,
@@ -48,6 +52,7 @@ function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
     if (updateStatus.estado == nuevoEstado) {
       btnEvent(updateStatus);
     }
+    setBtnStatus(false)
   }
 
   return (
@@ -81,7 +86,7 @@ function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
               className="d-flex align-items-center justify-content-center"
             >
               <Dropdown as={ButtonGroup}>
-                <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                <Dropdown.Toggle variant="primary" id="dropdown-basic"   disabled={btnStatus}>
                   Estado
                 </Dropdown.Toggle>
 
