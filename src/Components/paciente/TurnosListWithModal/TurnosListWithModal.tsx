@@ -47,10 +47,10 @@ function TurnosListWithModal(props: ITurnosListWithModal) {
   }
   const handleCloseModal = () => setShowModal(false);
 
-  const handleConfirmAction = (): void => {
+  const  handleConfirmAction = async (): Promise<void> => {
     // Acción que deseas confirmar
     if (turnoACancelar) {
-      cancelarTurno(turnoACancelar.id);
+      await cancelarTurno(turnoACancelar.id);
     }
 
     handleCloseModal();
