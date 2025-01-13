@@ -182,7 +182,7 @@ export const fecthUpdateEstadoUsuarioYPersona = async (
   estado: number
 ) => {
   setAuthToken(jwt);
-  const response = await api.patch(`/api/usuario/${id}/estado/${estado}`);
+  const response = await api.patch(`/api/usuarios/${id}/estado/${estado}`);
   return response.data;
 };
 
@@ -216,7 +216,7 @@ export const fecthRecuperarClaveRequest = async (
 ) => {
 
     const response = await api.post(
-      `/api/usuario/request-update-password`,
+      `/api/usuarios/request-update-password`,
       email
     );
     return response.status;
@@ -225,7 +225,7 @@ export const fecthRecuperarClaveRequest = async (
 
 
 export const fecthActualizarClave = async (dto: NuevaClaveRequest) => {
-  const response = await api.post(`/api/usuario/update-password`, dto);
+  const response = await api.post(`/api/usuarios/update-password`, dto);
   return response.data;
 };
 
