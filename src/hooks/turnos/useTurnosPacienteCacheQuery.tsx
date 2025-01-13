@@ -27,6 +27,7 @@ function useTurnosPacienteCacheQuery(pacienteInfoId: string | undefined) {
     queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
       const updatedData = [...oldData, newTurno];
       return orderTurnosByDate(updatedData);
+      
     });
   };
   const handleDeleteCache = (id: number) => {

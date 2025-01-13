@@ -28,7 +28,7 @@ function PacienteHome() {
 
     //tarda en cargar pacienteInfo y hay que recargar
     if (pacienteInfo != null) {
-      handleReloadTurnos();
+     // handleReloadTurnos();
       setPreTitle(mensajeBienvenidaPorSexo(pacienteInfo.sexo));
     }
   }, [pacienteInfo]);

@@ -117,30 +117,48 @@ export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
   }
 }
 
-
 export function parseDateFromResponseStringToDate(dateString: string): Date | null {
-  const parts = dateString.split(/[\/\s:]/); // Separa por /, espacio y :
+  // Regex para M/D/YYYY h:mm:ss AM/PM
+  const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{2}):(\d{2}) (AM|PM)$/;
+  const match = dateString.match(regex);
 
-  if (parts.length !== 6) {
-    return null; // Formato inválido
+  if (!match) {
+    console.error(`Formato inválido: ${dateString}`);
+    return null;
   }
 
-  const day = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1; // Meses en JavaScript son 0-indexed
-  const year = parseInt(parts[2], 10);
-  const hours = parseInt(parts[3], 10);
-  const minutes = parseInt(parts[4], 10);
-  const seconds = parseInt(parts[5], 10);
+  // Extraer partes
+  const [, month, day, year, hours, minutes, seconds, meridian] = match;
 
-  //Verificación de validez de la fecha (opcional pero recomendado)
-  const date = new Date(year, month, day, hours, minutes, seconds);
+  // Convertir a formato de 24 horas si es necesario
+  let parsedHours = parseInt(hours, 10);
+  if (meridian === "PM" && parsedHours < 12) {
+    parsedHours += 12;
+  }
+  if (meridian === "AM" && parsedHours === 12) {
+    parsedHours = 0;
+  }
+
+  // Crear el objeto Date
+  const date = new Date(
+    parseInt(year, 10),
+    parseInt(month, 10) - 1, // Meses son 0-indexed
+    parseInt(day, 10),
+    parsedHours,
+    parseInt(minutes, 10),
+    parseInt(seconds, 10)
+  );
+
+  // Validar fecha
   if (
-    date.getDate() !== day ||
-    date.getMonth() !== month ||
-    date.getFullYear() !== year
+    date.getDate() !== parseInt(day, 10) ||
+    date.getMonth() !== parseInt(month, 10) - 1 ||
+    date.getFullYear() !== parseInt(year, 10)
   ) {
-    return null; // Fecha inválida
+    console.error("Fecha inválida después de crear Date:", dateString);
+    return null;
   }
 
   return date;
 }
+
