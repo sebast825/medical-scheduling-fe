@@ -50,9 +50,10 @@ function InformacionPacienteModal({
       error(validarDatos);
       return;
     }
+
+    await handleConfirm(paciente)
     handleClose();
 
-    handleConfirm(paciente)
     return paciente;
     
   }
