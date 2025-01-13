@@ -51,7 +51,7 @@ function InformacionPersonaModal({
       error(validate);
       return;
     }
-    handleConfirm(persona);
+    await handleConfirm(persona);
 
     handleClose();
   }

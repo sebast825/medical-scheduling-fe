@@ -27,9 +27,8 @@ function ConfirmButton(props: IConfirmButton) {
   function handleBtnConfirm() {
     setIsButtonDisabel(true);
 
-    setTimeout(() => {
       handleConfirm();
-    }, 1000);
+    
   }
 
   return (

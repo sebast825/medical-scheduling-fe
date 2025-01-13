@@ -11,8 +11,8 @@ function useConfirmBtnAviability() {
     }, 0);
   }
 
-  function handleFunctionnAndButton(fn: () => void): void {
-    fn();
+  async function handleFunctionnAndButton(fn: () => void): Promise<void> {
+    await fn();
     changeStatusBtn();
   }
 
