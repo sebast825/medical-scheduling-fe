@@ -8,7 +8,6 @@ function useConfirmBtnAviability() {
     setBtnStatus(true); // Cambiar a `true` temporalmente
     setTimeout(() => {
       setBtnStatus(false); // Volver a `false`
-      console.log("cambia estado");
     }, 0);
   }
 
