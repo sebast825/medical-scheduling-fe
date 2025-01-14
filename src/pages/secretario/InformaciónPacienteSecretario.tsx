@@ -26,13 +26,13 @@ function InformaciónPacienteSecretario() {
     var persona = await handlePersonaUpdate(pers);
     if (persona != undefined) {
       updatePersonaCache(persona);
-      console.log(persona);
     }
   }
   useEffect(() => {
     if (pacienteInfo && pacienteInfo.telefonoEmergencia != undefined)
       updatePacienteCache(pacienteInfo);
   }, [pacienteInfo]);
+
   useEffect(() => {
     if (!isSecretario) redirectToLogin();
   }, []);
