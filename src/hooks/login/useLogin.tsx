@@ -19,10 +19,10 @@ function useLogin() {
   
   async function handleLogin(userName: string, password: string) {      
 
-    let UserName = "Secretario";
-    let Password = "Secretario";
+    let UserName = userName;
+    let Password = password;
     const loginData: ILogin = { UserName, Password };
-
+    console.log(loginData)
     //consigue la info del usuario
     try {
       const token: string = await fetchLogin(loginData);

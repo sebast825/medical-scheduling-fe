@@ -8,6 +8,8 @@ import useLogin from "../../../hooks/login/useLogin";
 import { Spinner } from "../../statics/Spinner";
 import { spinnerMessages } from "../../../constants/spinnerMessages";
 import { useUserInfo } from "../../../context/authContext";
+import AviableAccountsDemo from "../../modals/AviableAccountsDemo/AviableAccountsDemoModal";
+import useModal from "../../../hooks/useModal";
 
 interface iLoginForm {
   e: () => void;
@@ -21,7 +23,8 @@ const LoginForm = ({ e }: iLoginForm) => {
   const [msgeSpinner, setMsgeSpinner] = useState<string>("");
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
   const user = useUserInfo();
-
+  const{showModal,closeModal,toggleModal} = useModal()
+useEffect(()=>{showModal()},[])
   useEffect(() => {
     if (user != null) {
       initializeUserSession()
@@ -37,7 +40,7 @@ const LoginForm = ({ e }: iLoginForm) => {
     event.preventDefault();
     setMsgeSpinner(spinnerMessages.login);
     setLoadingLogin(true);
-    handleLogin("a", "b");
+    handleLogin(nombre, password);
   };
 
   return (
@@ -45,6 +48,8 @@ const LoginForm = ({ e }: iLoginForm) => {
       {loadingLogin ? (
         <Spinner msge={msgeSpinner} />
       ) : (
+        <>
+        <AviableAccountsDemo showModal={toggleModal} handleClose={closeModal }/>
         <Row className="contenedor justify-content-center align-items-center">
           <Col md={4} className={`paddingCol shadow-lg rounded bg-white`}>
             <h2 className="text-center mb-2 text-primary">Iniciar Sesión</h2>
@@ -96,6 +101,7 @@ const LoginForm = ({ e }: iLoginForm) => {
             </div>
           </Col>
         </Row>
+        </>
       )}
     </>
   );

@@ -9,10 +9,10 @@ function AviableAccountsDemo(props: IAviableAccountsDemo) {
   const { showModal, handleClose } = props;
 
   const demoAccounts = [
-    { role: "Paciente", username: "paciente", password: "paciente" },
-    { role: "Médico", username: "medico", password: "medico" },
-    { role: "Secretario", username: "secretario", password: "secretario" },
-    { role: "Administrador", username: "admin", password: "admin" },
+    { role: "Paciente", username: "Paciente", password: "paciente" },
+    { role: "Médico", username: "Medico", password: "medico" },
+    { role: "Secretario", username: "Secretario", password: "secretario" },
+    { role: "Administrador", username: "Administrador", password: "admin" },
   ];
   return (
     <Modal show={showModal} onHide={handleClose}>
