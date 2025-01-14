@@ -183,7 +183,7 @@ export const fecthUpdateEstadoUsuarioYPersona = async (
   estado: number
 ) => {
   setAuthToken(jwt);
-  const response = await api.patch(`/api/usuarios/${id}/estado/${estado}`);
+  const response = await api.patch(`/api/usuarios/${id}/estado?estado=${estado}`);
   return response.data;
 };
 
