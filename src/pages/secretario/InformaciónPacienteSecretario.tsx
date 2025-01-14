@@ -14,19 +14,25 @@ import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 
 function InformaciónPacienteSecretario() {
-  const user = useUserInfo()
+  const user = useUserInfo();
   const { pacienteInfo } = usePacienteContext();
   const isSecretario: Boolean = useIsSecretario();
   const { handlePersonaUpdate } = usePersonas();
   const { redirectToLogin } = useRedirects();
-  const {addPacienteCache} = usePacientesCacheQuery(user);
+  const { updatePersonaCache, updatePacienteCache } =
+    usePacientesCacheQuery(user);
 
-  async function handlePersona (pers : IPersonaUpdate){
+  async function handlePersona(pers: IPersonaUpdate) {
     var persona = await handlePersonaUpdate(pers);
-    if(persona != undefined){
-      addPacienteCache(persona);
-        console.log(persona)
-  }}
+    if (persona != undefined) {
+      updatePersonaCache(persona);
+      console.log(persona);
+    }
+  }
+  useEffect(() => {
+    if (pacienteInfo && pacienteInfo.telefonoEmergencia != undefined)
+      updatePacienteCache(pacienteInfo);
+  }, [pacienteInfo]);
   useEffect(() => {
     if (!isSecretario) redirectToLogin();
   }, []);
@@ -37,14 +43,14 @@ function InformaciónPacienteSecretario() {
         title={`Información de ${pacienteInfo?.nombre} ${pacienteInfo?.apellido}`}
       ></Opening>
 
-      <div 
+      <div
         className="d-flex  informacionPersonal justify-content-center flex-md-row flex-column gap-5 mt-5 mb-5"
         style={{ width: "min-content", margin: "auto" }}
       >
         <PersonaInfoCard handleConfirm={handlePersona} />
         <PacienteInfoCard handleEvent={true} />
       </div>
-      <BackLink/>
+      <BackLink />
     </div>
   );
 }

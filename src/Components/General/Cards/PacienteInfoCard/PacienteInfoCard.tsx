@@ -5,6 +5,7 @@ import { personaModalFields } from "../../../../utils/objectFields/objectsField"
 import {
   usePacienteContext,
   usePersonaInfoContext,
+  useUserInfo,
 } from "../../../../context/authContext";
 import useGenericObjectFielf from "../../../../hooks/objectField/useGenericObjetField";
 import useModal from "../../../../hooks/useModal";
@@ -16,6 +17,7 @@ import InformacionPacienteModal from "../../../modals/iformacionPacienteModal/In
 import usePacientes from "../../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../../types/Paciente/PacienteResponse.type";
 import { IPacienteUpdate } from "../../../../types/Paciente/PacienteUpdate.type";
+import useIsSecretario from "../../../../hooks/roles/useIsSecretario";
 
 function PacienteInfoCard({
   title = "Informacion de Emergencia",
@@ -27,7 +29,8 @@ function PacienteInfoCard({
   const { showModal, closeModal, toggleModal } = useModal();
   const { pacienteInfo, setPacienteInfo } = usePacienteContext();
   const { putPaciente } = usePacientes();
-
+  const user = useUserInfo();
+  const isSecretario = useIsSecretario();
   useEffect(() => {
     var modalFields = updateModalFields(pacienteModalFields, pacienteInfo);
     setModalFields(modalFields);
