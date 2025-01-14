@@ -133,12 +133,13 @@ export const fetchActualizarEstadoTurno = async (
   estadoTurno: string
 ) => {
   setAuthToken(jwt);
-
+console.log(estadoTurno)
   const response = await api.patch(
-    `api/turnos/${turnoId}/estado/${estadoTurno}`
+    `api/turnos/${turnoId}/estado?estadoTurno=${estadoTurno}`
   );
   return response.data;
 };
+
 
 export const fetchFilterTurnosMedicoHoy = async (
   jwt: string,
