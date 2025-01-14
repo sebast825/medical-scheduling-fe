@@ -15,7 +15,7 @@ import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
       const redirectHomeByRol = async() => {
 
          if (user == null) {
-            navigate("/login");
+            navigate("/");
             return;
          };
 
