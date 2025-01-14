@@ -17,18 +17,19 @@ function useLogin() {
   const { error } = useToastit();
 
   
-  async function handleLogin(userName: string, password: string) {      
+  async function handleLogin(userName: string, password: string) : Promise<boolean> {      
 
     let UserName = userName;
     let Password = password;
     const loginData: ILogin = { UserName, Password };
-    console.log(loginData)
-    //consigue la info del usuario
+ 
     try {
       const token: string = await fetchLogin(loginData);
       cambiaLogin(token);
+      return true;
     } catch (err: any) {
       error(handleHttpError(err));
+      return false;
     }
   }
 

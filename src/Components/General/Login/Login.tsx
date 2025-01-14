@@ -30,7 +30,7 @@ useEffect(()=>{showModal()},[])
       initializeUserSession()
     }
   }, [user]);
-
+useEffect(()=>{},[loadingLogin])
   async function initializeUserSession(){
      await getUserInfo();
      await redirectByRol();
@@ -40,7 +40,10 @@ useEffect(()=>{showModal()},[])
     event.preventDefault();
     setMsgeSpinner(spinnerMessages.login);
     setLoadingLogin(true);
-    handleLogin(nombre, password);
+    let successfullLogin = await handleLogin(nombre, password);
+    if(!successfullLogin){
+      setLoadingLogin(false);
+    }
   };
 
   return (
