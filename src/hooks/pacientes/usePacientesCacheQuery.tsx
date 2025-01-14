@@ -1,8 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePacientes from "./usePacientes";
+import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
+import { IPersonaResponse } from "../../types/Persona/PersonaResponse.type";
 
 function usePacientesCacheQuery (user:string|null){
    const {getAllPacientes}=usePacientes()
+
+   const queryClient = useQueryClient();
+
    const {
       data: pacienteList,
       isLoading,
@@ -18,7 +23,23 @@ function usePacientesCacheQuery (user:string|null){
       queryKey: ['pacienteList',user], 
       staleTime: Infinity,
     });
+  const addPacienteCache = (paciente: IPersonaResponse) => {
+     queryClient.setQueryData(['pacienteList',user], (oldData: IPacienteResponse[]) => {
+     var updatedData = oldData.map(elem => {
+         if(elem.id == paciente.id){
+          return {
+            ...elem, 
+            ...paciente, 
+            nombreEmergencia: elem.nombreEmergencia,  
+            telefonoEmergencia: elem.telefonoEmergencia
+          };         }else{
+            return elem;
+         }
+      })
+         return updatedData;
+     });
+   };
 
-    return {pacienteList,isLoading}
+    return {pacienteList,isLoading,addPacienteCache}
 }
 export default usePacientesCacheQuery;
