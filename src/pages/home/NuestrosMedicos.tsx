@@ -40,7 +40,7 @@ function NuestrosMedicos() {
         <tbody>
           {listaMedicos && listaMedicos.map((item, index) => (
             <tr className="text-center " key={index}>
-              <td>{item.apellido + " " + item.nombre}</td>
+              <td>{item.nombre + " "  + item.apellido }</td>
               <td>{item.especialidad}</td>
             </tr>
           ))}

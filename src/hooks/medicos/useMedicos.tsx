@@ -26,7 +26,8 @@ const useMedicos = () => {
   const getMedicos = useCallback(async () : Promise<IMedicoResponse[] | []>=> {
     try {
       const response: IMedicoResponse[] = await fetchMedicos();
-      setMedicos(response);
+    
+      setMedicos(sortByName(response));
       return response || [] ;  
     } catch (err: any) {
       error(handleHttpError(err));
@@ -34,6 +35,11 @@ const useMedicos = () => {
     }
   }, []);
 
+  function sortByName(medicoList : IMedicoResponse[]){
+    return medicoList.sort((ant,act)=>{
+      return ant.nombre.localeCompare(act.nombre);
+    } )
+  }
   function findMedicoById(id: number): IMedicoResponse | undefined {
     var medicoSelected = medicos?.find((elem) => elem.id == id);
     return medicoSelected ? medicoSelected : undefined;
