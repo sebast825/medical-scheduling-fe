@@ -82,6 +82,8 @@ function PacienteHome() {
             onClickButton1={RedirectBuscarPorMedico}
             onClickButton2={RedirectBuscarPorEspecialidad}
             layout="mobileWrap gap-3 maxWidthContainer"
+            setShadowDefault={false}
+
           />
         </div>
       )}

@@ -14,9 +14,9 @@
 }
 .btn.active,
 .btn:active {
-  box-shadow: inset 10px 10px 25px rgba(0, 0, 0, 0.525);
+  box-shadow: inset 25px 15px 25px rgba(0, 0, 0, 0.525);
   @include respond(mobile) {
-    box-shadow: inset 5px 5px 25px rgba(0, 0, 0, 0.525);
+    box-shadow: inset 15px 8px 25px rgba(0, 0, 0, 0.525);
   }
 }
 
