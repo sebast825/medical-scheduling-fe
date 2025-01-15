@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://www.sistematurnosapi.somee.com/', 
+  baseURL: 'https://www.sistematurnosapi.somee.com/', 
  //baseURL: 'https://localhost:7284/',
  headers: {
     'Content-Type': 'application/json',
