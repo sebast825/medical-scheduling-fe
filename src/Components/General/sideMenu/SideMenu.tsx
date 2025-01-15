@@ -25,7 +25,7 @@ function SideMenu({ show, handleClose }: ISideMenu) {
     handleClose();
   }
   return (
-    <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }} >
+    <Offcanvas show={show} onHide={handleClose} style={{ width: "300px" }} placement="end">
 
       <Offcanvas.Header closeButton  >
         <Offcanvas.Title>
