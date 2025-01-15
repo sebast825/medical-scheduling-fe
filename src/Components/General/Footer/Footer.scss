@@ -27,3 +27,11 @@
 
   }
 }
+
+.icon{
+  transform: scale(2);
+  color: $color-white;
+  &:hover{
+    color: #ddd ;
+  }
+}

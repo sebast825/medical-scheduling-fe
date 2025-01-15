@@ -1,6 +1,7 @@
 import LineTitle from "../LineTitle/LineTitle";
 import "./Footer.scss";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 function Footer() {
   return (
     <div className="footer text-center d-flex gap-3  flex-column">
@@ -34,14 +35,18 @@ function Footer() {
             Sebastián Molina
           </span>
         </h5>
+
         <h6>
-          <a
-            href="https://www.linkedin.com/in/sebastian-molina97/"
-            className="link"
-            target="_blank"
-          >
-            Contacto
-          </a>
+          <div className="p-2">
+            <a
+              href="https://www.linkedin.com/in/sebastian-molina97/"
+              target="_blank"
+            >
+              <FontAwesomeIcon icon={faLinkedin} className="icon" />{" "}
+            </a>
+          </div>
+
+       
         </h6>
       </div>
     </div>
