@@ -5,7 +5,10 @@ import ListHorarios from "../ListHorarios/ListHorarios";
 
 interface IListEspecialidades {
   listMedicos: IMedicoResponse[];
-  getMedicosByEspecialidadSelected: (listaMedicos : IMedicoResponse[],especialdiadSelect :string) => void;
+  getMedicosByEspecialidadSelected: (
+    listaMedicos: IMedicoResponse[],
+    especialdiadSelect: string
+  ) => void;
 }
 
 function ListEspecialidades({
@@ -13,7 +16,6 @@ function ListEspecialidades({
   getMedicosByEspecialidadSelected,
 }: IListEspecialidades) {
   //objete medicos filtrado, solo con los datos necesarios
-
 
   const especialidadUnica = listMedicos.reduce<IMedicoResponse[]>(
     (acc, current) => {
@@ -25,22 +27,33 @@ function ListEspecialidades({
     []
   );
 
-  const especialidadUnicaObjeto =
-  especialidadUnica.map((medico) => {
+  const especialidadUnicaObjeto = especialidadUnica
+  //le saca la info redundante
+    .map((medico) => {
       return { nombre: medico.especialidad, id: medico.id };
-    }) ;
+    })
+    //ordena por nombre
+    .sort((ant, act) => {
+      return ant.nombre.localeCompare(act.nombre);
+    });
 
-  function filterMedicosByEspecialidad(e:number){
-   const especialdiadSeleccionada = especialidadUnica.find(elem => elem.id == e);
-   const medicosEspecialidadSeleccionada = listMedicos.filter(medico => medico.especialidad == especialdiadSeleccionada?.especialidad );
-   if(especialdiadSeleccionada)
-   getMedicosByEspecialidadSelected(medicosEspecialidadSeleccionada,especialdiadSeleccionada?.especialidad);
+  function filterMedicosByEspecialidad(e: number) {
+    const especialdiadSeleccionada = especialidadUnica.find(
+      (elem) => elem.id == e
+    );
+    const medicosEspecialidadSeleccionada = listMedicos.filter(
+      (medico) => medico.especialidad == especialdiadSeleccionada?.especialidad
+    );
+    if (especialdiadSeleccionada)
+      getMedicosByEspecialidadSelected(
+        medicosEspecialidadSeleccionada,
+        especialdiadSeleccionada?.especialidad
+      );
   }
 
   return (
     <>
       <List
-      
         listItems={especialidadUnicaObjeto}
         handleSelect={filterMedicosByEspecialidad}
       />
