@@ -11,6 +11,8 @@ import "./NavBar.scss";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 import useWindowSize from "../../../hooks/ScreenSize";
 import useIsMedico from "../../../hooks/roles/useIsMedico";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 function NavBar() {
   const [activeKey, setActiveKey] = useState<string>("link");
@@ -139,7 +141,8 @@ function NavBar() {
         <>
           <Nav.Item>
             <Nav.Link eventKey="c" onClick={handleShow}>
-              Mi Perfil
+              <FontAwesomeIcon icon={faBars} className="menu-icon hamburger" />
+
             </Nav.Link>
           </Nav.Item>
         </>

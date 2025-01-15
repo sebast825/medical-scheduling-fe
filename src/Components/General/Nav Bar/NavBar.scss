@@ -39,3 +39,11 @@
     text-align: start;
   }
 }
+
+.hamburger{
+  transform: scale(2);
+  color: #555;
+  &:hover{
+    color: $color-green;
+  }
+}
