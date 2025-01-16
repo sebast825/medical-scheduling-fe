@@ -11,6 +11,7 @@ import { success } from "toastr";
 import { successMessagges } from "../../constants/successMessages";
 import useToastit from "../useToastit";
 import { genericMessages } from "../../constants/genericMessages";
+import { permisosEdicion } from "../../constants/permisosEdicion";
 
 function useDisponibilidadMedicosLogic() {
   const user = useUserInfo();
@@ -23,23 +24,24 @@ function useDisponibilidadMedicosLogic() {
     [string, DisponibilidadMedico[]][]
   >([]);
   const [estadoDisponibilidad, setEstadoDisponibilidad] =
-  useState<DisponibilidadMedico>({
-    id: 0,
-    medicoId: 0,
-    medico: "",
-    especialidad: "",
-    diaSemana: "",
-    startTime: "",
-    endTime: "",
-  });
-  const {warning} =useToastit();
+    useState<DisponibilidadMedico>({
+      id: 0,
+      medicoId: 0,
+      medico: "",
+      especialidad: "",
+      diaSemana: "",
+      startTime: "",
+      endTime: "",
+    });
+  const { warning } = useToastit();
   const {
-   fetchUpdateDisponibilidadMedico,
-   fetchCreateDisponibilidadMedico,
-   fetchDeleteDisponibilidadMedico,
- } = useDisponibilidadMedicosApi();
+    fetchUpdateDisponibilidadMedico,
+    fetchCreateDisponibilidadMedico,
+    fetchDeleteDisponibilidadMedico,
+  } = useDisponibilidadMedicosApi();
 
- const {disponibilidadMedico,handleReloadDisponibilidadMedicos,isLoading} = useDisponibilidadMedicosCacheQuery()
+  const { disponibilidadMedico, handleReloadDisponibilidadMedicos, isLoading } =
+    useDisponibilidadMedicosCacheQuery();
   const [toggleCreateModal, setToggleCreateModal] = useState<boolean>(false);
   const [toggleEditModal, setToggleEditModal] = useState<boolean>(false);
 
@@ -55,7 +57,9 @@ function useDisponibilidadMedicosLogic() {
   function showCreateModal() {
     setToggleCreateModal(true);
   }
-useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
+  useEffect(() => {
+    sortDisponibildaidMedicos();
+  }, [disponibilidadMedico]);
   function handleInputRegex() {
     const regEx = new RegExp(`^${buscarItem}`, "i");
     const filteredItems = Object.entries(horariosMedicos).filter(
@@ -66,10 +70,10 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
     );
     setHorariosMedicosFiltrados(filteredItems);
   }
-   function sortDisponibildaidMedicos() {
+  function sortDisponibildaidMedicos() {
     if (user != null) {
-      if(!disponibilidadMedico)return;
-      var agruparHorariosPorMedico =  agruparObjetosPorClave(
+      if (!disponibilidadMedico) return;
+      var agruparHorariosPorMedico = agruparObjetosPorClave(
         disponibilidadMedico,
         "medico",
         "especialidad"
@@ -116,38 +120,49 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
   async function handleUpdate(
     disponibilidadMedicoUpdated: IDisponibilidadMedicoUpdateRequest
   ) {
-    warning(genericMessages.funcionalidadAdministradorRestringido)
-    closeEditModal();
-    return;
-  /*  var rsta = await fetchUpdateDisponibilidadMedico(
+    if (!permisosEdicion.admin) {
+      warning(genericMessages.funcionalidadAdministradorRestringido);
+      closeEditModal();
+      return;
+    }
+
+    var rsta = await fetchUpdateDisponibilidadMedico(
       disponibilidadMedicoUpdated
     );
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
     success(successMessagges.exito);
-    setHorariosMedicos(updatedList);*/
+    setHorariosMedicos(updatedList);
   }
 
   async function handleCreate(
     disponibilidadMedico: DisponibilidadMedicoCreate
   ) {
-    warning(genericMessages.funcionalidadAdministradorRestringido)
+    if (!permisosEdicion.admin) {
+      warning(genericMessages.funcionalidadAdministradorRestringido);
+      closeCreateModal();
+      return;
+    }
+    var newDisponibilidad = await fetchCreateDisponibilidadMedico(
+      disponibilidadMedico
+    );
+    handleReloadDisponibilidadMedicos();
     closeCreateModal();
-    return;
-    var newDisponibilidad = await fetchCreateDisponibilidadMedico(disponibilidadMedico);
-     handleReloadDisponibilidadMedicos()
-   // await getMedicos();
+
+    // await getMedicos();
   }
 
   async function handleDelete(id: number) {
-    warning(genericMessages.funcionalidadAdministradorRestringido)
-    closeEditModal();
-    return;
+    if (!permisosEdicion.admin) {
+      warning(genericMessages.funcionalidadAdministradorRestringido);
+      closeEditModal();
+      return;
+    }
     await fetchDeleteDisponibilidadMedico(id);
 
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
-    handleReloadDisponibilidadMedicos()
+    handleReloadDisponibilidadMedicos();
   }
 
   return {
@@ -168,7 +183,7 @@ useEffect(()=>{sortDisponibildaidMedicos()},[disponibilidadMedico])
     closeCreateModal,
     showEditModal,
     showCreateModal,
-    isLoading
+    isLoading,
   };
 }
 
