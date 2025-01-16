@@ -36,7 +36,7 @@ const {error} = useToastit();
   }, [modalField]);
 
 
-  function confirmar() {
+  async function confirmar() {
     if(horarioFin == undefined || horarioInicio == undefined || horarioFin == '' || horarioInicio == '') {
       error(genericMessages.camposIncompletos);
 
@@ -47,10 +47,10 @@ const {error} = useToastit();
       EndTime : horarioFin
 
     } 
-    handleConfirm(disponibilidadUpdated)
+    await handleConfirm(disponibilidadUpdated)
   }
-  function eliminar(){
-    handleDelete(modalField.id)
+  async function eliminar(){
+    await handleDelete(modalField.id)
   }
   return (
     <>

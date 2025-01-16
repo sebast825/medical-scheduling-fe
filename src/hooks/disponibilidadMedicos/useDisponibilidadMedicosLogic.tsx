@@ -131,8 +131,10 @@ function useDisponibilidadMedicosLogic() {
     );
     if (rsta == undefined) return;
     let updatedList = updateDisponibilidadFromRecord(rsta);
+    
     success(successMessagges.exito);
     setHorariosMedicos(updatedList);
+    closeEditModal();
   }
 
   async function handleCreate(
@@ -143,14 +145,12 @@ function useDisponibilidadMedicosLogic() {
       closeCreateModal();
       return;
     }
-    console.log("arranca")
 
     var newDisponibilidad = await fetchCreateDisponibilidadMedico(
       disponibilidadMedico
     );
-    handleReloadDisponibilidadMedicos();
+    await handleReloadDisponibilidadMedicos();
     closeCreateModal();
-    console.log("termina")
     // await getMedicos();
   }
 
@@ -165,6 +165,8 @@ function useDisponibilidadMedicosLogic() {
     let updateList = removeDisponibilidadFromRecord(id);
     setHorariosMedicos(updateList);
     handleReloadDisponibilidadMedicos();
+    closeEditModal();
+
   }
 
   return {
