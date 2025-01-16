@@ -143,12 +143,14 @@ function useDisponibilidadMedicosLogic() {
       closeCreateModal();
       return;
     }
+    console.log("arranca")
+
     var newDisponibilidad = await fetchCreateDisponibilidadMedico(
       disponibilidadMedico
     );
     handleReloadDisponibilidadMedicos();
     closeCreateModal();
-
+    console.log("termina")
     // await getMedicos();
   }
 

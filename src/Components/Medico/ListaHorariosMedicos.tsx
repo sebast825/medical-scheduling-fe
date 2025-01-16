@@ -48,6 +48,7 @@ function ListaHorariosMedicos() {
         show={toggleCreateModal}
         handleClose={closeCreateModal}
         handleConfirm={(e) => handleCreate(e)}
+        
       />
       <EditHorarioMedicoModal
         modalField={estadoDisponibilidad}

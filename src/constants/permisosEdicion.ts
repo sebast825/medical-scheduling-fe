@@ -1,3 +1,3 @@
-export const permisosEdicion ={
+export const permisosEdicion = {
    admin : true
 }

@@ -27,6 +27,7 @@ function ChangeStatusPersona(props: IChangeStatusPersona) {
 
   const { warning } = useToastit();
   async function handleConfirmModal() {
+    console.log(permisosEdicion.admin)
     if (!permisosEdicion.admin) {
       warning(genericMessages.funcionalidadAdministradorRestringido);
       closeModal();

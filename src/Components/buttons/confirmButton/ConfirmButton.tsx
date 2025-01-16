@@ -13,7 +13,7 @@ interface IConfirmButton {
 function ConfirmButton(props: IConfirmButton) {
   const {
     handleConfirm,
-    text = "Confirmar",
+    text = "ConfirmarBtn",
     variant = "primary",
     setButtonStatus = false,
   } = props;

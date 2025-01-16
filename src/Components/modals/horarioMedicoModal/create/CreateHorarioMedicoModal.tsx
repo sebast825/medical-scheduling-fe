@@ -26,18 +26,25 @@ function CreateHorarioMedicoModal({
 
   const { error } = useToastit();
 
-  function confirmar() {
+  async function confirmar() {
     let getDiaSemana = diasSemana.find((elem) => elem.id == diaSemana)?.id;
 
-    if (
-      horarioFin == "" ||
-      horarioInicio == "" ||
-      getDiaSemana === undefined
-    ) {
+    if (horarioFin == "" || horarioInicio == "" || getDiaSemana === undefined) {
       error(genericMessages.camposIncompletos);
 
       return;
-    }else if (!formatHour(horarioInicio) || !formatHour(horarioFin)) {
+    } else if (
+      convertirHoraAComa(horarioInicio) >= convertirHoraAComa(horarioFin)
+    ) {
+      console.log(
+        convertirHoraAComa(horarioInicio),
+        convertirHoraAComa(horarioFin)
+      );
+      error(
+        "El horario de inicio no puede ser mayor o igual al horario de finalización."
+      );
+      return;
+    } else if (!formatHour(horarioInicio) || !formatHour(horarioFin)) {
       error("El formato de la hora es invalido");
       return;
     }
@@ -47,13 +54,16 @@ function CreateHorarioMedicoModal({
       StartTime: horarioInicio,
       EndTime: horarioFin,
     };
-    handleConfirm(disponibilidadUpdated);
+    await handleConfirm(disponibilidadUpdated);
   }
   function formatHour(hora: string): boolean {
     const regex = /^\d+\d+:\d+\d+$/;
     return regex.test(hora);
   }
-
+  function convertirHoraAComa(hora: string): number {
+    const [horas, minutos] = hora.split(":").map(Number);
+    return horas + minutos / 60;
+  }
   return (
     <>
       <GenericModal
@@ -61,13 +71,15 @@ function CreateHorarioMedicoModal({
         handleClose={handleClose}
         handleConfirm={confirmar}
         title={`Crear Horario para el medico ${modalField.medico}`}
-        useDisableConfirmBtn= {true}
+        useDisableConfirmBtn={true}
       >
         <Form className="d-flex flex-column" style={{ gap: "10px" }}>
           <Form.Group key="6">
             <Form.Label style={{ textAlign: "left" }}>Día</Form.Label>
             <Form.Select
-              onChange={(e) => {setDiaSemana(parseInt(e.target.value))}}
+              onChange={(e) => {
+                setDiaSemana(parseInt(e.target.value));
+              }}
               value={diaSemana}
             >
               {diasSemana.map((dia) => {
