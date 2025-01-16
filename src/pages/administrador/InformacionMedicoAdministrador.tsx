@@ -12,6 +12,7 @@ import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
 import useMedicosCacheQuery from "../../hooks/medicos/useMedicosCacheQuery";
 import useToastit from "../../hooks/useToastit";
 import { genericMessages } from "../../constants/genericMessages";
+import { permisosEdicion } from "../../constants/permisosEdicion";
 
 function InformacionMedicoAdministrador() {
   const isAdmin = useIsAdministrador();
@@ -27,8 +28,9 @@ function InformacionMedicoAdministrador() {
   const { handlePersonaUpdate } = usePersonas();
   
   async function handleUpdate(e: IPersonaUpdate) {
+    if(!permisosEdicion.admin){
     warning(genericMessages.funcionalidadAdministradorRestringido)
-return;
+return;}
     var rsta = await handlePersonaUpdate(e);
     if(rsta){
       handleReloadMedicos();

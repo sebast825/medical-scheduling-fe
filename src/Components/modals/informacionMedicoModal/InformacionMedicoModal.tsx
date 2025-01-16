@@ -8,6 +8,7 @@ import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateReques
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 import { genericMessages } from "../../../constants/genericMessages";
 import useToastit from "../../../hooks/useToastit";
+import { permisosEdicion } from "../../../constants/permisosEdicion";
 
 interface IInformacionMedicoModal {
   show: boolean;
@@ -37,15 +38,17 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   }, []);
 
   async function confirmar() {
-    warning(genericMessages.funcionalidadAdministradorRestringido);
- 
-  /*  if (medicoInfo == undefined) return;
+    if (!permisosEdicion.admin) {
+      warning(genericMessages.funcionalidadAdministradorRestringido);
+      handleClose();
+    }
+    if (medicoInfo == undefined) return;
     let medicoUpdate: MedicoUpdateRequestDTO = {
       especialidadId: getIdEspecialidad(especialidad),
       numeroLicencia: numLicencia,
     };
     await updateMedicos(medicoInfo?.id, medicoUpdate);
-    handleReloadMedicos();*/
+    handleReloadMedicos();
     handleClose();
   }
 
@@ -56,7 +59,6 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       handleConfirm={confirmar}
       title="Editar Información Personal"
       useDisableConfirmBtn={true}
-
     >
       <Form className="d-flex flex-column" style={{ gap: "10px" }}>
         <Form.Group controlId="formBasicnumLicencia">
