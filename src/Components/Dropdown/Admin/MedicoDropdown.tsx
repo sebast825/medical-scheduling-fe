@@ -44,15 +44,13 @@ function MedicoDropdown(props: IMedicoDropdown) {
   
   return (
     <>
-      <CreateHorarioMedicoModal
+     <CreateHorarioMedicoModal
         modalField={estadoDisponibilidad}
         show={toggleCreateModal}
         handleClose={closeCreateModal}
-        handleConfirm={(e) => {
-          handleCreate(e);
-        }}
-        
+        handleConfirm={(e) => handleCreate(e)}
       />
+
       <Dropdown as={ButtonGroup}>
         <Dropdown.Toggle
           variant="primary"
