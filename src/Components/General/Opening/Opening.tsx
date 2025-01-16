@@ -10,7 +10,8 @@ type IOpening = {
 
 function Opening({ title, subTitle,smallOpening = true  } :IOpening) : React.ReactElement {
   return (
-    <div className={`opening-container ${smallOpening == true ? "miniOpening": "" }`}style={{ backgroundImage: `url(/images/hospital.jpg)` }}>
+    <div className={`opening-container ${smallOpening == true ? "miniOpening": "" }`}>
+      <div className='bg-imgaen'style={{ backgroundImage: `url(/images/hospital.jpg)` }}></div>
       <div className="overlay">
         <div className=  {`text-content ${smallOpening == true ? "": "marginTop"  }`}>
           <h1 className="title">{title}</h1>
