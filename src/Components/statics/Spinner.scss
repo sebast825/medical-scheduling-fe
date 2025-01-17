@@ -22,8 +22,11 @@
   font-family: $font-title-big;
 }
 .subTitle {
-  font-family: $font-title-small;
+  font-family: $font-title-big;
   padding: 0 20px;
+}
+.loadMsge{
+  font-size: $size-small *1.1;
 }
 // Envoltorio para la animación de rebote
 .spinner-wrapper {
