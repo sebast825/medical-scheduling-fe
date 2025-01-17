@@ -116,27 +116,15 @@ const useGetTurnos = () => {
       return 0;
     });
   }
-  const formatearFecha = (fecha:Date) => {
-    const dia = fecha.getDate();
-    const mes = fecha.getMonth() + 1; // getMonth() devuelve 0-11
-    const año = fecha.getFullYear();
-    return `${dia}/${mes}/${año}`;
-}
+
   const getTurnosHoyMedicoById = useCallback(
     async (userId: string) :Promise<TurnoResponse[] | []> => {
       try {
         if (user == null) return [];
-        const now = new Date();
-       // const fechaLocal = new Date(now).toLocaleString().split(",")[0];      
-      const fechaFormateada = formatearFecha(now);  
-      
-        let fechaDividida = fechaFormateada.split("/");
-        let concat =
-        fechaDividida[2] + "-" + fechaDividida[1] + "-" + fechaDividida[0];
-
+ 
         const response: TurnoResponse[] = await fetchFilterTurnosMedicoHoy(
           user,
-          concat,
+          new Date().toISOString(),
           userId
         );
 

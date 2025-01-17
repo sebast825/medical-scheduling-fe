@@ -15,7 +15,7 @@ export function Spinner(props : ISpinner) {
 
       <h2 className="text title">Clinica Horizonte</h2>
       <h4 className="text subTitle">Cargando</h4>
-      {msge != "" && <h6 className="text subTitle">{msge}</h6>}
+      {msge != "" && <p className="text subTitle">{msge}</p>}
     </div>
   );
 }

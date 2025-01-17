@@ -3,10 +3,15 @@
 
 
 @import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
 
 .container{
  
    @include respond (mobile){
 
    }
+}
+
+.h2-fontfamily{
+   font-family: $font-title-big;
 }

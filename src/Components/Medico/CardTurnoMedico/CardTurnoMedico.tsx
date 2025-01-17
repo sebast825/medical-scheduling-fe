@@ -15,7 +15,7 @@ import {
   getHour,
   IDateFormated,
 } from "../../../utils/formatDate";
-import { ESTADOS_TURNO } from "../../../utils/estadoTurno";
+import { ESTADOS_TURNO, ESTADOS_TURNO_FRONT_MATCH } from "../../../utils/estadoTurno";
 import "./CardTurnoMedico.scss";
 import useConfirmBtnAviability from "../../../hooks/confirmBtnAviability/useConfirmBtnAviability";
 
@@ -27,11 +27,10 @@ type ICardTurnoMedico = {
 function CardTurnoMedico({ turno, btnEvent }: ICardTurnoMedico) {
   const [screenSize] = useState<number>(useWindowSize().width);
   const [btnStatus, setBtnStatus] = useState<boolean>(false);
-
   const user = useUserInfo();
   var id = turno.id;
   var paciente = turno.paciente;
-  var estadoTurno = turno.estado;
+  var estadoTurno = ESTADOS_TURNO_FRONT_MATCH[turno.estado] || 'Desconocido';
   let formatFecha: IDateFormated = formatDateFromResponseDto(turno.fecha);
 
   var fecha = `${formatFecha.time} Hs.`;

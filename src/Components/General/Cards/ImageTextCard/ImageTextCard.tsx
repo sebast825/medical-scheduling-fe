@@ -44,7 +44,7 @@ function ImageTextCard(props: IImageTextCard) {
                 maxWidth: "500px",
               }}
             >
-              <h2 className="card-title">{title}</h2>
+              <h2 className="card-title h2-fontFamily">{title}</h2>
               <p className="card-text mt-2">{content}</p>
             </div>
           </div>

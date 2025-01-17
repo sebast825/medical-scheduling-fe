@@ -7,8 +7,7 @@ import { useEffect } from "react";
 
 function useTurnosMedicoCacheQuery() {
   const { medicoInfo } = useMedicoInfoContext();
-  const { getTurnosHoyMedicoById, sortTurnosByPrioridad} = useGetTurnos();
-  const { orderTurnosByDate } = useGetTurnos();
+  const { getTurnosHoyMedicoById, sortTurnosByPrioridad,orderTurnosByDate} = useGetTurnos();
 
   const queryClient = useQueryClient();
 
