@@ -62,25 +62,25 @@ export interface IDateFormated {
 
 
 function dividirFechaHora(fechaHora: string): Date {
-  // Dividir la fecha y hora
-  const partes = fechaHora.split(" ");
-  if (partes.length !== 3) {
+  // Parsear la fecha y hora en formato "DD/MM/YYYY HH:MM:SS"
+  const [fecha, hora] = fechaHora.split(" ");
+  if (!fecha || !hora) {
     throw new Error("Fecha y hora no tienen el formato esperado");
   }
 
-  // Extraer la fecha y la hora
-  const fecha = partes[0]; // MM/DD/YYYY
-  const hora = partes[1]; // HH:MM:SS
-  const amPm = partes[2]; // AM o PM
+  // Convertir a formato ISO (YYYY-MM-DDTHH:MM:SS)
+  const [dia, mes, anio] = fecha.split("/");
+  const fechaHoraISO = `${anio}-${mes}-${dia}T${hora}`;
 
   // Crear una fecha en formato válido
-  const fechaHoraISO = new Date(`${fecha} ${hora} ${amPm}`);
-  
+  const date = new Date(fechaHoraISO);
+
   // Verificar si la fecha es válida
-  if (isNaN(fechaHoraISO.getTime())) {
+  if (isNaN(date.getTime())) {
     throw new Error("Fecha inválida");
   }
-  return fechaHoraISO;
+
+  return date;
 }
 
 export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
