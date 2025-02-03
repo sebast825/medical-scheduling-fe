@@ -62,15 +62,14 @@ export interface IDateFormated {
 
 
 function dividirFechaHora(fechaHora: string): Date {
-  // Parsear la fecha y hora en formato "DD/MM/YYYY HH:MM:SS"
-  const [fecha, hora] = fechaHora.split(" ");
+  // Parsear la fecha y hora en formato "yyyy-MM-ddTHH:mm"
+  const [fecha, hora] = fechaHora.split("T");
   if (!fecha || !hora) {
     throw new Error("Fecha y hora no tienen el formato esperado");
   }
 
   // Convertir a formato ISO (YYYY-MM-DDTHH:MM:SS)
-  const [dia, mes, anio] = fecha.split("/");
-  const fechaHoraISO = `${anio}-${mes}-${dia}T${hora}`;
+  const fechaHoraISO = `${fecha}T${hora}:00`; // Agregar segundos para cumplir con el formato ISO
 
   // Crear una fecha en formato válido
   const date = new Date(fechaHoraISO);
@@ -82,7 +81,6 @@ function dividirFechaHora(fechaHora: string): Date {
 
   return date;
 }
-
 export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
   try {
     const date: Date = dividirFechaHora(fechaHora);
@@ -97,7 +95,7 @@ export function formatDateFromResponseDto(fechaHora: string): IDateFormated {
 
     // Formatear la fecha y hora
     const formatedTime = `${getTime[0]}:${getTime[1]}`;
-    const formatedDate = `${getDate[1]}-${getDate[0]}-${getDate[2]}`;
+    const formatedDate = `${getDate[2]}-${getDate[0]}-${getDate[1]}`; // Formato: YYYY-MM-DD
     const formatedDateTime = `${formatedDate} ${formatedTime}`;
 
     // Devolver el objeto con la fecha formateada
