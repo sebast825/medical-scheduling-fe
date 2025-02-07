@@ -25,7 +25,6 @@ function useLogin() {
  
     try {
       const token: string = await fetchLogin(loginData);
-      console.log(token)
       cambiaLogin(token);
       return true;
     } catch (err: any) {
