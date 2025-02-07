@@ -15,15 +15,15 @@ interface ICalendario {
 function Calendario({ dateList, handleSelect }: ICalendario) {
   //puede tomar un solo valor o un rango de fechas
   const [value, setValue] = useState<Value>(new Date()); // Asegúrate de que el tipo Value se use correctamente
-
   // Función para determinar la clase de cada celda del calendario
   const tileClassName = ({ date }: { date: Date }) => {
     // Aquí defines las fechas específicas que deseas resaltar
     const specialDates: Date[] = [];
     dateList?.forEach((asd) => {
-      //console.log(elem)
       var elem = new Date(asd);
       specialDates.push(elem);
+      console.log(elem)
+
     });
 
     // Comprueba si la fecha actual está en la lista de fechas especiales
