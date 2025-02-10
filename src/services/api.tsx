@@ -14,3 +14,4 @@ export const setAuthToken = (jwt: string) => {
 };
 
 export default api;
+

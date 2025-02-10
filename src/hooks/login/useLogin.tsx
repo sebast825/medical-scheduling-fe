@@ -1,6 +1,7 @@
 import { genericMessages } from "../../constants/genericMessages";
 import { useAdministrativoInfoContext, useMedicoInfoContext, usePacienteContext, usePersonaInfoContext, useUserInfo, useUserToggleContext } from "../../context/authContext";
 import { fetchLogin, fetchMedicoInfo, fetchPacienteInfo, fetchPersonaInfo } from "../../services/apiService";
+import { AuthResponseDto } from "../../types/AuthResposeDto.type";
 import { ILogin } from "../../types/Login.types";
 import { Roles } from "../../types/Roles.type";
 import { handleHttpError } from "../../utils/errorHandler";
@@ -24,7 +25,7 @@ function useLogin() {
     const loginData: ILogin = { UserName, Password };
  
     try {
-      const token: string = await fetchLogin(loginData);
+      const token: AuthResponseDto = await fetchLogin(loginData);
       cambiaLogin(token);
       return true;
     } catch (err: any) {

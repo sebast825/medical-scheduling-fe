@@ -3,14 +3,15 @@ import IPacienteResponse  from "../types/Paciente/PacienteResponse.type";
 import { IMedicoResponse } from "../types/Medico/MedicoResponse.type";
 import { IPersonaResponse } from "../types/Persona/PersonaResponse.type";
 import { CreateUsuarioRequest } from "../types/usuario/CreateUsuarioRequest";
+import { AuthResponseDto } from "../types/AuthResposeDto.type";
 
-type User = string | null;
+type User = AuthResponseDto | null;
 type PersonaInfo = any | IPersonaResponse; // Reemplaza 'any' con el tipo correcto para personaInfo
 type MedicosList = any; // Reemplaza 'any' con el tipo correcto para medicosList
 
 interface UserContextType {
-  user: string | null;
-  cambiaLogin: (jwt: string | null) => void;
+  user: AuthResponseDto | null;
+  cambiaLogin: (jwt: AuthResponseDto | null) => void;
   personaInfo: PersonaInfo;
   setPersonaInfo: React.Dispatch<React.SetStateAction<IPersonaResponse>>;
   medicosList: MedicosList;
@@ -40,7 +41,12 @@ export function useUserContext() {
 
 export function useUserInfo() :string | null{
   const context = useUserContext();
-  return context.user;
+  return context.user != null ? context.user?.accessToken : null;
+}
+export function useRefreshToken() :string | null{
+  const context = useUserContext();
+
+  return context.user ? context.user?.refreshoken : null;
 }
 export function useUserToggleContext() {
 
@@ -104,13 +110,14 @@ export function UserProvider({ children }: UserProviderProps) {
   const [administrativoInfo, setAdministrativoInfo] = useState<PersonaInfo>("");
   const [createUserInfo, setCreateUserInfo] = useState<CreateUsuarioRequest | null>(null);
   
-  const cambiaLogin = (jwt: string | null) => {
-    if (user) {
-      setUser(null);
-    } else {
-      setUser(jwt);
-    }
-  };
+const cambiaLogin = (jwt: AuthResponseDto | null) => {
+  setUser((prevUser) => {
+    if (!jwt) return null;
+    if (prevUser?.accessToken === jwt.accessToken) return prevUser;
+    return { ...jwt }; 
+  });
+};
+
 
   const value: UserContextType = {
     user,
