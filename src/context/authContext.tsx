@@ -43,10 +43,10 @@ export function useUserInfo() :string | null{
   const context = useUserContext();
   return context.user != null ? context.user?.accessToken : null;
 }
-export function useRefreshToken() :string | null{
+export function useRefreshToken() : AuthResponseDto | null{
   const context = useUserContext();
 
-  return context.user ? context.user?.refreshoken : null;
+  return context.user ? context.user : null;
 }
 export function useUserToggleContext() {
 
@@ -110,13 +110,13 @@ export function UserProvider({ children }: UserProviderProps) {
   const [administrativoInfo, setAdministrativoInfo] = useState<PersonaInfo>("");
   const [createUserInfo, setCreateUserInfo] = useState<CreateUsuarioRequest | null>(null);
   
-const cambiaLogin = (jwt: AuthResponseDto | null) => {
-  setUser((prevUser) => {
-    if (!jwt) return null;
-    if (prevUser?.accessToken === jwt.accessToken) return prevUser;
-    return { ...jwt }; 
-  });
-};
+  const cambiaLogin = (jwt: AuthResponseDto | null) => {
+    setUser((prevUser) => {
+      if (!jwt) return null;
+      if (prevUser?.accessToken === jwt.accessToken) return prevUser;
+      return { ...jwt }; 
+    });
+  };
 
 
   const value: UserContextType = {
