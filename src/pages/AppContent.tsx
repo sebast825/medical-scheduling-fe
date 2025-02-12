@@ -3,7 +3,7 @@ import Footer from "../Components/General/Footer/Footer";
 import AppRouter from "../routes/Router";
 import NavBar from "../Components/General/Nav Bar/NavBar";
 import "../styles/fonts.scss"
-import UseSetupAxiosInterceptorResponse from "../services/interceptor";
+import UseSetupAxiosInterceptorResponse from "../hooks/api/useSetupAxiosInterceptorResponse";
 // Componente principal con verificación de ruta
 function AppContent() {
    
