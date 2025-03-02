@@ -9,6 +9,7 @@ import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/Cre
 import useDisponibilidadMedicosLogic from "../../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
 import CreateLicenseModal from "../../modals/License/CreateLicenseModal";
 import { LicenseCreateRequestDto } from "../../../types/Licenses/LicenseCreateRequestDto.type";
+import useLicense from "../../../hooks/License/useLicense";
 
 interface IMedicoDropdown {
   medico: IMedicoResponse;
@@ -44,11 +45,11 @@ function MedicoDropdown(props: IMedicoDropdown) {
     showCreateModal();
   }
   
+  const {toggleCreateLicenseModal,closeCreateLicenseModal,showCreateLicenseModal} = useLicense();
+
   return (
     <>
-    <CreateLicenseModal medicoName={"mabel"} show={true} handleClose={function (): void {
-        throw new Error("Function not implemented.");
-      } } handleConfirm={function (license: LicenseCreateRequestDto): void {
+    <CreateLicenseModal medicoName={"mabel"} show={toggleCreateLicenseModal} handleClose={closeCreateLicenseModal} handleConfirm={function (license: LicenseCreateRequestDto): void {
         throw new Error("Function not implemented.");
       } }></CreateLicenseModal>
      <CreateHorarioMedicoModal
@@ -71,7 +72,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
             }}>
             Crear Horario
           </Dropdown.Item>
-          <Dropdown.Item onClick={()=>console.log("asd")}>
+          <Dropdown.Item onClick={()=>showCreateLicenseModal()}>
             Crear Licencia
           </Dropdown.Item>
           <Dropdown.Item onClick={handleMedicoInfo}>
