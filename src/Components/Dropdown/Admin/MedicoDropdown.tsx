@@ -7,6 +7,8 @@ import {
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
 import useDisponibilidadMedicosLogic from "../../../hooks/disponibilidadMedicos/useDisponibilidadMedicosLogic";
+import CreateLicenseModal from "../../modals/License/CreateLicenseModal";
+import { LicenseCreateRequestDto } from "../../../types/Licenses/LicenseCreateRequestDto.type";
 
 interface IMedicoDropdown {
   medico: IMedicoResponse;
@@ -44,6 +46,11 @@ function MedicoDropdown(props: IMedicoDropdown) {
   
   return (
     <>
+    <CreateLicenseModal medicoName={"mabel"} show={true} handleClose={function (): void {
+        throw new Error("Function not implemented.");
+      } } handleConfirm={function (license: LicenseCreateRequestDto): void {
+        throw new Error("Function not implemented.");
+      } }></CreateLicenseModal>
      <CreateHorarioMedicoModal
         modalField={estadoDisponibilidad}
         show={toggleCreateModal}
@@ -64,10 +71,13 @@ function MedicoDropdown(props: IMedicoDropdown) {
             }}>
             Crear Horario
           </Dropdown.Item>
-
+          <Dropdown.Item onClick={()=>console.log("asd")}>
+            Crear Licencia
+          </Dropdown.Item>
           <Dropdown.Item onClick={handleMedicoInfo}>
             Información
           </Dropdown.Item>
+          
         </Dropdown.Menu>
       </Dropdown>
     </>

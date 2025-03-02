@@ -1,7 +1,7 @@
-export interface LiceseCreateRequestDto{
+export interface LicenseCreateRequestDto{
    MedicoId : number,
-   StartDate : Date,
-   EndTime : Date | null,
+   StartDate : string,
+   EndTime : string | null,
    Reason : string 
 }
 
