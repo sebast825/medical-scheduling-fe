@@ -26,7 +26,7 @@ async function confirmar(){
     EndTime: endDate == "" ? null : endDate ,
     Reason: reason
   }
-
+  handleConfirm(license)
   console.log(license);
 }
 

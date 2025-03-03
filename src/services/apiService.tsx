@@ -11,6 +11,8 @@ import { CreateUsuarioAndPacienteRequestDto } from "../types/usuario/CreateUsuar
 import axios from "axios";
 import { RecuperarClaveRequest } from "../types/usuario/RecuperarClaveRequest";
 import { NuevaClaveRequest } from "../types/usuario/NuevaClaveRequest";
+import { StringDecoder } from "string_decoder";
+import { LicenseCreateRequestDto } from "../types/Licenses/LicenseCreateRequestDto.type";
 
 
 // Ejemplo de una solicitud GET
@@ -231,5 +233,18 @@ export const fecthActualizarClave = async (dto: NuevaClaveRequest) => {
 
 export const fetchGetPersonasIncludeInactive = async () => {
   const response = await api.get(`/api/personas`);
+  return response.data;
+};
+
+
+export const fetchGetAllLicenses = async (jwt : string) => {
+  setAuthToken(jwt);
+  const response = await api.get(`/api/licenses`);
+  return response.data;
+};
+
+export const fetchCreateLicenses = async (jwt : string, dto : LicenseCreateRequestDto) => {
+  setAuthToken(jwt);
+  const response = await api.post(`/api/licenses`,dto);
   return response.data;
 };

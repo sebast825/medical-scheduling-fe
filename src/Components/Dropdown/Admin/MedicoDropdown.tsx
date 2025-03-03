@@ -2,7 +2,7 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 import useRedirects from "../../../hooks/useRedicrects";
 import {
   useMedicoInfoContext,
-  usePersonaInfoContext
+  usePersonaInfoContext,
 } from "../../../context/authContext";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import CreateHorarioMedicoModal from "../../modals/horarioMedicoModal/create/CreateHorarioMedicoModal";
@@ -19,7 +19,6 @@ function MedicoDropdown(props: IMedicoDropdown) {
   const { redirectInformacionMedicoAdministrador } = useRedirects();
   const { setMedicoInfo } = useMedicoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
-
 
   function handleMedicoInfo() {
     setMedicoInfo(medico);
@@ -44,15 +43,23 @@ function MedicoDropdown(props: IMedicoDropdown) {
     }));
     showCreateModal();
   }
-  
-  const {toggleCreateLicenseModal,closeCreateLicenseModal,showCreateLicenseModal} = useLicense();
+
+  const {
+    toggleCreateLicenseModal,
+    closeCreateLicenseModal,
+    showCreateLicenseModal,
+    handleCreateLicense,
+  } = useLicense();
 
   return (
     <>
-    <CreateLicenseModal medicoName={"mabel"} show={toggleCreateLicenseModal} handleClose={closeCreateLicenseModal} handleConfirm={function (license: LicenseCreateRequestDto): void {
-        throw new Error("Function not implemented.");
-      } }></CreateLicenseModal>
-     <CreateHorarioMedicoModal
+      <CreateLicenseModal
+        medicoName={"mabel"}
+        show={toggleCreateLicenseModal}
+        handleClose={closeCreateLicenseModal}
+        handleConfirm={(e)=>handleCreateLicense(e)}
+      ></CreateLicenseModal>
+      <CreateHorarioMedicoModal
         modalField={estadoDisponibilidad}
         show={toggleCreateModal}
         handleClose={closeCreateModal}
@@ -69,16 +76,14 @@ function MedicoDropdown(props: IMedicoDropdown) {
           <Dropdown.Item
             onClick={() => {
               handleCreateHorario();
-            }}>
+            }}
+          >
             Crear Horario
           </Dropdown.Item>
-          <Dropdown.Item onClick={()=>showCreateLicenseModal()}>
+          <Dropdown.Item onClick={() => showCreateLicenseModal()}>
             Crear Licencia
           </Dropdown.Item>
-          <Dropdown.Item onClick={handleMedicoInfo}>
-            Información
-          </Dropdown.Item>
-          
+          <Dropdown.Item onClick={handleMedicoInfo}>Información</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </>
