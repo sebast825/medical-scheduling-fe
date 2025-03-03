@@ -1,7 +1,7 @@
 export interface LicenseCreateRequestDto{
    MedicoId : number,
    StartDate : string,
-   EndTime : string | null,
+   EndDate : string | null,
    Reason : string 
 }
 

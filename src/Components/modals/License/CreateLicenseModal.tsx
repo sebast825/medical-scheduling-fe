@@ -2,6 +2,7 @@ import { Form } from "react-bootstrap";
 import { LicenseCreateRequestDto } from "../../../types/Licenses/LicenseCreateRequestDto.type";
 import GenericModal from "../GenericModal/GenericModal";
 import { useState } from "react";
+import { usePersonaInfoContext } from "../../../context/authContext";
 
 interface ICreateLicenseModal {
   medicoName: string;
@@ -18,17 +19,17 @@ function CreateLicenseModal({
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [reason, setReason] = useState<string>("");
+  const { personaInfo } = usePersonaInfoContext();
 
-async function confirmar(){
-  var license : LicenseCreateRequestDto ={
-    MedicoId: 0,
-    StartDate: startDate,
-    EndTime: endDate == "" ? null : endDate ,
-    Reason: reason
+  async function confirmar() {
+    var license: LicenseCreateRequestDto = {
+      MedicoId: personaInfo.id,
+      StartDate: startDate,
+      EndDate: endDate == "" ? null : endDate,
+      Reason: reason,
+    };
+    await handleConfirm(license);
   }
-  handleConfirm(license)
-  console.log(license);
-}
 
   return (
     <GenericModal

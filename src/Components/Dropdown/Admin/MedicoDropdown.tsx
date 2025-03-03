@@ -20,9 +20,12 @@ function MedicoDropdown(props: IMedicoDropdown) {
   const { setMedicoInfo } = useMedicoInfoContext();
   const { setPersonaInfo } = usePersonaInfoContext();
 
-  function handleMedicoInfo() {
+  function loadContext(){
     setMedicoInfo(medico);
     setPersonaInfo(medico);
+  }
+  function handleMedicoInfo() {
+    loadContext()
     redirectInformacionMedicoAdministrador();
   }
 
@@ -50,7 +53,10 @@ function MedicoDropdown(props: IMedicoDropdown) {
     showCreateLicenseModal,
     handleCreateLicense,
   } = useLicense();
-
+  function handleShowCreateLicense(){
+    loadContext();
+    showCreateLicenseModal()
+  }
   return (
     <>
       <CreateLicenseModal
@@ -80,7 +86,7 @@ function MedicoDropdown(props: IMedicoDropdown) {
           >
             Crear Horario
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => showCreateLicenseModal()}>
+          <Dropdown.Item onClick={() => handleShowCreateLicense()}>
             Crear Licencia
           </Dropdown.Item>
           <Dropdown.Item onClick={handleMedicoInfo}>Información</Dropdown.Item>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { permisosEdicion } from "../../constants/permisosEdicion";
 import { warning } from "toastr";
 import { genericMessages } from "../../constants/genericMessages";
-import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import useLicenseCacheQuery from "./useLicenseCacheQuery";
 import { LicenseCreateRequestDto } from "../../types/Licenses/LicenseCreateRequestDto.type";
 
@@ -28,14 +27,10 @@ function useLicense(){
        return;
      }
 
-      CreateLicense(licenseRequst);
- /*
-     var newDisponibilidad = await fetchCreateDisponibilidadMedico(
-       disponibilidadMedico
-     );
-     await handleReloadDisponibilidadMedicos();*/
+      var asd = await CreateLicense(licenseRequst);
+      console.log(asd);
+ 
      closeCreateLicenseModal();
-     // await getMedicos();
    }
  /*
    async function handleDelete(id: number) {
