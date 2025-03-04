@@ -1,5 +1,4 @@
 import {
-  QueryClient,
   useMutation,
   useQuery,
   useQueryClient,
@@ -32,32 +31,31 @@ function useLicenseCacheQuery() {
   const createLicenseMutation = useMutation({
     mutationFn: async (license: LicenseCreateRequestDto) => {
       try {
-      if (user != null) {
-        console.log("User is not authenticated.");
+      if (user == null) {
         throw new Error("User is not authenticated.");
       }
-     
-     
-        var newLicense =  await fetchCreateLicenses("user", license);
+        var newLicense =  await fetchCreateLicenses(user, license);
         success("Licensia creada correctamente")
         return newLicense;
       } catch (ex: any) {
         error(genericMessages.standardError);        
-        return []
+        return null;
       }
     },
     onSuccess: (newLicense) => {
+      if (newLicense === null) {
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: ["licenseList"] });
     },
     onError: (error) => {
-      console.error("Error creating license:", error);
-      return;
+      //this block is not been used || console.error("Error creating license:", error);
     },
   });
   
 
   function CreateLicense(license: LicenseCreateRequestDto) {
-      return createLicenseMutation.mutateAsync(license);
+       createLicenseMutation.mutateAsync(license);
    
   }
 
