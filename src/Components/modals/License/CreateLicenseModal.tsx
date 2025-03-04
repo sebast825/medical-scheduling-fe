@@ -5,13 +5,11 @@ import { useState } from "react";
 import { usePersonaInfoContext } from "../../../context/authContext";
 
 interface ICreateLicenseModal {
-  medicoName: string;
   show: boolean;
   handleClose: () => void;
   handleConfirm: (license: LicenseCreateRequestDto) => void;
 }
 function CreateLicenseModal({
-  medicoName,
   show,
   handleClose,
   handleConfirm,
@@ -30,13 +28,12 @@ function CreateLicenseModal({
     };
     await handleConfirm(license);
   }
-
   return (
     <GenericModal
       show={show}
       handleClose={handleClose}
       handleConfirm={confirmar}
-      title={`Crear Licencia para el medico ${medicoName}`}
+      title={`Crear Licencia para el medico ${personaInfo.nombre} ${personaInfo.apellido}`}
       useDisableConfirmBtn={true}
     >
       <Form className="d-flex flex-column" style={{ gap: "10px" }}>

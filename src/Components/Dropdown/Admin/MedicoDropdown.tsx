@@ -60,7 +60,6 @@ function MedicoDropdown(props: IMedicoDropdown) {
   return (
     <>
       <CreateLicenseModal
-        medicoName={"mabel"}
         show={toggleCreateLicenseModal}
         handleClose={closeCreateLicenseModal}
         handleConfirm={(e)=>handleCreateLicense(e)}
