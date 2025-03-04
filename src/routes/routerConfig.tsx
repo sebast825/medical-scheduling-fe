@@ -13,7 +13,8 @@ import {
   InformacionMedicoAdministrador,
   PacienteAndUsuarioCreate,
   TablePacienteAdministrador,
-  RecuperarClave
+  RecuperarClave,
+  LicensesMedico
 } from "../pages/index";
 
 export const routes = [
@@ -68,6 +69,10 @@ export const routes = [
   {
     path: "/administrador/informacionMedico",
     element: <InformacionMedicoAdministrador />,
+  },
+  {
+    path: "/administrador/licencias",
+    element: <LicensesMedico />,
   },
   {
     path: "/create/Paciente",
