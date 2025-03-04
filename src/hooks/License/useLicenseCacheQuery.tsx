@@ -54,8 +54,8 @@ function useLicenseCacheQuery() {
   });
   
 
-  function CreateLicense(license: LicenseCreateRequestDto) {
-       createLicenseMutation.mutateAsync(license);
+   function CreateLicense(license: LicenseCreateRequestDto) {
+       return createLicenseMutation.mutateAsync(license);
    
   }
 
