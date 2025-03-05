@@ -1,9 +1,9 @@
 export interface LicenseResponseDto{
-   Id : number,
-   MedicoId : number,
-   Medico : string,
-   StartDate : Date,
-   EndTime : Date | null,
-   Reason : string 
+   id : number,
+   medicoId : number,
+   medico : string,
+   startDate : string,
+   endDate : string | null,
+   reason : string 
 }
 

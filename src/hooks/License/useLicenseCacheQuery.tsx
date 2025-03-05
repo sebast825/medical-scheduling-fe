@@ -17,10 +17,17 @@ function useLicenseCacheQuery() {
   const queryClient = useQueryClient();
   const user = useUserInfo();
   const { error ,success} = useToastit();
-  const { data: pacienteList, isLoading } = useQuery({
+  const { data: licenses, isLoading,refetch } = useQuery({
     queryFn: () => {
+      console.log("entra1")
+
       if (user) {
-        return fetchGetAllLicenses(user);
+
+        console.log("entra2")
+
+        var asd =  fetchGetAllLicenses(user);
+          console.log(asd)
+        return asd;
       } else {
         return [];
       }
@@ -52,14 +59,17 @@ function useLicenseCacheQuery() {
       //this block is not been used || console.error("Error creating license:", error);
     },
   });
-  
+  const handleReloadMedicos = () => {
+    console.log("llamaa")
+    refetch(); 
+  };
 
    function CreateLicense(license: LicenseCreateRequestDto) {
        return createLicenseMutation.mutateAsync(license);
    
   }
 
-  return { CreateLicense };
+  return { CreateLicense,licenses, isLoading ,handleReloadMedicos};
 }
 
 export default useLicenseCacheQuery;

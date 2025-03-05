@@ -3,7 +3,7 @@ import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { ButtonGroup, Table } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
-import "./TableLicense.scss";
+
 import useWindowSize from "../../../hooks/ScreenSize";
 
 import InputRegex from "../../General/InputRegex/InputRegex";
@@ -15,32 +15,47 @@ import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPe
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import { LicenseResponseDto } from "../../../types/Licenses/LicenseResponseDto.type";
+import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
+import "./TableLicense.scss"
 
-interface ITableLicense{
-  licenseList : LicenseResponseDto[],
-  handleAction ? : (e : IPersonaResponse)=>void;
+interface ITableLicense {
+  //licenseList: LicenseResponseDto[];
+  handleAction?: (e: IPersonaResponse) => void;
 }
 
-function TableLicense(props : ITableLicense) {
+function TableLicense(props: ITableLicense) {
+  const [licenseList, setLicenseList] = useState<LicenseResponseDto[]>();
+  //  const {licenseList,handleAction} = props;
+  const { licenses, isLoading,handleReloadMedicos } = useLicenseCacheQuery();
+  useEffect(() => {
+    console.log(licenses)
+    setLicenseList(licenses);
+  }, [licenses]);
+//useEffect(()=>{},[licenseList])
 
-  const {licenseList,handleAction} = props;
- 
+
+
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
-  const [showPersonas, setShowPersonas] = useState<IPacienteResponse[] | IPersonaResponse[]>();
+  const [showPersonas, setShowPersonas] = useState<
+    IPacienteResponse[] | IPersonaResponse[]
+  >();
   const isSecretario = useIsSecretario();
   const isAdmin = useIsAdministrador();
-  const [selectedPersona, setSelectedPersona] = useState<IPersonaResponse | null>(null);
+  const [selectedPersona, setSelectedPersona] =
+    useState<IPersonaResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
 
-  function isPacienteResponse(persona: IPersonaResponse | IPacienteResponse): persona is IPacienteResponse {
+  function isPacienteResponse(
+    persona: IPersonaResponse | IPacienteResponse
+  ): persona is IPacienteResponse {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
-  
-/*
+
+  /*
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
     const filteredItems = licenseList?.filter((paciente) => {
@@ -73,35 +88,31 @@ function TableLicense(props : ITableLicense) {
                 <th>Motivo</th>
               </>
             )}
-
           </tr>
         </thead>
         <tbody>
           {licenseList &&
             licenseList.map((license, index) => (
-              <tr key={license.Id}>
+              <tr key={license.id}>
                 <td className="index">{index}</td>
 
-                <td>{license.Medico}</td>
-                <td>{license.StartDate.toString()}</td>
+                <td>{license.medico}</td>
+                <td>{license.startDate}</td>
                 {windowSize.width > changeLayout && (
                   <>
-                    <td>{license.EndTime?.toString()}</td>
-                    <td>{license.Reason}</td>
+                    <td>{license.endDate ==  null ? "-" :license.endDate  }</td>
+                    <td>{license.reason == "" ? "-": license.reason}</td>
                   </>
                 )}
                 <td className="dropdown ">
-                 
-                    <OneButton
-                      handleSubmit={() => {
-                        //setSelectedPersona(license)
-                        showModal();
-                      }}
-                      text="Cancelar"
-                      variant="danger"
-                    />
-               
-                
+                  <OneButton
+                    handleSubmit={() => {
+                      //setSelectedPersona(license)
+                      showModal();
+                    }}
+                    text="Cancelar"
+                    variant="danger"
+                  />
                 </td>
               </tr>
             ))}

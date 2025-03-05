@@ -49,6 +49,9 @@ const useRedirects = () => {
   const redirectToCreatePaciente = () : void =>{
     navigate("/create/paciente");
   }
+  const redirectToLicenses= () : void =>{
+    navigate("/administrador/licencias");
+  }
   return {
     redirectToHome,
     redirectToNuestrosMedicos,
@@ -63,7 +66,8 @@ const useRedirects = () => {
     redirectInformacionMedicoAdministrador,
     redirectTablePacienteAdministrador,
     redirectToAdministradorHome,
-    redirectToCreatePaciente
+    redirectToCreatePaciente,
+    redirectToLicenses
   };
 };
 
