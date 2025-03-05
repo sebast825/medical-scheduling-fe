@@ -26,8 +26,12 @@ interface ITableLicense {
 function TableLicense(props: ITableLicense) {
   const [licenseList, setLicenseList] = useState<LicenseResponseDto[]>();
   //  const {licenseList,handleAction} = props;
-  const { licenses, isLoading,handleReloadMedicos } = useLicenseCacheQuery();
+  const { licenses, isLoading,handleReloadLicenses } = useLicenseCacheQuery();
   useEffect(() => {
+    //we fetch the existing licenses 
+    if(licenseList == undefined){
+      handleReloadLicenses();
+    }
     console.log(licenses)
     setLicenseList(licenses);
   }, [licenses]);

@@ -8,7 +8,7 @@ function LicensesMedico() {
   return (
     <>
       <div className="mb-2 mb-md-5">
-        <Opening title="licencias" />
+        <Opening title="Licencias" />
         <div className="pt-4 pb-5">
           <TableLicense />
           <BackLink />

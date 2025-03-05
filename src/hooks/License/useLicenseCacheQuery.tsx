@@ -18,21 +18,11 @@ function useLicenseCacheQuery() {
   const user = useUserInfo();
   const { error ,success} = useToastit();
   const { data: licenses, isLoading,refetch } = useQuery({
-    queryFn: () => {
-      console.log("entra1")
-
-      if (user) {
-
-        console.log("entra2")
-
-        var asd =  fetchGetAllLicenses(user);
-          console.log(asd)
-        return asd;
-      } else {
-        return [];
-      }
+    queryFn: () => {return user ? fetchGetAllLicenses(user) : [];
+  
     },
     queryKey: ["licenseList", user],
+    enabled: false, // No se llama automáticamente
     staleTime: Infinity,
   });
   const createLicenseMutation = useMutation({
@@ -59,7 +49,7 @@ function useLicenseCacheQuery() {
       //this block is not been used || console.error("Error creating license:", error);
     },
   });
-  const handleReloadMedicos = () => {
+  const handleReloadLicenses = () => {
     console.log("llamaa")
     refetch(); 
   };
@@ -69,7 +59,7 @@ function useLicenseCacheQuery() {
    
   }
 
-  return { CreateLicense,licenses, isLoading ,handleReloadMedicos};
+  return { CreateLicense,licenses, isLoading ,handleReloadLicenses};
 }
 
 export default useLicenseCacheQuery;
