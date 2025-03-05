@@ -17,6 +17,7 @@ function useLicenseCacheQuery() {
   const queryClient = useQueryClient();
   const user = useUserInfo();
   const { error ,success} = useToastit();
+  //currently this function is not been used, because the refetch cuse unnecesary calls to the api, the code was added in tablelICENSE
   const { data: licenses, isLoading,refetch } = useQuery({
     queryFn: () => {return user ? fetchGetAllLicenses(user) : [];
   
@@ -25,6 +26,7 @@ function useLicenseCacheQuery() {
     enabled: false, // No se llama automáticamente
     staleTime: Infinity,
   });
+
   const createLicenseMutation = useMutation({
     mutationFn: async (license: LicenseCreateRequestDto) => {
       try {
@@ -59,7 +61,7 @@ function useLicenseCacheQuery() {
    
   }
 
-  return { CreateLicense,licenses, isLoading ,handleReloadLicenses};
+  return { CreateLicense};
 }
 
 export default useLicenseCacheQuery;

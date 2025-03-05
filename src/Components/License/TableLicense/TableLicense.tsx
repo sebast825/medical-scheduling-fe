@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
-import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { ButtonGroup, Table } from "react-bootstrap";
-import { getDate } from "../../../utils/formatDate";
-
+import { Table } from "react-bootstrap";
 import useWindowSize from "../../../hooks/ScreenSize";
-
 import InputRegex from "../../General/InputRegex/InputRegex";
 import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
 import OneButton from "../../buttons/oneButton/OneButton";
-import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPersona";
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import { LicenseResponseDto } from "../../../types/Licenses/LicenseResponseDto.type";
-import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 import "./TableLicense.scss"
+import { useQuery } from "@tanstack/react-query";
+import { fetchGetAllLicenses } from "../../../services/apiService";
+import { useUserInfo } from "../../../context/authContext";
+import { Spinner } from "../../statics/Spinner";
 
 interface ITableLicense {
   //licenseList: LicenseResponseDto[];
@@ -26,17 +24,17 @@ interface ITableLicense {
 function TableLicense(props: ITableLicense) {
   const [licenseList, setLicenseList] = useState<LicenseResponseDto[]>();
   //  const {licenseList,handleAction} = props;
-  const { licenses, isLoading,handleReloadLicenses } = useLicenseCacheQuery();
+const user = useUserInfo();
+
+  const { data: licenses, isLoading } = useQuery({
+    queryFn: () => {return user ? fetchGetAllLicenses(user) : [];},
+    queryKey: ["licenseList", user],
+    staleTime: Infinity,
+  });
+
   useEffect(() => {
-    //we fetch the existing licenses 
-    if(licenseList == undefined){
-      handleReloadLicenses();
-    }
-    console.log(licenses)
     setLicenseList(licenses);
   }, [licenses]);
-//useEffect(()=>{},[licenseList])
-
 
 
   const windowSize = useWindowSize();
@@ -69,6 +67,8 @@ function TableLicense(props: ITableLicense) {
   }, [licenseList, fraseRegex]);*/
 
   return (
+    <>{isLoading&&
+           <Spinner msge="Cargando Licencias"/>}
     <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
         placeholder="Buscar paciente por documento"
@@ -122,7 +122,8 @@ function TableLicense(props: ITableLicense) {
             ))}
         </tbody>
       </Table>
-    </div>
+    </div></>
+    
   );
 }
 

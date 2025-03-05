@@ -10,7 +10,9 @@ function useDisponibilidadMedicosCacheQuery() {
     isLoading,
     refetch,
   } = useQuery({
+    
     queryFn: () => {
+      console.log("carga medicos")
       if (user != null) {
         return getDisponibilidadMedicos(user) || [];
       }else{
