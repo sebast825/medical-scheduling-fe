@@ -116,13 +116,13 @@ function TableLicense(props: ITableLicense) {
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="text-center">
-                <th key={headerGroup.id}> </th>
+                <th key="index"> </th>
                 {/* for numeration  */}
                 {headerGroup.headers.map((header: any) => (
-                  <th key={header.id}>{header.column.columnDef.header}</th>
+                  <th key={header.column.columnDef.header}>{header.column.columnDef.header}</th>
                 ))}
                 {/* for trahs icon */}
-                <th key={headerGroup.id}></th>
+                <th key="trashIcon"></th>
               </tr>
             ))}
           </thead>
@@ -139,7 +139,7 @@ function TableLicense(props: ITableLicense) {
                     (
                       cell: any //liceseRESPONSE PER ASI FUNCIONA
                     ) => (
-                      <td key={cell.id}>{cell.getValue()}</td>
+                      <td key={cell.getValue()}>{cell.getValue()}</td>
                     )
                   )}
                   <td>
