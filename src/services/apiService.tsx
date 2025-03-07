@@ -248,3 +248,9 @@ export const fetchCreateLicenses = async (jwt : string, dto : LicenseCreateReque
   const response = await api.post(`/api/licenses`,dto);
   return response.data;
 };
+
+export const fetchDeleteLicense = async (jwt : string, id : number) => {
+  setAuthToken(jwt);
+  const response = await api.delete(`/api/licenses/${id}`);
+  return response.data;
+};

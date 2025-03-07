@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchGetAllLicenses } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
 import { Spinner } from "../../statics/Spinner";
+import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 
 interface ITableLicense {
   //licenseList: LicenseResponseDto[];
@@ -50,7 +51,7 @@ const user = useUserInfo();
     useState<IPersonaResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
-
+  const {DeleteLicense} = useLicenseCacheQuery();
   function isPacienteResponse(
     persona: IPersonaResponse | IPacienteResponse
   ): persona is IPacienteResponse {
@@ -65,7 +66,10 @@ const user = useUserInfo();
     });
     setShowPersonas(filteredItems);
   }, [licenseList, fraseRegex]);*/
-
+async function handleDeleteLicense(id : number){
+  await DeleteLicense(id);
+  setLicenseList((prevlicenses)=>prevlicenses?.filter(prevlicense => prevlicense.id !== id ))
+}
   return (
     <>{isLoading&&
            <Spinner msge="Cargando Licencias"/>}
@@ -111,6 +115,7 @@ const user = useUserInfo();
                 <td className="dropdown ">
                   <OneButton
                     handleSubmit={() => {
+                      handleDeleteLicense(license.id)
                       //setSelectedPersona(license)
                       showModal();
                     }}

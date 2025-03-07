@@ -6,6 +6,7 @@ import {
 import { useUserInfo } from "../../context/authContext";
 import {
   fetchCreateLicenses,
+  fetchDeleteLicense,
   fetchGetAllLicenses,
 } from "../../services/apiService";
 import { LicenseCreateRequestDto } from "../../types/Licenses/LicenseCreateRequestDto.type";
@@ -34,7 +35,7 @@ function useLicenseCacheQuery() {
         throw new Error("User is not authenticated.");
       }
         var newLicense =  await fetchCreateLicenses(user, license);
-        success("Licensia creada correctamente")
+        success("Licencia creada correctamente")
         return newLicense;
       } catch (ex: any) {
         error(genericMessages.standardError);        
@@ -51,6 +52,33 @@ function useLicenseCacheQuery() {
       //this block is not been used || console.error("Error creating license:", error);
     },
   });
+  const deleteLicenseMutation = useMutation({
+    mutationFn: async (id: number) => {
+      try {
+      if (user == null) {
+        throw new Error("User is not authenticated.");
+      }
+          await fetchDeleteLicense(user, id);
+        success("Licencia eliminada correctamente")
+        return id;
+      } catch (ex: any) {
+        error(genericMessages.standardError);        
+        return null;
+      }
+    },
+    onSuccess: (deletedId) => {
+      if (deletedId === null) {
+        return;
+      }  
+      queryClient.setQueryData(["licenseList"], (oldLicece : any)=>{
+        return oldLicece ? oldLicece.filter((license : any) => license.id !== deletedId) : [];
+      })
+    },
+    onError: (error) => {
+      //this block is not been used || console.error("Error creating license:", error);
+    },
+  });
+
   const handleReloadLicenses = () => {
     console.log("llamaa")
     refetch(); 
@@ -60,8 +88,12 @@ function useLicenseCacheQuery() {
        return createLicenseMutation.mutateAsync(license);
    
   }
+  function DeleteLicense(id: number) {
+    return deleteLicenseMutation.mutateAsync(id);
 
-  return { CreateLicense};
+}
+
+  return { CreateLicense,DeleteLicense};
 }
 
 export default useLicenseCacheQuery;
