@@ -10,12 +10,17 @@ import OneButton from "../../buttons/oneButton/OneButton";
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import { LicenseResponseDto } from "../../../types/Licenses/LicenseResponseDto.type";
-import "./TableLicense.scss"
+import "./TableLicense.scss";
 import { useQuery } from "@tanstack/react-query";
 import { fetchGetAllLicenses } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
 import { Spinner } from "../../statics/Spinner";
 import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
 
 interface ITableLicense {
   //licenseList: LicenseResponseDto[];
@@ -25,10 +30,12 @@ interface ITableLicense {
 function TableLicense(props: ITableLicense) {
   const [licenseList, setLicenseList] = useState<LicenseResponseDto[]>();
   //  const {licenseList,handleAction} = props;
-const user = useUserInfo();
+  const user = useUserInfo();
 
   const { data: licenses, isLoading } = useQuery({
-    queryFn: () => {return user ? fetchGetAllLicenses(user) : [];},
+    queryFn: () => {
+      return user ? fetchGetAllLicenses(user) : [];
+    },
     queryKey: ["licenseList", user],
     staleTime: Infinity,
   });
@@ -36,7 +43,6 @@ const user = useUserInfo();
   useEffect(() => {
     setLicenseList(licenses);
   }, [licenses]);
-
 
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
@@ -51,13 +57,24 @@ const user = useUserInfo();
     useState<IPersonaResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
-  const {DeleteLicense} = useLicenseCacheQuery();
+  const { DeleteLicense } = useLicenseCacheQuery();
   function isPacienteResponse(
     persona: IPersonaResponse | IPacienteResponse
   ): persona is IPacienteResponse {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
-
+  const columns = [
+    { accessorKey: "medico", header: "Nombre" },
+    { accessorKey: "startDate", header: "Inicio" },
+    { accessorKey: "endDate", header: "Finalización" },
+    { accessorKey: "reason", header: "Motivo" },
+  ];
+  const table = useReactTable({
+    data: licenseList || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
   /*
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
@@ -66,20 +83,80 @@ const user = useUserInfo();
     });
     setShowPersonas(filteredItems);
   }, [licenseList, fraseRegex]);*/
-async function handleDeleteLicense(id : number){
-  await DeleteLicense(id);
-  setLicenseList((prevlicenses)=>prevlicenses?.filter(prevlicense => prevlicense.id !== id ))
-}
+  async function handleDeleteLicense(id: number) {
+    console.log(id);
+    //await DeleteLicense(id);
+    setLicenseList((prevlicenses) =>
+      prevlicenses?.filter((prevlicense) => prevlicense.id !== id)
+    );
+  }
   return (
-    <>{isLoading&&
-           <Spinner msge="Cargando Licencias"/>}
-    <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
-      <InputRegex
-        placeholder="Buscar paciente por documento"
-        onFraseRegexChage={setFraseRegex}
-      />
+    <>
+      {isLoading && <Spinner msge="Cargando Licencias" />}
+      <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
+        <InputRegex
+          placeholder="Buscar paciente por documento"
+          onFraseRegexChage={setFraseRegex}
+        />
+        <table>
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id}>asdasd</th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => {
+              const cells = row.getVisibleCells();
+              const rowData = row.original; // Accede a los datos originales de la fila
 
-      <Table
+              return (
+                <tr key={row.id}>
+                  {cells.map(
+                    (
+                      cell: any //liceseRESPONSE PER ASI FUNCIONA
+                    ) => (
+                      <td key={cell.id}>{cell.getValue()}</td>
+                    )
+                  )}
+                  <td className="dropdown">
+                    <OneButton
+                      handleSubmit={() => {
+                        // Usa el id de la fila (rowData.id) en lugar de cell.id
+                        handleDeleteLicense(rowData.id);
+                        showModal();
+                      }}
+                      text="Cancelar"
+                      variant="danger"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <div>
+          <button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </button>
+          <span>
+            Página {table.getState().pagination.pageIndex + 1} de{" "}
+            {table.getPageCount()}
+          </span>
+          <button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Siguiente
+          </button>
+        </div>
+        {/* <Table
         striped
         bordered
         hover
@@ -127,8 +204,9 @@ async function handleDeleteLicense(id : number){
             ))}
         </tbody>
       </Table>
-    </div></>
-    
+       */}
+      </div>
+    </>
   );
 }
 
