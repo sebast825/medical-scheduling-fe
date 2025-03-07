@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { Table } from "react-bootstrap";
+import {  Table } from "react-bootstrap";
 import useWindowSize from "../../../hooks/ScreenSize";
 import InputRegex from "../../General/InputRegex/InputRegex";
 import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
@@ -16,6 +16,8 @@ import { fetchGetAllLicenses } from "../../../services/apiService";
 import { useUserInfo } from "../../../context/authContext";
 import { Spinner } from "../../statics/Spinner";
 import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
+
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -63,12 +65,21 @@ function TableLicense(props: ITableLicense) {
   ): persona is IPacienteResponse {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
-  const columns = [
+
+  const long = [
     { accessorKey: "medico", header: "Nombre" },
     { accessorKey: "startDate", header: "Inicio" },
     { accessorKey: "endDate", header: "Finalización" },
     { accessorKey: "reason", header: "Motivo" },
   ];
+  const short = [
+    { accessorKey: "medico", header: "Nombre" },
+    { accessorKey: "startDate", header: "Inicio" }
+
+  ];
+
+  const columns = windowSize.width > changeLayout ? long : short;
+
   const table = useReactTable({
     data: licenseList || [],
     columns,
@@ -98,13 +109,16 @@ function TableLicense(props: ITableLicense) {
           placeholder="Buscar paciente por documento"
           onFraseRegexChage={setFraseRegex}
         />
-        <table>
+        <Table>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>asdasd</th>
+                                  <th key={headerGroup.id}></th>
+
+                {headerGroup.headers.map((header:any) => (
+                  <th key={header.id}>{header.column.columnDef.header}</th>
                 ))}
+
               </tr>
             ))}
           </thead>
@@ -115,6 +129,8 @@ function TableLicense(props: ITableLicense) {
 
               return (
                 <tr key={row.id}>
+                                        <td key={row.id}>{row.id}</td>
+
                   {cells.map(
                     (
                       cell: any //liceseRESPONSE PER ASI FUNCIONA
@@ -137,7 +153,7 @@ function TableLicense(props: ITableLicense) {
               );
             })}
           </tbody>
-        </table>
+        </Table>
         <div>
           <button
             onClick={() => table.previousPage()}
