@@ -16,9 +16,7 @@ import { Spinner } from "../../statics/Spinner";
 import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   useReactTable,
   getCoreRowModel,
@@ -31,10 +29,20 @@ interface ITableLicense {
 }
 
 function TableLicense(props: ITableLicense) {
+  //has all the licens
   const [licenseList, setLicenseList] = useState<LicenseResponseDto[]>();
-  //  const {licenseList,handleAction} = props;
   const user = useUserInfo();
+  const windowSize = useWindowSize();
+  const changeLayout: number = 600;
 
+  const [fraseRegex, setFraseRegex] = useState<string>("");
+  //has the licenses that will show fe
+  const [showLicenses, setShowLicenses] = useState<LicenseResponseDto[]>();
+
+  const { showModal, closeModal, toggleModal } = useModal();
+  const { DeleteLicense } = useLicenseCacheQuery();
+
+  //get license data
   const { data: licenses, isLoading } = useQuery({
     queryFn: () => {
       return user ? fetchGetAllLicenses(user) : [];
@@ -47,25 +55,14 @@ function TableLicense(props: ITableLicense) {
     setLicenseList(licenses);
   }, [licenses]);
 
-  const windowSize = useWindowSize();
-  const changeLayout: number = 600;
-
-  const [fraseRegex, setFraseRegex] = useState<string>("");
-  const [showPersonas, setShowPersonas] = useState<
-    IPacienteResponse[] | IPersonaResponse[]
-  >();
-  const isSecretario = useIsSecretario();
-  const isAdmin = useIsAdministrador();
-  const [selectedPersona, setSelectedPersona] =
-    useState<IPersonaResponse | null>(null);
-
-  const { showModal, closeModal, toggleModal } = useModal();
-  const { DeleteLicense } = useLicenseCacheQuery();
-  function isPacienteResponse(
-    persona: IPersonaResponse | IPacienteResponse
-  ): persona is IPacienteResponse {
-    return (persona as IPacienteResponse).nombreEmergencia !== undefined;
-  }
+  //filter the data
+  useEffect(() => {
+    const regEx = new RegExp(`^${fraseRegex}`, "i");
+    const filteredItems = licenseList?.filter((license) => {
+      return regEx.test(license.medico);
+    });
+    setShowLicenses(filteredItems);
+  }, [licenseList, fraseRegex]);
 
   const desktopColumns = [
     { accessorKey: "medico", header: "Nombre" },
@@ -80,26 +77,20 @@ function TableLicense(props: ITableLicense) {
     { accessorKey: "endDate", header: "Fin" },
   ];
 
+  //if is mobile show less colluns to don't break the app
   const columns =
     windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
-    data: licenseList || [],
+    data: showLicenses || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-  /*
-  useEffect(() => {
-    const regEx = new RegExp(`^${fraseRegex}`, "i");
-    const filteredItems = licenseList?.filter((paciente) => {
-      return regEx.test(paciente.numeroDocumento);
-    });
-    setShowPersonas(filteredItems);
-  }, [licenseList, fraseRegex]);*/
+
   async function handleDeleteLicense(id: number) {
     console.log(id);
-    //await DeleteLicense(id);
+    await DeleteLicense(id);
     setLicenseList((prevlicenses) =>
       prevlicenses?.filter((prevlicense) => prevlicense.id !== id)
     );
@@ -109,7 +100,7 @@ function TableLicense(props: ITableLicense) {
       {isLoading && <Spinner msge="Cargando Licencias" />}
       <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
         <InputRegex
-          placeholder="Buscar paciente por documento"
+          placeholder="Buscar médico"
           onFraseRegexChage={setFraseRegex}
         />
         <Table striped bordered hover>
@@ -119,7 +110,9 @@ function TableLicense(props: ITableLicense) {
                 <th key="index"> </th>
                 {/* for numeration  */}
                 {headerGroup.headers.map((header: any) => (
-                  <th key={header.column.columnDef.header}>{header.column.columnDef.header}</th>
+                  <th key={header.column.columnDef.header}>
+                    {header.column.columnDef.header}
+                  </th>
                 ))}
                 {/* for trahs icon */}
                 <th key="trashIcon"></th>
