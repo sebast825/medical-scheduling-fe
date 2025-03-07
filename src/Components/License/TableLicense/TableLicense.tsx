@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import useWindowSize from "../../../hooks/ScreenSize";
 import InputRegex from "../../General/InputRegex/InputRegex";
 import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
@@ -18,7 +18,11 @@ import { Spinner } from "../../statics/Spinner";
 import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash ,faHouse} from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faAnglesRight,
+  faAnglesLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   useReactTable,
   getCoreRowModel,
@@ -75,10 +79,9 @@ function TableLicense(props: ITableLicense) {
   ];
   const short = [
     { accessorKey: "medico", header: "Nombre" },
-    
+
     { accessorKey: "startDate", header: "Inicio" },
     { accessorKey: "endDate", header: "Finalización" },
-
   ];
 
   const columns = windowSize.width > changeLayout ? long : short;
@@ -116,14 +119,13 @@ function TableLicense(props: ITableLicense) {
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                <th key={headerGroup.id}></th> 
-                 {/* for numeration  */}
+                <th key={headerGroup.id}></th>
+                {/* for numeration  */}
                 {headerGroup.headers.map((header: any) => (
                   <th key={header.id}>{header.column.columnDef.header}</th>
                 ))}
                 {/* for trahs icon */}
                 <th key={headerGroup.id}></th>
-              
               </tr>
             ))}
           </thead>
@@ -150,7 +152,7 @@ function TableLicense(props: ITableLicense) {
                         handleDeleteLicense(rowData.id);
                         showModal();
                       }}
-                 //     style={{ cursor: "pointer", color: "red" }}
+                      //     style={{ cursor: "pointer", color: "red" }}
                       title="Eliminar"
                       className="deleteIcon"
                     />
@@ -161,24 +163,27 @@ function TableLicense(props: ITableLicense) {
           </tbody>
         </Table>
         <div>
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </button>
-          <span>
-            Página {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
-          </span>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Siguiente
-          </button>
+          <div className="d-flex align-items-center justify-content-center gap-2">
+            <Button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {" "}
+              <FontAwesomeIcon icon={faAnglesLeft} />
+            </Button>
+
+            <h5 className="mb-0 d-flex flex-row">
+              {table.getState().pagination.pageIndex + 1} /{" "}
+              {table.getPageCount()}
+            </h5>
+            <Button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <FontAwesomeIcon icon={faAnglesRight} />
+            </Button>
+          </div>
         </div>
-       
       </div>
     </>
   );

@@ -6,7 +6,8 @@ interface IOneButton {
   handleSubmit: () => void;
   text?: string;
   customClass?: string;
-  sizeClass ? : string
+  sizeClass ? : string;
+  hadleDisable ?: boolean;
 }
 
 function OneButton({
@@ -14,7 +15,8 @@ function OneButton({
   handleSubmit,
   text = "Aceptar",
   customClass,
-  sizeClass = "sm" // btn-lg | btn-sm
+  sizeClass = "sm", // btn-lg | btn-sm
+  hadleDisable
 }: IOneButton) {
   return (
     <div
@@ -26,6 +28,7 @@ function OneButton({
           //size={size != undefined ? undefined : "lg"}
           className={`button ${sizeClass}`}
           style={{maxWidth:"max-content"}}
+          disabled={hadleDisable}
         >
           {" "}
           {text}
