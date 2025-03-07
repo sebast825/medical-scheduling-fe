@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import useWindowSize from "../../../hooks/ScreenSize";
 import InputRegex from "../../General/InputRegex/InputRegex";
-import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
 import useIsSecretario from "../../../hooks/roles/useIsSecretario";
 import useIsAdministrador from "../../../hooks/roles/useIsAdministrador";
-import OneButton from "../../buttons/oneButton/OneButton";
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
 import { LicenseResponseDto } from "../../../types/Licenses/LicenseResponseDto.type";
@@ -19,18 +17,16 @@ import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTrash,
-  faAnglesRight,
-  faAnglesLeft,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
+import Pagiation from "../../General/Pagination/Pagiation";
 
 interface ITableLicense {
-  //licenseList: LicenseResponseDto[];
   handleAction?: (e: IPersonaResponse) => void;
 }
 
@@ -71,20 +67,21 @@ function TableLicense(props: ITableLicense) {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
 
-  const long = [
+  const desktopColumns = [
     { accessorKey: "medico", header: "Nombre" },
     { accessorKey: "startDate", header: "Inicio" },
     { accessorKey: "endDate", header: "Finalización" },
     { accessorKey: "reason", header: "Motivo" },
   ];
-  const short = [
+  const mobileColumns = [
     { accessorKey: "medico", header: "Nombre" },
 
     { accessorKey: "startDate", header: "Inicio" },
-    { accessorKey: "endDate", header: "Finalización" },
+    { accessorKey: "endDate", header: "Fin" },
   ];
 
-  const columns = windowSize.width > changeLayout ? long : short;
+  const columns =
+    windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
     data: licenseList || [],
@@ -115,11 +112,11 @@ function TableLicense(props: ITableLicense) {
           placeholder="Buscar paciente por documento"
           onFraseRegexChage={setFraseRegex}
         />
-        <Table>
+        <Table striped bordered hover>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                <th key={headerGroup.id}></th>
+              <tr key={headerGroup.id} className="text-center">
+                <th key={headerGroup.id}> </th>
                 {/* for numeration  */}
                 {headerGroup.headers.map((header: any) => (
                   <th key={header.id}>{header.column.columnDef.header}</th>
@@ -130,12 +127,12 @@ function TableLicense(props: ITableLicense) {
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => {
+            {table.getRowModel().rows.map((row, index) => {
               const cells = row.getVisibleCells();
               const rowData = row.original; // Accede a los datos originales de la fila
 
               return (
-                <tr key={row.id}>
+                <tr key={row.id} className="index text-center">
                   <td key={row.id}>{row.id}</td>
 
                   {cells.map(
@@ -163,26 +160,7 @@ function TableLicense(props: ITableLicense) {
           </tbody>
         </Table>
         <div>
-          <div className="d-flex align-items-center justify-content-center gap-2">
-            <Button
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {" "}
-              <FontAwesomeIcon icon={faAnglesLeft} />
-            </Button>
-
-            <h5 className="mb-0 d-flex flex-row">
-              {table.getState().pagination.pageIndex + 1} /{" "}
-              {table.getPageCount()}
-            </h5>
-            <Button
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <FontAwesomeIcon icon={faAnglesRight} />
-            </Button>
-          </div>
+          <Pagiation table={table} />
         </div>
       </div>
     </>
