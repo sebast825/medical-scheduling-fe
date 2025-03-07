@@ -1,0 +1,11 @@
+@import "/src/styles/mixin.scss";
+
+.deleteIcon{
+   color: #000;
+   transition: .1s  all ease-in;
+   &:hover{
+      cursor: pointer;
+      scale: 1.05;
+      color: red;
+   }
+}

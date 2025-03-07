@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import {  Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import useWindowSize from "../../../hooks/ScreenSize";
 import InputRegex from "../../General/InputRegex/InputRegex";
 import PacienteDropdown from "../../Dropdown/Secretario/PacienteDropdown";
@@ -17,7 +17,8 @@ import { useUserInfo } from "../../../context/authContext";
 import { Spinner } from "../../statics/Spinner";
 import useLicenseCacheQuery from "../../../hooks/License/useLicenseCacheQuery";
 
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash ,faHouse} from "@fortawesome/free-solid-svg-icons";
 import {
   useReactTable,
   getCoreRowModel,
@@ -74,7 +75,9 @@ function TableLicense(props: ITableLicense) {
   ];
   const short = [
     { accessorKey: "medico", header: "Nombre" },
-    { accessorKey: "startDate", header: "Inicio" }
+    
+    { accessorKey: "startDate", header: "Inicio" },
+    { accessorKey: "endDate", header: "Finalización" },
 
   ];
 
@@ -113,12 +116,14 @@ function TableLicense(props: ITableLicense) {
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                                  <th key={headerGroup.id}></th>
-
-                {headerGroup.headers.map((header:any) => (
+                <th key={headerGroup.id}></th> 
+                 {/* for numeration  */}
+                {headerGroup.headers.map((header: any) => (
                   <th key={header.id}>{header.column.columnDef.header}</th>
                 ))}
-
+                {/* for trahs icon */}
+                <th key={headerGroup.id}></th>
+              
               </tr>
             ))}
           </thead>
@@ -129,7 +134,7 @@ function TableLicense(props: ITableLicense) {
 
               return (
                 <tr key={row.id}>
-                                        <td key={row.id}>{row.id}</td>
+                  <td key={row.id}>{row.id}</td>
 
                   {cells.map(
                     (
@@ -138,15 +143,16 @@ function TableLicense(props: ITableLicense) {
                       <td key={cell.id}>{cell.getValue()}</td>
                     )
                   )}
-                  <td className="dropdown">
-                    <OneButton
-                      handleSubmit={() => {
-                        // Usa el id de la fila (rowData.id) en lugar de cell.id
+                  <td>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      onClick={() => {
                         handleDeleteLicense(rowData.id);
                         showModal();
                       }}
-                      text="Cancelar"
-                      variant="danger"
+                 //     style={{ cursor: "pointer", color: "red" }}
+                      title="Eliminar"
+                      className="deleteIcon"
                     />
                   </td>
                 </tr>
@@ -172,55 +178,7 @@ function TableLicense(props: ITableLicense) {
             Siguiente
           </button>
         </div>
-        {/* <Table
-        striped
-        bordered
-        hover
-        className="text-center align-middle table  table-responsive"
-      >
-        <thead>
-          <tr>
-            <th></th>
-            <th>Nombre</th>
-            <th>Inicio</th>
-            {windowSize.width > changeLayout && (
-              <>
-                <th>Finalización</th>
-                <th>Motivo</th>
-              </>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {licenseList &&
-            licenseList.map((license, index) => (
-              <tr key={license.id}>
-                <td className="index">{index}</td>
-
-                <td>{license.medico}</td>
-                <td>{license.startDate}</td>
-                {windowSize.width > changeLayout && (
-                  <>
-                    <td>{license.endDate ==  null ? "-" :license.endDate  }</td>
-                    <td>{license.reason == "" ? "-": license.reason}</td>
-                  </>
-                )}
-                <td className="dropdown ">
-                  <OneButton
-                    handleSubmit={() => {
-                      handleDeleteLicense(license.id)
-                      //setSelectedPersona(license)
-                      showModal();
-                    }}
-                    text="Cancelar"
-                    variant="danger"
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-       */}
+       
       </div>
     </>
   );
