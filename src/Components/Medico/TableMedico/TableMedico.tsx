@@ -106,7 +106,7 @@ function TableMedico() {
   
                 return (
                   <tr key={row.id} className="index text-center">
-                    <td key={row.id}>{row.id}</td>
+                    <td key={row.id}>{index+1}</td>
   
                     {cells.map(
                       (

@@ -143,10 +143,9 @@ function TableLicense(props: ITableLicense) {
             {table.getRowModel().rows.map((row, index) => {
               const cells = row.getVisibleCells();
               const rowData = row.original; // Accede a los datos originales de la fila
-
               return (
                 <tr key={row.id} className="index text-center">
-                  <td key={row.id}>{row.id}</td>
+                  <td key={row.id}>{index+1}</td>
 
                   {cells.map(
                     (

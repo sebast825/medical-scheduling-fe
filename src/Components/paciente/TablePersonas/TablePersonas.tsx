@@ -125,7 +125,7 @@ function TablePersonas(props: ITablePersonas) {
               const rowData = row.original; // Accede a los datos originales de la fila
               return (
                 <tr key={row.id} className="text-center">
-                  <td key={row.id}>{row.id}</td>
+                  <td key={row.id}>{index+1}</td>
                   {cells.map((cell: any) => {
                     var accessorKey = cell.column.id;
                     if (accessorKey == "fechaNacimiento") {
