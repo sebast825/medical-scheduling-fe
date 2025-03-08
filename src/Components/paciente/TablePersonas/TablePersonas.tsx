@@ -50,34 +50,28 @@ function TablePersonas(props: ITablePersonas) {
   ): persona is IPacienteResponse {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
-  const columns = [
-    {
-      accessorKey: "nombre",
-      header: "Nombre",
-    },
-    {
-      accessorKey: "apellido",
-      header: "Apellido",
-    },
-    {
-      accessorKey: "numeroDocumento",
-      header: "Documento",
-    },
-    {
-      accessorKey: "telefono",
-      header: "Teléfono",
-    },
-    {
-      accessorKey: "fechaNacimiento",
-      header: "Fecha Nacimiento",
-    },
+  const desktopColumns = [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "apellido", header: "Apellido" },
+    { accessorKey: "numeroDocumento", header: "Documento" },
+    { accessorKey: "telefono", header: "Teléfono" },
+    { accessorKey: "fechaNacimiento", header: "Fecha Nacimiento" }
   ];
+  const mobileColumns = [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "apellido", header: "Apellido" },
+
+  ];
+  const columns =   windowSize.width > changeLayout ? desktopColumns : mobileColumns;
+
   const table = useReactTable({
     data: personaList || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-  });
+  }); 
+  
+
 
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
@@ -119,7 +113,6 @@ function TablePersonas(props: ITablePersonas) {
             table.getRowModel().rows.map((row, index) => {
               const cells = row.getVisibleCells();
               const rowData = row.original; // Accede a los datos originales de la fila
-              console.log(rowData);
               return (
                 <tr key={row.id} className="text-center">
                   <td key={row.id}>{row.id}</td>

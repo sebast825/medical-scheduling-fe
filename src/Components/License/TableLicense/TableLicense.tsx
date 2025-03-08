@@ -79,8 +79,7 @@ function TableLicense(props: ITableLicense) {
   ];
 
   //if is mobile show less colluns to don't break the app
-  const columns =
-    windowSize.width > changeLayout ? desktopColumns : mobileColumns;
+  const columns =  windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
     data: showLicenses || [],
