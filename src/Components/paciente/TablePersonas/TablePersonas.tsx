@@ -67,7 +67,7 @@ function TablePersonas(props: ITablePersonas) {
     windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
-    data: personaList || [],
+    data: showPersonas || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
