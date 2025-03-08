@@ -22,8 +22,8 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import Pagiation from "../../General/Pagination/Pagiation";
 import ConfirmModal from "../../modals/ConfirmModal";
+import Pagination from "../../General/Pagination/Pagination";
 
 interface ITableLicense {
   handleAction?: (e: IPersonaResponse) => void;
@@ -169,7 +169,7 @@ function TableLicense(props: ITableLicense) {
           </tbody>
         </Table>
         <div>
-          <Pagiation table={table} />
+          <Pagination table={table} />
         </div>
       </div>
     </>

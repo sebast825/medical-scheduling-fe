@@ -2,11 +2,11 @@ import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 import { Table } from "@tanstack/react-table";
-interface IPagiation {
+interface IPagination {
   table: Table<any>;
 }
 
-function Pagiation({ table }: IPagiation) {
+function Pagination({ table }: IPagination) {
   return (
     <>{table.getPageCount() != 1 &&
       <div className="d-flex align-items-center justify-content-center gap-2">
@@ -32,4 +32,4 @@ function Pagiation({ table }: IPagiation) {
   );
 }
 
-export default Pagiation;
+export default Pagination;

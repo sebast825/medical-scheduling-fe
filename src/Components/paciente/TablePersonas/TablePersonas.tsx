@@ -18,7 +18,10 @@ import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
+  CellContext,
 } from "@tanstack/react-table";
+import { getValue } from "@testing-library/user-event/dist/utils";
+import Pagination from "../../General/Pagination/Pagination";
 
 interface ITablePersonas {
   personaList: IPersonaResponse[] | IPacienteResponse[];
@@ -57,7 +60,7 @@ function TablePersonas(props: ITablePersonas) {
       header: "Apellido",
     },
     {
-      accessorKey: "documento",
+      accessorKey: "numeroDocumento",
       header: "Documento",
     },
     {
@@ -67,9 +70,6 @@ function TablePersonas(props: ITablePersonas) {
     {
       accessorKey: "fechaNacimiento",
       header: "Fecha Nacimiento",
-    },
-    {
-      header: isAdmin ? "Cambiar Estado" : "Opciones",
     },
   ];
   const table = useReactTable({
@@ -110,66 +110,61 @@ function TablePersonas(props: ITablePersonas) {
                   {header.column.columnDef.header}
                 </th>
               ))}
+              <th key="role">{isAdmin ? "Cambiar Estado" : "Opciones"}</th>
             </tr>
           ))}
-
-          {/* <tr>
-            <th></th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            {windowSize.width > changeLayout && (
-              <>
-                <th>Documento</th>
-                <th>Teléfono</th>
-                <th>Fecha Nacimiento</th>
-              </>
-            )}
-
-            <th>{isAdmin ? "Cambiar Estado" : "Opciones"}</th>
-          </tr> */}
         </thead>
         <tbody>
           {showPersonas &&
-            showPersonas.map((paciente, index) => (
-              <tr key={paciente.id}>
-                <td className="index">{index}</td>
+            table.getRowModel().rows.map((row, index) => {
+              const cells = row.getVisibleCells();
+              const rowData = row.original; // Accede a los datos originales de la fila
+              console.log(rowData);
+              return (
+                <tr key={row.id} className="text-center">
+                  <td key={row.id}>{row.id}</td>
+                  {cells.map((cell: any) => {
+                    var accessorKey = cell.column.id;
+                    if (accessorKey == "fechaNacimiento") {
+                      return (
+                        <td key={cell.getValue()}>
+                          {getDate(cell.getValue())}
+                        </td>
+                      );
+                    } else {
+                      return <td key={cell.getValue()}>{cell.getValue()}</td>;
+                    }
+                  })}
 
-                <td>{paciente.nombre}</td>
-                <td>{paciente.apellido}</td>
-                {windowSize.width > changeLayout && (
-                  <>
-                    <td>{paciente.numeroDocumento}</td>
-                    <td>{paciente.telefono}</td>
-                    <td>{getDate(paciente.fechaNacimiento)}</td>
-                  </>
-                )}
-                <td className="dropdown ">
-                  {isSecretario && isPacienteResponse(paciente) && (
-                    <PacienteDropdown paciente={paciente} />
-                  )}
-                  {isAdmin && !isPacienteResponse(paciente) && (
-                    <OneButton
-                      handleSubmit={() => {
-                        setSelectedPersona(paciente);
-                        showModal();
-                      }}
-                      text="Editar"
-                      variant="danger"
-                    />
-                  )}
-                  {selectedPersona && handleAction && (
-                    <ChangeStatusPersona
-                      modalField={selectedPersona}
-                      show={toggleModal}
-                      handleClose={closeModal}
-                      handleConfirm={(e: IPersonaResponse) => handleAction(e)}
-                    />
-                  )}
-                </td>
-              </tr>
-            ))}
+                  <td className="dropdown ">
+                    {isSecretario && isPacienteResponse(rowData) && (
+                      <PacienteDropdown paciente={rowData} />
+                    )}
+                    {isAdmin && !isPacienteResponse(rowData) && (
+                      <OneButton
+                        handleSubmit={() => {
+                          setSelectedPersona(rowData);
+                          showModal();
+                        }}
+                        text="Editar"
+                        variant="danger"
+                      />
+                    )}
+                    {selectedPersona && handleAction && (
+                      <ChangeStatusPersona
+                        modalField={selectedPersona}
+                        show={toggleModal}
+                        handleClose={closeModal}
+                        handleConfirm={(e: IPersonaResponse) => handleAction(e)}
+                      />
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </Table>
+      <Pagination table={table} />
     </div>
   );
 }
