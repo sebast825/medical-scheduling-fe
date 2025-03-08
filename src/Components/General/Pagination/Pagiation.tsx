@@ -8,7 +8,7 @@ interface IPagiation {
 
 function Pagiation({ table }: IPagiation) {
   return (
-    <>
+    <>{table.getPageCount() != 1 &&
       <div className="d-flex align-items-center justify-content-center gap-2">
         <Button
           onClick={() => table.previousPage()}
@@ -27,7 +27,7 @@ function Pagiation({ table }: IPagiation) {
         >
           <FontAwesomeIcon icon={faAnglesRight} />
         </Button>
-      </div>
+      </div>}
     </>
   );
 }
