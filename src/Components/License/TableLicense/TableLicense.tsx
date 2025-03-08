@@ -23,6 +23,7 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 import Pagiation from "../../General/Pagination/Pagiation";
+import ConfirmModal from "../../modals/ConfirmModal";
 
 interface ITableLicense {
   handleAction?: (e: IPersonaResponse) => void;
@@ -34,7 +35,7 @@ function TableLicense(props: ITableLicense) {
   const user = useUserInfo();
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
-
+  const [licenseToDelete, seticenseToDelete] = useState<LicenseResponseDto>();
   const [fraseRegex, setFraseRegex] = useState<string>("");
   //has the licenses that will show fe
   const [showLicenses, setShowLicenses] = useState<LicenseResponseDto[]>();
@@ -89,15 +90,29 @@ function TableLicense(props: ITableLicense) {
   });
 
   async function handleDeleteLicense(id: number) {
-    console.log(id);
     await DeleteLicense(id);
     setLicenseList((prevlicenses) =>
       prevlicenses?.filter((prevlicense) => prevlicense.id !== id)
     );
+    closeModal();
   }
+
+  function formatMessageCancelLicese(license : LicenseResponseDto | undefined): string{
+    if(!license) return "Ha ocurrido un error";
+
+    var text :string = `Elimiar licencia para el médico ${license?.medico}.\n Fecha de inicio: ${license?.startDate}\n`;
+    if(license?.endDate){
+      text = text.concat(` Fecha de finalización: ${licenseToDelete?.endDate}`)
+    }
+    return text;
+  }
+
   return (
     <>
       {isLoading && <Spinner msge="Cargando Licencias" />}
+      <ConfirmModal show={toggleModal} handleClose={closeModal} handleConfirm={()=>handleDeleteLicense(licenseToDelete?.id || 0)
+      }  body={formatMessageCancelLicese(licenseToDelete)}      
+      />
       <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
         <InputRegex
           placeholder="Buscar médico"
@@ -139,7 +154,8 @@ function TableLicense(props: ITableLicense) {
                     <FontAwesomeIcon
                       icon={faTrash}
                       onClick={() => {
-                        handleDeleteLicense(rowData.id);
+                        seticenseToDelete(rowData)
+                        //handleDeleteLicense(rowData.id);
                         showModal();
                       }}
                       //     style={{ cursor: "pointer", color: "red" }}

@@ -16,7 +16,7 @@ function ConfirmModal ({ show, handleClose, handleConfirm, title="Confirmar Acci
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{body}</Modal.Body>
+      <Modal.Body style={{ whiteSpace: 'pre-line' }}>{body}</Modal.Body>
       <Modal.Footer>
         <Button variant="dark" onClick={handleClose}>
           Cancelar
