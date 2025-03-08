@@ -74,17 +74,27 @@ function TablePersonas(props: ITablePersonas) {
   });
 
   useEffect(() => {
-    const regEx = new RegExp(`^${fraseRegex}`, "i");
+    var removeAcentos = removeAccents(fraseRegex);
+
+    const regEx = new RegExp(`^${removeAcentos}`, "i");
     const filteredItems = personaList?.filter((paciente) => {
-      return regEx.test(paciente.numeroDocumento);
+      return (
+        regEx.test(paciente.numeroDocumento) ||
+        regEx.test(removeAccents(paciente.nombre)) ||
+        regEx.test(removeAccents(paciente.apellido))
+      );
     });
     setShowPersonas(filteredItems);
   }, [personaList, fraseRegex]);
 
+  function removeAccents(str: string) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+  
   return (
     <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
       <InputRegex
-        placeholder="Buscar paciente por documento"
+        placeholder="Buscar por nombre o documento"
         onFraseRegexChage={setFraseRegex}
       />
 
@@ -143,8 +153,6 @@ function TablePersonas(props: ITablePersonas) {
                         title="Eliminar"
                         className="iconAwsome iconAwsome_edit "
                       />
-
-                     
                     )}
                     {selectedPersona && handleAction && (
                       <ChangeStatusPersona
