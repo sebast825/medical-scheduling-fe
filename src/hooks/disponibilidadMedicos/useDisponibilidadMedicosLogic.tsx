@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DisponibilidadMedico } from "../../types/DisponibilidadMedico/DisponibilidadMedico";
 import splitKeyNombreEspecialidad from "../../utils/splitKeyNombreEspecialidad";
 import { useUserInfo } from "../../context/authContext";
-import { agruparObjetosPorClave } from "../../utils/AgruparObjetosPorClave";
+import { agruparObjetosPorClave, sortMedicoByDisponibilidadLength } from "../../utils/AgruparObjetosPorClave";
 import { DisponibilidadMedicoCreate } from "../../types/DisponibilidadMedico/DisponibilidadMedicoCreate";
 import { IDisponibilidadMedicoUpdateRequest } from "../../types/DisponibilidadMedico/IDisponibilidadMedicoUpdateRequest";
 import useDisponibilidadMedicosApi from "./useDisponibilidadMedicosApi";
@@ -73,13 +73,17 @@ function useDisponibilidadMedicosLogic() {
   function sortDisponibildaidMedicos() {
     if (user != null) {
       if (!disponibilidadMedico) return;
-      var agruparHorariosPorMedico = agruparObjetosPorClave(
+      var agruparHorariosPorMedico :Record<string, DisponibilidadMedico[]> = agruparObjetosPorClave(
         disponibilidadMedico,
         "medico",
         "especialidad"
       );
+      //covert record to an array
+    
+      var sortByDisponibilityLength :Record<string, DisponibilidadMedico[]>= sortMedicoByDisponibilidadLength(agruparHorariosPorMedico)
 
-      setHorariosMedicos(agruparHorariosPorMedico);
+
+      setHorariosMedicos(sortByDisponibilityLength);
     }
   }
 
@@ -192,3 +196,4 @@ function useDisponibilidadMedicosLogic() {
 }
 
 export default useDisponibilidadMedicosLogic;
+

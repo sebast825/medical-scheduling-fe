@@ -39,7 +39,17 @@ const agruparObjetosPorClave = (
   }, {} as Record<string, DisponibilidadMedico[]>);
 };
 
-export { agruparObjetosPorClave };
+const sortMedicoByDisponibilidadLength = (
+  arrayObjetos: Record<string, DisponibilidadMedico[]>
+): Record<string, DisponibilidadMedico[]> => {
+
+  var entries = Object.entries(arrayObjetos)
+  var sort = entries.sort((a,b)=> a[1].length - b[1].length)
+  const sortedObject = Object.fromEntries(sort);
+  return sortedObject;
+};
+
+export { agruparObjetosPorClave,sortMedicoByDisponibilidadLength };
 
 const ordernarDisponibilidadMedicoPorDia = (
   arrayObjetos: Array<DisponibilidadMedico>
