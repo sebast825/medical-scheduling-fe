@@ -14,31 +14,70 @@ import OneButton from "../../buttons/oneButton/OneButton";
 import ChangeStatusPersona from "../../modals/changeStatusPeronsa/ChangeStatusPersona";
 import useModal from "../../../hooks/useModal";
 import { IPersonaResponse } from "../../../types/Persona/PersonaResponse.type";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
 
-interface ITablePersonas{
-  personaList : IPersonaResponse[] | IPacienteResponse[],
-  handleAction ? : (e : IPersonaResponse)=>void;
+interface ITablePersonas {
+  personaList: IPersonaResponse[] | IPacienteResponse[];
+  handleAction?: (e: IPersonaResponse) => void;
 }
 
-function TablePersonas(props : ITablePersonas) {
+function TablePersonas(props: ITablePersonas) {
+  const { personaList, handleAction } = props;
 
-  const {personaList,handleAction} = props;
- 
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
-  const [showPersonas, setShowPersonas] = useState<IPacienteResponse[] | IPersonaResponse[]>();
+  const [showPersonas, setShowPersonas] = useState<
+    IPacienteResponse[] | IPersonaResponse[]
+  >();
   const isSecretario = useIsSecretario();
   const isAdmin = useIsAdministrador();
-  const [selectedPersona, setSelectedPersona] = useState<IPersonaResponse | null>(null);
+  const [selectedPersona, setSelectedPersona] =
+    useState<IPersonaResponse | null>(null);
 
   const { showModal, closeModal, toggleModal } = useModal();
 
-  function isPacienteResponse(persona: IPersonaResponse | IPacienteResponse): persona is IPacienteResponse {
+  function isPacienteResponse(
+    persona: IPersonaResponse | IPacienteResponse
+  ): persona is IPacienteResponse {
     return (persona as IPacienteResponse).nombreEmergencia !== undefined;
   }
-  
+  const columns = [
+    {
+      accessorKey: "nombre",
+      header: "Nombre",
+    },
+    {
+      accessorKey: "apellido",
+      header: "Apellido",
+    },
+    {
+      accessorKey: "documento",
+      header: "Documento",
+    },
+    {
+      accessorKey: "telefono",
+      header: "Teléfono",
+    },
+    {
+      accessorKey: "fechaNacimiento",
+      header: "Fecha Nacimiento",
+    },
+    {
+      header: isAdmin ? "Cambiar Estado" : "Opciones",
+    },
+  ];
+  const table = useReactTable({
+    data: personaList || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
 
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
@@ -62,7 +101,19 @@ function TablePersonas(props : ITablePersonas) {
         className="text-center align-middle table  table-responsive"
       >
         <thead>
-          <tr>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id} className="text-center">
+              <th key="index"> </th>
+
+              {headerGroup.headers.map((header: any) => (
+                <th key={header.column.columnDef.header}>
+                  {header.column.columnDef.header}
+                </th>
+              ))}
+            </tr>
+          ))}
+
+          {/* <tr>
             <th></th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -75,7 +126,7 @@ function TablePersonas(props : ITablePersonas) {
             )}
 
             <th>{isAdmin ? "Cambiar Estado" : "Opciones"}</th>
-          </tr>
+          </tr> */}
         </thead>
         <tbody>
           {showPersonas &&
@@ -93,11 +144,13 @@ function TablePersonas(props : ITablePersonas) {
                   </>
                 )}
                 <td className="dropdown ">
-                  {isSecretario && isPacienteResponse(paciente) &&<PacienteDropdown paciente={paciente} />}
+                  {isSecretario && isPacienteResponse(paciente) && (
+                    <PacienteDropdown paciente={paciente} />
+                  )}
                   {isAdmin && !isPacienteResponse(paciente) && (
                     <OneButton
                       handleSubmit={() => {
-                        setSelectedPersona(paciente)
+                        setSelectedPersona(paciente);
                         showModal();
                       }}
                       text="Editar"
@@ -109,9 +162,7 @@ function TablePersonas(props : ITablePersonas) {
                       modalField={selectedPersona}
                       show={toggleModal}
                       handleClose={closeModal}
-                      handleConfirm={(e: IPersonaResponse) =>
-                        handleAction(e)
-                      }
+                      handleConfirm={(e: IPersonaResponse) => handleAction(e)}
                     />
                   )}
                 </td>
