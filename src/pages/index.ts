@@ -21,7 +21,7 @@ export const MedicoHome = React.lazy(()=> import ('./medico/MedicoHome'))
 
 export const AdministradorHome = React.lazy(()=> import ('./administrador/AdministradorHome'))
 export const InformacionMedicoAdministrador = React.lazy(()=> import ('./administrador/InformacionMedicoAdministrador'))
-export const TablePacienteAdministrador = React.lazy(()=> import ('./administrador/TablePacienteAdministrador'))
+export const InformacionUsuarioAdministrador = React.lazy(()=> import ('./administrador/InformacionUsuarioAdministrador'))
 
 export const LicensesMedico = React.lazy(()=> import ('./administrador/LicensesMedico'))
 

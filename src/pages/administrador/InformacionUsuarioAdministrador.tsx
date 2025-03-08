@@ -7,7 +7,7 @@ import usePersonas from "../../hooks/personas/usePersonas";
 import { Spinner } from "../../Components/statics/Spinner";
 import TablePersonas from "../../Components/paciente/TablePersonas/TablePersonas";
 
-function TablePacienteAdministrador() {
+function InformacionUsuarioAdministrador() {
   const isAdministrador = useIsAdministrador();
   const redirectToLogin = useRedirectToLogin();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -47,4 +47,4 @@ function TablePacienteAdministrador() {
   );
 }
 
-export default TablePacienteAdministrador;
+export default InformacionUsuarioAdministrador;
