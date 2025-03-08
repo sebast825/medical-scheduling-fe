@@ -79,7 +79,8 @@ function TableLicense(props: ITableLicense) {
   ];
 
   //if is mobile show less colluns to don't break the app
-  const columns =  windowSize.width > changeLayout ? desktopColumns : mobileColumns;
+  const columns =
+    windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
     data: showLicenses || [],
@@ -96,12 +97,14 @@ function TableLicense(props: ITableLicense) {
     closeModal();
   }
 
-  function formatMessageCancelLicese(license : LicenseResponseDto | undefined): string{
-    if(!license) return "Ha ocurrido un error";
+  function formatMessageCancelLicese(
+    license: LicenseResponseDto | undefined
+  ): string {
+    if (!license) return "Ha ocurrido un error";
 
-    var text :string = `Elimiar licencia para el médico ${license?.medico}.\n Fecha de inicio: ${license?.startDate}\n`;
-    if(license?.endDate){
-      text = text.concat(` Fecha de finalización: ${licenseToDelete?.endDate}`)
+    var text: string = `Elimiar licencia para el médico ${license?.medico}.\n Fecha de inicio: ${license?.startDate}\n`;
+    if (license?.endDate) {
+      text = text.concat(` Fecha de finalización: ${licenseToDelete?.endDate}`);
     }
     return text;
   }
@@ -109,8 +112,11 @@ function TableLicense(props: ITableLicense) {
   return (
     <>
       {isLoading && <Spinner msge="Cargando Licencias" />}
-      <ConfirmModal show={toggleModal} handleClose={closeModal} handleConfirm={()=>handleDeleteLicense(licenseToDelete?.id || 0)
-      }  body={formatMessageCancelLicese(licenseToDelete)}      
+      <ConfirmModal
+        show={toggleModal}
+        handleClose={closeModal}
+        handleConfirm={() => handleDeleteLicense(licenseToDelete?.id || 0)}
+        body={formatMessageCancelLicese(licenseToDelete)}
       />
       <div className="p-2 pt-0 d-flex  flex-column justify-content-center gap-3 ">
         <InputRegex
@@ -153,13 +159,11 @@ function TableLicense(props: ITableLicense) {
                     <FontAwesomeIcon
                       icon={faTrash}
                       onClick={() => {
-                        seticenseToDelete(rowData)
-                        //handleDeleteLicense(rowData.id);
+                        seticenseToDelete(rowData);
                         showModal();
                       }}
-                      //     style={{ cursor: "pointer", color: "red" }}
                       title="Eliminar"
-                      className="deleteIcon"
+                      className="iconAwsome iconAwsome_delete"
                     />
                   </td>
                 </tr>

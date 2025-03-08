@@ -22,6 +22,8 @@ import {
 } from "@tanstack/react-table";
 import { getValue } from "@testing-library/user-event/dist/utils";
 import Pagination from "../../General/Pagination/Pagination";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquarePen } from "@fortawesome/free-solid-svg-icons";
 
 interface ITablePersonas {
   personaList: IPersonaResponse[] | IPacienteResponse[];
@@ -55,23 +57,21 @@ function TablePersonas(props: ITablePersonas) {
     { accessorKey: "apellido", header: "Apellido" },
     { accessorKey: "numeroDocumento", header: "Documento" },
     { accessorKey: "telefono", header: "Teléfono" },
-    { accessorKey: "fechaNacimiento", header: "Fecha Nacimiento" }
+    { accessorKey: "fechaNacimiento", header: "Fecha Nacimiento" },
   ];
   const mobileColumns = [
     { accessorKey: "nombre", header: "Nombre" },
     { accessorKey: "apellido", header: "Apellido" },
-
   ];
-  const columns =   windowSize.width > changeLayout ? desktopColumns : mobileColumns;
+  const columns =
+    windowSize.width > changeLayout ? desktopColumns : mobileColumns;
 
   const table = useReactTable({
     data: personaList || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-  }); 
-  
-
+  });
 
   useEffect(() => {
     const regEx = new RegExp(`^${fraseRegex}`, "i");
@@ -104,7 +104,7 @@ function TablePersonas(props: ITablePersonas) {
                   {header.column.columnDef.header}
                 </th>
               ))}
-              <th key="role">{isAdmin ? "Cambiar Estado" : "Opciones"}</th>
+              <th key="role">{isAdmin ? "" : "Opciones"}</th>
             </tr>
           ))}
         </thead>
@@ -134,14 +134,17 @@ function TablePersonas(props: ITablePersonas) {
                       <PacienteDropdown paciente={rowData} />
                     )}
                     {isAdmin && !isPacienteResponse(rowData) && (
-                      <OneButton
-                        handleSubmit={() => {
+                      <FontAwesomeIcon
+                        icon={faSquarePen}
+                        onClick={() => {
                           setSelectedPersona(rowData);
                           showModal();
                         }}
-                        text="Editar"
-                        variant="danger"
+                        title="Eliminar"
+                        className="iconAwsome iconAwsome_edit "
                       />
+
+                     
                     )}
                     {selectedPersona && handleAction && (
                       <ChangeStatusPersona

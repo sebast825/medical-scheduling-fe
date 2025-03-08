@@ -1,11 +1,43 @@
 @import "/src/styles/mixin.scss";
 
-.deleteIcon{
-   color: #000;
-   transition: .1s  all ease-in;
-   &:hover{
+.iconAwsome {
+   transition: 0.1s all ease-in;
+   &:hover {
       cursor: pointer;
-      scale: 1.05;
+      transform: scale(1.05);
+ 
+    
+    }
+   &_delete {
+     color: $color-green-dark;
+
+     transform: scale(1.2);
+     &:hover{
+      transform: scale(1.3);
+
+      color: $color-green-dark;
       color: red;
+
    }
+   }
+   &_edit {
+      transform: scale(1.3);
+      scale: 1.5;
+      color: $color-green;
+      &:hover{
+         transform: scale(1.4);
+
+         color: $color-green-dark;
+      }
+   }
+ 
+ }
+
+.editIcon {
+  color: #000;
+
+  scale: 1.5;
+  &:hover {
+    color: red;
+  }
 }
