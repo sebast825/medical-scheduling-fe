@@ -3,7 +3,7 @@ import usePacientes from "../../../hooks/pacientes/usePacientes";
 import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
 import { ButtonGroup, Table } from "react-bootstrap";
 import { getDate } from "../../../utils/formatDate";
-import "./TablePaciente.scss";
+import "./TablePersonas.scss";
 import useWindowSize from "../../../hooks/ScreenSize";
 
 import InputRegex from "../../General/InputRegex/InputRegex";

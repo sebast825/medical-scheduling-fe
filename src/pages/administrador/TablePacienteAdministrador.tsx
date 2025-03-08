@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import Opening from "../../Components/General/Opening/Opening";
-import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
 import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 import { useRedirectToLogin } from "../../routes/navigation";
 import BackLink from "../../Components/buttons/BackLink/BackLink";
 import usePersonas from "../../hooks/personas/usePersonas";
 import { Spinner } from "../../Components/statics/Spinner";
+import TablePersonas from "../../Components/paciente/TablePersonas/TablePersonas";
 
 function TablePacienteAdministrador() {
   const isAdministrador = useIsAdministrador();
@@ -36,7 +36,7 @@ function TablePacienteAdministrador() {
       <Opening title="Informacion de usuarios" />
       <div className="pt-4 pb-5">
         {personasList && (
-          <TablePaciente
+          <TablePersonas
             personaList={personasList}
             handleAction={RemovePersona}
           />

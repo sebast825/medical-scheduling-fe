@@ -3,7 +3,7 @@ import { useAdministrativoInfoContext, useUserInfo } from "../../context/authCon
 import { useRedirectToLogin } from "../../routes/navigation";
 import Opening from "../../Components/General/Opening/Opening";
 import TwoButtonComponent from "../../Components/buttons/TwoButtonComponent/TwoButtonComponent";
-import TablePaciente from "../../Components/paciente/TablePaciente/TablePaciente";
+import TablePaciente from "../../Components/paciente/TablePersonas/TablePersonas";
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import ListaHorariosMedicos from "../../Components/Medico/ListaHorariosMedicos";
 import { mensajeBienvenidaPorSexo } from "../../utils/mensajeBienvenidaPorSexo";
