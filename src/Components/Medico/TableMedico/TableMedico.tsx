@@ -9,17 +9,21 @@ import MedicoDropdown from "../../Dropdown/Admin/MedicoDropdown";
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 import { Spinner } from "../../statics/Spinner";
 import { spinnerMessages } from "../../../constants/spinnerMessages";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
+import Pagination from "../../General/Pagination/Pagination";
 
 function TableMedico() {
-
   const windowSize = useWindowSize();
   const changeLayout: number = 600;
 
   const [fraseRegex, setFraseRegex] = useState<string>("");
   const [showMedicos, setShowMedicos] = useState<IMedicoResponse[]>();
 
-  const {medicos, isLoading} = useMedicosCacheQuery()
-
+  const { medicos, isLoading } = useMedicosCacheQuery();
 
   useEffect(() => {
     var removeAcentos = removeAccents(fraseRegex);
@@ -38,62 +42,92 @@ function TableMedico() {
   function removeAccents(str: string) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
-  if(isLoading) return <Spinner msge={spinnerMessages.cargarMedicos}/>
+
+  const desktopColumns = [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "apellido", header: "Apellido" },
+    { accessorKey: "numeroDocumento", header: "Documento" },
+    { accessorKey: "telefono", header: "Teléfono" },
+    { accessorKey: "especialidad", header: "Especialidad" },
+  ];
+  const mobileColumns =  [
+    { accessorKey: "nombre", header: "Nombre" },
+    { accessorKey: "apellido", header: "Apellido" },
+  ];
+
+  //if is mobile show less colluns to don't break the app
+  const columns =
+    windowSize.width > changeLayout ? desktopColumns : mobileColumns;
+
+  const table = useReactTable({
+    data: showMedicos || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
+
 
   return (
-    <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
-      <InputRegex
-        placeholder="Buscar medico"
-        onFraseRegexChage={setFraseRegex}
-      />
+    <>
+      {isLoading && <Spinner msge={spinnerMessages.cargarMedicos} />}
+      <div className="p-2 d-flex  flex-column justify-content-center gap-3 ">
+        <InputRegex
+          placeholder="Buscar medico"
+          onFraseRegexChage={setFraseRegex}
+        />
 
-      <Table
-        striped
-        bordered
-        hover
-      
-        className="text-center align-middle table   table-responsive"
-      >
-        <thead>
-          <tr>
-            <th></th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            {windowSize.width > changeLayout && (
-              <>
-                <th>Documento</th>
-                <th>Teléfono</th>
-                <th>Especialidad</th>
-              </>
-            )}
-
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {showMedicos &&
-            showMedicos.map((medico, index) => (
-              <tr key={medico.id} className="fontTable">
-                <td className="index">{index}</td>
-
-                <td>{medico.nombre}</td>
-                <td>{medico.apellido}</td>
-
-                {windowSize.width > changeLayout && (
-                  <>
-                    <td>{medico.numeroDocumento}</td>
-                    <td>{medico.telefono}</td>
-                    <td>{medico.especialidad}</td>
-                  </>
-                )}
-                <td className="dropdown ">
-                  <MedicoDropdown medico={medico} />
-                </td>
+        <Table
+          striped
+          bordered
+          hover
+          className="text-center align-middle table   table-responsive"
+        >
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className="text-center">
+                <th key="index"> </th>
+                {/* for numeration  */}
+                {headerGroup.headers.map((header: any) => (
+                  <th key={header.column.columnDef.header}>
+                    {header.column.columnDef.header}
+                  </th>
+                ))}
+                {/* for option icon */}
+                <th key="options"></th>
               </tr>
             ))}
-        </tbody>
-      </Table>
-    </div>
+          
+          </thead>
+          <tbody>
+
+              {table.getRowModel().rows.map((row, index) => {
+                const cells = row.getVisibleCells();
+                const rowData = row.original; // Accede a los datos originales de la fila
+  
+                return (
+                  <tr key={row.id} className="index text-center">
+                    <td key={row.id}>{row.id}</td>
+  
+                    {cells.map(
+                      (
+                        cell: any //liceseRESPONSE PER ASI FUNCIONA
+                      ) => (
+                        <td key={cell.getValue()}>{cell.getValue()}</td>
+                      )
+                    )}
+                    <td>
+                    <MedicoDropdown medico={rowData} />
+
+                    </td>
+                  </tr>
+                );
+              })}
+  
+          </tbody>
+        </Table>
+        <Pagination table={table}/>
+      </div>
+    </>
   );
 }
 
