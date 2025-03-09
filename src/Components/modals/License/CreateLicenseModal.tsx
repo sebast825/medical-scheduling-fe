@@ -3,6 +3,7 @@ import { LicenseCreateRequestDto } from "../../../types/Licenses/LicenseCreateRe
 import GenericModal from "../GenericModal/GenericModal";
 import { useState } from "react";
 import { usePersonaInfoContext } from "../../../context/authContext";
+import useToastit from "../../../hooks/useToastit";
 
 interface ICreateLicenseModal {
   show: boolean;
@@ -18,8 +19,13 @@ function CreateLicenseModal({
   const [endDate, setEndDate] = useState<string>("");
   const [reason, setReason] = useState<string>("");
   const { personaInfo } = usePersonaInfoContext();
-
+  const {warning} = useToastit();
+  
   async function confirmar() {
+    if(startDate == ""){
+      warning("La fecha de inicio es requerida");
+      return;
+    }
     var license: LicenseCreateRequestDto = {
       MedicoId: personaInfo.id,
       StartDate: startDate,
