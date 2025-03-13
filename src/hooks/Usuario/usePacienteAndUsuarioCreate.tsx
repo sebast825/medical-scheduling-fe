@@ -18,37 +18,19 @@ import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import { successMessagges } from "../../constants/successMessages";
 import { handleHttpError } from "../../utils/errorHandler";
 import useRedirects from "../useRedicrects";
+import useCreatePaciente from "./useCreatePaciente";
 
 function usePacienteAndUsuarioCreate() {
 
 
-  let unPaciente: IPacienteResponse = {
-    telefonoEmergencia: "",
-    nombreEmergencia: "",
-    id: 0,
-    nombre: "",
-    apellido: "",
-    fechaNacimiento: "",
-    telefono: "",
-    numeroDocumento: "",
-    sexo: "",
-    estadoUsuario: "",
-  };
+
   let unUsuario: CreateUsuarioRequest = {
     UserName: "",
     Password: "",
     Email: "",
   };
-  let unPacienteCreate: PacienteCreateRequest = {
-    telefonoEmergencia: "",
-    nombreEmergencia: "",
-    nombre: "",
-    apellido: "",
-    fechaNacimiento: "",
-    telefono: "",
-    numeroDocumento: "",
-    sexoId: 0,
-  };
+  const {pacienteInfo,personaInfo,unPaciente,unPacienteCreate,updatePersonaInfo,updatePacienteInfo,setRequiredHooksPaciente} = useCreatePaciente();
+
   let unUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
     Paciente: unPacienteCreate,
     Usuario: unUsuario,
@@ -58,10 +40,7 @@ function usePacienteAndUsuarioCreate() {
     useState<CreateUsuarioAndPacienteRequestDto>(unUsuarioAndPaciente);
 
   const { createUserInfo, setCreateUserInfo } = useCreateUserInfoContext();
-  const { pacienteInfo, setPacienteInfo } = usePacienteContext();
-  const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
-  const [pacienteCreate, setPacienteCreate] = useState<PacienteCreateRequest>();
-  const {redirectToLogin}= useRedirects()
+
   const { error, success } = useToastit();
 
   interface ICheckBoxFrom {
@@ -83,37 +62,19 @@ function usePacienteAndUsuarioCreate() {
   }
 
   function setRequiredContext() {
-    setPacienteInfo(unPaciente);
-    setPersonaInfo(unPaciente);
+    setRequiredHooksPaciente()
     setCreateUserInfo(unUsuario);
-    setPacienteCreate(unPacienteCreate);
   }
 
   function handlePacienteCreate(e: IPacienteUpdate) {
-    //el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
-    setPacienteInfo({
-      ...personaInfo,
-      nombreEmergencia: e.NombreEmergencia,
-      telefonoEmergencia: e.TelefonoEmergencia,
-    });
-    //setPacienteCreate();
+    updatePacienteInfo(e);
     setCheckBoxForms((prevState) => ({
       ...prevState,
       pacienteInfo: true,
     }));
   }
   function handlePersonaUpdate(e: IPersonaUpdate) {
-    console.log(e, Sexo[e.sexoId - 1]);
-    setPersonaInfo({
-      id: 1,
-      nombre: e.nombre,
-      apellido: e.apellido,
-      numeroDocumento: e.numeroDocumento,
-      telefono: e.telefono,
-      sexo: Sexo[e.sexoId - 1],
-      fechaNacimiento: e.fechaNacimiento,
-      estadoUsuario: EstadoUsuario.Activo.toString(),
-    });
+    updatePersonaInfo(e);
     setCheckBoxForms((prevState) => ({
       ...prevState,
       personaInfo: true,
@@ -236,8 +197,7 @@ function usePacienteAndUsuarioCreate() {
     createUserInfo,
     handleUsuarioUpdate,
     pacienteInfo,
-    setPacienteInfo,
-    pacienteCreate,
+
     handlePacienteCreate,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente
