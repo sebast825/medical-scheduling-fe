@@ -22,14 +22,11 @@ function UsuarioCard(props: IUsuarioCard) {
   const [emailusuario, setEmailusuario] = useState<string>("");
 
   useEffect(() => {
-    console.log("entraaca", usuarioInfo);
     setNombreUsuario(usuarioInfo.UserName);
     setEmailusuario(usuarioInfo.Email);
   }, [usuarioInfo]);
 
-  useEffect(() => {
-    console.log(nombreUsuario, emailusuario);
-  }, [nombreUsuario]);
+
 
   const { showModal, closeModal, toggleModal } = useModal();
 

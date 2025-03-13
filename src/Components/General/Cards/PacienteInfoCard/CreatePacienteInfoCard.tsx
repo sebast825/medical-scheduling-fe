@@ -18,10 +18,7 @@ function CreatePacienteInfoCard({
 }: IPersonaInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
 
-  useEffect(() => {
-    console.log(pacienteInfo);
-  }, [pacienteInfo]);
-
+ 
   function handleUpdatePaciente(e: IPacienteUpdate) {
     handleConfirm({
       TelefonoEmergencia: e.TelefonoEmergencia,

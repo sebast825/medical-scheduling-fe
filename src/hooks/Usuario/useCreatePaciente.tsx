@@ -52,7 +52,6 @@ function useCreatePaciente() {
     });
   }
   function updatePersonaInfo(e: IPersonaUpdate) {
-    console.log(e, Sexo[e.sexoId - 1]);
     setPersonaInfo({
       id: 1,
       nombre: e.nombre,
