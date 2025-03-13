@@ -28,4 +28,5 @@ export const LicensesMedico = React.lazy(()=> import ('./administrador/LicensesM
 
 
 export const PacienteAndUsuarioCreate = React.lazy(()=> import ('./paciente/CrearUsuarioAndPaciente'))
+export const CreateMedico = React.lazy(()=> import ('./medico/CrearUsuarioAndMedico'))
 
