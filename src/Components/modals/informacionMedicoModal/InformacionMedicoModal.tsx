@@ -1,14 +1,13 @@
 import { Form } from "react-bootstrap";
-import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import GenericModal from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
-import useMedicos from "../../../hooks/medicos/useMedicos";
 import { useMedicoInfoContext } from "../../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateRequest.type";
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 import { genericMessages } from "../../../constants/genericMessages";
 import useToastit from "../../../hooks/useToastit";
 import { permisosEdicion } from "../../../constants/permisosEdicion";
+import useEspecialidades from "../../../hooks/especialidades/useEspecialidades";
 
 interface IInformacionMedicoModal {
   show: boolean;
@@ -24,7 +23,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
     getEspecialidadesMedicos,
     especialidadesMedico,
     getIdEspecialidad,
-  } = useMedicos();
+  } = useEspecialidades();
   const [especialidad, setEspecialidad] = useState<string>("");
   const { handleReloadMedicos } = useMedicosCacheQuery();
   const { warning } = useToastit();
