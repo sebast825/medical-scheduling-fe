@@ -57,7 +57,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       show={show}
       handleClose={handleClose}
       handleConfirm={confirmar}
-      title="Editar Información Personal"
+      title="Editar Información Profesional"
       useDisableConfirmBtn={true}
     >
       <Form className="d-flex flex-column" style={{ gap: "10px" }}>

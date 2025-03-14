@@ -4,7 +4,7 @@ import { ISideMenuGeneric } from "../ISideMenuGeneric";
 
 function SideMenuAdministrador(props: ISideMenuGeneric) {
   const { handleClose } = props;
-  const { redirectToAdministradorHome, redirectTablePacienteAdministrador ,redirectToLicenses} =
+  const { redirectToAdministradorHome, redirectTablePacienteAdministrador ,redirectToLicenses,redirectToCreateMedico} =
     useRedirects();
 
   //como no puedo pasar un hook en on click uso una función
@@ -35,6 +35,13 @@ function SideMenuAdministrador(props: ISideMenuGeneric) {
         }}
       >
         Licencias
+      </Nav.Link>
+      <Nav.Link
+        onClick={() => {
+          closeModalAndCallFunction(redirectToCreateMedico);
+        }}
+      >
+        Crear Médico
       </Nav.Link>
     </>
   );

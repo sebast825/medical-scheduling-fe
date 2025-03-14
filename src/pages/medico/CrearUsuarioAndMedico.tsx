@@ -11,6 +11,7 @@ import useRedirects from "../../hooks/useRedicrects";
 import CreateMedicoInfoCard from "../../Components/General/Cards/MedicoInfoCard/CreateMedicoInfoCard";
 import { MedicoUpdateRequestDTO } from "../../types/Medico/MedicoUpdateRequest.type";
 import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
+import useCreateMedicoAndUsuario from "../../hooks/Usuario/medico/useCreateMedicoAndUsuario";
 
 function CrearUsuarioAndMedico() {
   const {
@@ -18,11 +19,11 @@ function CrearUsuarioAndMedico() {
     setRequiredContext,
     createUserInfo,
     handleUsuarioUpdate,
-    pacienteInfo,
+    medicoInfo,
     handlePacienteCreate,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente,
-  } = usePacienteAndUsuarioCreate();
+  } = useCreateMedicoAndUsuario();
 
   useEffect(() => {
     setRequiredContext();
@@ -47,18 +48,7 @@ function CrearUsuarioAndMedico() {
     setTimeout(() => {}, 1000);
   }
   useEffect(() => {}, [isButtonDisabel]);
-  const medico: IMedicoResponse = {
-    nombre: 'Juan',
-    apellido: 'Perez',
-    numeroDocumento: '123456789',
-    telefono: '987654321',
-    sexo: "arjo", // 1: Masculino
-    fechaNacimiento: '1990-01-01',
-    numeroLicencia: "1234",
-    especialidad: "revisa anos",
-    id: 0,
-    estadoUsuario: "robot"
-  }
+
   return (
     <>
       <Opening title={"Crear Usuario"} />
@@ -73,9 +63,9 @@ function CrearUsuarioAndMedico() {
           ></UsuarioCard>
         )}
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
-        {pacienteInfo && (
+        {medicoInfo && (
           <CreateMedicoInfoCard
-            medicoInfo={medico}
+            medicoInfo={medicoInfo}
             handleConfirm={function (
               updatedPersona: MedicoUpdateRequestDTO
             ): void {
