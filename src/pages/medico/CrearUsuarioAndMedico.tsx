@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import usePacienteAndUsuarioCreate from "../../hooks/Usuario/usePacienteAndUsuarioCreate";
 import { Button } from "react-bootstrap";
 import UsuarioCard from "../../Components/General/Cards/UsuarioCard/UsuarioCard";
 import PersonaInfoCard from "../../Components/General/Cards/PersonaInfoCard/PersonaInfoCard";
 import Opening from "../../Components/General/Opening/Opening";
-import CreatePacienteInfoCard from "../../Components/General/Cards/PacienteInfoCard/CreatePacienteInfoCard";
-import OneButton from "../../Components/buttons/oneButton/OneButton";
-import useToastit from "../../hooks/useToastit";
+
 import useRedirects from "../../hooks/useRedicrects";
 import CreateMedicoInfoCard from "../../Components/General/Cards/MedicoInfoCard/CreateMedicoInfoCard";
-import { MedicoUpdateRequestDTO } from "../../types/Medico/MedicoUpdateRequest.type";
-import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import useCreateMedicoAndUsuario from "../../hooks/Usuario/medico/useCreateMedicoAndUsuario";
 
 function CrearUsuarioAndMedico() {
@@ -20,9 +15,9 @@ function CrearUsuarioAndMedico() {
     createUserInfo,
     handleUsuarioUpdate,
     medicoInfo,
-    handlePacienteCreate,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente,
+    updateMedicoInfo,
   } = useCreateMedicoAndUsuario();
 
   useEffect(() => {
@@ -66,10 +61,8 @@ function CrearUsuarioAndMedico() {
         {medicoInfo && (
           <CreateMedicoInfoCard
             medicoInfo={medicoInfo}
-            handleConfirm={function (
-              updatedPersona: MedicoUpdateRequestDTO
-            ): void {
-              throw new Error("Function not implemented.");
+            handleConfirm={(e) => {
+              updateMedicoInfo(e);
             }}
           />
         )}

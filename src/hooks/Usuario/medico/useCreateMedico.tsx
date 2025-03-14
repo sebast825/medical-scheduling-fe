@@ -1,43 +1,45 @@
-import { useState } from "react";
-import IPacienteResponse from "../../../types/Paciente/PacienteResponse.type";
-import { useMedicoInfoContext, usePacienteContext, usePersonaInfoContext } from "../../../context/authContext";
-import PacienteCreateRequest from "../../../types/Paciente/PacienteCreateRequest.type copy";
-import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
+import { useEffect } from "react";
+import {
+  useMedicoInfoContext,
+  usePersonaInfoContext,
+} from "../../../context/authContext";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import { Sexo } from "../../../types/Sexo.type";
 import { EstadoUsuario } from "../../../types/usuario/estadoUsuario";
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateRequest.type";
 import MedicoCreateRequest from "../../../types/Medico/MedicoCreateRequest.type";
-
+import useEspecialidades from "../../especialidades/useEspecialidades";
 
 function useCreateMedico() {
   const { medicoInfo, setMedicoInfo } = useMedicoInfoContext();
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
-
-
+  const { getEspecialidadById, getEspecialidadesMedicos } = useEspecialidades();
+  useEffect(() => {
+    getEspecialidadesMedicos();
+  }, []);
   let unMedico: IMedicoResponse = {
-      nombre: '',
-      apellido: '',
-      numeroDocumento: '',
-      telefono: '',
-      sexo: "", // 1: Masculino
-      fechaNacimiento: '',
-      numeroLicencia: "",
-      especialidad: "",
-      id: 0,
-      estadoUsuario: ""
-    }
-    let unMedicoCreate: MedicoCreateRequest = {
-      nombre: "",
-      apellido: "",
-      fechaNacimiento: "",
-      telefono: "",
-      numeroDocumento: "",
-      sexoId: 0,
-      NumeroLicencia: "",
-      EspecialidadId: 0
-    };
+    nombre: "",
+    apellido: "",
+    numeroDocumento: "",
+    telefono: "",
+    sexo: "", // 1: Masculino
+    fechaNacimiento: "",
+    numeroLicencia: "",
+    especialidad: "",
+    id: 0,
+    estadoUsuario: "",
+  };
+  let unMedicoCreate: MedicoCreateRequest = {
+    nombre: "",
+    apellido: "",
+    fechaNacimiento: "",
+    telefono: "",
+    numeroDocumento: "",
+    sexoId: 0,
+    NumeroLicencia: "",
+    EspecialidadId: 0,
+  };
   function setRequiredHooksPaciente() {
     setMedicoInfo(unMedico);
     setPersonaInfo(unMedico);
@@ -48,7 +50,7 @@ function useCreateMedico() {
     setMedicoInfo({
       ...personaInfo,
       numeroLicencia: e.numeroLicencia,
-      especialidad: e.especialidadId,
+      especialidad: getEspecialidadById(e.especialidadId),
     });
   }
   function updatePersonaInfo(e: IPersonaUpdate) {

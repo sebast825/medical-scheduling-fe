@@ -45,6 +45,10 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       especialidadId: getIdEspecialidad(especialidad),
       numeroLicencia: numLicencia,
     };
+    if(!medicoUpdate.especialidadId || !medicoUpdate.numeroLicencia){
+      warning(genericMessages.camposIncompletos)
+      return;
+    }
     await handleConfirm(medicoUpdate);
     handleReloadMedicos();
     handleClose();

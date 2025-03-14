@@ -20,7 +20,15 @@ function useEspecialidades() {
       error(handleHttpError(err));
     }
   }, []);
+  function getEspecialidadById(id: number): string | undefined {
+    if (!especialidadesMedico) return undefined;
+    let especialdiadObject: EspecialidadResponse | undefined =
+      especialidadesMedico.find((elem) => elem.id == id);
 
+    return especialdiadObject == undefined
+      ? undefined
+      : especialdiadObject?.nombre;
+  }
   function getIdEspecialidad(especialdiad: string): number {
     if (!especialidadesMedico) return -1;
     let especialdiadObject: EspecialidadResponse | undefined =
@@ -32,6 +40,7 @@ function useEspecialidades() {
     getEspecialidadesMedicos,
     especialidadesMedico,
     getIdEspecialidad,
+    getEspecialidadById,
   };
 }
 
