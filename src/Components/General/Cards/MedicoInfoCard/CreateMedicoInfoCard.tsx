@@ -16,16 +16,15 @@ function CreateMedicoInfoCard({
 }: ICreateMedicoInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
 
- 
-  function handleUpdatePaciente(e: IMedicoResponse) :void {
-     let getIdFromespecialidad :number = 1 //e.especialidad;
+  function handleUpdatePaciente(e: MedicoUpdateRequestDTO): void {
+    console.log("estamos aca");
+    let getIdFromespecialidad: number = 1; //e.especialidad;
     handleConfirm({
-      especialidadId: getIdFromespecialidad ,
+      especialidadId: getIdFromespecialidad,
       numeroLicencia: e.numeroLicencia,
     });
   }
 
-  
   return (
     <>
       {medicoInfo != undefined && (

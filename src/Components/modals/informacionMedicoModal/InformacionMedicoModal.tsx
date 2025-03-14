@@ -13,7 +13,7 @@ import { permisosEdicion } from "../../../constants/permisosEdicion";
 interface IInformacionMedicoModal {
   show: boolean;
   handleClose: () => void;
-  handleConfirm: (personaResponse: IMedicoResponse) => void;
+  handleConfirm: (personaResponse: MedicoUpdateRequestDTO) => void;
 }
 
 function InformacionMedicoModal(props: IInformacionMedicoModal) {
@@ -21,7 +21,6 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   const [numLicencia, setNumLicencia] = useState<string>("");
   const { medicoInfo } = useMedicoInfoContext();
   const {
-    updateMedicos,
     getEspecialidadesMedicos,
     especialidadesMedico,
     getIdEspecialidad,
@@ -47,7 +46,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       especialidadId: getIdEspecialidad(especialidad),
       numeroLicencia: numLicencia,
     };
-    await updateMedicos(medicoInfo?.id, medicoUpdate);
+    await handleConfirm(medicoUpdate);
     handleReloadMedicos();
     handleClose();
   }

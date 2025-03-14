@@ -13,6 +13,8 @@ import useMedicosCacheQuery from "../../hooks/medicos/useMedicosCacheQuery";
 import useToastit from "../../hooks/useToastit";
 import { genericMessages } from "../../constants/genericMessages";
 import { permisosEdicion } from "../../constants/permisosEdicion";
+import useMedicos from "../../hooks/medicos/useMedicos";
+import { MedicoUpdateRequestDTO } from "../../types/Medico/MedicoUpdateRequest.type";
 
 function InformacionMedicoAdministrador() {
   const isAdmin = useIsAdministrador();
@@ -34,10 +36,15 @@ return;}
     var rsta = await handlePersonaUpdate(e);
     if(rsta){
       handleReloadMedicos();
-    }
-
-     
+    }     
   }
+  const {updateMedicos} = useMedicos();
+
+   async function confirmUpdateMedico(dto : MedicoUpdateRequestDTO){
+    if(!medicoInfo) return;
+    await updateMedicos(medicoInfo?.id,dto)
+   }
+
   return (
     <div className="mb-5">
       <Opening
@@ -48,7 +55,7 @@ return;}
         style={{ width: "min-content", margin: "auto" }}
       >
         <PersonaInfoCard handleConfirm={handleUpdate} />
-        <MedicoInfoCard />
+        <MedicoInfoCard handleConfirm={confirmUpdateMedico}/>
       </div>
       <BackLink/>
     </div>
