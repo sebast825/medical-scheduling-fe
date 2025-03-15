@@ -14,19 +14,19 @@ import useEspecialidades from "../../especialidades/useEspecialidades";
 function useCreateMedico() {
   const { medicoInfo, setMedicoInfo } = useMedicoInfoContext();
   const { personaInfo, setPersonaInfo } = usePersonaInfoContext();
-  const { getEspecialidadById, getEspecialidadesMedicos } = useEspecialidades();
+  const { getEspecialidadById, getEspecialidadesMedicos,getIdEspecialidad } = useEspecialidades();
   useEffect(() => {
     getEspecialidadesMedicos();
   }, []);
   let unMedico: IMedicoResponse = {
-    nombre: "asd",
-    apellido: "asd",
-    numeroDocumento: "12341234",
-    telefono: "12341234",
-    sexo: "1", // 1: Masculino
-    fechaNacimiento: "12/12/2023",
-    numeroLicencia: "12341234",
-    especialidad: "Cardiología",
+    nombre: "",
+    apellido: "",
+    numeroDocumento: "",
+    telefono: "",
+    sexo: "", // 1: Masculino
+    fechaNacimiento: "",
+    numeroLicencia: "",
+    especialidad: "",
     id: 0,
     estadoUsuario: "",
   };
@@ -47,6 +47,7 @@ function useCreateMedico() {
 
   function updateMedicoInfo(e: MedicoUpdateRequestDTO) {
     //el modal de paciente usa pacienteResponse y no pacienteCreate, esto permite guardar toda la info
+    console.log(getEspecialidadById(e.especialidadId))
     setMedicoInfo({
       ...personaInfo,
       numeroLicencia: e.numeroLicencia,
@@ -71,6 +72,7 @@ function useCreateMedico() {
     unMedico,
     unMedicoCreate,
     updatePersonaInfo,
+    getIdEspecialidad,
     updateMedicoInfo,
     setRequiredHooksPaciente,
   };

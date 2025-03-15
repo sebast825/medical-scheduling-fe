@@ -17,7 +17,7 @@ function CreateMedicoInfoCard({
   const { showModal, closeModal, toggleModal } = useModal();
 
   function handleUpdateMedico(e: MedicoUpdateRequestDTO): void {
-    let getIdFromespecialidad: number = 1; //e.especialidad;
+    let getIdFromespecialidad: number = e.especialidadId;
     handleConfirm({
       especialidadId: getIdFromespecialidad,
       numeroLicencia: e.numeroLicencia,
