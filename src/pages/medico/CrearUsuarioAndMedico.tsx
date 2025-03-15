@@ -17,7 +17,7 @@ function CrearUsuarioAndMedico() {
     medicoInfo,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente,
-    updateMedicoInfo,
+    handleMedicoInfo,
   } = useCreateMedicoAndUsuario();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function CrearUsuarioAndMedico() {
           <CreateMedicoInfoCard
             medicoInfo={medicoInfo}
             handleConfirm={(e) => {
-              updateMedicoInfo(e);
+              handleMedicoInfo(e);
             }}
           />
         )}

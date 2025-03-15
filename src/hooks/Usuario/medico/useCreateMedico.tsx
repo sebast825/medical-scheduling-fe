@@ -19,14 +19,14 @@ function useCreateMedico() {
     getEspecialidadesMedicos();
   }, []);
   let unMedico: IMedicoResponse = {
-    nombre: "",
-    apellido: "",
-    numeroDocumento: "",
-    telefono: "",
-    sexo: "", // 1: Masculino
-    fechaNacimiento: "",
-    numeroLicencia: "",
-    especialidad: "",
+    nombre: "asd",
+    apellido: "asd",
+    numeroDocumento: "12341234",
+    telefono: "12341234",
+    sexo: "1", // 1: Masculino
+    fechaNacimiento: "12/12/2023",
+    numeroLicencia: "12341234",
+    especialidad: "Cardiología",
     id: 0,
     estadoUsuario: "",
   };

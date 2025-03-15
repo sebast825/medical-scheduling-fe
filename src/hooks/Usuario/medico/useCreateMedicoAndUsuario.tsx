@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { successMessagges } from "../../../constants/successMessages";
 import { useCreateUserInfoContext } from "../../../context/authContext";
-import { fecthCreateUsuarioAndPaciente } from "../../../services/apiService";
+import { fecthCreateUsuarioAndMedico, fecthCreateUsuarioAndPaciente } from "../../../services/apiService";
 import { IPacienteUpdate } from "../../../types/Paciente/PacienteUpdate.type";
 import { IPersonaUpdate } from "../../../types/Persona/PersonaUpdate.type";
 import { Sexo } from "../../../types/Sexo.type";
@@ -62,7 +62,7 @@ function useCreateMedicoAndUsuario() {
     setCreateUserInfo(unUsuario);
   }
 
-  function handlePacienteCreate(e: MedicoUpdateRequestDTO) {
+  function handleMedicoInfo(e: MedicoUpdateRequestDTO) {
     updateMedicoInfo(e);
     setCheckBoxForms((prevState) => ({
       ...prevState,
@@ -76,28 +76,22 @@ function useCreateMedicoAndUsuario() {
       personaInfo: true,
     }));
   }
-  function mergePacienteAndUsuarioInCreateDto() : CreateUsuarioAndPacienteRequestDto {
+  function mergeMedicoAndUsuarioInCreateDto() : CreateUsuarioAndMedicoRequestDto {
     const claves = Object.keys(Sexo).filter((key) => isNaN(Number(key)));
     var getSexoId: number = claves.indexOf(personaInfo?.sexo) + 1; //arranca en 0 los id son 1,2,3
-  /*
-    const updatedUsuarioAndPaciente: CreateUsuarioAndPacienteRequestDto = {
-      Paciente: {
-        telefonoEmergencia:
-          pacienteInfo?.telefonoEmergencia ||
-          usuarioAndPaciente.Paciente.telefonoEmergencia,
-        nombreEmergencia:
-          pacienteInfo?.nombreEmergencia ||
-          usuarioAndPaciente.Paciente.nombreEmergencia,
-        nombre: personaInfo?.nombre || usuarioAndPaciente.Paciente.nombre,
-        apellido: personaInfo?.apellido || usuarioAndPaciente.Paciente.apellido,
-        numeroDocumento:
-          personaInfo?.numeroDocumento ||
-          usuarioAndPaciente.Paciente.numeroDocumento,
-        telefono: personaInfo?.telefono || usuarioAndPaciente.Paciente.telefono,
+  
+    const updatedUsuarioAndPaciente: CreateUsuarioAndMedicoRequestDto = {
+      Medico: {
+        nombre: personaInfo?.nombre || usuarioAndPaciente.Medico.nombre,
+        apellido: personaInfo?.apellido || usuarioAndPaciente.Medico.apellido,
+        numeroDocumento: personaInfo?.numeroDocumento ||
+          usuarioAndPaciente.Medico.numeroDocumento,
+        telefono: personaInfo?.telefono || usuarioAndPaciente.Medico.telefono,
         sexoId: getSexoId,
-        fechaNacimiento:
-          personaInfo?.fechaNacimiento ||
-          usuarioAndPaciente.Paciente.fechaNacimiento,
+        fechaNacimiento: personaInfo?.fechaNacimiento ||
+          usuarioAndPaciente.Medico.fechaNacimiento,
+        NumeroLicencia: medicoInfo?.numeroLicencia || usuarioAndPaciente.Medico.NumeroLicencia,
+        EspecialidadId: Number(medicoInfo?.especialidad) || unUsuarioAndMedico.Medico.EspecialidadId
       },
       Usuario: {
         UserName:
@@ -106,24 +100,24 @@ function useCreateMedicoAndUsuario() {
           createUserInfo?.Password || usuarioAndPaciente.Usuario.Password,
         Email: createUserInfo?.Email || usuarioAndPaciente.Usuario.Email,
       },
-    };*/
+    };
     
     
-    const updatedUsuarioAndPaciente2: CreateUsuarioAndPacienteRequestDto = {
-      Paciente: {
-        telefonoEmergencia: '1122334455',
-        nombreEmergencia: 'Maria Lopez',
+    const updatedUsuarioAndPaciente2: CreateUsuarioAndMedicoRequestDto = {
+      Medico: {
         nombre: 'Juan',
         apellido: 'Perez',
-        numeroDocumento: '123456789',
+        numeroDocumento: '135436789',
         telefono: '987654321',
         sexoId: 1, // 1: Masculino
         fechaNacimiento: '1990-01-01',
+        NumeroLicencia: "1234",
+        EspecialidadId: 1
       },
       Usuario: {
-        UserName: 'mabel3235',
-        Password: 'mabel',
-        Email: 'juan.peraezz@email.com',
+        UserName: 'args',
+        Password: 'args',
+        Email: 'juan.peraasdaargssdaezaz@email.com',
       },
     }; 
 
@@ -140,13 +134,13 @@ function useCreateMedicoAndUsuario() {
   }
   async function handleCreateUsuarioAndPaciente() : Promise<boolean> {
     
-    let validateMsge = validarFormularios();
+    /*let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
       return false;
-    }
-    var usuarioAndPaciente = mergePacienteAndUsuarioInCreateDto();
-    var rsta = await createUsuarioAndPaciente(usuarioAndPaciente);
+    }*/
+    var usuarioAndMedico = mergeMedicoAndUsuarioInCreateDto();
+    var rsta = await createUsuarioAndPaciente(usuarioAndMedico);
     if(rsta != undefined){
         setTimeout(() => {
           return true;
@@ -158,9 +152,9 @@ function useCreateMedicoAndUsuario() {
   }
 
   const createUsuarioAndPaciente = useCallback(
-    async (dto: CreateUsuarioAndPacienteRequestDto) :Promise<string | undefined> => {
+    async (dto: CreateUsuarioAndMedicoRequestDto) :Promise<string | undefined> => {
       try {
-        const response = await fecthCreateUsuarioAndPaciente(dto);
+        const response = await fecthCreateUsuarioAndMedico(dto);
 
         success(successMessagges.crearUsuario);
         return response;
@@ -194,7 +188,7 @@ function useCreateMedicoAndUsuario() {
     handleUsuarioUpdate,
     updateMedicoInfo,
     medicoInfo,
-    handlePacienteCreate,
+    handleMedicoInfo,
     handlePersonaUpdate,
     handleCreateUsuarioAndPaciente
   };

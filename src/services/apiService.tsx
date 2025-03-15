@@ -13,6 +13,7 @@ import { RecuperarClaveRequest } from "../types/usuario/RecuperarClaveRequest";
 import { NuevaClaveRequest } from "../types/usuario/NuevaClaveRequest";
 import { StringDecoder } from "string_decoder";
 import { LicenseCreateRequestDto } from "../types/Licenses/LicenseCreateRequestDto.type";
+import { CreateUsuarioAndMedicoRequestDto } from "../types/usuario/CreateUsuarioAndMedicoRequest.type";
 
 
 // Ejemplo de una solicitud GET
@@ -209,7 +210,15 @@ export const fecthCreateUsuarioAndPaciente = async (
 ) => {
   const source = axios.CancelToken.source();
 
-  const response = await api.post(`/api/pacientes`, dto);
+  const response = await api.post(`/api/medicos`, dto);
+  return response.data;
+};
+export const fecthCreateUsuarioAndMedico = async (
+  dto: CreateUsuarioAndMedicoRequestDto
+) => {
+  const source = axios.CancelToken.source();
+
+  const response = await api.post(`/api/medicos`, dto);
   return response.data;
 };
 

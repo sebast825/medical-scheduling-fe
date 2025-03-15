@@ -16,7 +16,7 @@ function CreateMedicoInfoCard({
 }: ICreateMedicoInfoCard) {
   const { showModal, closeModal, toggleModal } = useModal();
 
-  function handleUpdatePaciente(e: MedicoUpdateRequestDTO): void {
+  function handleUpdateMedico(e: MedicoUpdateRequestDTO): void {
     let getIdFromespecialidad: number = 1; //e.especialidad;
     handleConfirm({
       especialidadId: getIdFromespecialidad,
@@ -32,7 +32,7 @@ function CreateMedicoInfoCard({
             show={toggleModal}
             handleClose={closeModal}
             //modalField={medicoInfo}
-            handleConfirm={handleUpdatePaciente}
+            handleConfirm={handleUpdateMedico}
           />
         </>
       )}

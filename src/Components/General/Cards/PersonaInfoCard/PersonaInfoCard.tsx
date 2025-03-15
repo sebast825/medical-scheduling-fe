@@ -24,7 +24,6 @@ function PersonaInfoCard({
   const { showModal, closeModal, toggleModal } = useModal();
   const { personaInfo } = usePersonaInfoContext();
 
-  useEffect(() => {}, [personaInfo]);
 let fechaNacimiento = new Date(personaInfo.fechaNacimiento);
   return (
     <>
