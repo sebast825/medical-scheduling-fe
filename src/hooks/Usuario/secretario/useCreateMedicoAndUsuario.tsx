@@ -114,11 +114,11 @@ function useCreateSecretarioAndUsuario() {
       return "Es necesario completar la informacion del usuario.";
   }
   async function handlecreateUsuarioAndSecretario(): Promise<boolean> {
-   /* let validateMsge = validarFormularios();
+    let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
       return false;
-    }*/
+    }
     var usuarioAndSecretario = mergeSecretarioAndUsuarioInCreateDto();
     var rsta = await createUsuarioAndSecretario(usuarioAndSecretario);
     if (rsta != undefined) {
