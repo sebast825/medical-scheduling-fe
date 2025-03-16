@@ -88,7 +88,7 @@ function useCreateSecretarioAndUsuario() {
         Email: createUserInfo?.Email || usuarioAndSecretario.Usuario.Email,
       },
     };
-
+/*
     const updatedusuarioAndSecretario2: CreateUsuarioAndSecretarioRequestDto = {
       Secretario: {
         nombre: "Juan",
@@ -103,9 +103,9 @@ function useCreateSecretarioAndUsuario() {
         Password: "seasdc",
         Email: "seasdc.peraasdaargssdaezaz@email.com",
       },
-    };
+    };*/
 
-    return updatedusuarioAndSecretario2;
+    return updatedusuarioAndSecretario;
   }
   function validarFormularios(): string | undefined {
     if (!checkBoxForms.personaInfo)

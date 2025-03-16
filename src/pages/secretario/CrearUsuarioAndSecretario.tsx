@@ -10,6 +10,7 @@ import useCreateSecretarioAndUsuario from "../../hooks/Usuario/secretario/useCre
 import { info } from "toastr";
 import { genericMessages } from "../../constants/genericMessages";
 import { useUserToggleContext } from "../../context/authContext";
+import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
 
 function CrearUsuarioAndMedico() {
   const {
@@ -20,11 +21,15 @@ function CrearUsuarioAndMedico() {
     handlePersonaUpdate,
     handlecreateUsuarioAndSecretario,
   } = useCreateSecretarioAndUsuario();
+  const isAdministrador = useIsAdministrador();
 
-    const login = useUserToggleContext();
-  
+  const login = useUserToggleContext();
 
   useEffect(() => {
+    if (!isAdministrador) {
+      redirectToLogin();
+      return;
+    }
     setRequiredContext();
     showCreateModal();
   }, []);
@@ -41,15 +46,14 @@ function CrearUsuarioAndMedico() {
     setIsButtonDisabel(true);
     var rsta = await handlecreateUsuarioAndSecretario();
     if (rsta) {
-      login(null)
+      login(null);
       redirectToLogin();
     } else {
       setIsButtonDisabel(false);
     }
     setTimeout(() => {}, 1000);
   }
-  
-  useEffect(() => {}, [isButtonDisabel]);
+
 
   return (
     <>
@@ -65,7 +69,6 @@ function CrearUsuarioAndMedico() {
           ></UsuarioCard>
         )}
         <PersonaInfoCard handleConfirm={handlePersonaUpdate} />
-     
       </div>
       <div className="pb-5 d-flex justify-content-center">
         <Button

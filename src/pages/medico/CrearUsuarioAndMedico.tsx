@@ -7,6 +7,10 @@ import Opening from "../../Components/General/Opening/Opening";
 import useRedirects from "../../hooks/useRedicrects";
 import CreateMedicoInfoCard from "../../Components/General/Cards/MedicoInfoCard/CreateMedicoInfoCard";
 import useCreateMedicoAndUsuario from "../../hooks/Usuario/medico/useCreateMedicoAndUsuario";
+import useIsAdministrador from "../../hooks/roles/useIsAdministrador";
+import { genericMessages } from "../../constants/genericMessages";
+import useToastit from "../../hooks/useToastit";
+import { useUserToggleContext } from "../../context/authContext";
 
 function CrearUsuarioAndMedico() {
   const {
@@ -19,30 +23,38 @@ function CrearUsuarioAndMedico() {
     handleCreateUsuarioAndPaciente,
     handleMedicoInfo,
   } = useCreateMedicoAndUsuario();
+  const isAdministrador = useIsAdministrador();
+  const { redirectToLogin } = useRedirects();
+  const { info } = useToastit();
+  const [isButtonDisabel, setIsButtonDisabel] = useState<boolean>(false);
+  const login = useUserToggleContext();
 
   useEffect(() => {
+    if (!isAdministrador) {
+      redirectToLogin();
+      return;
+    }
     setRequiredContext();
     showCreateModal();
   }, []);
 
-  const [isButtonDisabel, setIsButtonDisabel] = useState<boolean>(false);
   useEffect(() => {
     if (isButtonDisabel) {
-      //info(genericMessages.procesadoSolicutd);
+      info(genericMessages.procesadoSolicutd);
     }
   }, [isButtonDisabel]);
-  const { redirectToLogin } = useRedirects();
+
   async function handleBtnConfirm() {
     setIsButtonDisabel(true);
     var rsta = await handleCreateUsuarioAndPaciente();
     if (rsta) {
+      login(null)
       redirectToLogin();
     } else {
       setIsButtonDisabel(false);
     }
     setTimeout(() => {}, 1000);
   }
-  useEffect(() => {}, [isButtonDisabel]);
 
   return (
     <>
