@@ -15,7 +15,8 @@ import {
   InformacionUsuarioAdministrador,
   RecuperarClave,
   LicensesMedico,
-  CreateMedico
+  CreateMedico,
+  CreateSecretario
 } from "../pages/index";
 
 export const routes = [
@@ -94,9 +95,13 @@ export const routes = [
   {
     path: "/recuperarClave",
     element: <RecuperarClave />,
+  },
+  {
+    path: "/create/secretario",
+    element: <CreateSecretario />,
   }
 
 
-
+  
   
 ];

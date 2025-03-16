@@ -227,7 +227,7 @@ export const fecthCreateUsuarioAndSecretario = async (
   dto: CreateUsuarioAndSecretarioRequestDto
 ) => {
   const source = axios.CancelToken.source();
-
+console.log(dto)
   const response = await api.post(`/api/secretarios`, dto);
   return response.data;
 };

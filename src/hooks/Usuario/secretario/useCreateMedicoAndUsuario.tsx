@@ -93,15 +93,15 @@ function useCreateSecretarioAndUsuario() {
       Secretario: {
         nombre: "Juan",
         apellido: "Perez",
-        numeroDocumento: "135436789",
+        numeroDocumento: "335436789",
         telefono: "987654321",
         sexoId: 1, // 1: Masculino
         fechaNacimiento: "1990-01-01",
       },
       Usuario: {
-        UserName: "args",
-        Password: "args",
-        Email: "juan.peraasdaargssdaezaz@email.com",
+        UserName: "seasdc",
+        Password: "seasdc",
+        Email: "seasdc.peraasdaargssdaezaz@email.com",
       },
     };
 
@@ -114,11 +114,11 @@ function useCreateSecretarioAndUsuario() {
       return "Es necesario completar la informacion del usuario.";
   }
   async function handlecreateUsuarioAndSecretario(): Promise<boolean> {
-    let validateMsge = validarFormularios();
+   /* let validateMsge = validarFormularios();
     if (validateMsge != undefined) {
       error(validateMsge);
       return false;
-    }
+    }*/
     var usuarioAndSecretario = mergeSecretarioAndUsuarioInCreateDto();
     var rsta = await createUsuarioAndSecretario(usuarioAndSecretario);
     if (rsta != undefined) {

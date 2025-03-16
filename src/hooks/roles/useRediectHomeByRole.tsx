@@ -33,7 +33,7 @@ import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
             navigate("/medicos");
 
          }else if(userRole == Roles[Roles.Admin]){
-            navigate("/administrador");
+            navigate("/create/secretario");
          }
          else{
             console.log("error")
