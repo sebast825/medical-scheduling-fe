@@ -14,6 +14,7 @@ import { NuevaClaveRequest } from "../types/usuario/NuevaClaveRequest";
 import { StringDecoder } from "string_decoder";
 import { LicenseCreateRequestDto } from "../types/Licenses/LicenseCreateRequestDto.type";
 import { CreateUsuarioAndMedicoRequestDto } from "../types/usuario/CreateUsuarioAndMedicoRequest.type";
+import { CreateUsuarioAndSecretarioRequestDto } from "../types/usuario/CreateUsuarioAndSecretario.type";
 
 
 // Ejemplo de una solicitud GET
@@ -222,6 +223,14 @@ export const fecthCreateUsuarioAndMedico = async (
   return response.data;
 };
 
+export const fecthCreateUsuarioAndSecretario = async (
+  dto: CreateUsuarioAndSecretarioRequestDto
+) => {
+  const source = axios.CancelToken.source();
+
+  const response = await api.post(`/api/secretarios`, dto);
+  return response.data;
+};
 export const fecthRecuperarClaveRequest = async (
   email: RecuperarClaveRequest
 ) => {
