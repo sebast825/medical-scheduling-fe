@@ -211,7 +211,7 @@ export const fecthCreateUsuarioAndPaciente = async (
 ) => {
   const source = axios.CancelToken.source();
 
-  const response = await api.post(`/api/medicos`, dto);
+  const response = await api.post(`/api/pacientes`, dto);
   return response.data;
 };
 export const fecthCreateUsuarioAndMedico = async (

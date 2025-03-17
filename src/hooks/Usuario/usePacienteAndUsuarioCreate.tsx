@@ -112,7 +112,7 @@ function usePacienteAndUsuarioCreate() {
       },
     };
     
-    
+    /*
     const updatedUsuarioAndPaciente2: CreateUsuarioAndPacienteRequestDto = {
       Paciente: {
         telefonoEmergencia: '1122334455',
@@ -129,7 +129,7 @@ function usePacienteAndUsuarioCreate() {
         Password: 'mabel',
         Email: 'juan.peraezz@email.com',
       },
-    };  
+    };  */
 
 
     return updatedUsuarioAndPaciente;
