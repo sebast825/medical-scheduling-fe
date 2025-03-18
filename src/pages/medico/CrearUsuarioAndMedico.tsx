@@ -58,7 +58,7 @@ function CrearUsuarioAndMedico() {
 
   return (
     <>
-      <Opening title={"Crear Usuario"} />
+      <Opening title={"Crear Médico"} />
       <div
         className="container d-flex pt-5 pb-5 flex-column gap-3 flex-md-row justify-content-center align-items-start"
         style={{ maxWidth: "1100px" }}

@@ -19,15 +19,14 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
   const { show, handleClose, handleConfirm } = props;
   const [numLicencia, setNumLicencia] = useState<string>("");
   const { medicoInfo } = useMedicoInfoContext();
-  const {
-    getEspecialidadesMedicos,
-    especialidadesMedico,
-    getIdEspecialidad,
-  } = useEspecialidades();
+  const { getEspecialidadesMedicos, especialidadesMedico, getIdEspecialidad } =
+    useEspecialidades();
   const [especialidad, setEspecialidad] = useState<string>("");
   const { handleReloadMedicos } = useMedicosCacheQuery();
   const { warning } = useToastit();
-
+  useEffect(() => {
+    setEspecialidad(especialidadesMedico ? especialidadesMedico[0].nombre : "");
+  }, [especialidadesMedico]);
   useEffect(() => {
     if (medicoInfo == undefined) return;
     getEspecialidadesMedicos();
@@ -45,8 +44,8 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       especialidadId: getIdEspecialidad(especialidad),
       numeroLicencia: numLicencia,
     };
-    if(!medicoUpdate.especialidadId || !medicoUpdate.numeroLicencia){
-      warning(genericMessages.camposIncompletos)
+    if (!medicoUpdate.especialidadId || !medicoUpdate.numeroLicencia) {
+      warning(genericMessages.camposIncompletos);
       return;
     }
     await handleConfirm(medicoUpdate);

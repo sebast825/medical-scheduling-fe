@@ -36,7 +36,7 @@ function CreateMedicoInfoCard({
           />
         </>
       )}
-      <GenericCard title={"Información del Médico"} handleEvent={showModal}>
+      <GenericCard title={"Información Profesional"} handleEvent={showModal}>
         {medicoInfo && (
           <>
             <CardItem
