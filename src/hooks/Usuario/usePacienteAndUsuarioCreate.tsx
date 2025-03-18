@@ -3,21 +3,15 @@ import { fecthCreateUsuarioAndPaciente } from "../../services/apiService";
 import { ErrorTypeAny } from "../../types/Error.type";
 import { CreateUsuarioAndPacienteRequestDto } from "../../types/usuario/CreateUsuarioAndPacienteReques";
 import useToastit from "../useToastit";
-import PacienteCreateRequest from "../../types/Paciente/PacienteCreateRequest.type copy";
 import { CreateUsuarioRequest } from "../../types/usuario/CreateUsuarioRequest";
 import {
-  useCreateUserInfoContext,
-  usePacienteContext,
-  usePersonaInfoContext,
+  useCreateUserInfoContext
 } from "../../context/authContext";
-import IPacienteResponse from "../../types/Paciente/PacienteResponse.type";
 import { IPersonaUpdate } from "../../types/Persona/PersonaUpdate.type";
-import { EstadoUsuario } from "../../types/usuario/estadoUsuario";
 import { Sexo } from "../../types/Sexo.type";
 import { IPacienteUpdate } from "../../types/Paciente/PacienteUpdate.type";
 import { successMessagges } from "../../constants/successMessages";
 import { handleHttpError } from "../../utils/errorHandler";
-import useRedirects from "../useRedicrects";
 import useCreatePaciente from "./useCreatePaciente";
 
 function usePacienteAndUsuarioCreate() {

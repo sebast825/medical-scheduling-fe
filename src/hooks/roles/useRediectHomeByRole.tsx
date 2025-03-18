@@ -1,47 +1,42 @@
-import { useNavigate } from "react-router-dom";
 import { useUserInfo } from "../../context/authContext";
 import { Roles } from "../../types/Roles.type";
 import GetJwtContent, { DecodedToken } from "../../utils/jwtUtils";
+import useRedicrects from "../useRedicrects";
 
+function useRedirectHomeByRol() {
+  const user = useUserInfo();
 
-   function  useRedirectHomeByRol  ()  {
+  const {
+    redirectToPacienteHome,
+    redirectToSecretarioHome,
+    redirectToAdministradorHome,
+    redirectToMedicoHome,
+    redirectToHome
+  } = useRedicrects();
 
-      const user = useUserInfo();
+  const redirectHomeByRol = async () => {
+    if (user == null) {
+      redirectToHome();
+      return;
+    }
 
-      const navigate = useNavigate();
+    var params: DecodedToken = GetJwtContent(user);
+    var userRole = params.role;
 
-        
-      
-      const redirectHomeByRol = async() => {
+    if (userRole == Roles[Roles.Secretario]) {
+      redirectToSecretarioHome();
+    } else if (userRole == Roles[Roles.Paciente]) {
+      redirectToPacienteHome();
+    } else if (userRole == Roles[Roles.Medico]) {
+      redirectToMedicoHome();
+    } else if (userRole == Roles[Roles.Admin]) {
+      redirectToAdministradorHome();
+    } else {
+      console.log("error");
+    }
+  };
 
-         if (user == null) {
-            navigate("/");
-            return;
-         };
+  return redirectHomeByRol;
+}
 
-         var params: DecodedToken = GetJwtContent(user);
-         var userRole = params.role;  
-      
-         if(userRole == Roles[Roles.Secretario]){
-
-           navigate("/secretarios");
-           
-         }else if(userRole == Roles[Roles.Paciente]){
-         
-           navigate("/pacientes");
-         }else if(userRole == Roles[Roles.Medico]){
-            navigate("/medicos");
-
-         }else if(userRole == Roles[Roles.Admin]){
-            navigate("/create/secretario");
-         }
-         else{
-            console.log("error")
-         }
-      }
-  
-      return  redirectHomeByRol;
-  
- };
-
- export default useRedirectHomeByRol
+export default useRedirectHomeByRol;
