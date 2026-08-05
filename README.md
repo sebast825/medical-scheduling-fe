@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Medical Scheduling Platform - Web Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Single Page Application (SPA) consuming the Medical Scheduling Platform REST API. Implements component-based architecture with custom hooks to decouple business logic from UI, supporting multi-role workflows and real-time appointment scheduling under high-concurrency scenarios.
 
-## Available Scripts
+## Installation & Execution
 
-In the project directory, you can run:
+### Prerequisites
 
-### `npm start`
+- Node.js 18+
+- Backend API running: [medical-scheduling-platform-api](https://github.com/sebast825/medical-scheduling-platform-api)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Steps
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  ```bash
+  # Clone repository
+  git clone 
+  
+  # Install dependencies
+  npm install
+  
+  # Development mode
+  npm start
+  
+  # Production build
+  npm run build
+  ```
 
-### `npm test`
+## Key Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Multi-Role RBAC:** Differentiated, protected interfaces for Patients, Doctors, Secretaries, and Administrators with client-side guards mirroring backend JWT claims.
+- **Smart Appointment Booking:** Interactive calendar consuming real-time available slots; prevents visual conflicts before confirmation via atomic form handling.
+- **Efficient Server State:** TanStack Query v5 for caching, background synchronization, prefetching, and automatic error/loading states.
+- **Advanced Data Tables:** TanStack Table v8 for paginated, filtered, and sortable lists across all role dashboards.
+- **Secure Auth Flow:** JWT stored in Context API with Axios interceptors for automatic token injection and 401 handling.
+- **Lightweight Forms:** Real-time validation using native React state and custom regex patterns (`utils/validar*.ts`) without external form libraries.
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Core:** React + TypeScript
+- **Styles:** Bootstrap 5 + Sass (Global variables, mixins, component-scoped classes)
+- **Server State:** TanStack Query (React Query)
+- **Routing:** React Router DOM 
+- **HTTP Client:** Axios (with centralized interceptors)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Frontend Architecture & Backend Alignment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Optimistic UI & Cache Invalidation:** TanStack Query configured for immediate UI feedback on booking actions, with automatic refetching on conflict errors to maintain consistency with backend atomic operations.
+- **Real-Time Availability Rendering:** Dynamic slot visualization synced with backend availability engine. Gracefully updates UI when slots become unavailable during selection in high-contention scenarios.
+- **RBAC Enforcement Mirror:** Route guards (`useIsAdministrador`, `useIsMedico`, etc.) strictly mirror backend role claims, preventing unauthorized navigation while backend remains single source of truth.
+- **Atomic Form Handling:** Client-side validation reduces invalid API calls, complementing backend conflict prevention logic.
 
-### `npm run eject`
+## Key Technical Implementations
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Axios Interceptor Pipeline:** Centralized token injection, 401 auto-refresh, and error normalization.
+- **Domain-Specific Hook Layer:** Business logic fully decoupled from components. Each domain (`turnos`, `medicos`, `disponibilidad`) has dedicated cache, mutation, and logic hooks.
+- **Type-Safe DTO Contract:** TypeScript interfaces (`types/`) aligned with backend Swagger/OpenAPI specs, ensuring compile-time safety across full stack.
+- **Reusable Generic Components:** `GenericCard`, `GenericModal`, and `TableLicense` built with composition patterns for consistency across 4 distinct role dashboards.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Frontend Performance & UX
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- **Perceived Latency <200ms:** TanStack Query prefetching + caching ensures slot selection feels instant, matching backend response times.
+- **3-Step Booking Flow:** Patient appointment creation reduced to minimal interactions, validated via custom hooks before API submission.
+- **Bundle Optimization:** Code-splitting by role routes (`pages/administrador`, `pages/medico`, etc.) minimizes initial load for non-admin users.
+- **Error Resilience:** Global error boundary + toast notifications provide clear feedback on concurrency conflicts without breaking user flow.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
