@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Opening from "../../Components/General/Opening/Opening";
 import TurnosListWithModal from "../../Components/paciente/TurnosListWithModal/TurnosListWithModal";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
-import useGetTurnos from "../../hooks/turnos/useGetTurnos";
 import useRedirects from "../../hooks/useRedicrects";
 import useIsSecretario from "../../hooks/roles/useIsSecretario";
 import TitleContent from "../../Components/General/TitlteContent/TitleContent";
@@ -14,7 +13,6 @@ import { Spinner } from "../../Components/statics/Spinner";
 function TurnosDePaciente() {
   const isSecretario: Boolean = useIsSecretario();
   const { pacienteInfo } = usePacienteContext();
-  const { setTurnos } = useGetTurnos();
   const user = useUserInfo();
   const { redirectToLogin } = useRedirects();
  const {turnos,isFetching,handleDeleteCache,handleReloadTurnos,} = useTurnosCacheQuery(pacienteInfo?.id.toString())

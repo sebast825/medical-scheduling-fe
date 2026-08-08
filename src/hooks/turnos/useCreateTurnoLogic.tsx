@@ -40,6 +40,9 @@ function useCreateTurnoLogic(filterBy: string) {
       PacienteId: 0,
       Fecha: "",
     });
+      const [turnosDisponibles, setTurnosDisponibles] =    useState<TurnoHorarioDisponibleResponseDTO[]>();
+
+
   const [titleOening, setTitleOening] = useState<string>("");
   const [subtitleOening, setSubtitleOening] = useState<string>("");
   const { pacienteInfo } = usePacienteContext();
@@ -55,7 +58,6 @@ function useCreateTurnoLogic(filterBy: string) {
   const {
     getTurnosDisponiblesByMedico,
     crearTurno,
-    turnosDisponibles,
     getTurnosDisponiblesByEspecialidad,
   } = useGetTurnos();
   const [loadingDisponibilidades, setLoadingDisponibilidades] =
@@ -116,7 +118,8 @@ function useCreateTurnoLogic(filterBy: string) {
     setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
     try {
-      await getTurnosDisponiblesByMedico(e.toString());
+      const turnosAviableByMedico : TurnoHorarioDisponibleResponseDTO[]= await getTurnosDisponiblesByMedico(e.toString());
+      setTurnosDisponibles(turnosAviableByMedico)
       setComponenteActivo("2");
     } catch (err) {
       error(handleHttpError(err));
@@ -180,7 +183,8 @@ function useCreateTurnoLogic(filterBy: string) {
     setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
     try {
-      await getTurnosDisponiblesByEspecialidad(especiliadSelect);
+       const turnosAviableByEspeciality : TurnoHorarioDisponibleResponseDTO[]= await getTurnosDisponiblesByEspecialidad(especiliadSelect);
+       setTurnosDisponibles(turnosAviableByEspeciality)
       setComponenteActivo("2");
     } catch (err) {
       error(handleHttpError(err));
