@@ -179,12 +179,15 @@ function useCreateTurnoLogic(filterBy: string) {
   ): Promise<void> {
     setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
-
-    await getTurnosDisponiblesByEspecialidad(especiliadSelect);
-    setComponenteActivo("2");
-    setLoadingDisponibilidades(false);
+    try {
+      await getTurnosDisponiblesByEspecialidad(especiliadSelect);
+      setComponenteActivo("2");
+    } catch (err) {
+      error(handleHttpError(err));
+    } finally {
+      setLoadingDisponibilidades(false);
+    }
   }
-
   return {
     medicoSelect,
     toggleModal,
