@@ -1,4 +1,3 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePacienteContext, useUserInfo } from "../../context/authContext";
@@ -6,7 +5,6 @@ import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
 import { getDate } from "../../utils/formatDate";
-import GetJwtContent from "../../utils/jwtUtils";
 import useIsPaciente from "../roles/useIsPaciente";
 import useIsSecretario from "../roles/useIsSecretario";
 import useModal from "../useModal";
@@ -14,7 +12,6 @@ import useRedirects from "../useRedicrects";
 import useGetTurnos from "./useGetTurnos";
 import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
 import useTurnosPacienteCacheQuery from "./useTurnosPacienteCacheQuery";
-import { spinnerMessages } from "../../constants/spinnerMessages";
 import useToastit from "../useToastit";
 import { handleHttpError } from "../../utils/errorHandler";
 
@@ -30,7 +27,6 @@ function useCreateTurnoLogic(filterBy: string) {
   */
 
   const user = useUserInfo();
-  const [componenteActivo, setComponenteActivo] = useState<string>(filterBy); // 'componente1', 'componente2', 'componente3'
   const [showTurnosDisponibles, setShowTurnosDisponiblesHorarios] =
     useState<TurnoHorarioDisponibleResponseDTO[]>();
   const [medicoSelect, setMedicoSelect] = useState<IMedicoResponse>();
@@ -40,13 +36,8 @@ function useCreateTurnoLogic(filterBy: string) {
       PacienteId: 0,
       Fecha: "",
     });
-      const [turnosDisponibles, setTurnosDisponibles] =    useState<TurnoHorarioDisponibleResponseDTO[]>();
-
-
-  const [titleOening, setTitleOening] = useState<string>("");
-  const [subtitleOening, setSubtitleOening] = useState<string>("");
+  const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoHorarioDisponibleResponseDTO[]>();
   const { pacienteInfo } = usePacienteContext();
-  const [msgeSpinner, setMsgeSpinner] = useState<string>("");
 
   const navigate = useNavigate();
   const { redirectToSecretarioHome, redirectToPacienteHome } = useRedirects();
@@ -68,66 +59,19 @@ function useCreateTurnoLogic(filterBy: string) {
     if (!user) {
       navigate("/login");
     }
-  }, []);
-
-  //en caso que se cambie de filtro, como la url se mantiene hay que volver a renderizarlo, si no se manetiene el mismo componente
-  useEffect(() => {
-    setComponenteActivo(filterBy);
-  }, [filterBy]);
-
-  useEffect(() => {
-
-    setSubtitleOening("");
-    switch (componenteActivo) {
-      case "0":
-        setMsgeSpinner(spinnerMessages.cargarMedicos);
-        setTitleOening("Seleccionar Medico");
-        break;
-      case "1":
-        setMsgeSpinner(spinnerMessages.cargarMedicos);
-
-        setTitleOening("Seleccionar Especialidad");
-        break;
-
-      case "2":
-
-        setTitleOening("Seleccionar Fecha");
-
-        break;
-      case "3":
-        setTitleOening("Seleccionar Horario");
-        var str = getDate(
-          showTurnosDisponibles
-            ? showTurnosDisponibles[0]?.fecha.toString()
-            : ""
-        );
-        setSubtitleOening("Fecha: " + str);
-        break;
-    }
-  }, [componenteActivo]);
-
-  //al seleccionar una fecha en el calendario llama aca - viene de handleDiaSelect
-  useEffect(() => {
-    if (showTurnosDisponibles) {
-      setComponenteActivo("3");
-    }
-  }, [showTurnosDisponibles]);
-
+  }, [user]);
 
   async function showDiasDisponibles(e: number) {
-    setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
     try {
-      const turnosAviableByMedico : TurnoHorarioDisponibleResponseDTO[]= await getTurnosDisponiblesByMedico(e.toString());
+      const turnosAviableByMedico: TurnoHorarioDisponibleResponseDTO[] = await getTurnosDisponiblesByMedico(e.toString());
       setTurnosDisponibles(turnosAviableByMedico)
-      setComponenteActivo("2");
     } catch (err) {
       error(handleHttpError(err));
     } finally {
       setLoadingDisponibilidades(false);
     }
   }
-
 
   function handleDiaSelect(e: string) {
     if (typeof e == "string") {
@@ -180,12 +124,10 @@ function useCreateTurnoLogic(filterBy: string) {
   async function showDiasDisponiblesEspecialidad(
     especiliadSelect: string
   ): Promise<void> {
-    setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
     try {
-       const turnosAviableByEspeciality : TurnoHorarioDisponibleResponseDTO[]= await getTurnosDisponiblesByEspecialidad(especiliadSelect);
-       setTurnosDisponibles(turnosAviableByEspeciality)
-      setComponenteActivo("2");
+      const turnosAviableByEspeciality: TurnoHorarioDisponibleResponseDTO[] = await getTurnosDisponiblesByEspecialidad(especiliadSelect);
+      setTurnosDisponibles(turnosAviableByEspeciality)
     } catch (err) {
       error(handleHttpError(err));
     } finally {
@@ -198,17 +140,14 @@ function useCreateTurnoLogic(filterBy: string) {
     closeModal,
     handleConfirmCreateTurnoModal,
     createTurnoRequest,
-    componenteActivo,
     medicos,
     showDiasDisponibles,
     showDiasDisponiblesEspecialidad,
     handleDiaSelect,
     turnosDisponibles,
-    subtitleOening,
     handleHorarioSelect,
     showTurnosDisponibles,
     isLoading,
-    msgeSpinner,
     loadingDisponibilidades,
   };
 }
