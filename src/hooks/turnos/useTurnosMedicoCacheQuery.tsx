@@ -2,12 +2,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useGetTurnos from "./useGetTurnos";
 import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { useMedicoInfoContext } from "../../context/authContext";
-import { IMedicoResponse } from "../../types/Medico/MedicoResponse.type";
-import { useEffect } from "react";
+import { sortTurnosByPriority } from "./utils";
 
 function useTurnosMedicoCacheQuery() {
   const { medicoInfo } = useMedicoInfoContext();
-  const { getTurnosHoyMedicoById, sortTurnosByPrioridad,orderTurnosByDate} = useGetTurnos();
+  const { getTurnosHoyMedicoById,sortTurnosByDate} = useGetTurnos();
 
   const queryClient = useQueryClient();
 
@@ -24,7 +23,7 @@ function useTurnosMedicoCacheQuery() {
   const addTurnoCache = (newTurno: TurnoResponse) => {
     queryClient.setQueryData(["medicoTurnos"], (oldData: TurnoResponse[]) => {
       const updatedData = [...oldData, newTurno];
-      return orderTurnosByDate(updatedData);
+      return sortTurnosByDate(updatedData);
     });
   };
 
@@ -35,7 +34,7 @@ function useTurnosMedicoCacheQuery() {
         let updateTurno = prevTurnos.map((turno) =>
           turno.id === updatedTurno.id ? updatedTurno : turno
         );
-        return sortTurnosByPrioridad(updateTurno)
+        return sortTurnosByPriority(updateTurno)
       }
     );
   };

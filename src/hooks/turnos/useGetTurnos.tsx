@@ -15,6 +15,7 @@ import { parseDateFromResponseStringToDate } from "../../utils/formatDate";
 import { success } from "toastr";
 import { ITurnoCreateRequestDTO } from "../../types/turno/TurnoCreateRequest.DTO.type";
 import { TurnoHorarioDisponibleResponseDTO } from "../../types/turno/TurnoHorarioDisponibleResponseDTO.type";
+import { sortTurnosByDate, sortTurnosByPriority } from "./utils";
 
 const useGetTurnos = () => {
   const user = useUserInfo();
@@ -25,15 +26,7 @@ const useGetTurnos = () => {
   const [turnos, setTurnos] = useState<TurnoResponse[]>([]);
   const { pacienteInfo } = usePacienteContext();
 
-  const prioridadTurnos = {
-    [ESTADOS_TURNO.EN_PROGRESO]: 1,
-    [ESTADOS_TURNO.LLAMANDO]: 2,
-    [ESTADOS_TURNO.PROGRAMADO]: 3,
-    [ESTADOS_TURNO.COMPLETADO]: 4,
-    [ESTADOS_TURNO.NO_ASISTIDO]: 5,
-    [ESTADOS_TURNO.CANCELADO]: 6,
-  };
-
+  
   const getTurnosDisponiblesByMedico = useCallback(async (id: string) : Promise<TurnoHorarioDisponibleResponseDTO[] | []>=> {
     try {
       if (user == null) return [];
@@ -92,7 +85,7 @@ const useGetTurnos = () => {
       const turnosProgramados = response.filter(
         (turno) => turno.estado == ESTADOS_TURNO.PROGRAMADO
       );
-      let sort: TurnoResponse[] = orderTurnosByDate(turnosProgramados);
+      let sort: TurnoResponse[] = sortTurnosByDate(turnosProgramados);
 
       //comentado para resolver todo en cache
       //setTurnos(sort);
@@ -104,18 +97,7 @@ const useGetTurnos = () => {
     }
   }, []);
 
-  function orderTurnosByDate(array: TurnoResponse[]): TurnoResponse[] {
-    return [...array].sort((a: TurnoResponse, b: TurnoResponse) => {
-      const fecha1: Date | null = parseDateFromResponseStringToDate(a.fecha);
-      const fecha2: Date | null = parseDateFromResponseStringToDate(b.fecha);
-      if (fecha1 != null && fecha2 != null) {
-        return fecha1.getTime() - fecha2.getTime();
-      }
-      //Si parseISO falla, se retorna 0 para evitar errores.
 
-      return 0;
-    });
-  }
 
   const getTurnosHoyMedicoById = useCallback(
     async (userId: string) :Promise<TurnoResponse[] | []> => {
@@ -128,8 +110,8 @@ const useGetTurnos = () => {
           userId
         );
 
-        let orderByDate = orderTurnosByDate(response);
-        let orderByPrio = sortTurnosByPrioridad(orderByDate)
+        let orderByDate = sortTurnosByDate(response);
+        let orderByPrio = sortTurnosByPriority(orderByDate)
         //setTurnos(orderByPrio);
         return orderByPrio;
   
@@ -141,16 +123,7 @@ const useGetTurnos = () => {
     [user]
   );
 
-  function sortTurnosByPrioridad(turnosList: TurnoResponse[]) {
-    //se usa el spread operator para crear una copia y no modificar el estado original
-    //el 100 en caso ed que el estad no este definido tiene la priooridad mas alta
-    let ordenarTurnos = [...turnosList].sort((a, b) => {
-      let prioridadA = prioridadTurnos[a.estado] || 100;
-      let prioridadB = prioridadTurnos[b.estado] || 100;
-      return prioridadA - prioridadB;
-    });
-    return ordenarTurnos;
-  }
+
 
   // Actualiza el turno modificado en el array de turnos.
   function updateStatusTurno(turnoModificado: TurnoResponse) {
@@ -161,7 +134,7 @@ const useGetTurnos = () => {
       }
       return turno;
     });
-    setTurnos(sortTurnosByPrioridad(updateTurnos));
+    setTurnos(sortTurnosByPriority(updateTurnos));
   }
 
   return {
@@ -169,9 +142,8 @@ const useGetTurnos = () => {
     turnos,
     setTurnos,
     getTurnosHoyMedicoById,
-    sortTurnosByPrioridad,
     updateStatusTurno,
-    orderTurnosByDate,
+    sortTurnosByDate,
     getTurnosDisponiblesByMedico,
     crearTurno,
     turnosDisponibles,
