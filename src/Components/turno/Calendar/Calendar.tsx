@@ -2,7 +2,6 @@ import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./Calendar.scss";
-import BackLink from "../../buttons/BackLink/BackLink";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -13,53 +12,50 @@ interface ICalendario {
 }
 
 function Calendario({ dateList, handleSelect }: ICalendario) {
-  //puede tomar un solo valor o un rango de fechas
-  const [value, setValue] = useState<Value>(new Date()); // Asegúrate de que el tipo Value se use correctamente
+  const [value, setValue] = useState<Value>(new Date());
 
-  // Función para determinar la clase de cada celda del calendario
+const specialDates =
+  dateList?.map((d) => {
+    const [year, month, day] = d
+    .toString()
+      .slice(0, 10)
+      .split("-")
+      .map(Number);
+
+    return new Date(year, month - 1, day);
+  }) ?? [];
+
   const tileClassName = ({ date }: { date: Date }) => {
-    // Aquí defines las fechas específicas que deseas resaltar
-    const specialDates: Date[] = [];
-    dateList?.forEach((asd) => {
-      //console.log(elem)
-      var elem = new Date(asd);
-      specialDates.push(elem);
-    });
-
-    // Comprueba si la fecha actual está en la lista de fechas especiales
-    return specialDates.some(
+    const isSpecial = specialDates.some(
       (specialDate) =>
         date.getDate() === specialDate.getDate() &&
         date.getMonth() === specialDate.getMonth() &&
         date.getFullYear() === specialDate.getFullYear()
-    )
-      ? "highlighted-date"
-      : "";
+    );
+
+    return isSpecial ? "highlighted-date" : "";
   };
-  function clicked(date: Value, event: any) {
-    const target = event.target;
-    //en el boton esta la clase que colorea los dias disponibles, si posee la clase devuelve al elemento padre para que muestre los horarios disponibles para esa fecha
+
+  function clicked(date: Value, event: React.MouseEvent) {
+    const target = event.target as HTMLElement;
+
     if (
       target.classList.contains("highlighted-date") ||
-      target.closest("button").classList.contains("highlighted-date")
+      target.closest("button")?.classList.contains("highlighted-date")
     ) {
-      if (date != null) {
+      if (date instanceof Date) {
         handleSelect(date.toString());
       }
     }
   }
 
   return (
- <>
- 
-      <Calendar
-        value={value}
-        onChange={setValue} // Usa la función manejadora
-        tileClassName={tileClassName} // Asigna las clases a las celdas
-        onClickDay={clicked}
-      />
-
- </>
+    <Calendar
+      value={value}
+      onChange={setValue}
+      tileClassName={tileClassName}
+      onClickDay={clicked}
+    />
   );
 }
 
