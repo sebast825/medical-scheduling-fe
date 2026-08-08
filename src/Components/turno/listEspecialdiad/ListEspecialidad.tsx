@@ -1,12 +1,10 @@
 import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import List from "../../Lists/List/List";
-import ListOpening from "../../Lists/ListOpening/ListOpening";
-import ListHorarios from "../ListHorarios/ListHorarios";
+
 
 interface IListEspecialidades {
   listMedicos: IMedicoResponse[];
   getMedicosByEspecialidadSelected: (
-    listaMedicos: IMedicoResponse[],
     especialdiadSelect: string
   ) => void;
 }
@@ -28,7 +26,7 @@ function ListEspecialidades({
   );
 
   const especialidadUnicaObjeto = especialidadUnica
-  //le saca la info redundante
+    //le saca la info redundante
     .map((medico) => {
       return { nombre: medico.especialidad, id: medico.id };
     })
@@ -41,12 +39,9 @@ function ListEspecialidades({
     const especialdiadSeleccionada = especialidadUnica.find(
       (elem) => elem.id == e
     );
-    const medicosEspecialidadSeleccionada = listMedicos.filter(
-      (medico) => medico.especialidad == especialdiadSeleccionada?.especialidad
-    );
+
     if (especialdiadSeleccionada)
       getMedicosByEspecialidadSelected(
-        medicosEspecialidadSeleccionada,
         especialdiadSeleccionada?.especialidad
       );
   }

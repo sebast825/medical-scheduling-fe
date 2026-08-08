@@ -15,6 +15,8 @@ import useGetTurnos from "./useGetTurnos";
 import useMedicosCacheQuery from "../medicos/useMedicosCacheQuery";
 import useTurnosPacienteCacheQuery from "./useTurnosPacienteCacheQuery";
 import { spinnerMessages } from "../../constants/spinnerMessages";
+import useToastit from "../useToastit";
+import { handleHttpError } from "../../utils/errorHandler";
 
 function useCreateTurnoLogic(filterBy: string) {
   /*
@@ -58,6 +60,7 @@ function useCreateTurnoLogic(filterBy: string) {
   } = useGetTurnos();
   const [loadingDisponibilidades, setLoadingDisponibilidades] =
     useState<boolean>(false);
+  const { error, success } = useToastit();
 
   useEffect(() => {
     if (!user) {
@@ -109,15 +112,19 @@ function useCreateTurnoLogic(filterBy: string) {
   }, [showTurnosDisponibles]);
 
 
-
-   async function showDiasDisponibles(e: number) {
+  async function showDiasDisponibles(e: number) {
     setMsgeSpinner(spinnerMessages.cargarFechas);
-    setLoadingDisponibilidades(true);    
-    await getTurnosDisponiblesByMedico(e.toString());
-    var nombreMedico = medicos?.find((elem) => elem.id === e);
-    setComponenteActivo("2");
-    setLoadingDisponibilidades(false);
+    setLoadingDisponibilidades(true);
+    try {
+      await getTurnosDisponiblesByMedico(e.toString());
+      setComponenteActivo("2");
+    } catch (err) {
+      error(handleHttpError(err));
+    } finally {
+      setLoadingDisponibilidades(false);
+    }
   }
+
 
   function handleDiaSelect(e: string) {
     if (typeof e == "string") {
@@ -146,40 +153,38 @@ function useCreateTurnoLogic(filterBy: string) {
   }
 
   async function handleConfirmCreateTurnoModal() {
-    var response = await crearTurno(createTurnoRequest);
-    if (response != undefined) {
+    try {
+      const response = await crearTurno(createTurnoRequest);
       addTurnoCache(response);
-    }
-    //evita que la funcion sea llamada veces extra, reinicia las variables una vez que el turno fue creado
-    setCreateTurnoRequest((prevState) => ({
-      ...prevState,
-      MedicoId: 0,
-      PacienteId: 0,
-    }));
-    setTimeout(() => {
-      //al hacer el redirect vuelve a llamar a getAll para que esten los turnos actualizados
-      if (isPaciente) {
-        navigate("/pacientes");
-        redirectToPacienteHome();
-      }
-      if (isSecretario) {
-        redirectToSecretarioHome();
-      }
-      closeModal();
-    }, 100);
-  }
+      success("Turno agendado exitosamente.");
 
+      setCreateTurnoRequest(prev => ({ ...prev, MedicoId: 0, PacienteId: 0 }));
+
+      setTimeout(() => {
+        if (isPaciente) {
+          navigate("/pacientes");
+          redirectToPacienteHome();
+        }
+        if (isSecretario) {
+          redirectToSecretarioHome();
+        }
+        closeModal();
+      }, 100);
+    } catch (err) {
+      error(handleHttpError(err));
+    }
+  }
   async function showDiasDisponiblesEspecialidad(
-    listaMedicos: IMedicoResponse[],
     especiliadSelect: string
   ): Promise<void> {
     setMsgeSpinner(spinnerMessages.cargarFechas);
     setLoadingDisponibilidades(true);
-  
+
     await getTurnosDisponiblesByEspecialidad(especiliadSelect);
     setComponenteActivo("2");
     setLoadingDisponibilidades(false);
   }
+
   return {
     medicoSelect,
     toggleModal,

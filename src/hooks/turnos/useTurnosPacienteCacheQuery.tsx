@@ -4,7 +4,7 @@ import { TurnoResponse } from "../../types/turno/TurnoResponse.type";
 import { usePacienteContext } from "../../context/authContext";
 
 function useTurnosPacienteCacheQuery(pacienteInfoId: string | undefined) {
-  const { getPacinteTurnos, sortTurnosByDate } = useGetTurnos();
+  const { getPacienteTurnos, sortTurnosByDate } = useGetTurnos();
   const queryClient = useQueryClient();
 
   const {
@@ -14,7 +14,7 @@ function useTurnosPacienteCacheQuery(pacienteInfoId: string | undefined) {
   } = useQuery<TurnoResponse[] | []>({
     queryFn: () => {
       if (pacienteInfoId != undefined) {
-        return getPacinteTurnos(pacienteInfoId);
+        return getPacienteTurnos(pacienteInfoId);
       } else {
         return [];
       }
