@@ -42,7 +42,7 @@ function TurnosListMedico() {
           </>
         ) : (
 
-          <TitleContent title=" Hoy no tenés turnos agendados" />
+          <TitleContent title=" Hoy no hay turnos agendados" />
 
           
         )}

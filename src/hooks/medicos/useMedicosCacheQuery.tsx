@@ -19,7 +19,7 @@ function useMedicosCacheQuery() {
   /*   const addTurnoCache = (newTurno: TurnoResponse) => {
      queryClient.setQueryData(["pacienteTurnos"], (oldData: TurnoResponse[]) => {
        const updatedData  = [...oldData, newTurno];
-         return orderTurnosByDate(updatedData);
+         return sortTurnosByDate(updatedData);
      });
    };*/
   const handleDeleteCache = (id: number) => {

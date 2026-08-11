@@ -1,35 +1,32 @@
 import { Form } from "react-bootstrap";
-import { IMedicoResponse } from "../../../types/Medico/MedicoResponse.type";
 import GenericModal from "../GenericModal/GenericModal";
 import { useEffect, useState } from "react";
-import useMedicos from "../../../hooks/medicos/useMedicos";
 import { useMedicoInfoContext } from "../../../context/authContext";
 import { MedicoUpdateRequestDTO } from "../../../types/Medico/MedicoUpdateRequest.type";
 import useMedicosCacheQuery from "../../../hooks/medicos/useMedicosCacheQuery";
 import { genericMessages } from "../../../constants/genericMessages";
 import useToastit from "../../../hooks/useToastit";
 import { permisosEdicion } from "../../../constants/permisosEdicion";
+import useEspecialidades from "../../../hooks/especialidades/useEspecialidades";
 
 interface IInformacionMedicoModal {
   show: boolean;
   handleClose: () => void;
-  handleConfirm: (personaResponse: IMedicoResponse) => void;
+  handleConfirm: (personaResponse: MedicoUpdateRequestDTO) => void;
 }
 
 function InformacionMedicoModal(props: IInformacionMedicoModal) {
   const { show, handleClose, handleConfirm } = props;
   const [numLicencia, setNumLicencia] = useState<string>("");
   const { medicoInfo } = useMedicoInfoContext();
-  const {
-    updateMedicos,
-    getEspecialidadesMedicos,
-    especialidadesMedico,
-    getIdEspecialidad,
-  } = useMedicos();
+  const { getEspecialidadesMedicos, especialidadesMedico, getIdEspecialidad } =
+    useEspecialidades();
   const [especialidad, setEspecialidad] = useState<string>("");
   const { handleReloadMedicos } = useMedicosCacheQuery();
   const { warning } = useToastit();
-
+  useEffect(() => {
+    setEspecialidad(especialidadesMedico ? especialidadesMedico[0].nombre : "");
+  }, [especialidadesMedico]);
   useEffect(() => {
     if (medicoInfo == undefined) return;
     getEspecialidadesMedicos();
@@ -47,7 +44,11 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       especialidadId: getIdEspecialidad(especialidad),
       numeroLicencia: numLicencia,
     };
-    await updateMedicos(medicoInfo?.id, medicoUpdate);
+    if (!medicoUpdate.especialidadId || !medicoUpdate.numeroLicencia) {
+      warning(genericMessages.camposIncompletos);
+      return;
+    }
+    await handleConfirm(medicoUpdate);
     handleReloadMedicos();
     handleClose();
   }
@@ -57,7 +58,7 @@ function InformacionMedicoModal(props: IInformacionMedicoModal) {
       show={show}
       handleClose={handleClose}
       handleConfirm={confirmar}
-      title="Editar Información Personal"
+      title="Editar Información Profesional"
       useDisableConfirmBtn={true}
     >
       <Form className="d-flex flex-column" style={{ gap: "10px" }}>

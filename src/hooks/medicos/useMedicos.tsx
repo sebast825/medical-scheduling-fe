@@ -20,8 +20,7 @@ const useMedicos = () => {
 
   const user = useUserInfo();
   const { setMedicoInfo } = useMedicoInfoContext();
-  const [especialidadesMedico, setEspecialidadesMedico] =
-    useState<EspecialidadResponse[]>();
+
 
   const getMedicos = useCallback(async () : Promise<IMedicoResponse[] | []>=> {
     try {
@@ -68,33 +67,14 @@ const useMedicos = () => {
     },
     []
   );
-  const getEspecialidadesMedicos = useCallback(async () => {
-    try {
-      if (user == null) return;
-      const response: EspecialidadResponse[] =
-        await fecthGetEspecialidadesMedico(user);
-      await setEspecialidadesMedico(response);
-    } catch (err: any) {
-      error(handleHttpError(err));
-    }
-  }, []);
 
-  function getIdEspecialidad(especialdiad: string): number {
-    if (!especialidadesMedico) return -1;
-    let especialdiadObject: EspecialidadResponse | undefined =
-      especialidadesMedico.find((elem) => elem.nombre == especialdiad);
-
-    return especialdiadObject == undefined ? -1 : especialdiadObject?.id;
-  }
   return {
     medicos,
     getMedicos,
     findMedicoById,
     getMedicoNombre,
     updateMedicos,
-    getEspecialidadesMedicos,
-    especialidadesMedico,
-    getIdEspecialidad,
+  
   };
 };
 

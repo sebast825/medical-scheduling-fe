@@ -33,7 +33,7 @@ function InformacionPersonaModal({
   );
   //cuando se usa para crear es 0 (hombre), si se usa para editar trae el valor existente
   const [sexo, setSexo] = useState<string>(
-    modalField.sexo ? modalField.sexo : "0"
+    modalField.sexo ? modalField.sexo : Sexo[0].toString()
   );
   const { pacienteInfo } = usePacienteContext();
   const { error } = useToastit();

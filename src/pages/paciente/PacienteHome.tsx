@@ -70,7 +70,7 @@ function PacienteHome() {
               />
             </>
           ) : (
-            <TitleContent title="No tenés turnos agendados" pading={true} />
+            <TitleContent title="No hay turnos agendados" pading={true} />
           )}
         </div>
       ) : (

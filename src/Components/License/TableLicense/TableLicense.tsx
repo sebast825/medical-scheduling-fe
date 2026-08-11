@@ -24,6 +24,7 @@ import {
 } from "@tanstack/react-table";
 import ConfirmModal from "../../modals/ConfirmModal";
 import Pagination from "../../General/Pagination/Pagination";
+import TitleContent from "../../General/TitlteContent/TitleContent";
 
 interface ITableLicense {
   handleAction?: (e: IPersonaResponse) => void;
@@ -108,10 +109,11 @@ function TableLicense(props: ITableLicense) {
     }
     return text;
   }
-
   return (
     <>
       {isLoading && <Spinner msge="Cargando Licencias" />}
+      {table.getRowModel().rows.length == 0 ? ( <TitleContent title="No hay licencias agendadas" pading={true} />):
+    (<>
       <ConfirmModal
         show={toggleModal}
         handleClose={closeModal}
@@ -173,7 +175,7 @@ function TableLicense(props: ITableLicense) {
         <div>
           <Pagination table={table} />
         </div>
-      </div>
+      </div></>)}
     </>
   );
 }
